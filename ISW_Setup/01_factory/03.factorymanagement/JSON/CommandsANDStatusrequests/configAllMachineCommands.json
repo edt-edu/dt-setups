@@ -1,0 +1,209 @@
+{
+  "allConfigs" : [ {
+    "type" : "GRIPPER",
+    "allCommands" : [ {
+      "jsonType" : "COMMAND",
+      "name" : "MOVE",
+      "paramTypes" : [ "JSON.EnumsAndParameters.PositionParameterThreeD" ],
+      "numOfParams" : [ 2 ],
+      "description" : "MOVE: das Objekt wird an der Startposition gegriffen und an der Endposition abgelegt"
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "PICK",
+      "paramTypes" : [ "JSON.EnumsAndParameters.PositionParameterThreeD" ],
+      "numOfParams" : [ 1 ],
+      "description" : "PICK: das Objekt wird an der Startposition gegriffen und gehalten"
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "PLACE",
+      "paramTypes" : [ "JSON.EnumsAndParameters.PositionParameterThreeD" ],
+      "numOfParams" : [ 1 ],
+      "description" : "PLACE: ein gehaltenes Objekt wird an der Endpositon abgelegt"
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "GOTOCONFIG",
+      "paramTypes" : [ "JSON.EnumsAndParameters.PositionParameterThreeD" ],
+      "numOfParams" : [ 1 ],
+      "description" : "GOTOCONFIG: experimental, move to the spcified coordinates"
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "STOP",
+      "paramTypes" : [  ],
+      "numOfParams" : [  ],
+      "description" : "STOP: stop the machine in its current position"
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "SETUP",
+      "paramTypes" : [  ],
+      "numOfParams" : [  ],
+      "description" : "SETUP: call the setup to set all counters based on the reference switches; not necessary to call explicitly as anytime the counters aren't set and any other function (except for stop) is being called, the setup-command is being performed implicitly before executing the other commend"
+    } ]
+  }, {
+    "type" : "VACUUM",
+    "allCommands" : [ {
+      "jsonType" : "COMMAND",
+      "name" : "MOVE",
+      "paramTypes" : [ "JSON.EnumsAndParameters.PositionParameterThreeD" ],
+      "numOfParams" : [ 2 ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "PICK",
+      "paramTypes" : [ "JSON.EnumsAndParameters.PositionParameterThreeD" ],
+      "numOfParams" : [ 1 ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "PLACE",
+      "paramTypes" : [ "JSON.EnumsAndParameters.PositionParameterThreeD" ],
+      "numOfParams" : [ 1 ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "GOTOCONFIG",
+      "paramTypes" : [ "JSON.EnumsAndParameters.PositionParameterThreeD" ],
+      "numOfParams" : [ 1 ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "STOP",
+      "paramTypes" : [  ],
+      "numOfParams" : [  ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "SETUP",
+      "paramTypes" : [  ],
+      "numOfParams" : [  ]
+    } ]
+  }, {
+    "type" : "WAREHOUSE",
+    "allCommands" : [ {
+      "jsonType" : "COMMAND",
+      "name" : "INOUT",
+      "paramTypes" : [ "JSON.EnumsAndParameters.BoxNumber" ],
+      "numOfParams" : [ 2 ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "STORE",
+      "paramTypes" : [ "JSON.EnumsAndParameters.BoxNumber" ],
+      "numOfParams" : [ 1 ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "GET",
+      "paramTypes" : [ "JSON.EnumsAndParameters.BoxNumber" ],
+      "numOfParams" : [ 1 ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "GOTOCONFIG",
+      "paramTypes" : [ "JSON.EnumsAndParameters.PositionParameterThreeD" ],
+      "numOfParams" : [ 1 ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "STOP",
+      "paramTypes" : [  ],
+      "numOfParams" : [  ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "SETUP",
+      "paramTypes" : [  ],
+      "numOfParams" : [  ]
+    } ]
+  }, {
+    "type" : "SORTING",
+    "allCommands" : [ {
+      "jsonType" : "COMMAND",
+      "name" : "EJECT",
+      "paramTypes" : [ "JSON.EnumsAndParameters.Colour" ],
+      "numOfParams" : [ 1 ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "STOP",
+      "paramTypes" : [  ],
+      "numOfParams" : [  ]
+    } ]
+  }, {
+    "type" : "INDEXEDLINE",
+    "allCommands" : [ {
+      "jsonType" : "COMMAND",
+      "name" : "STIRR",
+      "paramTypes" : [ "JSON.EnumsAndParameters.NumberNatural" ], //Dauer
+      "numOfParams" : [ 1 ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "STOP",
+      "paramTypes" : [  ],
+      "numOfParams" : [  ]
+    } ]
+  }, {
+    "type" : "MULTIPROCESSING",
+    "allCommands" : [ {
+      "jsonType" : "COMMAND",
+      "name" : "FREEZE",
+      "paramTypes" : [ "JSON.EnumsAndParameters.NumberNatural" ], //Dauer
+      "numOfParams" : [ 1 ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "STOP",
+      "paramTypes" : [  ],
+      "numOfParams" : [  ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "SETUP",
+      "paramTypes" : [  ],
+      "numOfParams" : [  ]
+    } ]
+  }, {
+    "type" : "CONVEYOR",
+    "allCommands" : [ {
+      "jsonType" : "COMMAND",
+      "name" : "MOVE",
+      "paramTypes" : [ "JSON.EnumsAndParameters.Direction" ],
+      "numOfParams" : [ 1 ],
+      "description" : "moves the object in the desired direction OFF the conveyor"
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "MOVELB",
+      "paramTypes" : [ "JSON.EnumsAndParameters.Direction" ],
+      "numOfParams" : [ 1 ],
+      "description" : "moves the object in the desired direction to the LightBarrier on the conveyor"
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "GOTOCONFIG",
+      "paramTypes" : [ "JSON.EnumsAndParameters.Direction", "JSON.EnumsAndParameters.NumberNatural" ], //integer for number of steps
+      "numOfParams" : [ 1, 1 ],
+      "description" : "moves the object in the desired direction, starting the count at the opposite LightBarrier to the moving direction"
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "STOP",
+      "paramTypes" : [  ],
+      "numOfParams" : [  ]
+    } ]
+  }, {
+    "type" : "PUNCHING",
+    "allCommands" : [ {
+      "jsonType" : "COMMAND",
+      "name" : "PRESS",
+      "paramTypes" : [  ],
+      "numOfParams" : [  ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "STOP",
+      "paramTypes" : [  ],
+      "numOfParams" : [  ]
+    } ]
+  }, {
+    "type" : "TURTLEBOT",
+    "allCommands" : [ {
+      "jsonType" : "COMMAND",
+      "name" : "MOVE",
+      "paramTypes" : [ "JSON.EnumsAndParameters.IOStationNumber" ],
+      "numOfParams" : [ 2 ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "PICK",
+      "paramTypes" : [ "JSON.EnumsAndParameters.IOStationNumber" ],
+      "numOfParams" : [ 1 ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "PLACE",
+      "paramTypes" : [ "JSON.EnumsAndParameters.IOStationNumber" ],
+      "numOfParams" : [ 1 ]
+    } ]
+  } ]
+}

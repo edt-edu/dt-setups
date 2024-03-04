@@ -1,0 +1,179 @@
+package JSON.Server;
+
+import java.util.LinkedList;
+import java.util.concurrent.Callable;
+
+
+/**
+ * for testing
+ */
+public class fakeJsonListGenerator implements Callable<String> {
+
+    LinkedList<String> jsonList;
+    int i;
+
+
+    public fakeJsonListGenerator(){
+        String t = "{\n" +
+                "  \"topicName\" : \"4.5-Store\",\n" +
+                "  \"timestamp\" : 1688031412.685000000,\n" +
+                "  \"message\" : {\n" +
+                "    \"jsonType\" : \"COMMAND\",\n" +
+                "    \"type\" : \"WAREHOUSE\",\n" +
+                "    \"name\" : \"STORE\",\n" +
+                "    \"parameters\" : [ {\n" +
+                "      \"passableType\" : \"BOXNUMBER\",\n" +
+                "      \"passable\" : \"BOX1\"\n" +
+                "    } ],\n" +
+                "    \"outputId\" : 2\n" +
+                "  }\n" +
+                "}";
+        String s = "{\n" +
+                "  \"topicName\" : \"4.1-Grip\",\n" +
+                "  \"timestamp\" : 1687952422.090000000,\n" +
+                "  \"message\" : {\n" +
+                "    \"jsonType\" : \"COMMAND\",\n" +
+                "    \"type\" : \"GRIPPER\",\n" +
+                "    \"name\" : \"MOVE\",\n" +
+                "    \"parameters\" : [ {\n" +
+                "      \"passableType\" : \"POSITIONPARAMETERTHREED\",\n" +
+                "      \"passable\" : {\n" +
+                "        \"meaning\" : \"START\",\n" +
+                "        \"vertical\" : 1000,\n" +
+                "        \"rot\" : 500,\n" +
+                "        \"horizontal\" : 5\n" +
+                "      }\n" +
+                "    }, {\n" +
+                "      \"passableType\" : \"POSITIONPARAMETERTHREED\",\n" +
+                "      \"passable\" : {\n" +
+                "        \"meaning\" : \"END\",\n" +
+                "        \"vertical\" : 200,\n" +
+                "        \"rot\" : 200,\n" +
+                "        \"horizontal\" : 4\n" +
+                "      }\n" +
+                "    } ],\n" +
+                "    \"outputId\" : 1\n" +
+                "  }\n" +
+                "}";
+        String abc = "{ \n" +
+                "\"topicName\" : \"4.1-Grip\", \n" +
+                "\"timestamp\" : 1678444092.417000000, \n" +
+                "\"message\" : { \n" +
+                  "\"jsonType\" : \"STATUSREQUEST\", \n" +
+                  "\"type\" : \"GRIPPER\", \n" +
+                  "\"requestId\" : 1, \n" +
+                  "\"params\" : [ \"REFERENCESWITCHROTATE\", \"ROTATESTEP\" ] \n" +
+                 "} \n" +
+                "}";
+        String z = "{\n" +
+                "  \"topicName\" : \"4.4-Vac\",\n" +
+                "  \"timestamp\" : 1687952422.090000000,\n" +
+                "  \"message\" : {\n" +
+                "    \"jsonType\" : \"COMMAND\",\n" +
+                "    \"type\" : \"VACUUM\",\n" +
+                "    \"name\" : \"MOVE\",\n" +
+                "    \"parameters\" : [ {\n" +
+                "      \"passableType\" : \"POSITIONPARAMETERTHREED\",\n" +
+                "      \"passable\" : {\n" +
+                "        \"meaning\" : \"START\",\n" +
+                "        \"vertical\" : 1000,\n" +
+                "        \"rot\" : 500,\n" +
+                "        \"horizontal\" : 105\n" +
+                "      }\n" +
+                "    }, {\n" +
+                "      \"passableType\" : \"POSITIONPARAMETERTHREED\",\n" +
+                "      \"passable\" : {\n" +
+                "        \"meaning\" : \"END\",\n" +
+                "        \"vertical\" : 200,\n" +
+                "        \"rot\" : 200,\n" +
+                "        \"horizontal\" : 24\n" +
+                "      }\n" +
+                "    } ],\n" +
+                "    \"outputId\" : 1\n" +
+                "  }\n" +
+                "}";
+        String v = "{\n" +
+                "  \"topicName\" : \"1.4-Sort\",\n" +
+                "  \"timestamp\" : 1688039459.574000000,\n" +
+                "  \"message\" : {\n" +
+                "    \"jsonType\" : \"COMMAND\",\n" +
+                "    \"type\" : \"SORTING\",\n" +
+                "    \"name\" : \"EJECT\",\n" +
+                "    \"parameters\" : [ {\n" +
+                "      \"passableType\" : \"COLOUR\",\n" +
+                "      \"passable\" : \"RED\"\n" +
+                "    } ],\n" +
+                "    \"outputId\" : 2\n" +
+                "  }\n" +
+                "}";
+        String w = "{\n" +
+                "  \"topicName\" : \"1.7-Indexed\",\n" +
+                "  \"timestamp\" : 1688040551.032000000,\n" +
+                "  \"message\" : {\n" +
+                "    \"jsonType\" : \"COMMAND\",\n" +
+                "    \"type\" : \"INDEXEDLINE\",\n" +
+                "    \"name\" : \"STIRR\",\n" +
+                "    \"parameters\" : [ {\n" +
+                "      \"passableType\" : \"NUMBERNATURAL\",\n" +
+                "      \"passable\" : {\n" +
+                "        \"number\" : 2\n" +
+                "      }\n" +
+                "    } ],\n" +
+                "    \"outputId\" : 3\n" +
+                "  }\n" +
+                "}\n";
+        String x = "{\n" +
+                "  \"topicName\" : \"4.2-Conv\",\n" +
+                "  \"timestamp\" : 1688047170.146000000,\n" +
+                "  \"message\" : {\n" +
+                "    \"jsonType\" : \"COMMAND\",\n" +
+                "    \"type\" : \"CONVEYOR\",\n" +
+                "    \"name\" : \"MOVE\",\n" +
+                "    \"parameters\" : [ {\n" +
+                "      \"passableType\" : \"DIRECTION\",\n" +
+                "      \"passable\" : \"BACKWARD\"\n" +
+                "    } ],\n" +
+                "    \"outputId\" : 4\n" +
+                "  }\n" +
+                "}";
+        String a = "{\n" +
+                "  \"topicName\" : \"2.6-Freeze\",\n" +
+                "  \"timestamp\" : 1688047622.854000000,\n" +
+                "  \"message\" : {\n" +
+                "    \"jsonType\" : \"COMMAND\",\n" +
+                "    \"type\" : \"MULTIPROCESSING\",\n" +
+                "    \"name\" : \"FREEZE\",\n" +
+                "    \"parameters\" : [ {\n" +
+                "      \"passableType\" : \"NUMBERNATURAL\",\n" +
+                "      \"passable\" : {\n" +
+                "        \"number\" : 2\n" +
+                "      }\n" +
+                "    } ],\n" +
+                "    \"outputId\" : 4\n" +
+                "  }\n" +
+                "}\n";
+        String b = "{\n" +
+                "  \"topicName\" : \"3.7-Press\",\n" +
+                "  \"timestamp\" : 1688047170.146000000,\n" +
+                "  \"message\" : {\n" +
+                "    \"jsonType\" : \"COMMAND\",\n" +
+                "    \"type\" : \"PUNCHING\",\n" +
+                "    \"name\" : \"PRESS\",\n" +
+                "    \"parameters\" : [ ],\n" +
+                "    \"outputId\" : 4\n" +
+                "  }\n" +
+                "}";
+        this.jsonList = new LinkedList<>();
+        //this.jsonList.add(t);
+        this.jsonList.add(abc);
+        this.jsonList.add(s);
+        this.jsonList.add(z);
+        this.i = 0;
+    }
+
+    @Override
+    public String call() throws Exception {
+        return jsonList.get(i++);
+    }
+
+}

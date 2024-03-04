@@ -1,0 +1,14 @@
+To Dos:
+* Specify the server for the POST request
+* Style the shopping cart display table
+
+Ideen für die Webshop:
+* Radio buttons als Bilder Stylen: 
+	https://www.youtube.com/watch?v=c5uCIUO8jMQ
+* Yoghurt in jeder Schritt der Personalisierung dynamisch zeigen
+* Das finale Produktbild mit in dir Warenkorbtabelle mitnehmen
+
+Anmerkungen:
+* Ich habe schon Bilder für die frozen Yoghurts im gleichen Stil gefunden, für nicht frozen, könnte man das Bild vom Naturjoghurt einfach bearbeiten.
+* Ich konnte das Maven-Projekt nicht richtig bauen
+* Ich konnte die Jackson Library nicht installieren aber damit kann man auch die Json-Objekte parsen und stringifyen

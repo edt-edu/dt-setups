@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>My Shopping Cart</title>
+    <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <header>
+        <div id="logo" class="bannerbutton" >
+            <a href="index.html">
+                <img src="imgs/yoglogo.png" alt="Yoghurt Logo" width="30">
+            </a>
+        </div>
+        <div id="warenkorb" class="bannerbutton" >
+            <a href="warenkorb.html">
+                <img src="imgs/warenkorb.png" alt="Warenkorb" width="30">
+            </a>
+        </div>
+    </header>
+    <section>
+        <br>
+        <br>
+        <h1>Deine Bestellung:</h1>
+        <p id="empty" style="display: none;">Dein Warenkorb ist leider leer :(</p>
+        <p id="bestellungErfolg" style="display: none;">Beine Bestellung wurde abgesendet :)</p>
+        <div id="container"></div>
+    </section>
+
+    <br>
+    <input type="button" id="weiterMixenBtn" value="Weiter mixen" onclick="window.location.href='index.html#myform'">
+    <br>
+    <br>
+    <input type="button" id="sendBtn" value="Jetzt bestellen">
+    <input type="button" id="newOrderBtn" value="Neue Bestellung" style="display: none;" onclick="window.location.href='index.html#myform'">
+</body>
+<script type="text/javascript" src="warenkorb.js"></script>
+</html>

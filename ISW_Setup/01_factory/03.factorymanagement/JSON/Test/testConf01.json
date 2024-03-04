@@ -1,0 +1,190 @@
+{
+  "allConfigs" : [ {
+    "type" : "GRIPPER",
+    "allCommands" : [ {
+      "jsonType" : "COMMAND",
+      "name" : "MOVE",
+      "paramTypes" : [ "JSON.EnumsAndParameters.PositionParameter" ],
+      "numOfParams" : [ 2 ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "PICK",
+      "paramTypes" : [ "JSON.EnumsAndParameters.PositionParameter" ],
+      "numOfParams" : [ 1 ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "PLACE",
+      "paramTypes" : [ "JSON.EnumsAndParameters.PositionParameter" ],
+      "numOfParams" : [ 1 ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "GOTOCONFIG",
+      "paramTypes" : [ "JSON.EnumsAndParameters.PositionParameter" ],
+      "numOfParams" : [ 1 ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "STOP",
+      "paramTypes" : [  ],
+      "numOfParams" : [  ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "SETUP",
+      "paramTypes" : [  ],
+      "numOfParams" : [  ]
+    } ]
+  }, {
+    "type" : "VACUUM",
+    "allCommands" : [ {
+      "jsonType" : "COMMAND",
+      "name" : "MOVE",
+      "paramTypes" : [ "JSON.EnumsAndParameters.PositionParameter" ],
+      "numOfParams" : [ 2 ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "PICK",
+      "paramTypes" : [ "JSON.EnumsAndParameters.PositionParameter" ],
+      "numOfParams" : [ 1 ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "PLACE",
+      "paramTypes" : [ "JSON.EnumsAndParameters.PositionParameter" ],
+      "numOfParams" : [ 1 ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "GOTOCONFIG",
+      "paramTypes" : [ "JSON.EnumsAndParameters.PositionParameter" ],
+      "numOfParams" : [ 1 ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "STOP",
+      "paramTypes" : [  ],
+      "numOfParams" : [  ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "SETUP",
+      "paramTypes" : [  ],
+      "numOfParams" : [  ]
+    } ]
+  }, {
+    "type" : "WAREHOUSE",
+    "allCommands" : [ {
+      "jsonType" : "COMMAND",
+      "name" : "INOUT",
+      "paramTypes" : [ "Integer" ],
+      "numOfParams" : [ 2 ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "STORE",
+      "paramTypes" : [ "Integer" ],
+      "numOfParams" : [ 1 ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "GET",
+      "paramTypes" : [ "Integer" ],
+      "numOfParams" : [ 1 ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "GOTOCONFIG",
+      "paramTypes" : [ "JSON.EnumsAndParameters.PositionParameter" ],
+      "numOfParams" : [ 1 ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "STOP",
+      "paramTypes" : [  ],
+      "numOfParams" : [  ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "SETUP",
+      "paramTypes" : [  ],
+      "numOfParams" : [  ]
+    } ]
+  }, {
+    "type" : "SORTING",
+    "allCommands" : [ {
+      "jsonType" : "COMMAND",
+      "name" : "EXECUTE",
+      "paramTypes" : [ "JSON.EnumsAndParameters.Colour" ],
+      "numOfParams" : [ 1 ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "STOP",
+      "paramTypes" : [  ],
+      "numOfParams" : [  ]
+    } ]
+  }, {
+    "type" : "INDEXEDLINE",
+    "allCommands" : [ {
+      "jsonType" : "COMMAND",
+      "name" : "EXECUTE",
+      "paramTypes" : [ "Boolean", "Integer" ], //stirred?, Dauer //TODO implement functions in INDEXEDLINE on RevPi
+      "numOfParams" : [ 1, 1 ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "STOP",
+      "paramTypes" : [  ],
+      "numOfParams" : [  ]
+    } ]
+  }, {
+    "type" : "MULTIPROCESSING",
+    "allCommands" : [ {
+      "jsonType" : "COMMAND",
+      "name" : "EXECUTE",
+      "paramTypes" : [ "Integer" ], //Dauer //TODO implement functions in MULTIPROCESSING on RevPi
+      "numOfParams" : [ 1 ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "STOP",
+      "paramTypes" : [  ],
+      "numOfParams" : [  ]
+    } ]
+  }, {
+    "type" : "CONVEYOR",
+    "allCommands" : [ {
+      "jsonType" : "COMMAND",
+      "name" : "EXECUTE",
+      "paramTypes" : [ "JSON.EnumsAndParameters.Direction" ],
+      "numOfParams" : [ 1 ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "GOTOCONFIG",
+      "paramTypes" : [ "JSON.EnumsAndParameters.Direction", "Integer" ], //integer for number of steps
+      "numOfParams" : [ 1, 1 ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "STOP",
+      "paramTypes" : [  ],
+      "numOfParams" : [  ]
+    } ]
+  }, {
+    "type" : "CONVEYOR",
+    "allCommands" : [ {
+      "jsonType" : "COMMAND",
+      "name" : "EXECUTE",
+      "paramTypes" : [ "JSON.EnumsAndParameters.Direction" ],
+      "numOfParams" : [ 1 ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "GOTOCONFIG",
+      "paramTypes" : [ "JSON.EnumsAndParameters.Direction", "Integer" ], //integer for number of steps
+      "numOfParams" : [ 1, 1 ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "STOP",
+      "paramTypes" : [  ],
+      "numOfParams" : [  ]
+    } ]
+  }, {
+    "type" : "PUNCHING",
+    "allCommands" : [ {
+      "jsonType" : "COMMAND",
+      "name" : "EXECUTE",
+      "paramTypes" : [  ],
+      "numOfParams" : [  ]
+    }, {
+      "jsonType" : "COMMAND",
+      "name" : "STOP",
+      "paramTypes" : [  ],
+      "numOfParams" : [  ]
+    } ]
+  } ]
+}

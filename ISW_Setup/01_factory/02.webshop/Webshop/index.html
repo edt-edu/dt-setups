@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>My Joghurt</title>
+    <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+
+<body>
+    <header>
+        <div id="logo" class="bannerbutton" >
+            <a href="#welcome">
+                <img src="imgs/yoglogo.png" alt="Yoghurt Logo" width="30">
+            </a>
+        </div>
+        <div id="warenkorb" class="bannerbutton" >
+            <a href="warenkorb.html">
+                <img src="imgs/warenkorb.png" alt="Warenkorb" width="30">
+            </a>
+        </div>
+    </header>
+    <section id="welcome">
+        <br>
+        <br>
+        <br>
+        <h1>My Joghurt</h1>
+        <br>
+        <a id="linkbutton" href="#myform">Jetzt mixen</a>  
+        <br>
+        <br>
+    </section>
+    <form id="myform">
+        <br>
+        <br>
+        <label for="basis">Basis Joghurt:</label>
+        <br>
+        <input type="radio" name="basis" value="natur" checked><label id="natur">Natur</label>
+        <input type="radio" name="basis" value="erdbeere"><label id="erdbeere">Erdbeere</label>
+        <input type="radio" name="basis" value="heidelbeere"><label id="heidelbeere">Heidelbeere</label>
+        <br>
+        <br>
+        <input type="checkbox" name="frozen"><label for="frozen">Frozen Joghurt</label>
+        <br>
+        <br>
+        <input type="checkbox" checked name="toppings" id="toppings" onclick="showHideToppings()"><label for="toppings">Toppings</label>
+        <br>
+        <br>
+        <div id="toppingsForm">
+            <label for="topping1">Topping 1:</label>
+            <br>
+            <input type="radio" name="topping1" value="schokoraspeln1" id="schokoraspeln1" onclick="freezeToppings()"><label for="Schokoraspeln1">Schokoraspeln</label>
+            <input type="radio" name="topping1" value="kokosraspeln1" id="kokosraspeln1" onclick="freezeToppings()"><label for="Kokosraspeln1">Kokosraspeln</label>
+            <input type="radio" name="topping1" value="mandeln1" id="mandeln1" onclick="freezeToppings()"><label for="Mandeln1">Mandeln</label>
+            <br>
+            <br>
+            <label for="topping2">Topping 2:</label>
+            <br>
+            <input type="radio" name="topping2" value="schokoraspeln2" id="schokoraspeln2" onclick="freezeToppings()"><label for="Schokoraspeln2">Schokoraspeln</label>
+            <input type="radio" name="topping2" value="kokosraspeln2" id="kokosraspeln2" onclick="freezeToppings()"><label for="Kokosraspeln2">Kokosraspeln</label>
+            <input type="radio" name="topping2" value="mandeln2" id="mandeln2" onclick="freezeToppings()"><label for="Mandeln2">Mandeln</label>
+            <br>
+            <br>
+        </div>
+        <label for="anzahl">Anzahl: </label><input type="number" value="1" name="anzahl" min="1">
+        <br>
+        <br>
+        <button type="submit" id="addbtn">
+            <i class="fa fa-shopping-basket"> +</i>
+        </button>
+        <br>
+        <br>
+    </form>
+    <input type="button" value="Zur Bestellung" onclick="window.location.href='warenkorb.html'"/>
+    <br>
+    <br>
+<script type="text/javascript" src="main.js"></script>
+</body>
+</html>
