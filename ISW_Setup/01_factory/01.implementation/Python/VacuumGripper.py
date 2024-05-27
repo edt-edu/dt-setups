@@ -1,5 +1,6 @@
 from MovingMachine import MovingMachine
 from Axis import AxisType, Axis
+from VacuumGripperMqttGateway import VacuumGripperMqttGateway
 from VacuumGripperConfig import VacuumGripperConfig
 from CyclicWaiter import CyclicWaiter
 from Position import Position
@@ -90,6 +91,8 @@ class VacuumGripper(MovingMachine):
         self.__pc = 0
         self.configGoal = None
 
+        self.gateway = VacuumGripperMqttGateway(id1)
+
 
     @property
     def vacuumActCompressorOn(self):
@@ -162,6 +165,7 @@ class VacuumGripper(MovingMachine):
     @vacuumActArmOut.setter
     def vacuumActArmOut(self, value):
         self.__vacuumActArmOut = value
+        self.gateway.reportHorizontalForward(value)
 
     @property
     def vacuumActArmIn(self):
@@ -170,6 +174,8 @@ class VacuumGripper(MovingMachine):
     @vacuumActArmIn.setter
     def vacuumActArmIn(self, value):
         self.__vacuumActArmIn = value
+        self.gateway.reportHorizontalBack(value)
+
 
     @property
     def vacuumActVerticalDown(self):
@@ -178,6 +184,8 @@ class VacuumGripper(MovingMachine):
     @vacuumActVerticalDown.setter
     def vacuumActVerticalDown(self, value):
         self.__vacuumActVerticalDown = value
+        self.gateway.reportVerticalDown(value)
+
 
     @property
     def vacuumActVerticalUp(self):
@@ -186,6 +194,8 @@ class VacuumGripper(MovingMachine):
     @vacuumActVerticalUp.setter
     def vacuumActVerticalUp(self, value):
         self.__vacuumActVerticalUp = value
+        self.gateway.reportVerticalUp(value)
+
 
     @property
     def vacuumActRotRight(self):
@@ -194,6 +204,8 @@ class VacuumGripper(MovingMachine):
     @vacuumActRotRight.setter
     def vacuumActRotRight(self, value):
         self.__vacuumActRotRight = value
+        self.gateway.reportRotationClockwise(value)
+
 
     @property
     def vacuumActRotLeft(self):
@@ -202,6 +214,8 @@ class VacuumGripper(MovingMachine):
     @vacuumActRotLeft.setter
     def vacuumActRotLeft(self, value):
         self.__vacuumActRotLeft = value
+        self.gateway.reportRotationCounterclockwise(value)
+
 
     def executeHelper(self):
         """
