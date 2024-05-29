@@ -65,9 +65,9 @@ class VacuumGripper(MovingMachine):
         self.__vacuumSensArmEndIn = self.__vacuumSensVerticalEndUp = self.__vacuumSensRotEnd = False
         self.__vacuumActArmOut = self.__vacuumActArmIn = self.__vacuumActVerticalDown = self.__vacuumActVerticalUp = self.__vacuumActRotRight = self.__vacuumActRotLeft = self.__vacuumActCompressorOn = self.__vacuumActValve = False
         self.__vacuumSensRotEncoderCounter = self.__vacuumSensVerticalEncoderCounter = self.__vacuumSensArmEncoderCounter = 0
-        self.__axisArm = Axis(AxisType.Encoder, 20)
-        self.__axisVertical = Axis(AxisType.Encoder, 20)
-        self.__axisRot = Axis(AxisType.Encoder, 20)
+        self.__axisArm = Axis(AxisType.Encoder, 20, lambda counter: self.gateway.reportCounterHorizontal(counter))
+        self.__axisVertical = Axis(AxisType.Encoder, 20, lambda counter: self.gateway.reportCounterVertical(counter))
+        self.__axisRot = Axis(AxisType.Encoder, 20, lambda counter: self.gateway.reportCounterRotation(counter))
         self.__gripperWaiter = CyclicWaiter(10)
         dictMap = {RequestedParameter.REFERENCESWITCHVERTICALAXIS: self.__vacuumSensVerticalEndUp,
                    RequestedParameter.REFERENCESWITCHHORIZONTALAXIS: self.__vacuumSensArmEndIn,
@@ -90,7 +90,6 @@ class VacuumGripper(MovingMachine):
         self.__moveList = None
         self.__pc = 0
         self.configGoal = None
-
         self.gateway = VacuumGripperMqttGateway(id1)
 
 

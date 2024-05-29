@@ -13,9 +13,10 @@ class AxisType(Enum):
 #TODO ensure no negative values are accepted for counter goal
 class Axis:
 
-    def __init__(self, typ: AxisType, tolerance):
+    def __init__(self, typ: AxisType, tolerance, counter_callback = None):
         """constructor creates ImpulseCounter object if necessary"""
         self.__type = typ
+        self.counter_callback = counter_callback
         if typ == AxisType.Counter:
             self.__counter = ImpulseCounter()
         else:
@@ -39,6 +40,8 @@ class Axis:
     @counterValueCurrent.setter
     def counterValueCurrent(self, value):
         self.__counter.counter = value
+        if self.counter_callback is not None:
+            self.counter_callback(value)
 
     @property
     def endpos(self):
@@ -87,8 +90,8 @@ class Axis:
             if not self.__endpos:
                 self.__outputminus = True
                 if isinstance(self.__counter, ImpulseCounter):
-                    self.__counter.counter = self.__counter.compute(self.__counterinput, PlusMinusStop.MINUS)
-                    print(self.__counter.counter)
+                    self.counterValueCurrent = self.__counter.compute(self.__counterinput, PlusMinusStop.MINUS)
+                    print(self.counterValueCurrent)
                 d = PlusMinusStop.MINUS
             else:
                 self.__outputminus = False
@@ -97,32 +100,32 @@ class Axis:
             #calls compute methods for axis with impulse counters based on (previous) motor direction, not necessary for encoder
             if isinstance(self.__counter, ImpulseCounter):
                 if self.outputplus:
-                    self.__counter.counter = self.__counter.compute(self.__counterinput, PlusMinusStop.PLUS)
-                    print(self.__counter.counter)
+                    self.counterValueCurrent = self.__counter.compute(self.__counterinput, PlusMinusStop.PLUS)
+                    print(self.counterValueCurrent)
                     #print("compute counter")
                     if self.__first or self.endpos:
                         self.__first = False
                         print("Reset arm counter here here here here here here")
-                        self.__counter.counter = 0
+                        self.counterValueCurrent = 0
                 elif self.outputminus:
-                    self.__counter.counter = self.__counter.compute(self.__counterinput, PlusMinusStop.MINUS)
-                    print(self.__counter.counter)
+                    self.counterValueCurrent = self.__counter.compute(self.__counterinput, PlusMinusStop.MINUS)
+                    print(self.counterValueCurrent)
                     if self.__first or self.endpos:
                         self.__first = False
                         print("Reset arm counter here here here here here here")
-                        self.__counter.counter = 0
+                        self.counterValueCurrent = 0
 
             else:
-                self.__counter.counter = self.__counterinput
-            if self.howtoCounterPos(counterGoal, self.__counter.counter, self.__tolerance) == PlusMinusStop.PLUS:
+                self.counterValueCurrent = self.__counterinput
+            if self.howtoCounterPos(counterGoal, self.counterValueCurrent, self.__tolerance) == PlusMinusStop.PLUS:
                 self.__outputminus = False
                 self.__outputplus = True
                 d = PlusMinusStop.PLUS
-            elif self.howtoCounterPos(counterGoal, self.__counter.counter, self.__tolerance) == PlusMinusStop.MINUS:
+            elif self.howtoCounterPos(counterGoal, self.counterValueCurrent, self.__tolerance) == PlusMinusStop.MINUS:
                 self.__outputminus = True
                 self.__outputplus = False
                 d = PlusMinusStop.MINUS
-            elif self.howtoCounterPos(counterGoal, self.__counter.counter, self.__tolerance) == PlusMinusStop.STOP:
+            elif self.howtoCounterPos(counterGoal, self.counterValueCurrent, self.__tolerance) == PlusMinusStop.STOP:
                 self.__outputminus = False
                 self.__outputplus = False
                 t = True

@@ -1,10 +1,11 @@
+from typing import Union
 from paho.mqtt import client
 import os
 
 # TODO: extract Gateway, MqttGateway
 class VacuumGripperMqttGateway:
 
-    def __init__(self, mqtt_id: str | int):
+    def __init__(self, mqtt_id: Union[str, int]):
         self.mqtt_id = mqtt_id
         if os.getenv("MQTT_ENABLED") == "true":
           self.client = self.connect_mqtt()
@@ -72,3 +73,18 @@ class VacuumGripperMqttGateway:
       if self.client is None:
         return
       self.client.publish("/vacuum-gripper/" + self.mqtt_id + "/rotationCounterclockwise", rotationCounterclockwise)
+
+    def reportCounterHorizontal(self, counter):
+      if self.client is None:
+        return
+      self.client.publish("/vacuum-gripper/" + self.mqtt_id + "/counterHorizontal", counter)
+
+    def reportCounterVertical(self, counter):
+      if self.client is None:
+        return
+      self.client.publish("/vacuum-gripper/" + self.mqtt_id + "/counterVertical", counter)
+
+    def reportCounterRotation(self, counter):
+      if self.client is None:
+        return
+      self.client.publish("/vacuum-gripper/" + self.mqtt_id + "/counterRotation", counter)
