@@ -1,0 +1,37 @@
+
+## basic layout
+
+
+[options="header",cols="1,1,1,1,2"]
+|===
+| DIO pin number |DIO var name | FT pin number   |FT Name   | FT Description    
+//----------------------
+|Output 1  |O_1   | | | 
+|Output 2  |O_2   | | | 
+|Output 3  |O_3   | | | 
+|Output 4  |O_4   | | | 
+|Output 5  |O_5   | | | 
+|Output 6  |O_6   | | | 
+|Output 7  |O_7   | | | 
+|Output 8  |O_8   | | |   
+|Output 9  |O_9   | | | 
+|Output 10 |O_10  | | |  
+|Output 11 |O_11  | | | 
+|Output 12 |O_12  | | |  
+|Output 13 |O_13  | | | 
+|Output 14 |O_14  | | |
+|Input 1   |I_1   | | | 
+|Input 2   |I_2   | | | 
+|Input 3   |I_3   | | | 
+|Input 4   |I_4   | | | 
+|Input 5   |I_5   | | | 
+|Input 6   |I_6   | | | 
+|Input 7   |I_7   | | | 
+|Input 8   |I_8   | | |   
+|Input 9   |I_9   | | | 
+|Input 10  |I_10  | | |  
+|Input 11  |I_11  | | | 
+|Input 12  |I_12  | | |  
+|Input 13  |I_13  | | | 
+|Input 14  |i_14  | | |  
+|===

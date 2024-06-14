@@ -1,0 +1,59 @@
+
+## Cable Mapping for the Multi Processing Station with Oven (MPS)
+
+
+### DIO_B
+ 
+DIO side:
+ 
+[options="header",cols="1,1,1,1,3"]
+|===
+| DIO pin number |DIO var name | FT pin number   |FT Name   | FT Description    
+//----------------------
+|Output 1  |O_1   | 17 | Q1(M1) | motor turn-table counterclockwise 
+|Output 2  |O_2   | 18 | Q2(M1) | motor turn-table counterclockwise
+|Output 3  |O_3   | 19 | Q3(M2) | motor conveyor belt forward 
+|Output 4  |O_4   | 20 | Q4(M3) | motor saw 
+|Output 5  |O_5   | 21 | Q5(M4) | motor oven feeder retract
+|Output 6  |O_6   | 22 | Q6(M4) | motor oven feeder extend
+|Output 7  |O_7   | 23 | Q7(M5) | motor vacuum towards oven
+|Output 8  |O_8   | 24 | Q8(M5) | motor vacuum towards turn-table 
+|Output 9  |O_9   | 25 | Q9     | light oven
+|Output 10 |O_10  | 26 | Q10    | Compressor 
+|Output 11 |O_11  | 27 | Q11    | valve vacuum
+|Output 12 |O_12  | 28 | Q12    | valve lowering 
+|Output 13 |O_13  | 29 | Q13    | valve oven door
+|Output 14 |O_14  | 30 | Q14    | valve feeder
+|Input 1   |I_1   | 5  | I1 | reference switch turn-table (position vacuum) 
+|Input 2   |I_2   | 6  | I2 | reference switch turn-table (position belt)
+|Input 3   |I_3   | 7  | I3 | light-barrier end of conveyor belt
+|Input 4   |I_4   | 8  | I4 | reference switch turn-table (position saw) 
+|Input 5   |I_5   | 9  | I5 | reference switch vacuum (position turn-table)
+|Input 6   |I_6   | 10 | I6 | reference switch oven feeder inside
+|Input 7   |I_7   | 11 | I7 | reference switch oven feeder outside 
+|Input 8   |I_8   | 12 | I8 | reference switch vacuum (position oven   
+|Input 9   |I_9   | 13 | I9 | light-barrier oven
+|Input 10  |I_10  | 14 |    |   
+|Input 11  |I_11  | 15 |    |  
+|Input 12  |I_12  | 16 |    |  
+|Input 13  |I_13  | | | 
+|Input 14  |i_14  | | |  
+|===
+
+Other pins on the FT side
+[options="header",cols="1,1,2,3"]
+|===
+|FT pin number   |FT Name   | FT Description | Comment    
+//----------------------
+| 1 | 24V DC | power supply (+) actuators | DIO X2 connector or direct connection
+| 2 | 24V DC | power supply (+) sensors   | DIO X2 connector or direct connection
+| 3 | 0V     | power supply (-) actuators | DIO X2 connector or direct connection
+| 4 | 0V     | power supply (-) sensors   | DIO X2 connector or direct connection
+| 14..16 |      |    | N/A
+| 31..32 |      |    | N/A
+| 33 |   GND |  GND  | direct connection
+| 34 |   GND |  GND  | direct connection
+
+|===
+
+

@@ -1,0 +1,44 @@
+@startuml
+
+left to right direction
+
+
+node "RevPi DIO" as dio {
+
+' in reverse order, so they are displayed vertically in the correct order...
+
+  portin in_2
+  portin in_4
+  portin in_6
+  portin in_8
+  portin in_10
+  portin in_12
+  portin in_14
+
+  portin out_14
+  portin out_12
+  portin out_10
+  portin out_8
+  portin out_6
+  portin out_4
+  portin out_2
+
+  portout in_1
+  portout in_3
+  portout in_5
+  portout in_7
+  portout in_9
+  portout in_11
+  portout in_13
+
+  portout out_13
+  portout out_11
+  portout out_9
+  portout out_7
+  portout out_5
+  portout out_3
+  portout out_1
+
+}
+
+@enduml
