@@ -4,9 +4,10 @@
 
 ### DIO_C
  
-image::./img/dio-connectors.png[role="related thumb right", 240] 
 DIO side:
- 
+
+image::./img/dio-connectors.png[role="related thumb right", 240] 
+
 [options="header",cols="1,1,1,1,3"]
 |===
 | DIO pin number |DIO var name | FT pin number   |FT Name   | FT Description    
