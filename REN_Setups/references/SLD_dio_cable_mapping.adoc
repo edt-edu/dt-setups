@@ -17,12 +17,12 @@ image::./img/dio-connectors.png[role="related thumb right", 240]
 |Output 3  |O_5   | 20 | Q3 |  valve first ejector (white)
 |Output 4  |O_6   | 21 | Q4 |  valve second ejector (red)
 |Output 5  |O_7   | 22 | Q5 |  valve third ejector (blue)
-|Input 1   |Counter_4   | 5  | I1 | pulse counter
-|Input 2   |I_5   | 6  | I2  | light-barrier inlet
-|Input 3   |I_6   | 7  | I3 | light-barrier behind color sensor
-|Input 4   |I_7   | 10 | I5 | light-barrier white
-|Input 5   |I_8   | 11 | I6 | light-barrier red 
-|Input 6   |I_9   | 12 | I7 | light-barrier blue
+|Input 1   |I_1   | 5  | I1 | pulse counter
+|Input 2   |I_2   | 6  | I2  | light-barrier inlet
+|Input 3   |I_3   | 7  | I3 | light-barrier behind color sensor
+|Input 5   |I_5   | 10 | I5 | light-barrier white
+|Input 6   |I_6   | 11 | I6 | light-barrier red 
+|Input 7   |I_7   | 12 | I7 | light-barrier blue
 |===
 
 
