@@ -5,6 +5,8 @@
 ### DIO_C
  
 DIO side:
+
+image::./img/dio-connectors.png[role="related thumb right", 240] 
  
 [options="header",cols="1,1,1,1,3"]
 |===
