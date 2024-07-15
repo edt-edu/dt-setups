@@ -51,7 +51,7 @@ class MultiProcessing(Machine):
         dictMap = {RequestedParameter.REFERENCESWITCHTURNTABLEPOSITOINVACUUM: self.__multiProcessingSensTurntablePosVacuum,
                    RequestedParameter.REFERNCESWITCHTURNTABLEPOSITIONBELT: self.__multiProcessingSensTurntablePosConveyor,
                    RequestedParameter.LIGHTBARRIERENDOFCONVEYORBELT: self.__multiProcessingSensDelivery,
-                   RequestedParameter.REFERENCEWITCHTURNTABLEPOSITIONSAW: self.__multiProcessingSensTurntablePosSaw,
+                   RequestedParameter.REFERENCESWITCHTURNTABLEPOSITIONSAW: self.__multiProcessingSensTurntablePosSaw,
                    RequestedParameter.REFERENCESWITCHVACUUMPOSITIONTURNTABLE: self.__multiProcessingSensVacuumGripperAtTurntable,
                    RequestedParameter.REFERENCESWITCHOVENFEEDERINSIDE: self.__multiProcessingSensOvenFeederIn,
                    RequestedParameter.REFERENCESWITCHOVENFEEDEROUTSIDE: self.__multiProcessingSensOvenFeederOut,
