@@ -1,0 +1,22 @@
+## Folder organisation of the Setups in Rennes
+
+
+Each setup use the following naming schema: `REN_((%d[C|H|M|S|V])*_)*%d`
+
+where:
+
+- each group separated by '_' represents the machine counts connected to a PLC
+- C,H,M,S,V represents **C**onvervor Belt, **H**igh bay warehouse, **M**ulti Processing Station, **S**orting Line with Color, **V**acuum Gripper Robot
+- the last number allows to identify a precise variant using the machines/PLC (ie. be able to handle different scenarios or configurations)
+
+ex: REN_1S1V_1C1V_1H1M_01, is the first setup variant based on 1 Sorting Line and 1 Vacuum Gripper on the first PLC, 1 Conveyor belt and 1 Vacuum Gripper on the second PLC, and 1 High Bay Warehouse and 1 Multi Processing Station on the third PLC.
+
+Each setup should contain:
+
+- `ansible`  folder : containing playbooks allowing to deploy the setup on Rennes platform
+ 
+folders containing the specific files to be deployed. 
+this includes all configuration files (PiCtory, python, docker, etc)
+
+
+In the root of `REN_Setups`, several folder contains shared resources.

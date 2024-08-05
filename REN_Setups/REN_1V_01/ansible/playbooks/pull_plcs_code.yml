@@ -1,0 +1,18 @@
+---
+
+## example of use:
+# ansible-playbook  playbooks/pull_plcs_code.yml 
+
+- name: Pull PLCs code
+  hosts: RevPi01
+  
+  tasks:
+  - name: Load the variables
+    include_vars: ../vars.yml
+  - name: Pull directory contents back to local
+    synchronize:
+      mode: pull
+      src: /home/pi/{{ dest_folder_name }}/
+      dest: .../../../../rppmcontroller
+      recursive: true
+      delete: true  # 'true' to delete files not in the source

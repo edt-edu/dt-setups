@@ -1,0 +1,28 @@
+---
+
+## example of use:
+# ansible-playbook  playbooks/push_plcs_code.yml 
+
+- name: Push PLCs code
+  hosts: RevPi01
+  
+  tasks:
+  - name: Load the variables
+    include_vars: ../vars.yml
+  - name: Push directory contents
+    synchronize:
+      src: ../../../../rppmcontroller
+      dest: /home/pi/{{ dest_folder_name }}
+      rsync_opts:
+        - "--exclude=rppmcontroller.egg-info"
+      recursive: true
+      delete: true  # 'true' to delete files not in the source
+    notify:
+      - Install rppmcontroller library
+
+  handlers:
+  - name: Install rppmcontroller library
+    ansible.builtin.pip:
+      executable: pip3
+      name: /home/pi/{{ dest_folder_name }}/rppmcontroller
+      extra_args: --editable
