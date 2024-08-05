@@ -1,0 +1,20 @@
+# Use of the ansible commands and playbooks
+
+## Basics
+
+deploy/install rppm code on revpi 1
+
+```sh
+ansible-playbook playbooks/push_plcs_code.yml
+```
+
+
+If you have modified the code directly on the revpi you can get back the changes on your computer using:
+
+
+
+```sh
+ansible-playbook playbooks/pull_plcs_code.yml
+```
+
+:warning-caption: do not use the pull on several hosts (ie. plcs group ) or you get the code from the last one only
