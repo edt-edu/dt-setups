@@ -1,0 +1,16 @@
+# Configuration (00)
+
+configuration:
+  name: "configuration"
+
+  controllers:
+    - name: "plc-1"
+      host: 'RevPi103156.local'
+      commandPort: 6001
+      notificationPort: 6011
+      machines:
+        - type: "conveyorBelt"
+          name: "conveyor-1"
+
+        - type: "vacuumGripper"
+          name: "vacuum-gripper-1"

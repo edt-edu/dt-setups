@@ -7,7 +7,15 @@ services:
         ports:
             - 1883:1883
         volumes:
-            - ./config:/mosquitto/config
-            - ./data:/mosquitto/data
+            - ./services/mosquitto/config:/mosquitto/config
+            - ./services/mosquitto/data:/mosquitto/data
             - /var/log/mosquitto:/mosquitto/log
         restart: unless-stopped
+    scada-backend:
+        image: registry.git.rwth-aachen.de/mbdo/mbdo-impl/factory-scada-backend:latest
+        container_name: scada-backend
+        ports:
+            - 9000:9000
+        volumes:
+            - ./services/scada-backend/config:/app/config
+        # restart: unless-stopped
