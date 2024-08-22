@@ -11,10 +11,11 @@
     include_vars: ../vars.yml
   - name: Push directory contents
     synchronize:
-      src: ../../../../rppmcontroller
-      dest: /home/pi/{{ dest_folder_name }}
+      src: ../../../../rppmcontroller/
+      dest: /home/pi/rppmcontroller
       rsync_opts:
         - "--exclude=rppmcontroller.egg-info"
+        - "--exclude=.eggs"
       recursive: true
       delete: true  # 'true' to delete files not in the source
     notify:
@@ -24,5 +25,5 @@
   - name: Install rppmcontroller library
     ansible.builtin.pip:
       executable: pip3
-      name: /home/pi/{{ dest_folder_name }}/rppmcontroller
+      name: /home/pi/rppmcontroller
       extra_args: --editable

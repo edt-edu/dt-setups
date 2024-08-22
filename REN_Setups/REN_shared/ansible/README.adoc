@@ -1,0 +1,9 @@
+# Use of the ansible commands and playbooks
+
+## Basics
+
+Ping
+
+```sh
+ansible plcs -m ping
+```

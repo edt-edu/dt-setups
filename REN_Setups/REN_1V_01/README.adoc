@@ -1,0 +1,19 @@
+# REN_1V_01 setup
+
+This folder contains the configuration files and deployment script of the REN_1V_01 Setup
+
+## Setup description
+
+
+
+## Deployment scripts
+
+The `ansible` folder contains the playbooks used to deploy the setup on the Rennes platform
+
+It uses Setup specific configuration files (from `config` folder) and common configuration (ex: mqtt-broker)
+
+## Configuration files
+
+The configuration files a
+
+

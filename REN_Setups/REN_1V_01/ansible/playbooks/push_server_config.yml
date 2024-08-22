@@ -1,0 +1,17 @@
+---
+
+## example of use:
+# ansible-playbook  playbooks/push_plcs_code.yml 
+
+- name: Push Server configuration
+  hosts: mbdo_server
+  
+  tasks:
+  - name: Load the variables
+    include_vars: ../vars.yml
+  - name: Push directory contents
+    synchronize:
+      src: ../../config/server/factoryscada/
+      dest: /home/mbdo-admin/factoryscada
+      recursive: true
+      delete: true  # 'true' to delete files not in the source
