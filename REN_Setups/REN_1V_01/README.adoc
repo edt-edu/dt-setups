@@ -25,15 +25,45 @@ The `ansible` folder contains the playbooks used to deploy the setup on the Renn
 
 ### Deploy instructions
 
+
+mosquitto
+```sh
+cd REN_shared/ansible
+ansible-playbook playbooks/push_server_config.yml
+```
+
+```
+ssh mbdo-admin@mbdo-server.local
+cd ~/mbdo/mosquitto
+sudo docker compose up -d
+```
+
+controllers and factoryscada
 ```sh
 cd REN_1V_01/ansible
 ansible-playbook playbooks/push_plcs_code.yml
 ansible-playbook playbooks/push_server_config.yml
 ```
 
-Then
-* login on the PLC and start rppmcontroller
-* login on server and start mqqt and factory-scada (docker compose up)
+```
+ssh pi@RevPi103156.local
+cd ~/rppmcontroller_current_setup
+~/rppmcontroller_current_setup
+```
+
+```
+ssh mbdo-admin@mbdo-server.local
+cd ~/mbdo/factoryscada
+sudo docker compose up 
+```
+
+useful commands
+
+
+see the factoryscada logs (useful if docker compse is launched  with `-d` option)
+```
+sudo docker logs scada-backend
+```
 
 
 ## Configuration files
