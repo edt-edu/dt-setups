@@ -7,3 +7,10 @@ Ping
 ```sh
 ansible plcs -m ping
 ```
+
+
+
+install mosquitto configuration files
+```sh
+ansible-playbook playbooks/push_server_config.yml
+```
