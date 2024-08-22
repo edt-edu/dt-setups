@@ -1,0 +1,21 @@
+---
+
+## example of use:
+# ansible-playbook  playbooks/push_plcs_code.yml 
+
+- name: Push Server configuration
+  hosts: mbdo_server
+  
+  tasks:
+  - name: Creates mosquitto data directory
+    ansible.builtin.file:
+      path: /home/mbdo-admin/mbdo/mosquitto/data
+      state: directory
+  - name: Push mqtt config directory contents
+    synchronize:
+      src: ../../config/server/mosquitto/
+      dest: /home/mbdo-admin/mbdo/mosquitto
+      recursive: true
+      rsync_opts:
+        - "--exclude=data"
+      delete: true  # 'true' to delete files not in the source
