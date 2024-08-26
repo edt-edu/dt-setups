@@ -48,22 +48,34 @@ ansible-playbook playbooks/push_server_config.yml
 ```
 ssh pi@RevPi103156.local
 cd ~/rppmcontroller_current_setup
-~/rppmcontroller_current_setup
+python3 RevPi_Controller.py 
 ```
 
 ```
 ssh mbdo-admin@mbdo-server.local
 cd ~/mbdo/factoryscada
+sudo docker compose pull
 sudo docker compose up 
 ```
 
-useful commands
-
+#### useful commands:
 
 see the factoryscada logs (useful if docker compse is launched  with `-d` option)
 ```
 sudo docker logs scada-backend
 ```
+
+see socket connection (in order to kill thread that haven't properly been closed)
+```
+netstat -tulnap
+```
+
+### Interaction with the platform
+
+(requires to be connected to the same network, or run on the server)
+
+- SCADA web page http://mbdo-server.local:9080
+- Camera webpage http://mbdo-server.local:8080
 
 
 ## Configuration files
