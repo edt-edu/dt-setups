@@ -1,3 +1,12 @@
+
+ifdef::included_in_readme[]
+:imagesdir: docs/generated/img
+endif::included_in_readme[]
+ifndef::included_in_readme[]
+:imagesdir: generated/img
+endif::included_in_readme[]
+
+
 ## Setup description
 
 This setup uses:
@@ -8,6 +17,7 @@ This setup uses:
 * 1 Server 
 ** the factory scada 
 ** MQTT broker
+** camera support
 
 Typical use: 
 
@@ -16,10 +26,10 @@ Typical use:
 
 .REN_1V_01_machines_config 2D map  
 [#img-REN_1V_01_machines_config,link=https://git.rwth-aachen.de/mbdo/mbdo-impl/-/tree/master/REN_Setups/REN_1V_01/docs/resources]
-image::generated/img/REN_1V_01_machines_config.svg[REN_1V_01_machines_config,200,100] 
+image::REN_1V_01_machines_config.svg[REN_1V_01_machines_config,200,100] 
 
 
-
+.ffd  dsd
 [mermaid]
 ----
 C4Context

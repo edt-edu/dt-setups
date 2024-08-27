@@ -1,3 +1,10 @@
+
+
+
+// used to detect if the document is included in master
+:included_in_readme: true
+
+
 # REN_1V_01 setup
 
 This folder contains the configuration files and deployment script of the REN_1V_01 Setup
