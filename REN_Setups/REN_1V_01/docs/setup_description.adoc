@@ -47,7 +47,7 @@ C4Context
         }
 
         Component(mbdoRouter, "mbdo-router", "")
-        Boundary(b_network, "Factory local network", "") {
+        Boundary(b_network, "Computationnal Resources", "") {
             Component(mbdoPLC01, "plc-01 (RevPi103156.local)", "")
             Component(mbdoServer, "mbdo-server", "")
 
@@ -55,7 +55,7 @@ C4Context
 
       }
 
-      Boundary(b_hardware, "Hardware") {
+      Boundary(b_mechanical, "Mechanical") {
         
         Component(vgr1, "VacuumGripper01", "")
 
@@ -76,6 +76,7 @@ C4Context
       
       UpdateRelStyle(intDeveloper, mbdoRouter, $textColor="blue", $lineColor="blue", $offsetX="5")
       UpdateRelStyle(mbdoPLC01, vgr1,  $lineColor="green", $offsetX="10")
+      UpdateRelStyle(mbdoServer, mbdoRouter,  $offsetY="70")
 
  
       UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="2")
