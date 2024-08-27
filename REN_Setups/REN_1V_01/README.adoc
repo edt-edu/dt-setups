@@ -2,20 +2,10 @@
 
 This folder contains the configuration files and deployment script of the REN_1V_01 Setup
 
-## Setup description
 
-This setup uses:
+include::docs/setup_description.adoc[]
 
-* 1 PLC 
-* 1 DIO
-* 1 VGR
-* 1 Server 
-** the factory scada 
-** MQTT broker
 
-Typical use: 
-
-* send move commands to the VGR machine
 
 ## Deployment scripts
 
