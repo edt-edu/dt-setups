@@ -91,8 +91,8 @@ NOTE: some shared configuration files are located in `REN_shared` (ex: mqtt-brok
 
 - [ ] manual dev start setup instructions
 - [ ] playbook based  start setup instructions
-- [ ] rppmcontroller setup specifc entrypoint + deploy playbook (including mqtt broadcast)
-- [ ] factory scada front end installation (docker-compose/playbook)
+- [x] rppmcontroller setup specifc entrypoint + deploy playbook (including mqtt broadcast)
+- [x] factory scada front end installation (docker-compose/playbook)
 - [ ] playbook enabled MQTT start
 - [ ] playbook enabled factoryscada start
 - [ ] usage instructions (mqtt explorer, rppmorchestrator/ factoryscada)
