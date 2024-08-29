@@ -1,0 +1,5 @@
+- name: Install rppmcontroller library
+  ansible.builtin.pip:
+    executable: pip3
+    name: /home/pi/rppmcontroller
+    extra_args: --editable

@@ -1,0 +1,29 @@
+#- name: Copy files from specific folder
+#  copy:
+#    src: "{{ file_path }}"
+#    dest: /destination/path/
+
+- name: Push rppmcontroller directory contents
+  synchronize:
+    src: ../../../../rppmcontroller/
+    dest: /home/pi/rppmcontroller
+    use_ssh_args: yes # required to enable jump ansible_host
+    rsync_opts:
+      - "--exclude=rppmcontroller.egg-info"
+      - "--exclude=.eggs"
+    recursive: true
+    delete: true  # 'true' to delete files not in the source
+  notify:
+    - Install rppmcontroller library
+
+- name: Push rppmcontroller_current_setup
+  synchronize:
+    #src: "{{ python_config_folder_path }}"
+    src: ../../config/{{ inventory_hostname }}/python/
+    dest: /home/pi/rppmcontroller_current_setup
+    use_ssh_args: yes # required to enable jump ansible_host
+    rsync_opts:
+      - "--exclude=RevPi_Controller.log"
+    recursive: true
+    delete: true  # 'true' to delete files not in the source
+
