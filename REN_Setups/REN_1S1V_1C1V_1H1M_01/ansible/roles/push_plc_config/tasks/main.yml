@@ -1,9 +1,5 @@
-#- name: Copy files from specific folder
-#  copy:
-#    src: "{{ file_path }}"
-#    dest: /destination/path/
 
-- name: Push rppmcontroller directory contents
+- name: Push rppmcontroller library folder
   synchronize:
     src: ../../../../rppmcontroller/
     dest: /home/pi/rppmcontroller
@@ -14,9 +10,9 @@
     recursive: true
     delete: true  # 'true' to delete files not in the source
   notify:
-    - Install rppmcontroller library
+    - Pip install rppmcontroller library
 
-- name: Push rppmcontroller_current_setup
+- name: Push config to rppmcontroller_current_setup folder
   synchronize:
     #src: "{{ python_config_folder_path }}"
     src: ../../config/{{ inventory_hostname }}/python/

@@ -1,4 +1,4 @@
-- name: Install rppmcontroller library
+- name: Pip install rppmcontroller library
   ansible.builtin.pip:
     executable: pip3
     name: /home/pi/rppmcontroller
