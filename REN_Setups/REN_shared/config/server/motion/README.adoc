@@ -1,0 +1,4 @@
+shared configuration files for the video monitoring service that runs on the mbdo-server
+
+
+TODO

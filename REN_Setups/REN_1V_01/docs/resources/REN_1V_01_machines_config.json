@@ -1,0 +1,16 @@
+{
+    "name": "REN_1V_01",
+    "xSize": 1500,
+    "ySize": 2100,
+    "positions": [
+      {
+        "x": 500,
+        "y": 500,
+        "degrees": 90,
+        "kind": "VGR",
+        "name": "VacuumGripper01",
+        "id": "vgr1"
+      }
+    ]
+  }
+

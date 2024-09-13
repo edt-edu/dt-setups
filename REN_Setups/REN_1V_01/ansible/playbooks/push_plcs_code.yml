@@ -9,20 +9,29 @@
   tasks:
   - name: Load the variables
     include_vars: ../vars.yml
-  - name: Push directory contents
+  - name: Push rppmcontroller directory contents
     synchronize:
-      src: ../../../../rppmcontroller
-      dest: /home/pi/{{ dest_folder_name }}
+      src: ../../../../rppmcontroller/
+      dest: /home/pi/rppmcontroller
       rsync_opts:
         - "--exclude=rppmcontroller.egg-info"
+        - "--exclude=.eggs"
       recursive: true
       delete: true  # 'true' to delete files not in the source
     notify:
       - Install rppmcontroller library
+  - name: Push rppmcontroller_current_setup
+    synchronize:
+      src: ../../config/RevPi01/python/
+      dest: /home/pi/rppmcontroller_current_setup
+      rsync_opts:
+        - "--exclude=RevPi_Controller.log"
+      recursive: true
+      delete: true  # 'true' to delete files not in the source
 
   handlers:
   - name: Install rppmcontroller library
     ansible.builtin.pip:
       executable: pip3
-      name: /home/pi/{{ dest_folder_name }}/rppmcontroller
+      name: /home/pi/rppmcontroller
       extra_args: --editable

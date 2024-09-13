@@ -12,7 +12,19 @@
   - name: Pull directory contents back to local
     synchronize:
       mode: pull
-      src: /home/pi/{{ dest_folder_name }}/
-      dest: .../../../../rppmcontroller
+      src: /home/pi/rppmcontroller/
+      dest: ../../../../rppmcontroller
+      rsync_opts:
+        - "--exclude=rppmcontroller.egg-info"
+        - "--exclude=.eggs"
+      recursive: true
+      delete: true  # 'true' to delete files not in the source
+  - name: Pull rppmcontroller_current_setup directory contents back to local
+    synchronize:
+      mode: pull
+      src: /home/pi/rppmcontroller_current_setup/
+      dest: ../../config/RevPi01/python
+      rsync_opts:
+        - "--exclude=RevPi_Controller.log"
       recursive: true
       delete: true  # 'true' to delete files not in the source

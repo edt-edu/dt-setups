@@ -1,0 +1,85 @@
+
+ifdef::included_in_readme[]
+:imagesdir: docs/generated/img
+endif::included_in_readme[]
+ifndef::included_in_readme[]
+:imagesdir: generated/img
+endif::included_in_readme[]
+
+
+## Setup description
+
+This setup uses:
+
+* 1 PLC 
+* 1 DIO
+* 1 VGR
+* 1 Server 
+** the factory scada 
+** MQTT broker
+** camera support
+
+Typical use: 
+
+* send move commands to the VGR machine
+
+
+.REN_1V_01_machines_config 2D map  
+[#img-REN_1V_01_machines_config,link=https://git.rwth-aachen.de/mbdo/mbdo-impl/-/tree/master/REN_Setups/REN_1V_01/docs/resources]
+image::REN_1V_01_machines_config.svg[REN_1V_01_machines_config,200,100] 
+
+
+.ffd  dsd
+[mermaid]
+----
+C4Context
+      title Physical overview for REN_1V_01
+      
+      Boundary(b_sofware, "Software") {
+        
+
+        Boundary(b_services, "Server Services") {
+        
+            Component(mqtt, "MQTT broker", "")
+            Component(scada, "SCADA", "")
+            Component(camera, "Camera", "")
+
+        }
+
+        Component(mbdoRouter, "mbdo-router", "")
+        Boundary(b_network, "Computationnal Resources", "") {
+            Component(mbdoPLC01, "plc-01 (RevPi103156.local)", "")
+            Component(mbdoServer, "mbdo-server", "")
+
+        }
+
+      }
+
+      Boundary(b_mechanical, "Mechanical") {
+        
+        Component(vgr1, "VacuumGripper01", "")
+
+      }
+      
+      
+      BiRel(mbdoServer, mbdoRouter, "eth")
+      BiRel(mbdoPLC01, mbdoRouter, "eth")
+
+      Rel(mbdoServer, mqtt, "docker")
+      Rel(mbdoServer, camera, "host")
+      Rel(mbdoServer, scada, "docker")
+
+      BiRel(mbdoPLC01, vgr1, "dio1")
+
+
+      UpdateElementStyle(vgr1, $fontColor="black", $bgColor="lightgreen", $borderColor="black")
+      
+      UpdateRelStyle(intDeveloper, mbdoRouter, $textColor="blue", $lineColor="blue", $offsetX="5")
+      UpdateRelStyle(mbdoPLC01, vgr1,  $lineColor="green", $offsetX="10")
+      UpdateRelStyle(mbdoServer, mbdoRouter,  $offsetY="70")
+
+ 
+      UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="2")
+  
+----
+
