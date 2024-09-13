@@ -1,0 +1,49 @@
+@startuml
+activate Orchestrator
+activate PLC
+activate VGR
+activate Environment
+
+Orchestrator -> PLC : Send Setup command
+PLC -> PLC : store setup() as current Command
+
+Environment -> VGR:  none of the engines (up, retract, rotate) are positionned on their reference switch
+PLC --> VGR : ReadPinValues()
+PLC -> PLC : prepare engine values: \nengine up pin to true; \nengine retract pin to true; \nengine rotate pin to true
+PLC --> VGR : WritePinValues()
+PLC -> Orchestrator : machine is IN_ACTION
+loop
+PLC --> VGR : ReadPinValues()
+PLC -> PLC : prepare engine values: \nengine up pin to true; \nengine retract pin to true; \nengine rotate pin to true
+PLC --> VGR : WritePinValues()
+
+end
+
+Environment -> VGR:  up engine touches the switch
+loop
+PLC --> VGR : ReadPinValues()
+PLC -> PLC : prepare engine values: \nengine up pin to false; \nengine retract pin to true; \nengine rotate pin to true
+PLC --> VGR : WritePinValues()
+PLC -> PLC : reset up engine encoder (ie. assign  0)
+end
+
+Environment -> VGR:  rotate engine touches the switch
+loop
+PLC --> VGR : ReadPinValues()
+PLC -> PLC : prepare engine values: \nengine up pin to false; \nengine retract pin to true; \nengine rotate pin to false
+PLC --> VGR : WritePinValues()
+PLC -> PLC : reset rotate engine encoder (ie. assign  0)
+end
+
+Environment -> VGR:  retract engine touches the switch
+
+PLC --> VGR : ReadPinValues()
+PLC -> PLC : prepare engine values: \nengine up pin to false; \nengine retract pin to false; \nengine rotate pin to false
+
+PLC -> PLC : remove setup() function from current Command
+PLC --> VGR : WritePinValues()
+PLC -> PLC : reset retract engine encoder (ie. assign  0)
+PLC -> Orchestrator : machine is STOPPED
+
+
+@enduml
