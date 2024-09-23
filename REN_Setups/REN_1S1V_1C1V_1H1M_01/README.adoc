@@ -1,0 +1,114 @@
+
+
+
+// used to detect if the document is included in master
+:included_in_readme: true
+
+
+# REN_1S1V_1C1V_1H1M_01 setup
+
+This folder contains the configuration files and deployment script of the REN_1S1V_1C1V_1H1M_01 Setup
+
+
+include::docs/setup_description.adoc[]
+
+
+
+## Deployment scripts
+
+The `ansible` folder contains the playbooks used to deploy the setup on the Rennes platform
+
+
+
+### Deploy and start instructions
+
+
+mosquitto
+```sh
+cd REN_shared/ansible
+ansible-playbook playbooks/push_server_config.yml
+```
+
+```
+ssh mbdo-admin@mbdo-server.local
+cd ~/mbdo/mosquitto
+sudo docker compose up -d
+```
+
+controllers and factoryscada
+```sh
+cd ansible
+ansible-playbook playbooks/push_plcs_code.yml
+ansible-playbook playbooks/push_server_config.yml
+```
+
+
+PLC1
+```
+ssh pi@RevPi103156.local
+cd ~/rppmcontroller_current_setup
+python3 RevPi_Controller.py 
+```
+
+PLC2
+```
+ssh pi@RevPi103259.local
+cd ~/rppmcontroller_current_setup
+python3 RevPi_Controller.py 
+```
+
+PLC3
+```
+ssh pi@RevPi103228.local
+cd ~/rppmcontroller_current_setup
+python3 RevPi_Controller.py 
+```
+
+
+```
+ssh mbdo-admin@mbdo-server.local
+cd ~/mbdo/factoryscada
+sudo docker compose pull
+sudo docker compose up 
+```
+
+#### useful commands:
+
+Connection allowing x display and ssh agent forwarding
+```
+ssh -X -A mbdo-admin@mbdo.inria.fr
+export XAUTHORITY=$HOME/.Xauthority
+```
+
+see the factoryscada logs (useful if docker compse is launched  with `-d` option)
+```
+sudo docker logs scada-backend
+```
+
+see socket connection (in order to kill thread that haven't properly been closed)
+```
+netstat -tulnap
+```
+
+### Interaction with the platform
+
+(requires to be connected to the same network, or run on the server)
+
+- SCADA web page http://mbdo-server.local:9080
+- Camera webpage http://mbdo-server.local:8080
+
+
+## Configuration files
+
+The `config` folder contains the setup specific configuration files
+
+NOTE: some shared configuration files are located in `REN_shared` (ex: mqtt-broker, hosts.yml, ...)
+
+## 🚧 TODO (unsorted)
+
+- [ ] manual dev start setup instructions
+- [ ] playbook based  start setup instructions
+- [ ] playbook enabled MQTT start
+- [ ] playbook enabled factoryscada start
+- [ ] usage instructions (mqtt explorer, rppmorchestrator/ factoryscada)
+- [ ] playbook enabled all-in-one start

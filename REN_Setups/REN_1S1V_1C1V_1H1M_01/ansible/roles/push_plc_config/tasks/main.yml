@@ -1,6 +1,6 @@
 
 - name: Push rppmcontroller library folder
-  synchronize:
+  ansible.builtin.synchronize:
     src: ../../../../rppmcontroller/
     dest: /home/pi/rppmcontroller
     use_ssh_args: yes # required to enable jump ansible_host
@@ -13,7 +13,7 @@
     - Pip install rppmcontroller library
 
 - name: Push config to rppmcontroller_current_setup folder
-  synchronize:
+  ansible.builtin.synchronize:
     #src: "{{ python_config_folder_path }}"
     src: ../../config/{{ inventory_hostname }}/python/
     dest: /home/pi/rppmcontroller_current_setup
