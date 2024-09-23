@@ -1,0 +1,80 @@
+
+
+Sysml V2 design of the VGRSystem in the context of REN_1V_01  setup.
+
+**VGRSystem** is composed of the Vacuum Gripper Robot and a controller (PLC) (to be compared to the FactorySystem that also contains the SCADA server, etc)
+
+We try to use  using a top down decomposition approach ?
+
+(should be compared to a bottom up composition approach, cf. notes.adoc)
+
+
+Package structure
+
+* Top-Level Package
+** Conceptual Level
+*** System Requirements 
+*** System Behavior
+*** System Structure
+*** Conceptual Views and Viewpoints: Organizes different perspectives of the system, such as operational views
+** Logical Level
+*** Hardware Domain
+**** Subsystem Requirements
+**** Subsystem Behavior
+**** Subsystem Structure
+*** Software Domain
+**** Subsystem Requirements
+**** Subsystem Behavior
+**** Subsystem Structure
+**** Subsystem Views and Viewpoints
+*** Mechanical Domain
+**** Subsystem Requirements
+**** Subsystem Behavior
+**** Subsystem Structure
+**** Subsystem Views and Viewpoints
+*** Electrical Domain
+**** Subsystem Requirements
+**** Subsystem Behavior
+**** Subsystem Structure
+**** Subsystem Views and Viewpoints
+*** Logical Views and Viewpoints: Organizes different perspectives of the subsystems
+** Physical Level
+*** Hardware Domain
+**** Component Requirements
+**** Component Behavior
+**** Component Structure
+***** Physical Components: Microcontrollers, sensors, actuators, power supplies.
+PCBs: Layouts and designs of printed circuit boards.
+Cooling and Thermal Management: Heat sinks, fans, thermal pads.
+Prototyping and Testing Hardware: Test jigs, fixtures, prototyping boards.
+*** Software Domain
+**** Component Requirements
+**** Component Behavior
+**** Component Structure
+***** Classes and Objects: Definitions of software classes and objects.
+Interfaces: Specifications of software interfaces.
+Data Models: Data structures and relationships.
+Algorithms: Detailed descriptions of algorithms and logic.
+State Machines: State diagrams for software components.
+*** Mechanical Domain
+**** Component Requirements
+**** Component Behavior
+**** Component Structure
+***** Mechanical Parts: Definitions of mechanical parts and assemblies.
+Joints and Connections: Specifications of joints, connections, and interfaces.
+Materials: Information on materials used for mechanical parts.
+Dimensions and Tolerances: Detailed dimensions and tolerances for parts.
+Kinematics: Descriptions of motion and mechanical interactions.
+Thermal Properties: Thermal characteristics and heat management.
+*** Electrical Domain
+**** Component Requirements
+**** Component Behavior
+**** Component Structure
+***** Electrical Connections: Pin connections, wiring, cables.
+Connectors: Types and specifications of connectors.
+Circuit Design: Schematics and diagrams of electrical circuits.
+Power Distribution: Power supply circuits, voltage regulation.
+Communication Interfaces: Electrical aspects of communication modules (e.g., Wi-Fi, Bluetooth).
+*** Physical Views and Viewpoints: Organizes different perspectives of the components
+
+

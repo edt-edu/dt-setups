@@ -1,0 +1,106 @@
+@startuml
+activate Orchestrator
+activate PLC
+activate VGR
+activate Environment
+
+Orchestrator -> PLC : Send Move command
+
+Note right : machine is initialized (ie. setup has been run)
+ 
+PLC -> PLC : store move() as current Command
+PLC --> VGR : ReadPinValues()
+
+PLC -> PLC : prepare target configurations plan 
+Note right : 12 configurations in the MOVE command
+PLC -> PLC : pick first configuration - > currentTargetConfiguration
+
+Environment -> VGR:  currentTargetConfiguration.x != x (tolerance 20)  ;\n currentTargetConfiguration.y != y (tolerance 20);\n currentTargetConfiguration.z != z (tolerance 20);  
+
+PLC -> PLC : prepare engine values: \nengine up or down pin to true; \nengine retract or extend pin to true; \nengine rotate clockwise or counter clockwise pin to true
+
+
+
+
+PLC --> VGR : WritePinValues()
+PLC -> Orchestrator : machine is IN_ACTION
+
+
+loop
+PLC --> VGR : ReadPinValues()
+PLC -> PLC : prepare  values: \nengine up or down pin to true; \nengine retract or extend pin to true; \nengine rotate clockwise or counter clockwise pin to true; \ncompressorAndValve pins := currentTargetConfiguration.compressorAndValve
+PLC --> VGR : WritePinValues()
+
+end
+
+Environment -> VGR:  currentTargetConfiguration.x ~= x (tolerance 20)
+loop
+PLC --> VGR : ReadPinValues()
+PLC -> PLC : prepare values: \nengine up or down pin to true; \nengine retract or extend pin to false; \nengine rotate clockwise or counter clockwise pin to true \ncompressorAndValve  pins := currentTargetConfiguration.compressorAndValve
+PLC --> VGR : WritePinValues()
+end
+
+Environment -> VGR:  currentTargetConfiguration.y ~= y (tolerance 20)
+loop
+PLC --> VGR : ReadPinValues()
+PLC -> PLC : prepare  values: \nengine up or down pin to true; \nengine retract or extend pin to false; \nengine rotate clockwise or counter clockwise pin to false \ncompressorAndValve pins := currentTargetConfiguration.compressorAndValve
+PLC --> VGR : WritePinValues()
+end
+
+Environment -> VGR:  currentTargetConfiguration.z ~= z (tolerance 20)
+PLC --> VGR : ReadPinValues()
+PLC -> PLC : prepare  values: \nengine up or down pin to false; \nengine retract or extend pin to false; \nengine rotate clockwise or counter clockwise pin to false \ncompressorAndValve pins := currentTargetConfiguration.compressorAndValve
+
+
+loop while current command has configuration in its stack
+
+	PLC -> PLC : pick next target configuration
+	PLC --> VGR : WritePinValues()
+	
+	
+	
+	
+	
+	Environment -> VGR:  currentTargetConfiguration.x != x (tolerance 20)  ;\n currentTargetConfiguration.y != y (tolerance 20);\n currentTargetConfiguration.z != z (tolerance 20); 
+	
+	PLC -> PLC : prepare  values: \nengine up or down pin to true; \nengine retract or extend pin to true; \nengine rotate clockwise or counter clockwise pin to true\ncompressorAndValve pins := currentTargetConfiguration.compressorAndValve
+	
+	
+	
+	
+	PLC --> VGR : WritePinValues()
+	
+	
+	loop
+	PLC --> VGR : ReadPinValues()
+	PLC -> PLC : prepare engine values: \nengine up or down pin to true; \nengine retract or extend pin to true; \nengine rotate clockwise or counter clockwise pin to true\ncompressorAndValve pins := currentTargetConfiguration.compressorAndValve
+	PLC --> VGR : WritePinValues()
+	
+	end
+	
+	Environment -> VGR:  currentTargetConfiguration.x ~= x (tolerance 20)
+	loop
+	PLC --> VGR : ReadPinValues()
+	PLC -> PLC : prepare engine values: \nengine up or down pin to true; \nengine retract or extend pin to false; \nengine rotate clockwise or counter clockwise pin to true\ncompressorAndValve pins := currentTargetConfiguration.compressorAndValve
+	PLC --> VGR : WritePinValues()
+	end
+	
+	Environment -> VGR:  currentTargetConfiguration.y ~= y (tolerance 20)
+	loop
+	PLC --> VGR : ReadPinValues()
+	PLC -> PLC : prepare engine values: \nengine up or down pin to true; \nengine retract or extend pin to false; \nengine rotate clockwise or counter clockwise pin to false\ncompressorAndValve pins := currentTargetConfiguration.compressorAndValve
+	PLC --> VGR : WritePinValues()
+	end
+	
+	Environment -> VGR:  currentTargetConfiguration.z ~= z (tolerance 20)
+	PLC --> VGR : ReadPinValues()
+	PLC -> PLC : prepare engine values: \nengine up or down pin to false; \nengine retract or extend pin to false; \nengine rotate clockwise or counter clockwise pin to false\ncompressorAndValve pins := currentTargetConfiguration.compressorAndValve
+	
+	PLC -> PLC : pick next target configuration 
+	PLC --> VGR : WritePinValues()
+	
+END
+PLC -> Orchestrator : machine is STOPPED
+
+
+@enduml
