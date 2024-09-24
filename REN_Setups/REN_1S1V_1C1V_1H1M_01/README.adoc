@@ -37,8 +37,8 @@ sudo docker compose up -d
 
 controllers and factoryscada
 ```sh
-cd ansible
-ansible-playbook playbooks/push_plcs_code.yml
+cd REN_1S1V_1C1V_1H1M_01/ansible
+ansible-playbook playbooks/push_plcs_config.yml
 ansible-playbook playbooks/push_server_config.yml
 ```
 
@@ -96,6 +96,7 @@ netstat -tulnap
 
 - SCADA web page http://mbdo-server.local:9080
 - Camera webpage http://mbdo-server.local:8080
+- MQTT:  using MQTT Explorer : http://mbdo-server.local:1883
 
 
 ## Configuration files
