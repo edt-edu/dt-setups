@@ -5,9 +5,9 @@
 :included_in_readme: true
 
 
-# REN_1V_01 setup
+# REN_1S1V_1C1V_1H1M_01 setup
 
-This folder contains the configuration files and deployment script of the REN_1V_01 Setup
+This folder contains the configuration files and deployment script of the REN_1S1V_1C1V_1H1M_01 Setup
 
 
 include::docs/setup_description.adoc[]
@@ -20,7 +20,7 @@ The `ansible` folder contains the playbooks used to deploy the setup on the Renn
 
 
 
-### Deploy instructions
+### Deploy and start instructions
 
 
 mosquitto
@@ -37,16 +37,33 @@ sudo docker compose up -d
 
 controllers and factoryscada
 ```sh
-cd REN_1V_01/ansible
-ansible-playbook playbooks/push_plcs_code.yml
+cd REN_1S1V_1C1V_1H1M_01/ansible
+ansible-playbook playbooks/push_plcs_config.yml
 ansible-playbook playbooks/push_server_config.yml
 ```
 
+
+PLC1
 ```
 ssh pi@RevPi103156.local
 cd ~/rppmcontroller_current_setup
 python3 RevPi_Controller.py 
 ```
+
+PLC2
+```
+ssh pi@RevPi103259.local
+cd ~/rppmcontroller_current_setup
+python3 RevPi_Controller.py 
+```
+
+PLC3
+```
+ssh pi@RevPi103228.local
+cd ~/rppmcontroller_current_setup
+python3 RevPi_Controller.py 
+```
+
 
 ```
 ssh mbdo-admin@mbdo-server.local
@@ -92,8 +109,6 @@ NOTE: some shared configuration files are located in `REN_shared` (ex: mqtt-brok
 
 - [ ] manual dev start setup instructions
 - [ ] playbook based  start setup instructions
-- [x] rppmcontroller setup specifc entrypoint + deploy playbook (including mqtt broadcast)
-- [x] factory scada front end installation (docker-compose/playbook)
 - [ ] playbook enabled MQTT start
 - [ ] playbook enabled factoryscada start
 - [ ] usage instructions (mqtt explorer, rppmorchestrator/ factoryscada)

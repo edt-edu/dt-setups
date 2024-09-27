@@ -24,12 +24,12 @@ Typical use:
 * send move commands to the VGR machine
 
 
-.REN_1V_01_machines_config 2D map  
+.REN_1V_01_machines_config 2D map (with highlight of reachable zones)
 [#img-REN_1V_01_machines_config,link=https://git.rwth-aachen.de/mbdo/mbdo-impl/-/tree/master/REN_Setups/REN_1V_01/docs/resources]
 image::REN_1V_01_machines_config.svg[REN_1V_01_machines_config,200,100] 
 
+IMPORTANT: This description doesn't state what is part of the system or part of its environment. This is up to the design model to clearly  separate the considered system and its environment. We may produce different system twins based on this setup description.
 
-.ffd  dsd
 [mermaid]
 ----
 C4Context

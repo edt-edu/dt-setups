@@ -1,0 +1,10 @@
+---
+
+## example of use:
+# ansible-playbook  playbooks/push_plcs_code.yml 
+
+- name: Push PLCs config
+  hosts: plcs
+  
+  roles:
+    - push_plc_config
