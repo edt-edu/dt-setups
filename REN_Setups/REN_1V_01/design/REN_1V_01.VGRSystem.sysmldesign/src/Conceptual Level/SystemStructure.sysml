@@ -24,10 +24,14 @@ package REN_1V_01_VGRSystemModel {
 					// ----------
 					//attribute gripperPosition:>ISQSpaceTime::universalCartesianSpatial3dCoordinateFrame;
 					attribute gripperPosition : SignalDefinitions::GripperStatus;
+					attribute isGripping : Boolean;
 					
+					
+					//  introduced for implementing behavior (TODO move to private or add tag or move to a runtime object?)
 					attribute currentCommandKind : AttributeDefinitions::CommandKind;
+					ref item  currentMoveCommandRTD : RuntimeSupportDefinitions::MoveCommandRTD; 
 					attribute currentCommandFinished : Boolean;
-					attribute currentCommandConditionReached : Boolean;
+					//attribute currentCommandConditionReached : Boolean;
 					
 					
 					// ports
@@ -39,8 +43,13 @@ package REN_1V_01_VGRSystemModel {
 					perform action provideLogService;
 					perform action applyCurrentCmdTarget : ApplyCurrentCmdTarget;
 					perform action changeCurrentCommandToMove {
+						assign currentCommandFinished :=  false;
 						assign currentCommandKind :=  AttributeDefinitions::CommandKind::Move;
 					} 
+					perform action changeCurrentCommandToStop {
+						assign currentCommandKind :=  null;
+						assign currentCommandFinished :=  true;
+					}
 					//perform action performTokenMove : MoveToken;
 					// perform action performStopAction : StopAction;
 					
@@ -54,7 +63,7 @@ package REN_1V_01_VGRSystemModel {
 		                	entry;
 		                	then
 		                	state applyingCurrentCmdTarget {
-		                		state ff;	
+		                		do applyCurrentCmdTarget;	
 		                	}
 		                	// force evaluation of the state/allow interruption 
 		                	transition 'continue'
@@ -71,6 +80,7 @@ package REN_1V_01_VGRSystemModel {
 		                transition 'stopped-in_action'
 		                    first stopped
 		                    accept moveCmdMsg:MoveCmdMsg via actionCmdPort
+		                    do changeCurrentCommandToMove
 		                    then in_action;
 		                transition 'stopped-stopped'
 		                    first stopped
@@ -107,17 +117,58 @@ package REN_1V_01_VGRSystemModel {
 				// or should remain abstract at this level
 				//part def TokenPosition;  
 				
-				action def ApplyCurrentCmdTarget {
+				action def ApplyMoveTarget {
+					import RuntimeSupportDefinitions::*;
+					in system : VGRSystem;
+					first start;
 					
+					then decide; 
+						// a kind of steatemachine would have been nicer , but don't know it this is legal in action def'
+						if (system.currentMoveCommandRTD.currentMoveCmdStep == MoveCmdStep::NeedPick) then needPick;
+						if (system.currentMoveCommandRTD.currentMoveCmdStep == MoveCmdStep::Pick) then pick;
+						if (system.currentMoveCommandRTD.currentMoveCmdStep == MoveCmdStep::Place) then place;
+						if (system.currentMoveCommandRTD.currentMoveCmdStep == MoveCmdStep::Placed) then placed;
+						else done;
+					
+					action needPick  {
+						assign system.gripperPosition.abstractPos :=  system.currentMoveCommandRTD.moveCommandMsg.pickupPosition.abstractPos;
+						assign system.isGripping := false;
+						assign system.currentMoveCommandRTD.currentMoveCmdStep := MoveCmdStep::Pick;
+					}
+					then done;
+					action pick  {
+						assign system.gripperPosition.abstractPos :=  system.currentMoveCommandRTD.moveCommandMsg.pickupPosition.abstractPos;
+						assign system.isGripping := true;
+						assign system.currentMoveCommandRTD.currentMoveCmdStep := MoveCmdStep::Place;
+					}
+					then done;
+					action place  {
+						assign system.gripperPosition.abstractPos :=  system.currentMoveCommandRTD.moveCommandMsg.dropPosition.abstractPos;
+						assign system.isGripping := true;
+						assign system.currentMoveCommandRTD.currentMoveCmdStep := MoveCmdStep::Placed;
+					}
+					then done;
+					action placed  {
+						assign system.gripperPosition.abstractPos :=  system.currentMoveCommandRTD.moveCommandMsg.dropPosition.abstractPos;
+						assign system.isGripping := false;
+						assign system.currentMoveCommandRTD.currentMoveCmdStep := MoveCmdStep::Done;
+						assign system.currentCommandFinished := true;
+					}
+					then done; 
 				}
-				
-				/*action def MoveToken {
-					in moveCmdParam : SignalDefinitions::MoveCmdMsg;
-					//in dropPosition : TokenPosition;
+				action def ApplyCurrentCmdTarget {
+					in system : VGRSystem;
+					first start;
+					
+					then decide;
+						if (system.currentCommandKind ==  AttributeDefinitions::CommandKind::Move) then applyMoveTarget;
+						else done;		
+								
+					action applyMoveTarget : ApplyMoveTarget {}
+						
+					then done;
 				}
-				action def StopAction {
-					in stopCmdParam : SignalDefinitions::StopCmdMsg;
-				}*/
+			
 			}
 			package PortDefinitions{
 				port def PowerSwitchCmdPort;
@@ -142,6 +193,7 @@ package REN_1V_01_VGRSystemModel {
 	            	 * discussion: should we use a standard coordinate system such as ISQSpaceTime::universalCartesianSpatial3dCoordinateFrame
 	            	 * or use robot relative coordinate (angles, etc) or encoder based (as sent in the current command  )
 	            	 */
+	            	 attribute abstractPos : Positive;
 	            }
 	            attribute def GripperStatus :> GripperRelativePosition {
 	            	doc /* Position and status (succion active/inactive) of the gripper
@@ -154,6 +206,22 @@ package REN_1V_01_VGRSystemModel {
 	        		Move;
 	        		Pick;
 	        		Place;
+	        	}
+	        }
+	        
+	        package RuntimeSupportDefinitions {
+	        	/* package for parts introduced only to implement behvior in the  design */
+	        	import PartDefinitions::*;
+	        	enum def MoveCmdStep {
+	        		NeedPick;
+	        		Pick;
+	        		Place;
+	        		Placed;
+	        		Done;
+	        	}
+	        	part def MoveCommandRTD {
+	        		ref item  moveCommandMsg : MoveCmdMsg;
+	        		attribute currentMoveCmdStep : MoveCmdStep := MoveCmdStep::NeedPick ;
 	        	}
 	        }
 		}
