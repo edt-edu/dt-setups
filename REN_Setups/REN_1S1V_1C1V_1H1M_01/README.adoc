@@ -46,6 +46,10 @@ ansible-playbook playbooks/push_server_config.yml
 PLC1
 ```
 ssh pi@RevPi103156.local
+
+```
+
+```
 cd ~/rppmcontroller_current_setup
 python3 RevPi_Controller.py 
 ```
@@ -53,6 +57,10 @@ python3 RevPi_Controller.py
 PLC2
 ```
 ssh pi@RevPi103259.local
+
+```
+
+```
 cd ~/rppmcontroller_current_setup
 python3 RevPi_Controller.py 
 ```
@@ -60,6 +68,10 @@ python3 RevPi_Controller.py
 PLC3
 ```
 ssh pi@RevPi103228.local
+
+```
+
+```
 cd ~/rppmcontroller_current_setup
 python3 RevPi_Controller.py 
 ```
