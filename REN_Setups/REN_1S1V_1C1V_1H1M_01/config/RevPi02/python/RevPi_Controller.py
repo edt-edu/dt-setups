@@ -53,7 +53,7 @@ class RevPi_Controller(RevPiPyModIOMachineController):
         #______CB______
         self.updateValueRead("ConveyorBelt",1,"conveyorSensFeed","dio4_I_1","LightBarrierFeedStation")
         self.updateValueRead("ConveyorBelt",1,"conveyorSensSwap","dio4_I_2","LightBarrierSwapStation")
-        self.updateValueRead("ConveyorBelt",1,"conveyorSensImpulse","dio4_I_3","PulseCounter")
+        self.updateValueRead("ConveyorBelt",1,"conveyorSensImpulse","dio4_Counter_3","PulseCounter",Type.POSITIVEINT32)
 
         
     def write(self):

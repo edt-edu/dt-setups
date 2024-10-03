@@ -1,0 +1,3 @@
+;; command: ssh pi@RevPi103156.local
+;; command: ssh pi@RevPi103259.local
+;; command: ssh pi@RevPi103228.local
