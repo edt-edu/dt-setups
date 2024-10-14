@@ -11,4 +11,4 @@ connection:
   connectionListening: "controller"
 
 controller:
-  mainLoopDelay: 0.25
+  mainLoopDelay: 0.15
