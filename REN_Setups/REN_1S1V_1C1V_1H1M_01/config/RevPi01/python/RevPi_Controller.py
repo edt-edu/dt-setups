@@ -51,7 +51,7 @@ class RevPi_Controller(RevPiPyModIOMachineController):
         self.updateValueRead("VacuumGripper",0,"vacuumSensRotEncoderCounter","dio1_Counter_9","RotateStep",Type.NEGATIVEINT32)
 
         #______SL______
-        self.updateValueRead("SortingLine",1,"sortingLineSensImpulseCounterRaw","dio2_I_1","PulseCounter")
+        self.updateValueRead("SortingLine",1,"sortingLineSensImpulseCounterRaw","dio2_Counter_1","PulseCounter")
         self.updateValueRead("SortingLine",1,"sortingLineSensInputLightBarrier","dio2_I_2","LightBarrierInlet")
         self.updateValueRead("SortingLine",1,"sortingLineSensMiddleLightBarrier","dio2_I_3","LightBarrierBehindColorSensor")
         self.updateValueRead("SortingLine",1,"sortingLineSensWhiteLightBarrier","dio2_I_5","LightBarrierWhite")
