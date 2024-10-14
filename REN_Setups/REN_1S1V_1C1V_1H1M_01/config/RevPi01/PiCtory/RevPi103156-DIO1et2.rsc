@@ -19,7 +19,7 @@
                   "east" : {
                      "initClosed" : false,
                      "initHidden" : false,
-                     "size" : 500
+                     "size" : 1011
                   }
                }
             },
@@ -37,7 +37,7 @@
          }
       },
       "name" : "PiCtory",
-      "saveTS" : "20240703125537",
+      "saveTS" : "20241011155706",
       "version" : "2.0.7"
    },
    "Connections" : [],
@@ -394,7 +394,7 @@
          "mem" : {
             "0" : [
                "dio2_InputMode_1",
-               "0",
+               "1",
                "8",
                "88",
                false,
