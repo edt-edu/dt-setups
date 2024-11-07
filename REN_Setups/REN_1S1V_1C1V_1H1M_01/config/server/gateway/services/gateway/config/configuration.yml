@@ -1,0 +1,73 @@
+# GatewayConfiguration
+
+configuration:
+  name: "GatewayConfiguration"
+  # mqttSourceBrokerUrl: tcp://host.docker.internal:1883
+  # mqttTargetBrokerUrl: tcp://host.docker.internal:1883
+  mqttSourceBrokerUrl: tcp://host.docker.internal:1883
+  mqttTargetBrokerUrl: tcp://host.docker.internal:1883
+  
+  mqttInfluxdbRecordings: # MQTT to influxdb TimeSeries
+  # define measures that should be collected in time series DB
+    - name: "Physical Twin VGR1"
+      mqttSourceTopic: "PLC/PLC01/VacuumGripper/VacuumGripper01/#"
+      dataProcess: extract-json-value # json containing a primitive value field (othewise use "raw" or "extract-json-value-json-timestamp")
+      timeProcess: extract-json-timestamp  #  use time extracted from json timestamp field (otherwise use system time)
+    # - name: "Physical Twin SL1
+    #   mqttSourceTopic: "PLC/PLC01/SortingLine/SortingLine01/#"
+    #   data-kind: json-value-timestamp # json containing a primitive value and a timestamp
+    - name: "Digital Twin VGR1"
+      mqttSourceTopic: "gateway/REN_1V_01_VGRSystemModel/#"
+      dataProcess: extract-json-value # json containing a primitive value field (othewise use "raw")
+      timeProcess: extract-json-timestamp  #  use time extracted from json timestamp field (otherwise use system time)
+
+  dtEventGroups:
+  # define measures that should be forwarded to DT, use group to organize sources or when the processing is different
+    - name: "REN_1V_01_VGRSystemModel/input"
+      dataTransformation: clone # copy the data
+      mqttSourcePrefix: "PLC/LocalDevPLC/VacuumGripper/VacuumGripper01/input/"
+      mqttTargetPrefix: "gateway/"
+      dtEvents:
+        # map name of the data in the DT model and in the PT measure, mqttTargetTopic must match an element in the DT model 
+        - mqttSourceTopic: "vacuumSensVerticalEncoderCounter"
+          mqttTargetTopic: "REN_1V_01_VGRSystemModel/vacuumSensVerticalEncoderCounter"          
+        - mqttSourceTopic: "vacuumSensRotEncoderCounter"
+          mqttTargetTopic: "REN_1V_01_VGRSystemModel/vacuumSensRotEncoderCounter"
+        - mqttSourceTopic: "vacuumSensArmEncoderCounter"
+          mqttTargetTopic: "REN_1V_01_VGRSystemModel/vacuumSensArmEncoderCounter"
+        - mqttSourceTopic: "vacuumSensVerticalEndUp"
+          mqttTargetTopic: "REN_1V_01_VGRSystemModel/vacuumSensVerticalEndUp"
+        - mqttSourceTopic: "vacuumSensRotEnd"
+          mqttTargetTopic: "REN_1V_01_VGRSystemModel/vacuumSensRotEnd"
+        - mqttSourceTopic: "vacuumSensArmEndIn"
+          mqttTargetTopic: "REN_1V_01_VGRSystemModel/vacuumSensArmEndIn"
+    - name: "REN_1V_01_VGRSystemModel/output"
+      dataTransformation: clone # copy the data
+      mqttSourcePrefix: "PLC/LocalDevPLC/VacuumGripper/VacuumGripper01/output/"
+      mqttTargetPrefix: "gateway/"
+      dtEvents:
+        - mqttSourceTopic: "vacuumActVerticalUp"
+          mqttTargetTopic: "REN_1V_01_VGRSystemModel/vacuumActVerticalUp"          
+        - mqttSourceTopic: "vacuumActVerticalDown"
+          mqttTargetTopic: "REN_1V_01_VGRSystemModel/vacuumActVerticalDown"
+        - mqttSourceTopic: "vacuumActRotRight"
+          mqttTargetTopic: "REN_1V_01_VGRSystemModel/vacuumActRotRight"
+        - mqttSourceTopic: "vacuumActRotLeft"
+          mqttTargetTopic: "REN_1V_01_VGRSystemModel/vacuumActRotLeft"
+        - mqttSourceTopic: "vacuumActArmOut"
+          mqttTargetTopic: "REN_1V_01_VGRSystemModel/vacuumActArmOut"
+        - mqttSourceTopic: "vacuumActArmIn"
+          mqttTargetTopic: "REN_1V_01_VGRSystemModel/vacuumActArmIn"
+        - mqttSourceTopic: "vacuumActCompressorOn"
+          mqttTargetTopic: "REN_1V_01_VGRSystemModel/vacuumActCompressorOn"
+        - mqttSourceTopic: "vacuumActValve"
+          mqttTargetTopic: "REN_1V_01_VGRSystemModel/vacuumActValve"
+    - name: "REN_1V_01_VGRSystemModel/internal"
+      dataTransformation: clone # copy the data
+      mqttSourcePrefix: "PLC/LocalDevPLC/VacuumGripper/VacuumGripper01/internal/"
+      mqttTargetPrefix: "gateway/"
+      dtEvents:
+        - mqttSourceTopic: "isExecuting"
+          mqttTargetTopic: "REN_1V_01_VGRSystemModel/isExecuting"          
+        
+        
