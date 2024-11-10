@@ -59,6 +59,8 @@ services:
       #- ./grafana/data:/var/lib/grafana
       - ./services/grafana/config:/etc/grafana
       - ./services/grafana/log:/var/log/grafana
+    extra_hosts:
+      - "host.docker.internal:host-gateway"  # enable access to host via "host.docker.internal" url
     restart: unless-stopped
 secrets:
     # on real system, the secrets should not be part of the config
