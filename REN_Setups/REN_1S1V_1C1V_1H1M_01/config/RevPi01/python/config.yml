@@ -1,6 +1,8 @@
 
 # Configuration for VacuumGripperController
 ---
+plc:
+  id: "RevPi01"
 connection:
   # if host is commented, will default to "<hostname>.local"
   # host: "localhost"
@@ -12,3 +14,8 @@ connection:
 
 controller:
   mainLoopDelay: 0.15
+
+mqtt:
+  server: "mbdo-server.local"
+  port: 1883
+  keepalive: 60

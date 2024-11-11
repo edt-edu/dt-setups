@@ -41,43 +41,41 @@ class RevPi_Controller(RevPiPyModIOMachineController):
         assert self.rpi.io is not None
 
         #_____VGR______
-        self.updateValueRead("VacuumGripper",0,"vacuumSensVerticalEndUp","dio1_I_1","ReferenceSwitchVerticalAxis")
-        self.updateValueRead("VacuumGripper",0,"vacuumSensArmEndIn","dio1_I_2","ReferenceSwitchHorizontalAxis")
-        self.updateValueRead("VacuumGripper",0,"vacuumSensRotEnd","dio1_I_3","ReferenceSwitchRotate")
-        # use signed int32 to deal with possible negative values of the encoders
-        self.updateValueRead("VacuumGripper",0,"vacuumSensVerticalEncoderCounter","dio1_Counter_5","VerticalAxisStep",Type.POSITIVEINT32)
-        self.updateValueRead("VacuumGripper",0,"vacuumSensArmEncoderCounter","dio1_Counter_7","HorizontalAxisStep",Type.POSITIVEINT32)
+        self.vacuumGripperMachine.vacuumSensVerticalEndUp = self.rpi.io.dio1_I_1
+        self.vacuumGripperMachine.vacuumSensArmEndIn = self.rpi.io.dio1_I_2
+        self.vacuumGripperMachine.vacuumSensRotEnd = self.rpi.io.dio1_I_3
+        self.vacuumGripperMachine.vacuumSensVerticalEncoderCounter = self.rpi.io.dio1_Counter_5
+        self.vacuumGripperMachine.vacuumSensArmEncoderCounter = self.rpi.io.dio1_Counter_7        
         # note: the rotation encoder counts in negative when going counterclockwise
-        self.updateValueRead("VacuumGripper",0,"vacuumSensRotEncoderCounter","dio1_Counter_9","RotateStep",Type.NEGATIVEINT32)
-
+        self.vacuumGripperMachine.vacuumSensRotEncoderCounter = -self.rpi.io.dio1_Counter_9
+        
         #______SL______
-        self.updateValueRead("SortingLine",1,"sortingLineSensImpulseCounterRaw","dio2_Counter_1","PulseCounter")
-        self.updateValueRead("SortingLine",1,"sortingLineSensInputLightBarrier","dio2_I_2","LightBarrierInlet")
-        self.updateValueRead("SortingLine",1,"sortingLineSensMiddleLightBarrier","dio2_I_3","LightBarrierBehindColorSensor")
-        self.updateValueRead("SortingLine",1,"sortingLineSensWhiteLightBarrier","dio2_I_5","LightBarrierWhite")
-        self.updateValueRead("SortingLine",1,"sortingLineSensRedLightBarrier","dio2_I_6","LightBarrierRed")
-        self.updateValueRead("SortingLine",1,"sortingLineSensBlueLightBarrier","dio2_I_7","LightBarrierBlue")
-
-
+        self.sortingLineMachine.sortingLineSensImpulseCounterRaw = self.rpi.io.dio2_Counter_1
+        self.sortingLineMachine.sortingLineSensInputLightBarrier = self.rpi.io.dio2_I_2
+        self.sortingLineMachine.sortingLineSensMiddleLightBarrier = self.rpi.io.dio2_I_3
+        self.sortingLineMachine.sortingLineSensWhiteLightBarrier = self.rpi.io.dio2_I_5
+        self.sortingLineMachine.sortingLineSensRedLightBarrier = self.rpi.io.dio2_I_6
+        self.sortingLineMachine.sortingLineSensBlueLightBarrier = self.rpi.io.dio2_I_7
+        
     def write(self):
         assert self.rpi.io is not None
 
         #_____VGR______
-        self.updateValueWrite("VacuumGripper",0,"vacuumActVerticalUp","dio1_O_1","MotorVerticalAxisUp")
-        self.updateValueWrite("VacuumGripper",0,"vacuumActVerticalDown","dio1_O_2","MotorVerticalAxisDown")
-        self.updateValueWrite("VacuumGripper",0,"vacuumActArmIn","dio1_O_3","MotorHorizontalAxisBackward")
-        self.updateValueWrite("VacuumGripper",0,"vacuumActArmOut","dio1_O_4","MotorHorizontalAxisForward")
-        self.updateValueWrite("VacuumGripper",0,"vacuumActRotRight","dio1_O_5","MotorRotateClockwise")
-        self.updateValueWrite("VacuumGripper",0,"vacuumActRotLeft","dio1_O_6","MotorRotateCounterClockwise")
-        self.updateValueWrite("VacuumGripper",0,"vacuumActCompressorOn","dio1_O_7","Compressor")
-        self.updateValueWrite("VacuumGripper",0,"vacuumActValve","dio1_O_8","ValveVacuum")
+        self.rpi.io.dio1_O_1 = self.vacuumGripperMachine.vacuumActVerticalUp
+        self.rpi.io.dio1_O_2 = self.vacuumGripperMachine.vacuumActVerticalDown
+        self.rpi.io.dio1_O_3 = self.vacuumGripperMachine.vacuumActArmIn
+        self.rpi.io.dio1_O_4 = self.vacuumGripperMachine.vacuumActArmOut
+        self.rpi.io.dio1_O_5 = self.vacuumGripperMachine.vacuumActRotRight
+        self.rpi.io.dio1_O_6 = self.vacuumGripperMachine.vacuumActRotLeft
+        self.rpi.io.dio1_O_7 = self.vacuumGripperMachine.vacuumActCompressorOn
+        self.rpi.io.dio1_O_8 = self.vacuumGripperMachine.vacuumActValve
 
         #______SL______
-        self.updateValueWrite("SortingLine",1,"sortingLineActMotorConveyor","dio2_O_1","MotorConveyorBelt")
-        self.updateValueWrite("SortingLine",1,"sortingLineActMotorConveyor","dio2_O_2","Compressor")
-        self.updateValueWrite("SortingLine",1,"sortingLineActWhiteEjector","dio2_O_3","ValveFirstEjectorWhite")
-        self.updateValueWrite("SortingLine",1,"sortingLineActRedEjector","dio2_O_4","ValveFirstEjectorRed")
-        self.updateValueWrite("SortingLine",1,"sortingLineActBlueEjector","dio2_O_5","ValveFirstEjectorBlue")
+        self.rpi.io.dio2_O_1 = self.sortingLineMachine.sortingLineActMotorConveyor
+        self.rpi.io.dio2_O_2 = self.sortingLineMachine.sortingLineActMotorConveyor
+        self.rpi.io.dio2_O_3 = self.sortingLineMachine.sortingLineActWhiteEjector
+        self.rpi.io.dio2_O_4 = self.sortingLineMachine.sortingLineActRedEjector
+        self.rpi.io.dio2_O_5 = self.sortingLineMachine.sortingLineActBlueEjector
 
     
     def reset(self) -> None:
