@@ -44,7 +44,7 @@ class RevPi_Controller(RevPiPyModIOMachineController):
         self.multiProcessingMachine.multiProcessingSensOvenFeederIn = -self.rpi.io.dio6_I_6
         self.multiProcessingMachine.multiProcessingSensOvenFeederOut = self.rpi.io.dio6_I_7
         self.multiProcessingMachine.multiProcessingSensVacuumGripperAtOven = self.rpi.io.dio6_I_8   
-        self.multiProcessingMachine.multiProcessingSensOven = -self.rpi.io.dio6_I_9
+        self.multiProcessingMachine.multiProcessingSensOven = self.rpi.io.dio6_I_9
                 
     def write(self):
         assert self.rpi.io is not None
