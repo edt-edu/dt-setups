@@ -1,3 +1,4 @@
+import ctypes
 import logging
 
 from rppmcontroller.machine.multiprocessing.MultiProcessing import MultiProcessing
@@ -36,33 +37,33 @@ class RevPi_Controller(RevPiPyModIOMachineController):
     def read(self):
         assert self.rpi.io is not None
         #______MP______
-        self.multiProcessingMachine.multiProcessingSensTurntablePosVacuum = self.rpi.io.dio6_I_1
-        self.multiProcessingMachine.multiProcessingSensTurntablePosBelt = self.rpi.io.dio6_I_2
-        self.multiProcessingMachine.multiProcessingSensEndConveyor = self.rpi.io.dio6_I_3
-        self.multiProcessingMachine.multiProcessingSensTurntablePosSaw = self.rpi.io.dio6_I_4
-        self.multiProcessingMachine.multiProcessingSensVacuumGripperAtTurntable = self.rpi.io.dio6_I_5   
-        self.multiProcessingMachine.multiProcessingSensOvenFeederIn = -self.rpi.io.dio6_I_6
-        self.multiProcessingMachine.multiProcessingSensOvenFeederOut = self.rpi.io.dio6_I_7
-        self.multiProcessingMachine.multiProcessingSensVacuumGripperAtOven = self.rpi.io.dio6_I_8   
-        self.multiProcessingMachine.multiProcessingSensOven = self.rpi.io.dio6_I_9
+        self.multiProcessingMachine.multiProcessingSensTurntablePosVacuum = self.rpi.io.dio6_I_1.value
+        self.multiProcessingMachine.multiProcessingSensTurntablePosBelt = self.rpi.io.dio6_I_2.value
+        self.multiProcessingMachine.multiProcessingSensEndConveyor = self.rpi.io.dio6_I_3.value
+        self.multiProcessingMachine.multiProcessingSensTurntablePosSaw = self.rpi.io.dio6_I_4.value
+        self.multiProcessingMachine.multiProcessingSensVacuumGripperAtTurntable = self.rpi.io.dio6_I_5.value
+        self.multiProcessingMachine.multiProcessingSensOvenFeederIn = -self.rpi.io.dio6_I_6.value
+        self.multiProcessingMachine.multiProcessingSensOvenFeederOut = self.rpi.io.dio6_I_7.value
+        self.multiProcessingMachine.multiProcessingSensVacuumGripperAtOven = self.rpi.io.dio6_I_8.value   
+        self.multiProcessingMachine.multiProcessingSensOven = self.rpi.io.dio6_I_9.value
                 
     def write(self):
         assert self.rpi.io is not None
         #______MP______
-        self.rpi.io.dio6_O_1 = self.multiProcessingMachine.multiProcessingActRotClockwise
-        self.rpi.io.dio6_O_2 = self.multiProcessingMachine.multiProcessingActRotCounterclockwise
-        self.rpi.io.dio6_O_3 = self.multiProcessingMachine.multiProcessingActConveyorForward
-        self.rpi.io.dio6_O_4 = self.multiProcessingMachine.multiProcessingActSaw
-        self.rpi.io.dio6_O_5 = self.multiProcessingMachine.multiProcessingActOvenInward
-        self.rpi.io.dio6_O_6 = self.multiProcessingMachine.multiProcessingActOvenOutward
-        self.rpi.io.dio6_O_7 = self.multiProcessingMachine.multiProcessingActGripperToOven
-        self.rpi.io.dio6_O_8 = self.multiProcessingMachine.multiProcessingActGripperToTurntable
-        self.rpi.io.dio6_O_9 = self.multiProcessingMachine.multiProcessingOvenLight
-        self.rpi.io.dio6_O_10 = self.multiProcessingMachine.multiProcessingCompressor
-        self.rpi.io.dio6_O_11 = self.multiProcessingMachine.multiProcessingValveVacuum
-        self.rpi.io.dio6_O_12 = self.multiProcessingMachine.multiProcessingActLowerValve
-        self.rpi.io.dio6_O_13 = self.multiProcessingMachine.multiProcessingValveOvenDoor
-        self.rpi.io.dio6_O_14 = self.multiProcessingMachine.multiProcessingValveFeeder
+        self.rpi.io.dio6_O_1.value = self.multiProcessingMachine.multiProcessingActRotClockwise
+        self.rpi.io.dio6_O_2.value = self.multiProcessingMachine.multiProcessingActRotCounterclockwise
+        self.rpi.io.dio6_O_3.value = self.multiProcessingMachine.multiProcessingActConveyorForward
+        self.rpi.io.dio6_O_4.value = self.multiProcessingMachine.multiProcessingActSaw
+        self.rpi.io.dio6_O_5.value = self.multiProcessingMachine.multiProcessingActOvenInward
+        self.rpi.io.dio6_O_6.value = self.multiProcessingMachine.multiProcessingActOvenOutward
+        self.rpi.io.dio6_O_7.value = self.multiProcessingMachine.multiProcessingActGripperToOven
+        self.rpi.io.dio6_O_8.value = self.multiProcessingMachine.multiProcessingActGripperToTurntable
+        self.rpi.io.dio6_O_9.value = self.multiProcessingMachine.multiProcessingOvenLight
+        self.rpi.io.dio6_O_10.value = self.multiProcessingMachine.multiProcessingCompressor
+        self.rpi.io.dio6_O_11.value = self.multiProcessingMachine.multiProcessingValveVacuum
+        self.rpi.io.dio6_O_12.value = self.multiProcessingMachine.multiProcessingActLowerValve
+        self.rpi.io.dio6_O_13.value = self.multiProcessingMachine.multiProcessingValveOvenDoor
+        self.rpi.io.dio6_O_14.value = self.multiProcessingMachine.multiProcessingValveFeeder
 
          
 if __name__ == "__main__":

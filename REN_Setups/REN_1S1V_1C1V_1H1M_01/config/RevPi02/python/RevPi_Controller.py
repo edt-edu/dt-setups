@@ -1,3 +1,4 @@
+import ctypes
 import logging
 
 from rppmcontroller.machine.vacuumgripper.VacuumGripper import VacuumGripper
@@ -42,35 +43,35 @@ class RevPi_Controller(RevPiPyModIOMachineController):
 
         #_____VGR______
 
-        self.vacuumGripperMachine.vacuumSensVerticalEndUp = self.rpi.io.dio3_I_1
-        self.vacuumGripperMachine.vacuumSensArmEndIn = self.rpi.io.dio3_I_2
-        self.vacuumGripperMachine.vacuumSensRotEnd = self.rpi.io.dio3_I_3
-        self.vacuumGripperMachine.vacuumSensVerticalEncoderCounter = self.rpi.io.dio3_Counter_5
-        self.vacuumGripperMachine.vacuumSensArmEncoderCounter = self.rpi.io.dio3_Counter_7        
+        self.vacuumGripperMachine.vacuumSensVerticalEndUp = self.rpi.io.dio3_I_1.value
+        self.vacuumGripperMachine.vacuumSensArmEndIn = self.rpi.io.dio3_I_2.value
+        self.vacuumGripperMachine.vacuumSensRotEnd = self.rpi.io.dio3_I_3.value
+        self.vacuumGripperMachine.vacuumSensVerticalEncoderCounter = ctypes.c_int32(self.rpi.io.dio3_Counter_5.value).value
+        self.vacuumGripperMachine.vacuumSensArmEncoderCounter = ctypes.c_int32(self.rpi.io.dio3_Counter_7.value).value
         # note: the rotation encoder counts in negative when going counterclockwise
-        self.vacuumGripperMachine.vacuumSensRotEncoderCounter = -self.rpi.io.dio3_Counter_9
+        self.vacuumGripperMachine.vacuumSensRotEncoderCounter = -ctypes.c_int32(self.rpi.io.dio3_Counter_9.value).value
         
         #______CB______
-        self.conveyorBeltMachine.conveyorSensFeed = self.rpi.io.dio4_I_1
-        self.conveyorBeltMachine.conveyorSensSwap = self.rpi.io.dio4_I_2
-        self.conveyorBeltMachine.conveyorSensImpulse = self.rpi.io.dio4_Counter_3
+        self.conveyorBeltMachine.conveyorSensFeed = self.rpi.io.dio4_I_1.value
+        self.conveyorBeltMachine.conveyorSensSwap = self.rpi.io.dio4_I_2.value
+        self.conveyorBeltMachine.conveyorSensImpulse = ctypes.c_int32(self.rpi.io.dio4_Counter_3.value).value
         
     def write(self):
         assert self.rpi.io is not None
 
         #_____VGR______
-        self.rpi.io.dio3_O_1 = self.vacuumGripperMachine.vacuumActVerticalUp
-        self.rpi.io.dio3_O_2 = self.vacuumGripperMachine.vacuumActVerticalDown
-        self.rpi.io.dio3_O_3 = self.vacuumGripperMachine.vacuumActArmIn
-        self.rpi.io.dio3_O_4 = self.vacuumGripperMachine.vacuumActArmOut
-        self.rpi.io.dio3_O_5 = self.vacuumGripperMachine.vacuumActRotRight
-        self.rpi.io.dio3_O_6 = self.vacuumGripperMachine.vacuumActRotLeft
-        self.rpi.io.dio3_O_7 = self.vacuumGripperMachine.vacuumActCompressorOn
-        self.rpi.io.dio3_O_8 = self.vacuumGripperMachine.vacuumActValve
+        self.rpi.io.dio3_O_1.value = self.vacuumGripperMachine.vacuumActVerticalUp
+        self.rpi.io.dio3_O_2.value = self.vacuumGripperMachine.vacuumActVerticalDown
+        self.rpi.io.dio3_O_3.value = self.vacuumGripperMachine.vacuumActArmIn
+        self.rpi.io.dio3_O_4.value = self.vacuumGripperMachine.vacuumActArmOut
+        self.rpi.io.dio3_O_5.value = self.vacuumGripperMachine.vacuumActRotRight
+        self.rpi.io.dio3_O_6.value = self.vacuumGripperMachine.vacuumActRotLeft
+        self.rpi.io.dio3_O_7.value = self.vacuumGripperMachine.vacuumActCompressorOn
+        self.rpi.io.dio3_O_8.value = self.vacuumGripperMachine.vacuumActValve
 
         #______CB______
-        self.rpi.io.dio4_O_1 = self.conveyorBeltMachine.conveyorActForward
-        self.rpi.io.dio4_O_2 = self.conveyorBeltMachine.conveyorActBackward
+        self.rpi.io.dio4_O_1.value = self.conveyorBeltMachine.conveyorActForward
+        self.rpi.io.dio4_O_2.value = self.conveyorBeltMachine.conveyorActBackward
         
     
     def reset(self) -> None:
