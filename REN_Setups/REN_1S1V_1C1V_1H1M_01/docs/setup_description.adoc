@@ -34,7 +34,7 @@ Typical use:
 [#img-REN_1S1V_1C1V_1H1M_01_machines_config,link=https://git.rwth-aachen.de/mbdo/mbdo-impl/-/tree/master/REN_Setups/REN_1S1V_1C1V_1H1M_01/docs/resources]
 image::REN_1S1V_1C1V_1H1M_01_machines_config.svg[REN_1S1V_1C1V_1H1M_01_machines_config,300,300] 
 
-IMPORTANT: This description doesn't state what is part of the system or part of its environment. This is up to the design model to clearly  separate the considered system and its environment. We may produce different system twins based on this setup description.
+IMPORTANT: This description doesn't state what is part of the system, part of its environment or part of the DT. This is up to the design model to clearly  separate the considered system and its environment. We may produce different system twins based on this setup description.
 
 
 [mermaid]
@@ -48,6 +48,9 @@ C4Context
         Boundary(b_services, "Server Services") {
         
             Component(mqtt, "MQTT broker", "")
+            Component(gateway, "DT gateway", "")
+            Component(influxdb, "InfluxDB", "")
+            Component(grafana, "Granafa", "")
             Component(scada, "SCADA", "")
             Component(camera, "Camera", "")
 
@@ -85,6 +88,9 @@ C4Context
       Rel(mbdoServer, mqtt, "docker")
       Rel(mbdoServer, camera, "host")
       Rel(mbdoServer, scada, "docker")
+      Rel(mbdoServer, gateway, "docker")
+      Rel(mbdoServer, influxdb, "docker")
+      Rel(mbdoServer, grafana, "docker")
 
       BiRel(mbdoPLC01, vgr1, "dio1")
       BiRel(mbdoPLC01, slc1, "dio2")

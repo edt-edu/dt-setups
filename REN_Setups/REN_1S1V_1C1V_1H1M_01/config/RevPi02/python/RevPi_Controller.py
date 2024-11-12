@@ -1,3 +1,4 @@
+import ctypes
 import logging
 
 from rppmcontroller.machine.vacuumgripper.VacuumGripper import VacuumGripper
@@ -41,37 +42,36 @@ class RevPi_Controller(RevPiPyModIOMachineController):
         assert self.rpi.io is not None
 
         #_____VGR______
-        self.updateValueRead("VacuumGripper",0,"vacuumSensVerticalEndUp","dio3_I_1","ReferenceSwitchVerticalAxis")
-        self.updateValueRead("VacuumGripper",0,"vacuumSensArmEndIn","dio3_I_2","ReferenceSwitchHorizontalAxis")
-        self.updateValueRead("VacuumGripper",0,"vacuumSensRotEnd","dio3_I_3","ReferenceSwitchRotate")
-        # use signed int32 to deal with possible negative values of the encoders
-        self.updateValueRead("VacuumGripper",0,"vacuumSensVerticalEncoderCounter","dio3_Counter_5","VerticalAxisStep",Type.POSITIVEINT32)
-        self.updateValueRead("VacuumGripper",0,"vacuumSensArmEncoderCounter","dio3_Counter_7","HorizontalAxisStep",Type.POSITIVEINT32)
+
+        self.vacuumGripperMachine.vacuumSensVerticalEndUp = self.rpi.io.dio3_I_1.value
+        self.vacuumGripperMachine.vacuumSensArmEndIn = self.rpi.io.dio3_I_2.value
+        self.vacuumGripperMachine.vacuumSensRotEnd = self.rpi.io.dio3_I_3.value
+        self.vacuumGripperMachine.vacuumSensVerticalEncoderCounter = ctypes.c_int32(self.rpi.io.dio3_Counter_5.value).value
+        self.vacuumGripperMachine.vacuumSensArmEncoderCounter = ctypes.c_int32(self.rpi.io.dio3_Counter_7.value).value
         # note: the rotation encoder counts in negative when going counterclockwise
-        self.updateValueRead("VacuumGripper",0,"vacuumSensRotEncoderCounter","dio3_Counter_9","RotateStep",Type.NEGATIVEINT32)
-
+        self.vacuumGripperMachine.vacuumSensRotEncoderCounter = -ctypes.c_int32(self.rpi.io.dio3_Counter_9.value).value
+        
         #______CB______
-        self.updateValueRead("ConveyorBelt",1,"conveyorSensFeed","dio4_I_1","LightBarrierFeedStation")
-        self.updateValueRead("ConveyorBelt",1,"conveyorSensSwap","dio4_I_2","LightBarrierSwapStation")
-        self.updateValueRead("ConveyorBelt",1,"conveyorSensImpulse","dio4_Counter_3","PulseCounter",Type.POSITIVEINT32)
-
+        self.conveyorBeltMachine.conveyorSensFeed = self.rpi.io.dio4_I_1.value
+        self.conveyorBeltMachine.conveyorSensSwap = self.rpi.io.dio4_I_2.value
+        self.conveyorBeltMachine.conveyorSensImpulse = ctypes.c_int32(self.rpi.io.dio4_Counter_3.value).value
         
     def write(self):
         assert self.rpi.io is not None
 
         #_____VGR______
-        self.updateValueWrite("VacuumGripper",0,"vacuumActVerticalUp","dio3_O_1","MotorVerticalAxisUp")
-        self.updateValueWrite("VacuumGripper",0,"vacuumActVerticalDown","dio3_O_2","MotorVerticalAxisDown")
-        self.updateValueWrite("VacuumGripper",0,"vacuumActArmIn","dio3_O_3","MotorHorizontalAxisBackward")
-        self.updateValueWrite("VacuumGripper",0,"vacuumActArmOut","dio3_O_4","MotorHorizontalAxisForward")
-        self.updateValueWrite("VacuumGripper",0,"vacuumActRotRight","dio3_O_5","MotorRotateClockwise")
-        self.updateValueWrite("VacuumGripper",0,"vacuumActRotLeft","dio3_O_6","MotorRotateCounterClockwise")
-        self.updateValueWrite("VacuumGripper",0,"vacuumActCompressorOn","dio3_O_7","Compressor")
-        self.updateValueWrite("VacuumGripper",0,"vacuumActValve","dio3_O_8","ValveVacuum")
+        self.rpi.io.dio3_O_1.value = self.vacuumGripperMachine.vacuumActVerticalUp
+        self.rpi.io.dio3_O_2.value = self.vacuumGripperMachine.vacuumActVerticalDown
+        self.rpi.io.dio3_O_3.value = self.vacuumGripperMachine.vacuumActArmIn
+        self.rpi.io.dio3_O_4.value = self.vacuumGripperMachine.vacuumActArmOut
+        self.rpi.io.dio3_O_5.value = self.vacuumGripperMachine.vacuumActRotRight
+        self.rpi.io.dio3_O_6.value = self.vacuumGripperMachine.vacuumActRotLeft
+        self.rpi.io.dio3_O_7.value = self.vacuumGripperMachine.vacuumActCompressorOn
+        self.rpi.io.dio3_O_8.value = self.vacuumGripperMachine.vacuumActValve
 
         #______CB______
-        self.updateValueWrite("ConveyorBelt",1,"conveyorActForward","dio4_O_1","MotorConveyorBeltForward")
-        self.updateValueWrite("ConveyorBelt",1,"conveyorActBackward","dio4_O_2","MotorConveyorBeltBackrward")
+        self.rpi.io.dio4_O_1.value = self.conveyorBeltMachine.conveyorActForward
+        self.rpi.io.dio4_O_2.value = self.conveyorBeltMachine.conveyorActBackward
         
     
     def reset(self) -> None:
