@@ -9,14 +9,14 @@ configuration:
   
   mqttInfluxdbRecordings: # MQTT to influxdb TimeSeries
   # define measures that should be collected in time series DB
-    - name: "Physical Twin VGR1"
+    - name: "Physical_Twin_VGR1"
       mqttSourceTopic: "PLC/PLC01/VacuumGripper/VacuumGripper01/#"
       dataProcess: extract-json-value # json containing a primitive value field (othewise use "raw" or "extract-json-value-json-timestamp")
       timeProcess: extract-json-timestamp  #  use time extracted from json timestamp field (otherwise use system time)
     # - name: "Physical Twin SL1
     #   mqttSourceTopic: "PLC/PLC01/SortingLine/SortingLine01/#"
     #   data-kind: json-value-timestamp # json containing a primitive value and a timestamp
-    - name: "Digital Twin VGR1"
+    - name: "Digital_Twin_VGR1"
       mqttSourceTopic: "gateway/REN_1V_01_VGRSystemModel/#"
       dataProcess: extract-json-value # json containing a primitive value field (othewise use "raw")
       timeProcess: extract-json-timestamp  #  use time extracted from json timestamp field (otherwise use system time)
