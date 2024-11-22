@@ -123,7 +123,7 @@ package REN_1V_01_VGRSystemModel {
 					first start;
 					
 					then decide; 
-						// a kind of steatemachine would have been nicer , but don't know it this is legal in action def'
+						// a kind of statemachine would have been nicer , but don't know it this is legal in action def'
 						if (system.currentMoveCommandRTD.currentMoveCmdStep == MoveCmdStep::NeedPick) then needPick;
 						if (system.currentMoveCommandRTD.currentMoveCmdStep == MoveCmdStep::Pick) then pick;
 						if (system.currentMoveCommandRTD.currentMoveCmdStep == MoveCmdStep::Place) then place;
