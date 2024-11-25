@@ -42,40 +42,59 @@ package REN_1V_01_VGRSystemModel {
 				out port backwardActuator : ActuatorOutPort;
 				
 				attribute encoderValue : Positive;
-				attribute referencSwitch : Boolean;
+				attribute referenceSwitch : Boolean;
+				
+				attribute currentTargetPos : Positive;
 				
 				
 				state engineStates : EngineStates { in selfEncoderEngineWithSwitch = EncoderEngineWithSwitch::self;  }	
 				state def EngineStates {
 					in selfEncoderEngineWithSwitch : EncoderEngineWithSwitch;
 					
-					entry; then iddle;
-					state iddle;
+					entry; then idle;
+					state idle;
 					
-					state forward_until_ref;
-					state forward_until_target_pos;
-					state backward_until_target_pos;
+					state forward_until_ref {
+						do assign selfEncoderEngineWithSwitch.referenceSwitch := true;
+					}
+					state forward_until_target_pos {
+						do assign selfEncoderEngineWithSwitch.encoderValue := selfEncoderEngineWithSwitch.currentTargetPos; 
+					}
+					state backward_until_target_pos {
+						do assign selfEncoderEngineWithSwitch.encoderValue := selfEncoderEngineWithSwitch.currentTargetPos; 
+					}
 					
 					transition iddle_to_forward_until_ref
-						first iddle
+						first idle
 						accept SetupCmdMsg
-						do action incrementCounter {
+						do action goForward {
 							action assign selfEncoderEngineWithSwitch.forwardActuator := true;
-							
-							action assign selfEncoderEngineWithSwitch.referencSwitch := true; // simulated physic at some point in the future ...
+							action assign selfEncoderEngineWithSwitch.backwardActuator := false;
 						}
 						then forward_until_ref;
 						
 					transition iddle_to_forward_until_target_pos
-						first iddle
+						first idle
 						accept msg : GotoposEngineCmdMsg via selfEncoderEngineWithSwitch.gotoposCmdPort
 							if selfEncoderEngineWithSwitch.encoderValue <  msg.targetPos
-						do action incrementCounter {
+						do action goForward {
 							action assign selfEncoderEngineWithSwitch.forwardActuator := true;
-							
-							action assign selfEncoderEngineWithSwitch.encoderValue := selfEncoderEngineWithSwitch.encoderValue +1; // simulated physic
+							action assign selfEncoderEngineWithSwitch.backwardActuator := false;
+							action assign selfEncoderEngineWithSwitch.currentTargetPos := msg.targetPos; 
 						}
 						then forward_until_target_pos;
+					transition  forward_until_ref_to_idle
+						first forward_until_ref
+						accept when selfEncoderEngineWithSwitch.referenceSwitch == true
+						then idle;
+					transition  forward_until_target_pos_to_idle
+						first forward_until_ref
+						if selfEncoderEngineWithSwitch.encoderValue == selfEncoderEngineWithSwitch.currentTargetPos
+						then idle;
+					transition  backward_until_target_pos_to_idle
+						first forward_until_ref
+						if selfEncoderEngineWithSwitch.encoderValue == selfEncoderEngineWithSwitch.currentTargetPos
+						then idle;
 				}
 				
 			}
