@@ -1,0 +1,36 @@
+////
+Reminder:
+- Purpose: The reason why the model exists.
+- Objectives: Specific goals to achieve the purpose.
+- Scope: The boundaries of what the model covers.
+////
+
+== Purpose: 
+
+This refined SysML model of the vacuum gripper provides detailed architectural descriptions, separating the machine from its controller. It aims to simulate the commands and observe the effects on the token with an enhanced focus on the high-level view of the electrical, hardware, mechanical, and pneumatic domains.
+
+== Scope: 
+
+This model operates at a logical level, detailing the separation between the machine and its controller. It incorporates high-level architectural aspects, including electrical, hardware, mechanical, and pneumatic components, while maintaining a unified overview of the system’s behavior.
+
+== Objectives:
+
+To simulate commands issued to the vacuum gripper with greater architectural detail.
+
+To observe and analyze the interactions and positions of the token manipulated by the gripper.
+
+To provide a clear understanding of the operational behavior of the vacuum gripper through detailed simulation.
+
+To specify the detailed architecture of the vacuum gripper, including the separation of the machine and its controller.
+
+To present a high-level view of the system's domains: electrical, hardware, mechanical, and pneumatic.
+
+To ensure that the model serves both prescriptive purposes (building the system and simulating expected behavior) and descriptive purposes (verifying that the built system behaves as expected).
+
+== System Boundaries: 
+
+The model encompasses the vacuum gripper, its controller, and the interactions between them. It provides a high-level view of the electrical, hardware, mechanical, and pneumatic domains, aiming to offer a comprehensive understanding of the system's architecture and behavior.
+
+== Context: 
+
+This refined model serves as a detailed tool for architectural analysis and validation of the vacuum gripper's functionality. It supports simulations to aid in design decisions, improve the overall understanding of the system's operational dynamics, and validate the accuracy and behavior of the built system. This model will continue to be refined as the vacuum gripper evolves, ensuring its prescriptive accuracy and descriptive reliability.

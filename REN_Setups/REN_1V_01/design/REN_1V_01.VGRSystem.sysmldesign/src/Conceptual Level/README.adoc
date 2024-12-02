@@ -1,0 +1,45 @@
+////
+Reminder:
+- Purpose: The reason why the model exists.
+- Objectives: Specific goals to achieve the purpose.
+- Scope: The boundaries of what the model covers.
+////
+
+== Purpose: 
+
+
+This SysML model represents a vacuum gripper designed to simulate various commands and observe the resultant effects on a token moved by the gripper. 
+
+The primary goal is to evaluate and visualize the gripper's positions as it executes different commands. 
+The model serves both prescriptive (i.e., it will be used to build the system and simulate its expected behavior) 
+and descriptive (i.e., it will verify that the built system behaves as expected) purposes. 
+Additionally, the model presents an abstract view of the gripper’s capabilities in terms of reachable positions and its behavior in response to user commands.
+
+== Scope: 
+
+The model is conceptual, focusing on the high-level behavior of the vacuum gripper. It does not include detailed electrical or mechanical aspects, and it treats the system as a unified whole, without distinguishing between the machine and its controller.
+
+== Objectives:
+
+- To simulate the commands issued to the vacuum gripper.
+
+- To observe and analyze the movements and positions of the token manipulated by the gripper.
+
+- To provide a clear understanding of the operational behavior of the vacuum gripper through simulation.
+
+- To be prescriptive of the behavior of the vacuum gripper that will be built.
+
+- To be descriptive in verifying the behavior of the built system against the expected performance and precision.
+
+- To present an abstract view of the gripper’s capabilities in terms of reachable positions and its behavior in response to user commands.
+
+
+== System Boundaries: 
+
+The model encompasses the vacuum gripper and its interactions with the token. 
+
+It excludes low-level details such as electrical circuitry and mechanical components, aiming to provide a broader understanding of the system's behavior.
+
+== Context: 
+
+This model serves as a tool for conceptual analysis and validation of the vacuum gripper's functionality. It is intended for use in simulations to support design decisions and improve the overall understanding of the system's operational dynamics. Additionally, the model will be refined into more detailed models over time, enhancing its prescriptive accuracy as the vacuum gripper is developed or evolved.
