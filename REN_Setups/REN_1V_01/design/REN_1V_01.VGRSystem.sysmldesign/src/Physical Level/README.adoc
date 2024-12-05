@@ -30,6 +30,10 @@ It includes exhaustive descriptions of electrical circuits, hardware components,
 
 - To ensure that the model serves both prescriptive purposes (building the system and simulating expected behavior) and descriptive purposes (verifying that the built system behaves as expected).
 
+- To present a precise view of the gripper’s capabilities in terms of reachable positions. Positions precision is ensured by using both a coordinate system relative to the machine and spacial coordinate system.
+
+- To present a view of the gripper’s capabilities in terms its behavior in response to user commands.
+
 == System Boundaries: 
 
 The model encompasses the vacuum gripper, its controller, and the intricate interactions between them. 

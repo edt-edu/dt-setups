@@ -31,7 +31,9 @@ The model is conceptual, focusing on the high-level behavior of the vacuum gripp
 
 - To be descriptive in verifying the behavior of the built system against the expected performance and precision.
 
-- To present an abstract view of the gripper’s capabilities in terms of reachable positions and its behavior in response to user commands.
+- To present an abstract view of the gripper’s capabilities in terms of reachable positions (positions are abstract)
+
+- To present an abstract view of the gripper’s capabilities in terms its behavior in response to user commands.
 
 
 == System Boundaries: 
