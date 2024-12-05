@@ -1,0 +1,43 @@
+////
+Reminder:
+- Purpose: The reason why the model exists.
+- Objectives: Specific goals to achieve the purpose.
+- Scope: The boundaries of what the model covers.
+////
+
+== Purpose: 
+
+This SysML model of the vacuum gripper provides detailed physical-level descriptions, 
+offering low-level details across all domains: electrical, hardware, mechanical, and pneumatic. 
+The model aims to simulate commands and observe the precise effects on the token moved by the gripper, ensuring a comprehensive understanding of the system's physical behavior.
+
+== Scope: 
+
+The model operates at the physical level, detailing the intricate interactions and components of the vacuum gripper. 
+It includes exhaustive descriptions of electrical circuits, hardware components, mechanical movements, and pneumatic systems, providing an in-depth view of the system's functionality.
+
+== Objectives:
+
+- To simulate commands issued to the vacuum gripper with precise physical detail.
+
+- To observe and analyze the interactions and positions of the token manipulated by the gripper with high fidelity.
+
+- To provide a thorough understanding of the operational behavior of the vacuum gripper through detailed simulation.
+
+- To specify the comprehensive physical architecture of the vacuum gripper, including the detailed separation of the machine and its controller.
+
+- To present an in-depth view of the system's domains: electrical, hardware, mechanical, and pneumatic.
+
+- To ensure that the model serves both prescriptive purposes (building the system and simulating expected behavior) and descriptive purposes (verifying that the built system behaves as expected).
+
+== System Boundaries: 
+
+The model encompasses the vacuum gripper, its controller, and the intricate interactions between them. 
+It provides detailed views of the electrical circuits, hardware configurations, mechanical linkages, 
+and pneumatic pathways, aiming to offer a complete understanding of the system's physical architecture and behavior.
+
+== Context: 
+
+This detailed model serves as a critical tool for physical-level analysis and validation of the vacuum gripper's functionality. 
+It supports simulations to aid in design decisions, ensure accuracy in the construction of the system, and validate the precise 
+behavior of the built system. 

@@ -18,7 +18,7 @@ package VGRDefinitions {
 			attribute mass : Real;
 			attribute status : MachineStatus;
 			
-			part slideX : EncoderBasedMovementAxis ; // X tranlstation; forward/backward movement; ie. horizontal move / Arm Extension (prismatic)
+			part slideX : EncoderBasedMovementAxis ; // X translation; forward/backward movement; ie. horizontal move / Arm Extension (prismatic)
 			part slideZ : EncoderBasedMovementAxis; // Z translation; up/down movement, ie. vertical move / shoulder elevation (prismatic)
 			part spinZ : EncoderBasedMovementAxis; // rotation around the Z-axis. ie. base rotation
 			

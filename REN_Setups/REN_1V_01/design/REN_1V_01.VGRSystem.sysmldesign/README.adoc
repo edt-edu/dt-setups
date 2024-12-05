@@ -77,4 +77,9 @@ Power Distribution: Power supply circuits, voltage regulation.
 Communication Interfaces: Electrical aspects of communication modules (e.g., Wi-Fi, Bluetooth).
 *** Physical Views and Viewpoints: Organizes different perspectives of the components
 
-
+////
+Reminder:
+- Purpose: The reason why the model exists.
+- Objectives: Specific goals to achieve the purpose.
+- Scope: The boundaries of what the model covers.
+////
