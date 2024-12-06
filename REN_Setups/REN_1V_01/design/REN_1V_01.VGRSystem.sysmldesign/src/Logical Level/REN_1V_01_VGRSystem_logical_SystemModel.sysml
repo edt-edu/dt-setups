@@ -26,17 +26,33 @@ package REN_1V_01_VGRSystemPLCModel {
 					bind verticalImpulseCounter.encoderCount = verticalEngineController.encoder;
 					bind horizontalImpulseCounter.encoderCount = horizontalEngineController.encoder;
 
+
+					port plcCmdPort:PLCCmdPort;
+
+					attribute currentMoveCommandPickupPosition : GripperRelativePosition {
+						doc /* target value for the move, used by some states	*/
+					}
+					attribute currentMoveCommandDropPosition : GripperRelativePosition {
+						doc /* target value for the move, used by some states	*/
+					}
+
 					// behavior
 					state vgrSystemStates : VGRSystemPLCStates {
-						
+						in selfVGRSystemPLC = VGRSystemPLC::self;
 					}
 					state def VGRSystemPLCStates{
+						in selfVGRSystemPLC : VGRSystemPLC;
+
 						entry; then idle;
 						state idle;
 						
 						state setup;
 						
-						state move_step_1;
+						state setup_before_move {
+						}
+						state move_step_1 {
+							do selfVGRSystemPLC.gotoPickupPos;
+						}
 						state move_step_2;
 						state move_step_3;
 						state move_step_4;
@@ -45,8 +61,30 @@ package REN_1V_01_VGRSystemPLCModel {
 						
 						transition 'setupCmd'
 			                    first idle
-			                    accept setupCmdMsg:SetupCmdMsg // via actionCmdPort
+			                    accept setupCmdMsg:SetupCmdMsg via plcCmdPort
 			                    then setup;
+						transition 'idle_to_move_on_Cmd'
+			                    first idle
+			                    accept msg:MoveCmdMsg via plcCmdPort
+								do action storeMoveParams {
+									action assign selfVGRSystemPLC.currentMoveCommandPickupPosition := msg.pickupPosition; 
+									action assign selfVGRSystemPLC.currentMoveCommandDropPosition := msg.dropPosition; 
+								} 
+			                    then move_step_1;
+						transition 'move_step_1_to_move_step_2' 
+							first move_step_1
+							// if all controllers have reached their target
+							// todo: store current target in each controller for simpler code with multiple steps
+							if selfVGRSystemPLC.rotationEngineController.encoder.value == currentMoveCommandPickupPosition.rotationPos
+								and selfVGRSystemPLC.verticalEngineController.encoder.value == currentMoveCommandPickupPosition.verticalPos
+								and selfVGRSystemPLC.horizontalEngineController.encoder.value == currentMoveCommandPickupPosition.horizontalPos							
+							then move_step_2;
+					}
+
+					perform action gotoPickupPos {
+						assign rotationEngineController.gotoposCmdPort :=  currentMoveCommandPickupPosition.rotationPos;
+						assign verticalEngineController.gotoposCmdPort :=  currentMoveCommandPickupPosition.verticalPos;
+						assign horizontalEngineController.gotoposCmdPort :=  currentMoveCommandPickupPosition.horizontalPos;						
 					}
 				}
 				part def CompressorPLCModule {
@@ -237,6 +275,13 @@ package REN_1V_01_VGRSystemPLCModel {
 	                in item gotoposEngineCmdMsg:GotoposEngineCmdMsg;
 	            }
 	            
+
+				port def PLCCmdPort{
+					doc /* 
+					* port between PLC and orchestrator/user application
+					*/
+                	in item plcCmdMsg:SignalDefinitions::CmdMsg;
+            	}
 	            
 		    }
 			package System {
@@ -367,7 +412,7 @@ package REN_1V_01_VGRSystemPLCModel {
 				bind vgrMachine.horizontalReferenceSwitch.switchSensor = vgrPLC.horizontalEngineController.referenceSwitch;
 				
 				bind vgrMachine.compressor.compressorActuator = vgrPLC.compressorController.compressorActuator;
-				bind vgrMachine.valve.valveActuator = vgrPLC.valveController.valveActuator
+				bind vgrMachine.valve.valveActuator = vgrPLC.valveController.valveActuator;
 				
 			}
 		}
