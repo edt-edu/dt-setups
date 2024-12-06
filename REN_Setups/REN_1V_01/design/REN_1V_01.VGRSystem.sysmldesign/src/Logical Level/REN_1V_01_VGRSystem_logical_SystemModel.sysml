@@ -6,7 +6,27 @@ package REN_1V_01_VGRSystemPLCModel {
 			package Definitions {
 				import SignalDefinitions::*;
 				import PortDefinitions::*;
+				import REN_1V_01_VGRSystemPLCModel::LogicalLevel::PortDefinitions::*;
 				part def VGRSystemPLC {
+				
+					part compressorController : CompressorPLCModule;
+					part valveController : ValvePLCModule;
+					part rotationImpulseCounter : TwoWaysImpulseCounter;
+					part rotationEngineController : EncoderEngineWithSwitchSystemPLCModule;
+					//state rotationengineSTates : EncoderEngineWithSwitch::EngineStates { in selfEncoderEngineWithSwitch = rotationEngine; }	
+					
+					part verticalImpulseCounter : TwoWaysImpulseCounter;
+					part verticalEngineController : EncoderEngineWithSwitchSystemPLCModule;
+					
+					part horizontalImpulseCounter : TwoWaysImpulseCounter;
+					part horizontalEngineController : EncoderEngineWithSwitchSystemPLCModule;
+
+					// port binding
+					bind rotationImpulseCounter.encoderCount = rotationEngineController.encoder;
+					bind verticalImpulseCounter.encoderCount = verticalEngineController.encoder;
+					bind horizontalImpulseCounter.encoderCount = horizontalEngineController.encoder;
+
+					// behavior
 					state vgrSystemStates : VGRSystemPLCStates {
 						
 					}
@@ -30,28 +50,89 @@ package REN_1V_01_VGRSystemPLCModel {
 					}
 				}
 				part def CompressorPLCModule {
-					
+					out port compressorActuator : ActuatorPort;
 				}
 				part def ValvePLCModule {
+					out port valveActuator : ActuatorPort;
+				}
+				
+				part def TwoWaysImpulseCounter {
 					
+					in port incrementSignal : SensorPort;
+					in port decrementSignal : SensorPort;
+					
+					out port encoderCount : EncoderPort;
+					
+					action def Reset {
+						action assign encoderCount := 0;
+					}
+					action reset : Reset;
+					state encoderCounterStates : EncoderCounterStates{ in selfTwoWaysImpulseCounter = TwoWaysImpulseCounter::self;  }
+					state def EncoderCounterStates {
+						in selfTwoWaysImpulseCounter : TwoWaysImpulseCounter;
+						entry; then dd;
+						state uu {
+							doc /* 	incrementSignal is Up
+									and decrementSignal isUp
+	            	    		*/
+						}
+						state ud {
+							doc /* 	incrementSignal is Up
+									and decrementSignal is Down
+	            	    		*/}
+						state du {
+							doc /* 	incrementSignal is Down
+									and decrementSignal is Up
+	            	    		*/}
+						state dd {
+							doc /* 	incrementSignal is Down
+									and decrementSignal is Down
+	            	    		*/}
+						transition dd_To_ud 
+							first dd
+							if selfTwoWaysImpulseCounter.incrementSignal.value == true
+							do assign selfTwoWaysImpulseCounter.encoderCount.value := selfTwoWaysImpulseCounter.encoderCount.value +1 
+							then ud; 
+						transition ud_To_dd 
+							first ud
+							if selfTwoWaysImpulseCounter.incrementSignal.value == false
+							then dd; 
+						
+						transition dd_To_du 
+							first dd
+							if selfTwoWaysImpulseCounter.decrementSignal.value == true
+							do assign selfTwoWaysImpulseCounter.encoderCount.value := selfTwoWaysImpulseCounter.encoderCount.value -1 
+							then du;
+						transition ud_To_uu 
+							first ud
+							if selfTwoWaysImpulseCounter.decrementSignal.value == true
+							do assign selfTwoWaysImpulseCounter.encoderCount := selfTwoWaysImpulseCounter.encoderCount.value -1
+							then uu;
+						transition du_To_dd 
+							first du
+							if selfTwoWaysImpulseCounter.decrementSignal.value == false
+							then dd; 
+						transition uu_To_ud 
+							first uu
+							if selfTwoWaysImpulseCounter.decrementSignal.value == false
+							then ud;  
+						transition uu_To_du 
+							first uu
+							if selfTwoWaysImpulseCounter.incrementSignal.value == false
+							then du;
+					}
 				}
 				part def EncoderEngineWithSwitchSystemPLCModule {
 					
 					port gotoposCmdPort:GotoposEnginePort;
+
 					
-					comment about forwardActuator, backwardActuator, encoderValue, referenceSwitch 
-					/* In this version, we consider EncoderEngineWithSwitch as a system (ie. we do not clearly identify controller vs machine ), 
-					 * we do not have details of the actuator and sensors; 
-					 * so they are modeled as attributes instead of port
-					 */
+					in port encoder : EncoderPort;
+					in port referenceSwitch : SensorPort;
+
+					out port forwardActuator : ActuatorPort;
+					out port backwardActuator : ActuatorPort;
 					
-					// out port forwardActuator : ActuatorOutPort;
-					// out port backwardActuator : ActuatorOutPort;
-					attribute forwardActuator : Boolean;
-					attribute backwardActuator : Boolean;
-					
-					attribute encoderValue : Positive;
-					attribute referenceSwitch : Boolean;
 					
 					attribute currentTargetEncoderValue : Positive {
 						doc /* target value for the encoder, used by some states	*/
@@ -69,57 +150,57 @@ package REN_1V_01_VGRSystemPLCModel {
 							do assign selfEncoderEngineWithSwitch.referenceSwitch := true;
 						}
 						state forward_until_target_pos {
-							do assign selfEncoderEngineWithSwitch.encoderValue := selfEncoderEngineWithSwitch.currentTargetEncoderValue; 
+							do assign selfEncoderEngineWithSwitch.encoder.value := selfEncoderEngineWithSwitch.currentTargetEncoderValue; 
 						}
 						state backward_until_target_pos {
-							do assign selfEncoderEngineWithSwitch.encoderValue := selfEncoderEngineWithSwitch.currentTargetEncoderValue; 
+							do assign selfEncoderEngineWithSwitch.encoder.value := selfEncoderEngineWithSwitch.currentTargetEncoderValue; 
 						}
 						
-						transition iddle_to_forward_until_ref
+						transition idle_to_forward_until_ref
 							first idle
 							accept SetupCmdMsg
 							do action goForward {
-								action assign selfEncoderEngineWithSwitch.forwardActuator := true;
-								action assign selfEncoderEngineWithSwitch.backwardActuator := false;
+								action assign selfEncoderEngineWithSwitch.forwardActuator.value := true;
+								action assign selfEncoderEngineWithSwitch.backwardActuator.value := false;
 							}
 							then forward_until_ref;
 							
-						transition iddle_to_forward_until_target_pos
+						transition idle_to_forward_until_target_pos
 							first idle
 							accept msg : GotoposEngineCmdMsg via selfEncoderEngineWithSwitch.gotoposCmdPort
-								if selfEncoderEngineWithSwitch.encoderValue <  msg.targetPos
+								if selfEncoderEngineWithSwitch.encoder.value <  msg.targetPos
 							do action goForward {
-								action assign selfEncoderEngineWithSwitch.forwardActuator := true;
-								action assign selfEncoderEngineWithSwitch.backwardActuator := false;
+								action assign selfEncoderEngineWithSwitch.forwardActuator.value := true;
+								action assign selfEncoderEngineWithSwitch.backwardActuator.value := false;
 								action assign selfEncoderEngineWithSwitch.currentTargetEncoderValue := msg.targetPos; 
 							}
 							then forward_until_target_pos;
-						transition iddle_to_backward_until_target_pos
+						transition idle_to_backward_until_target_pos
 							first idle
 							accept msg : GotoposEngineCmdMsg via selfEncoderEngineWithSwitch.gotoposCmdPort
-								if selfEncoderEngineWithSwitch.encoderValue >  msg.targetPos
+								if selfEncoderEngineWithSwitch.encoder.value >  msg.targetPos
 							do action goForward {
-								action assign selfEncoderEngineWithSwitch.forwardActuator := false;
-								action assign selfEncoderEngineWithSwitch.backwardActuator := true;
+								action assign selfEncoderEngineWithSwitch.forwardActuator.value := false;
+								action assign selfEncoderEngineWithSwitch.backwardActuator.value := true;
 								action assign selfEncoderEngineWithSwitch.currentTargetEncoderValue := msg.targetPos; 
 							}
 							then forward_until_target_pos;
 						transition  forward_until_ref_to_idle
 							first forward_until_ref
-							accept when selfEncoderEngineWithSwitch.referenceSwitch == true
+							accept when selfEncoderEngineWithSwitch.referenceSwitch.value == true
 							then idle;
 						transition  forward_until_target_pos_to_idle
 							first forward_until_ref
-							if selfEncoderEngineWithSwitch.encoderValue == selfEncoderEngineWithSwitch.currentTargetEncoderValue
+							if selfEncoderEngineWithSwitch.encoder.value == selfEncoderEngineWithSwitch.currentTargetEncoderValue
 							then idle;
 						transition  backward_until_target_pos_to_idle
 							first backward_until_target_pos
-							if selfEncoderEngineWithSwitch.encoderValue == selfEncoderEngineWithSwitch.currentTargetEncoderValue
+							if selfEncoderEngineWithSwitch.encoder.value == selfEncoderEngineWithSwitch.currentTargetEncoderValue
 							then idle;
 						
 						transition  backward_until_target_pos_stop
 							first forward_until_ref
-							if selfEncoderEngineWithSwitch.encoderValue == selfEncoderEngineWithSwitch.currentTargetEncoderValue
+							if selfEncoderEngineWithSwitch.encoder.value == selfEncoderEngineWithSwitch.currentTargetEncoderValue
 							then idle;
 					}
 					
@@ -133,7 +214,7 @@ package REN_1V_01_VGRSystemPLCModel {
 	            	attribute dropPosition : GripperRelativePosition;
 	            }
 	            item def GotoposEngineCmdMsg {
-	            	attribute targetPos : Positive;
+	            	attribute targetPos : Natural;
 	            }
 	            
 	            item def SetupCmdMsg:>CmdMsg{
@@ -145,9 +226,9 @@ package REN_1V_01_VGRSystemPLCModel {
 	            	 * discussion: should we use a standard coordinate system such as ISQSpaceTime::universalCartesianSpatial3dCoordinateFrame
 	            	 * or use robot relative coordinate (angles, etc) or encoder based (as sent in the current command  )
 	            	 */
-	            	 attribute rotationPos : Positive;
-	            	 attribute verticalPos : Positive;
-	            	 attribute horizontalPos : Positive;
+	            	 attribute rotationPos : Natural;
+	            	 attribute verticalPos : Natural;
+	            	 attribute horizontalPos : Natural;
 	            }   
 		    }
 		    package PortDefinitions {
@@ -156,45 +237,76 @@ package REN_1V_01_VGRSystemPLCModel {
 	                in item gotoposEngineCmdMsg:GotoposEngineCmdMsg;
 	            }
 	            
-	            //port def ActuatorOutPort {
-	            //	attribute value : Boolean;
-	            //}
+	            
 		    }
 			package System {
 				import Definitions::*;
 				
-				part REN_1V_01_VGRSystemPLC : VGRSystemPLC {
-					part compressorController : CompressorPLCModule;
-					part valveController : ValvePLCModule;
-					part rotationEngineController : EncoderEngineWithSwitchSystemPLCModule;
-					//state rotationengineSTates : EncoderEngineWithSwitch::EngineStates { in selfEncoderEngineWithSwitch = rotationEngine; }	
-					part verticalEngineController : EncoderEngineWithSwitchSystemPLCModule;
-					part horizontalEngineController : EncoderEngineWithSwitchSystemPLCModule;
-				}
+				// part vgrSystemPLC : VGRSystemPLC {
+				// 	part compressorController : CompressorPLCModule;
+				// 	part valveController : ValvePLCModule;
+				// 	part rotationImpulseCounter : TwoWaysImpulseCounter;
+				// 	part rotationEngineController : EncoderEngineWithSwitchSystemPLCModule;
+				// 	//state rotationengineSTates : EncoderEngineWithSwitch::EngineStates { in selfEncoderEngineWithSwitch = rotationEngine; }	
+					
+				// 	part verticalImpulseCounter : TwoWaysImpulseCounter;
+				// 	part verticalEngineController : EncoderEngineWithSwitchSystemPLCModule;
+					
+				// 	part horizontalImpulseCounter : TwoWaysImpulseCounter;
+				// 	part horizontalEngineController : EncoderEngineWithSwitchSystemPLCModule;
+
+				// 	// port binding
+				// 	bind rotationImpulseCounter.encoderCount = rotationEngineController.encoder;
+				// 	bind verticalImpulseCounter.encoderCount = verticalEngineController.encoder;
+				// 	bind horizontalImpulseCounter.encoderCount = horizontalEngineController.encoder;
+				// 	// todo missing binding: rotationImpulseCounter in port
+				// }
 			}
 		}
 		package HardwareDomain {
 			package Definitions {
-				part def VGRMachine {}
-				part def Compressor {}
-				part def Valve {}
-				part def EncoderEngine {}
-				part def ElectricalSwitch {}
+				import PortDefinitions::*;
+				import REN_1V_01_VGRSystemPLCModel::LogicalLevel::PortDefinitions::*;
+				part def VGRMachine {
+
+					part compressor : Compressor;
+					part valve : Valve;
+					part rotationEngine : EncoderMotor;
+					part verticalEngine : EncoderMotor;
+					part horizonalEngine : EncoderMotor;
+					part rotationReferenceSwitch : ElectricalSwitch;
+					part verticalReferenceSwitch : ElectricalSwitch;
+					part horizontalReferenceSwitch : ElectricalSwitch;
+				}
+				part def Compressor {
+					in port compressorActuator : ActuatorPort;
+				}
+				part def Valve {
+					in port valveActuator : ActuatorPort;}
+				part def EncoderMotor { 
+					in port forwardActuator : ActuatorPort;
+					in port backwardActuator : ActuatorPort;
+					out port incrementSignal : SensorPort;
+					out port decrementSignal : SensorPort;
+				}
+				part def ElectricalSwitch {
+					out port switchSensor : SensorPort;
+				}
 			}
 			package SignalDefinitions {}
 			package PortDefinitions {}
 			package System {
 				import Definitions::*;
-				part REN_1V_01_VGRSystem_vgrMachine : VGRMachine {
-					part compressor : Compressor;
-					part valve : Valve;
-					part rotationEngine : EncoderEngine;
-					part verticalEngine : EncoderEngine;
-					part horizonalEngine : EncoderEngine;
-					part rotationReferenceSwitch : ElectricalSwitch;
-					part verticalReferenceSwitch : ElectricalSwitch;
-					part horizontalReferenceSwitch : ElectricalSwitch;
-				}
+				// part vgrSystem_vgrMachine : VGRMachine {
+				// 	part compressor : Compressor;
+				// 	part valve : Valve;
+				// 	part rotationEngine : EncoderMotor;
+				// 	part verticalEngine : EncoderMotor;
+				// 	part horizonalEngine : EncoderMotor;
+				// 	part rotationReferenceSwitch : ElectricalSwitch;
+				// 	part verticalReferenceSwitch : ElectricalSwitch;
+				// 	part horizontalReferenceSwitch : ElectricalSwitch;
+				// }
 			}
 		}
 		package ElectricalDomain {
@@ -212,29 +324,51 @@ package REN_1V_01_VGRSystemPLCModel {
 		package Definitions {
 			part def VGRSystem {}
 		}
+		package PortDefinitions {
+
+			port def ActuatorPort {
+				attribute value : Boolean;
+			}
+			port def SensorPort {
+				attribute value : Boolean;
+			}
+			port def EncoderPort {
+				attribute value : Integer;
+			}
+		}
 		package System {
 			import Definitions::*;
 			import HardwareDomain::Definitions::*;
 			import SoftwareDomain::Definitions::*;
-			part REN_1V_01_VGRSystem : VGRSystem { // todo consider direct reuse of REN_1V_01_VGRSystem_vgrMachine and REN_1V_01_VGRSystemPLC
+			part REN_1V_01_VGRSystem : VGRSystem { 
+
 				part vgrMachine : VGRMachine {
-					part compressor : Compressor;
-					part valve : Valve;
-					part rotationEngine : EncoderEngine;
-					part verticalEngine : EncoderEngine;
-					part horizonalEngine : EncoderEngine;
-					part rotationReferenceSwitch : ElectricalSwitch;
-					part verticalReferenceSwitch : ElectricalSwitch;
-					part horizontalReferenceSwitch : ElectricalSwitch;
 				}
 				part vgrPLC : VGRSystemPLC {
-					part compressorController : CompressorPLCModule;
-					part valveController : ValvePLCModule;
-					part rotationEngineController : EncoderEngineWithSwitchSystemPLCModule;
-					//state rotationengineSTates : EncoderEngineWithSwitch::EngineStates { in selfEncoderEngineWithSwitch = rotationEngine; }	
-					part verticalEngineController : EncoderEngineWithSwitchSystemPLCModule;
-					part horizontalEngineController : EncoderEngineWithSwitchSystemPLCModule;
 				} 
+
+				// plc to machine binding
+				bind vgrMachine.rotationEngine.incrementSignal = vgrPLC.rotationImpulseCounter.incrementSignal;
+				bind vgrMachine.rotationEngine.decrementSignal = vgrPLC.rotationImpulseCounter.decrementSignal;
+				bind vgrMachine.rotationEngine.forwardActuator = vgrPLC.rotationEngineController.forwardActuator;
+				bind vgrMachine.rotationEngine.backwardActuator = vgrPLC.rotationEngineController.backwardActuator;
+				bind vgrMachine.rotationReferenceSwitch.switchSensor = vgrPLC.rotationEngineController.referenceSwitch;
+
+				bind vgrMachine.verticalEngine.incrementSignal = vgrPLC.verticalImpulseCounter.incrementSignal;
+				bind vgrMachine.verticalEngine.decrementSignal = vgrPLC.verticalImpulseCounter.decrementSignal;
+				bind vgrMachine.verticalEngine.forwardActuator = vgrPLC.verticalEngineController.forwardActuator;
+				bind vgrMachine.verticalEngine.backwardActuator = vgrPLC.verticalEngineController.backwardActuator;
+				bind vgrMachine.verticalReferenceSwitch.switchSensor = vgrPLC.verticalEngineController.referenceSwitch;
+				
+				bind vgrMachine.horizonalEngine.incrementSignal = vgrPLC.horizontalImpulseCounter.incrementSignal;
+				bind vgrMachine.horizonalEngine.decrementSignal = vgrPLC.horizontalImpulseCounter.decrementSignal;
+				bind vgrMachine.horizonalEngine.forwardActuator = vgrPLC.horizontalEngineController.forwardActuator;
+				bind vgrMachine.horizonalEngine.backwardActuator = vgrPLC.horizontalEngineController.backwardActuator;
+				bind vgrMachine.horizontalReferenceSwitch.switchSensor = vgrPLC.horizontalEngineController.referenceSwitch;
+				
+				bind vgrMachine.compressor.compressorActuator = vgrPLC.compressorController.compressorActuator;
+				bind vgrMachine.valve.valveActuator = vgrPLC.valveController.valveActuator
+				
 			}
 		}
 	}
