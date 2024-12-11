@@ -11,20 +11,20 @@ package REN_1V_01_VGRSystemPLCModel {
 				
 					part compressorController : CompressorPLCModule;
 					part valveController : ValvePLCModule;
-					part rotationImpulseCounter : TwoWaysImpulseCounter;
+					part rotationImpulseCounter : QuadratureDecoder;
 					part rotationEngineController : EncoderEngineWithSwitchSystemPLCModule;
 					//state rotationengineSTates : EncoderEngineWithSwitch::EngineStates { in selfEncoderEngineWithSwitch = rotationEngine; }	
 					
-					part verticalImpulseCounter : TwoWaysImpulseCounter;
+					part verticalImpulseCounter : QuadratureDecoder;
 					part verticalEngineController : EncoderEngineWithSwitchSystemPLCModule;
 					
-					part horizontalImpulseCounter : TwoWaysImpulseCounter;
+					part horizontalImpulseCounter : QuadratureDecoder;
 					part horizontalEngineController : EncoderEngineWithSwitchSystemPLCModule;
 
 					// port binding
-					bind rotationImpulseCounter.encoderCount = rotationEngineController.encoder;
-					bind verticalImpulseCounter.encoderCount = verticalEngineController.encoder;
-					bind horizontalImpulseCounter.encoderCount = horizontalEngineController.encoder;
+					bind rotationImpulseCounter.decoderCount = rotationEngineController.decoderCount;
+					bind verticalImpulseCounter.decoderCount = verticalEngineController.decoderCount;
+					bind horizontalImpulseCounter.decoderCount = horizontalEngineController.decoderCount;
 
 
 					port plcCmdPort:PLCCmdPort;
@@ -75,9 +75,9 @@ package REN_1V_01_VGRSystemPLCModel {
 							first move_step_1
 							// if all controllers have reached their target
 							// todo: store current target in each controller for simpler code with multiple steps
-							if selfVGRSystemPLC.rotationEngineController.encoder.value == currentMoveCommandPickupPosition.rotationPos
-								and selfVGRSystemPLC.verticalEngineController.encoder.value == currentMoveCommandPickupPosition.verticalPos
-								and selfVGRSystemPLC.horizontalEngineController.encoder.value == currentMoveCommandPickupPosition.horizontalPos							
+							if selfVGRSystemPLC.rotationEngineController.decoderCount.value == currentMoveCommandPickupPosition.rotationPos
+								and selfVGRSystemPLC.verticalEngineController.decoderCount.value == currentMoveCommandPickupPosition.verticalPos
+								and selfVGRSystemPLC.horizontalEngineController.decoderCount.value == currentMoveCommandPickupPosition.horizontalPos			
 							then move_step_2;
 					}
 
@@ -94,70 +94,80 @@ package REN_1V_01_VGRSystemPLCModel {
 					out port valveActuator : ActuatorPort;
 				}
 				
-				part def TwoWaysImpulseCounter {
+				part def QuadratureDecoder {
+					doc /*
+						 * The quadrature decoder is in charge of decoding the impulse signals coming from a quadrature encoder  typically associated to a Motor
+						 * It increments the counter when the motor is rotating forward, and decrement the counter when rotating backward
+						 */
+					in port signalA : SensorPort;
+					in port signalB : SensorPort;
 					
-					in port incrementSignal : SensorPort;
-					in port decrementSignal : SensorPort;
-					
-					out port encoderCount : EncoderPort;
+					out port decoderCount : CounterPort;
 					
 					action def Reset {
-						action assign encoderCount := 0;
+						action assign decoderCount := 0;
 					}
 					action reset : Reset;
-					state encoderCounterStates : EncoderCounterStates{ in selfTwoWaysImpulseCounter = TwoWaysImpulseCounter::self;  }
-					state def EncoderCounterStates {
-						in selfTwoWaysImpulseCounter : TwoWaysImpulseCounter;
+					state decoderStates : DecoderCounterStates{ in selfTwoWaysImpulseCounter = QuadratureDecoder::self;  }
+					state def DecoderCounterStates {
+						in selfDecoder : QuadratureDecoder;
 						entry; then dd;
 						state uu {
-							doc /* 	incrementSignal is Up
-									and decrementSignal isUp
-	            	    		*/
+							doc /* 	signalA is Up and signalB is Up */
 						}
 						state ud {
-							doc /* 	incrementSignal is Up
-									and decrementSignal is Down
-	            	    		*/}
+							doc /* 	signalA is Up and signalB is Down */
+						}
 						state du {
-							doc /* 	incrementSignal is Down
-									and decrementSignal is Up
-	            	    		*/}
+							doc /* 	signalA is Down	and signalB is Up */
+						}
 						state dd {
-							doc /* 	incrementSignal is Down
-									and decrementSignal is Down
-	            	    		*/}
+							doc /* 	signalA is Down	and signalB is Down */
+						}
 						transition dd_To_ud 
 							first dd
-							if selfTwoWaysImpulseCounter.incrementSignal.value == true
-							do assign selfTwoWaysImpulseCounter.encoderCount.value := selfTwoWaysImpulseCounter.encoderCount.value +1 
+							if selfDecoder.signalA.value == true and  selfDecoder.signalB.value == false
+							do selfDecoder.increment
 							then ud; 
 						transition ud_To_dd 
 							first ud
-							if selfTwoWaysImpulseCounter.incrementSignal.value == false
+							if selfDecoder.signalA.value == false and  selfDecoder.signalB.value == false
+							do selfDecoder.decrement
 							then dd; 
 						
 						transition dd_To_du 
 							first dd
-							if selfTwoWaysImpulseCounter.decrementSignal.value == true
-							do assign selfTwoWaysImpulseCounter.encoderCount.value := selfTwoWaysImpulseCounter.encoderCount.value -1 
+							if selfDecoder.signalA.value == false and  selfDecoder.signalB.value == true
+							do selfDecoder.decrement 
 							then du;
 						transition ud_To_uu 
 							first ud
-							if selfTwoWaysImpulseCounter.decrementSignal.value == true
-							do assign selfTwoWaysImpulseCounter.encoderCount := selfTwoWaysImpulseCounter.encoderCount.value -1
+							if selfDecoder.signalA.value == true and  selfDecoder.signalB.value == true
+							do selfDecoder.increment
 							then uu;
 						transition du_To_dd 
 							first du
-							if selfTwoWaysImpulseCounter.decrementSignal.value == false
+							if selfDecoder.signalA.value == false and  selfDecoder.signalB.value == false
+							do selfDecoder.increment
 							then dd; 
 						transition uu_To_ud 
 							first uu
-							if selfTwoWaysImpulseCounter.decrementSignal.value == false
+							if selfDecoder.signalA.value == true and  selfDecoder.signalB.value == false
+							do selfDecoder.decrement 
 							then ud;  
 						transition uu_To_du 
 							first uu
-							if selfTwoWaysImpulseCounter.incrementSignal.value == false
+							if selfDecoder.signalA.value == false and  selfDecoder.signalB.value == true
+							do selfDecoder.increment
 							then du;
+					}
+
+					action increment {
+						decoderCount := decoderCount + 1;
+					}
+					
+					action decrement {
+						decoderCount := decoderCount - 1;
 					}
 				}
 				part def EncoderEngineWithSwitchSystemPLCModule {
@@ -165,14 +175,14 @@ package REN_1V_01_VGRSystemPLCModel {
 					port gotoposCmdPort:GotoposEnginePort;
 
 					
-					in port encoder : EncoderPort;
+					in port decoderCount : CounterPort;
 					in port referenceSwitch : SensorPort;
 
 					out port forwardActuator : ActuatorPort;
 					out port backwardActuator : ActuatorPort;
 					
 					
-					attribute currentTargetEncoderValue : Positive {
+					attribute currentTargetDecoderValue : Positive {
 						doc /* target value for the encoder, used by some states	*/
 					}
 					
@@ -188,10 +198,10 @@ package REN_1V_01_VGRSystemPLCModel {
 							do assign selfEncoderEngineWithSwitch.referenceSwitch := true;
 						}
 						state forward_until_target_pos {
-							do assign selfEncoderEngineWithSwitch.encoder.value := selfEncoderEngineWithSwitch.currentTargetEncoderValue; 
+							do assign selfEncoderEngineWithSwitch.decoderCount.value := selfEncoderEngineWithSwitch.currentTargetDecoderValue; 
 						}
 						state backward_until_target_pos {
-							do assign selfEncoderEngineWithSwitch.encoder.value := selfEncoderEngineWithSwitch.currentTargetEncoderValue; 
+							do assign selfEncoderEngineWithSwitch.decoderCount.value := selfEncoderEngineWithSwitch.currentTargetDecoderValue; 
 						}
 						
 						transition idle_to_forward_until_ref
@@ -206,21 +216,21 @@ package REN_1V_01_VGRSystemPLCModel {
 						transition idle_to_forward_until_target_pos
 							first idle
 							accept msg : GotoposEngineCmdMsg via selfEncoderEngineWithSwitch.gotoposCmdPort
-								if selfEncoderEngineWithSwitch.encoder.value <  msg.targetPos
+								if selfEncoderEngineWithSwitch.decoderCount.value <  msg.targetPos
 							do action goForward {
 								action assign selfEncoderEngineWithSwitch.forwardActuator.value := true;
 								action assign selfEncoderEngineWithSwitch.backwardActuator.value := false;
-								action assign selfEncoderEngineWithSwitch.currentTargetEncoderValue := msg.targetPos; 
+								action assign selfEncoderEngineWithSwitch.currentTargetDecoderValue := msg.targetPos; 
 							}
 							then forward_until_target_pos;
 						transition idle_to_backward_until_target_pos
 							first idle
 							accept msg : GotoposEngineCmdMsg via selfEncoderEngineWithSwitch.gotoposCmdPort
-								if selfEncoderEngineWithSwitch.encoder.value >  msg.targetPos
+								if selfEncoderEngineWithSwitch.decoderCount.value >  msg.targetPos
 							do action goForward {
 								action assign selfEncoderEngineWithSwitch.forwardActuator.value := false;
 								action assign selfEncoderEngineWithSwitch.backwardActuator.value := true;
-								action assign selfEncoderEngineWithSwitch.currentTargetEncoderValue := msg.targetPos; 
+								action assign selfEncoderEngineWithSwitch.currentTargetDecoderValue := msg.targetPos; 
 							}
 							then forward_until_target_pos;
 						transition  forward_until_ref_to_idle
@@ -229,16 +239,16 @@ package REN_1V_01_VGRSystemPLCModel {
 							then idle;
 						transition  forward_until_target_pos_to_idle
 							first forward_until_ref
-							if selfEncoderEngineWithSwitch.encoder.value == selfEncoderEngineWithSwitch.currentTargetEncoderValue
+							if selfEncoderEngineWithSwitch.decoderCount.value == selfEncoderEngineWithSwitch.currentTargetDecoderValue
 							then idle;
 						transition  backward_until_target_pos_to_idle
 							first backward_until_target_pos
-							if selfEncoderEngineWithSwitch.encoder.value == selfEncoderEngineWithSwitch.currentTargetEncoderValue
+							if selfEncoderEngineWithSwitch.decoderCount.value == selfEncoderEngineWithSwitch.currentTargetDecoderValue
 							then idle;
 						
 						transition  backward_until_target_pos_stop
 							first forward_until_ref
-							if selfEncoderEngineWithSwitch.encoder.value == selfEncoderEngineWithSwitch.currentTargetEncoderValue
+							if selfEncoderEngineWithSwitch.decoderCount.value == selfEncoderEngineWithSwitch.currentTargetDecoderValue
 							then idle;
 					}
 					
@@ -377,7 +387,7 @@ package REN_1V_01_VGRSystemPLCModel {
 			port def SensorPort {
 				attribute value : Boolean;
 			}
-			port def EncoderPort {
+			port def CounterPort {
 				attribute value : Integer;
 			}
 		}
@@ -393,20 +403,20 @@ package REN_1V_01_VGRSystemPLCModel {
 				} 
 
 				// plc to machine binding
-				bind vgrMachine.rotationEngine.incrementSignal = vgrPLC.rotationImpulseCounter.incrementSignal;
-				bind vgrMachine.rotationEngine.decrementSignal = vgrPLC.rotationImpulseCounter.decrementSignal;
+				bind vgrMachine.rotationEngine.incrementSignal = vgrPLC.rotationImpulseCounter.signalA;
+				bind vgrMachine.rotationEngine.decrementSignal = vgrPLC.rotationImpulseCounter.signalB;
 				bind vgrMachine.rotationEngine.forwardActuator = vgrPLC.rotationEngineController.forwardActuator;
 				bind vgrMachine.rotationEngine.backwardActuator = vgrPLC.rotationEngineController.backwardActuator;
 				bind vgrMachine.rotationReferenceSwitch.switchSensor = vgrPLC.rotationEngineController.referenceSwitch;
 
-				bind vgrMachine.verticalEngine.incrementSignal = vgrPLC.verticalImpulseCounter.incrementSignal;
-				bind vgrMachine.verticalEngine.decrementSignal = vgrPLC.verticalImpulseCounter.decrementSignal;
+				bind vgrMachine.verticalEngine.incrementSignal = vgrPLC.verticalImpulseCounter.signalA;
+				bind vgrMachine.verticalEngine.decrementSignal = vgrPLC.verticalImpulseCounter.signalB;
 				bind vgrMachine.verticalEngine.forwardActuator = vgrPLC.verticalEngineController.forwardActuator;
 				bind vgrMachine.verticalEngine.backwardActuator = vgrPLC.verticalEngineController.backwardActuator;
 				bind vgrMachine.verticalReferenceSwitch.switchSensor = vgrPLC.verticalEngineController.referenceSwitch;
 				
-				bind vgrMachine.horizonalEngine.incrementSignal = vgrPLC.horizontalImpulseCounter.incrementSignal;
-				bind vgrMachine.horizonalEngine.decrementSignal = vgrPLC.horizontalImpulseCounter.decrementSignal;
+				bind vgrMachine.horizonalEngine.incrementSignal = vgrPLC.horizontalImpulseCounter.signalA;
+				bind vgrMachine.horizonalEngine.decrementSignal = vgrPLC.horizontalImpulseCounter.signalB;
 				bind vgrMachine.horizonalEngine.forwardActuator = vgrPLC.horizontalEngineController.forwardActuator;
 				bind vgrMachine.horizonalEngine.backwardActuator = vgrPLC.horizontalEngineController.backwardActuator;
 				bind vgrMachine.horizontalReferenceSwitch.switchSensor = vgrPLC.horizontalEngineController.referenceSwitch;
