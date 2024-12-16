@@ -48,6 +48,11 @@ package REN_1V_01_VGRSystemPLCModel {
 					attribute isInitalized : Boolean := false {
 						doc /* false until all EncoderEngineWithSwitchSystemPLCModule have been placed on the reference switch at least once and reset the associated counter */
 					}
+					attribute actionCommandDone : Boolean := false {
+						doc /* used to know when an complex action command has been finished */
+						comment /* maybe use a signal instead ?*/
+					}
+
 					attribute verticalOffset : Natural := 250 {
 						doc /* value used by move, pick, place command to grip the token by placing the gripper above the token */
 					}
@@ -60,70 +65,68 @@ package REN_1V_01_VGRSystemPLCModel {
 					}
 					state def VGRSystemPLCStates{
 						in selfVGRSystemPLC : VGRSystemPLC;
+						//in this : VGRSystemPLC;
 
 						entry; then idle;
 						state idle;
 						
-						state setup;
-						
-						state prepare_move {
-						}
-
-						state setup_before_move {
+						state setup {
 							entry selfVGRSystemPLC.setupEngines;
-							exit selfVGRSystemPLC.resetDecoderCounters; 
 						}
-						state move_step_1 {
-							entry selfVGRSystemPLC.retractArm;
-						}
-						state move_step_2{
-							entry selfVGRSystemPLC.rotateToPickupPos;
-						}
-						state move_step_3{
-							entry selfVGRSystemPLC.gotoAbovePickupPos;
-						}
-						state move_step_4{
-							entry selfVGRSystemPLC.gotoPickupPos;
-						}
-						state move_step_5 {
-							entry selfVGRSystemPLC.activateGrip;
-						}
-						state move_step_6 {
-							entry selfVGRSystemPLC.raiseArm;
-						}
-						state move_step_7 {
-							entry selfVGRSystemPLC.retractArm;
-						}
-						state move_step_8 {
-							entry selfVGRSystemPLC.rotateToDropPos;
-						}
-						state move_step_9 {
-							entry selfVGRSystemPLC.gotoDropPos;
-						}
-						state move_step_10 {
-							entry selfVGRSystemPLC.releaseGrip;
-						}
-						state move_step_11 {
-							entry selfVGRSystemPLC.raiseArm;
-						}
-											
-						state stop;
 						
-						transition 'setupCmd'
-			                    first idle
-			                    accept setupCmdMsg:SetupCmdMsg via plcCmdPort
-			                    then setup;
-						transition 'idle_to_prepare_move'
-			                    first idle
-			                    accept msg:MoveCmdMsg via plcCmdPort
-								do action storeMoveParams {
-									action assign selfVGRSystemPLC.currentMoveCommandPickupPosition := msg.pickupPosition; 
-									action assign selfVGRSystemPLC.currentMoveCommandDropPosition := msg.dropPosition; 
-								} 
-			                    then prepare_move;
-						transition 'prep_move_to_setup'
+						state move {
+							entry  action assign selfVGRSystemPLC.actionCommandDone  := false;
+							then prepare_move;
+						
+							state prepare_move {
+							}
+
+							state setup_before_move {
+								entry selfVGRSystemPLC.setupEngines;
+							}
+							state move_step_1_retractArm {
+								entry selfVGRSystemPLC.retractArm;
+							}
+							state move_step_2_rotateToPickupPos {
+								entry selfVGRSystemPLC.rotateToPickupPos;
+							}
+							state move_step_3_gotoAbovePickupPos {
+								entry selfVGRSystemPLC.gotoAbovePickupPos;
+							}
+							state move_step_4_gotoPickupPos{
+								entry selfVGRSystemPLC.gotoPickupPos;
+							}
+							state move_step_5_activateGrip {
+								entry selfVGRSystemPLC.activateGrip;
+							}
+							state move_step_6_raiseArm {
+								entry selfVGRSystemPLC.raiseArm;
+							}
+							state move_step_7_retractArm {
+								entry selfVGRSystemPLC.retractArm;
+							}
+							state move_step_8_rotateToDropPos {
+								entry selfVGRSystemPLC.rotateToDropPos;
+							}
+							state move_step_9_gotoDropPos {
+								entry selfVGRSystemPLC.gotoDropPos;
+							}
+							state move_step_10_releaseGrip {
+								entry selfVGRSystemPLC.releaseGrip;
+							}
+							state move_step_11_raiseArm {
+								entry selfVGRSystemPLC.raiseArm;
+							}
+
+							state move_done {
+								entry action signalEndOfActioncommand {
+									assign selfVGRSystemPLC.actionCommandDone  := true;
+								}
+							}
+						transition 'prep_move_to_setup' 
 							first prepare_move
-							if not isInitalized
+							if not selfVGRSystemPLC.isInitalized
+							do selfVGRSystemPLC.setupEngines
 							then setup_before_move;
 						
 						transition 'setup_before_move_to_step_1'
@@ -131,20 +134,144 @@ package REN_1V_01_VGRSystemPLCModel {
 							if selfVGRSystemPLC.rotationEngineController.referenceSwitch == true 
 								and selfVGRSystemPLC.verticalEngineController.referenceSwitch == true
 								and selfVGRSystemPLC.horizontalEngineController.referenceSwitch == true
-							then move_step_1;
+							do selfVGRSystemPLC.resetDecoderCounters
+							then move_step_1_retractArm;
 
 						transition 'prep_move_to_step1'
 							first prepare_move
-							if isInitalized
-							then move_step_1;
+							if selfVGRSystemPLC.isInitalized
+							then move_step_1_retractArm;
 
 						transition 'move_step_1_to_move_step_2' 
-							first move_step_1
+							first move_step_1_retractArm
 							// if all controllers have reached their target
-							if selfVGRSystemPLC.rotationEngineController.decoderCount.value == currentCommandTargetPosition.rotationPos
-								and selfVGRSystemPLC.verticalEngineController.decoderCount.value == currentCommandTargetPosition.verticalPos
-								and selfVGRSystemPLC.horizontalEngineController.decoderCount.value == currentCommandTargetPosition.horizontalPos			
-							then move_step_2;
+							if selfVGRSystemPLC.rotationEngineController.decoderCount.value == selfVGRSystemPLC.currentCommandTargetPosition.rotationPos
+								and selfVGRSystemPLC.verticalEngineController.decoderCount.value == selfVGRSystemPLC.currentCommandTargetPosition.verticalPos
+								and selfVGRSystemPLC.horizontalEngineController.decoderCount.value == selfVGRSystemPLC.currentCommandTargetPosition.horizontalPos			
+							then move_step_2_rotateToPickupPos;
+						
+						transition 'move_step_2_to_move_step_3' 
+							first move_step_2_rotateToPickupPos
+							// if all controllers have reached their target
+							if selfVGRSystemPLC.rotationEngineController.decoderCount.value == selfVGRSystemPLC.currentCommandTargetPosition.rotationPos
+								and selfVGRSystemPLC.verticalEngineController.decoderCount.value == selfVGRSystemPLC.currentCommandTargetPosition.verticalPos
+								and selfVGRSystemPLC.horizontalEngineController.decoderCount.value == selfVGRSystemPLC.currentCommandTargetPosition.horizontalPos			
+							then move_step_3_gotoAbovePickupPos;
+						
+						transition 'move_step_3_to_move_step_4' 
+							first move_step_3_gotoAbovePickupPos
+							// if all controllers have reached their target
+							if selfVGRSystemPLC.rotationEngineController.decoderCount.value == selfVGRSystemPLC.currentCommandTargetPosition.rotationPos
+								and selfVGRSystemPLC.verticalEngineController.decoderCount.value == selfVGRSystemPLC.currentCommandTargetPosition.verticalPos
+								and selfVGRSystemPLC.horizontalEngineController.decoderCount.value == selfVGRSystemPLC.currentCommandTargetPosition.horizontalPos			
+							then move_step_4_gotoPickupPos;
+						transition 'move_step_4_to_move_step_5' 
+							first move_step_4_gotoPickupPos
+							// if all controllers have reached their target
+							if selfVGRSystemPLC.rotationEngineController.decoderCount.value == selfVGRSystemPLC.currentCommandTargetPosition.rotationPos
+								and selfVGRSystemPLC.verticalEngineController.decoderCount.value == selfVGRSystemPLC.currentCommandTargetPosition.verticalPos
+								and selfVGRSystemPLC.horizontalEngineController.decoderCount.value == selfVGRSystemPLC.currentCommandTargetPosition.horizontalPos			
+							then move_step_5_activateGrip;
+						transition 'move_step_5_to_move_step_6' 
+							first move_step_5_activateGrip			
+							then move_step_6_raiseArm;
+						transition 'move_step_6_to_move_step_7' 
+							first move_step_6_raiseArm
+							// if all controllers have reached their target
+							if selfVGRSystemPLC.rotationEngineController.decoderCount.value == selfVGRSystemPLC.currentCommandTargetPosition.rotationPos
+								and selfVGRSystemPLC.verticalEngineController.decoderCount.value == selfVGRSystemPLC.currentCommandTargetPosition.verticalPos
+								and selfVGRSystemPLC.horizontalEngineController.decoderCount.value == selfVGRSystemPLC.currentCommandTargetPosition.horizontalPos			
+							then move_step_7_retractArm;
+						transition 'move_step_7_to_move_step_8' 
+							first move_step_7_retractArm
+							// if all controllers have reached their target
+							if selfVGRSystemPLC.rotationEngineController.decoderCount.value == selfVGRSystemPLC.currentCommandTargetPosition.rotationPos
+								and selfVGRSystemPLC.verticalEngineController.decoderCount.value == selfVGRSystemPLC.currentCommandTargetPosition.verticalPos
+								and selfVGRSystemPLC.horizontalEngineController.decoderCount.value == selfVGRSystemPLC.currentCommandTargetPosition.horizontalPos			
+							then move_step_8_rotateToDropPos;
+						transition 'move_step_8_to_move_step_9' 
+							first move_step_8_rotateToDropPos
+							// if all controllers have reached their target
+							if selfVGRSystemPLC.rotationEngineController.decoderCount.value == selfVGRSystemPLC.currentCommandTargetPosition.rotationPos
+								and selfVGRSystemPLC.verticalEngineController.decoderCount.value == selfVGRSystemPLC.currentCommandTargetPosition.verticalPos
+								and selfVGRSystemPLC.horizontalEngineController.decoderCount.value == selfVGRSystemPLC.currentCommandTargetPosition.horizontalPos			
+							then move_step_9_gotoDropPos;
+						transition 'move_step_9_to_move_step_10' 
+							first move_step_9_gotoDropPos
+							// if all controllers have reached their target
+							if selfVGRSystemPLC.rotationEngineController.decoderCount.value == selfVGRSystemPLC.currentCommandTargetPosition.rotationPos
+								and selfVGRSystemPLC.verticalEngineController.decoderCount.value == selfVGRSystemPLC.currentCommandTargetPosition.verticalPos
+								and selfVGRSystemPLC.horizontalEngineController.decoderCount.value == selfVGRSystemPLC.currentCommandTargetPosition.horizontalPos			
+							then move_step_10_releaseGrip;
+						transition 'move_step_10_to_move_step_11' 
+							first move_step_10_releaseGrip
+							then move_step_11_raiseArm;
+						transition 'move_step_11_to_move_done' 
+							first move_step_11_raiseArm
+							// if all controllers have reached their target
+							if selfVGRSystemPLC.rotationEngineController.decoderCount.value == selfVGRSystemPLC.currentCommandTargetPosition.rotationPos
+								and selfVGRSystemPLC.verticalEngineController.decoderCount.value == selfVGRSystemPLC.currentCommandTargetPosition.verticalPos
+								and selfVGRSystemPLC.horizontalEngineController.decoderCount.value == selfVGRSystemPLC.currentCommandTargetPosition.horizontalPos			
+							then move_done;
+						}					
+						state stop {
+							entry selfVGRSystemPLC.stopAll;
+						}
+						
+						transition 'idle_to_setup'
+			                    first idle
+			                    accept setupCmdMsg:SetupCmdMsg via selfVGRSystemPLC.plcCmdPort
+			                    then setup;
+						transition 'move_to_setup'
+			                    first move
+			                    accept setupCmdMsg:SetupCmdMsg via selfVGRSystemPLC.plcCmdPort
+			                    then setup;
+						transition 'setup_to_idle'
+			                    first setup
+								if selfVGRSystemPLC.rotationEngineController.referenceSwitch == true 
+									and selfVGRSystemPLC.verticalEngineController.referenceSwitch == true
+									and selfVGRSystemPLC.horizontalEngineController.referenceSwitch == true
+								do selfVGRSystemPLC.resetDecoderCounters
+			                    then idle;
+						
+						transition 'idle_to_move'
+			                    first idle
+			                    accept msg:MoveCmdMsg via selfVGRSystemPLC.plcCmdPort
+								do action storeMoveParams {
+									action assign selfVGRSystemPLC.currentMoveCommandPickupPosition := msg.pickupPosition; 
+									action assign selfVGRSystemPLC.currentMoveCommandDropPosition := msg.dropPosition; 
+								} 
+			                    then move;
+						transition 'setup_to_move'
+			                    first setup
+			                    accept msg:MoveCmdMsg via selfVGRSystemPLC.plcCmdPort
+								do action storeMoveParams {
+									action assign selfVGRSystemPLC.currentMoveCommandPickupPosition := msg.pickupPosition; 
+									action assign selfVGRSystemPLC.currentMoveCommandDropPosition := msg.dropPosition; 
+								} 
+			                    then move;
+						transition 'move_to_idle'
+			                    first move
+								if selfVGRSystemPLC.actionCommandDone == true 
+			                    then idle;
+
+						transition 'idle_to_stop'
+							first idle
+			                accept stopCmdMsg:StopCmdMsg via selfVGRSystemPLC.plcCmdPort
+							then stop;
+						
+						transition 'setup_to_stop'
+							first setup
+			                accept stopCmdMsg:StopCmdMsg via selfVGRSystemPLC.plcCmdPort
+							then stop;
+						transition 'move_to_stop'
+							first move
+			                accept stopCmdMsg:StopCmdMsg via selfVGRSystemPLC.plcCmdPort
+							then stop;
+						transition 'stop_to_idle'
+							first stop
+							then idle;
+						
 					}
 					comment about retractArm, gotoAbovePickupPos, gotoPickupPos, activateGrip, releaseGrip 
 						/* not sure about the rigth way to perform a "Call" on the port in sysml syntax 
@@ -152,35 +279,40 @@ package REN_1V_01_VGRSystemPLCModel {
 						   a "send" ?
 						*/
 					perform action retractArm {
-						assign horizontalEngineController.gotoposCmdPort := 0;
+						send GotoposEngineCmdMsg(targetPos = 0) to horizontalEngineController;
 					}
 					perform action raiseArm {
-						// TODO use previous value insted of pickuptarget
-						assign verticalEngineController.gotoposCmdPort := currentMoveCommandPickupPosition.verticalPos - verticalOffset;
+						// TODO use previous value instead of pickuptarget
+						send GotoposEngineCmdMsg(targetPos = currentMoveCommandPickupPosition.verticalPos - verticalOffset) to verticalEngineController;
 					}
 					perform action rotateToPickupPos {
 						/* performs only the rotation */
-						assign rotationEngineController.gotoposCmdPort := currentMoveCommandPickupPosition.rotationPos;
+						send GotoposEngineCmdMsg(targetPos = currentMoveCommandPickupPosition.rotationPos) to rotationEngineController;
 						// for convenience 
-						assign currentCommandTargetPosition.rotationPos := currentMoveCommandPickupPosition.rotationPos;						
+						assign currentCommandTargetPosition := 	GripperRelativePosition(
+							rotationPos = currentMoveCommandPickupPosition.rotationPos,
+							verticalPos = currentCommandTargetPosition.verticalPos, 		// unchanged
+							horizontalPos = currentCommandTargetPosition.horizontalPos);	// unchanged					
 					}
 					perform action gotoAbovePickupPos {
-						assign rotationEngineController.gotoposCmdPort := currentMoveCommandPickupPosition.rotationPos;
-						assign verticalEngineController.gotoposCmdPort := currentMoveCommandPickupPosition.verticalPos - verticalOffset;
-						assign horizontalEngineController.gotoposCmdPort := currentMoveCommandPickupPosition.horizontalPos;	
+						send GotoposEngineCmdMsg(targetPos = currentMoveCommandPickupPosition.rotationPos) to rotationEngineController;
+						send GotoposEngineCmdMsg(targetPos = currentMoveCommandPickupPosition.verticalPos - verticalOffset) to verticalEngineController;
+						send GotoposEngineCmdMsg(targetPos = currentMoveCommandPickupPosition.horizontalPos) to horizontalEngineController;
 						// for convenience 
-						assign currentCommandTargetPosition.rotationPos := currentMoveCommandPickupPosition.rotationPos;
-						assign currentCommandTargetPosition.verticalPos := currentMoveCommandPickupPosition.verticalPos - verticalOffset;
-						assign currentCommandTargetPosition.horizontalPos := currentMoveCommandPickupPosition.horizontalPos;						
+						assign currentCommandTargetPosition := 	GripperRelativePosition(
+							rotationPos = currentMoveCommandPickupPosition.rotationPos,
+							verticalPos = currentMoveCommandPickupPosition.verticalPos - verticalOffset,
+							horizontalPos = currentMoveCommandPickupPosition.horizontalPos);			
 					}
 					perform action gotoPickupPos {
-						assign rotationEngineController.gotoposCmdPort := currentMoveCommandPickupPosition.rotationPos;
-						assign verticalEngineController.gotoposCmdPort := currentMoveCommandPickupPosition.verticalPos;
-						assign horizontalEngineController.gotoposCmdPort := currentMoveCommandPickupPosition.horizontalPos;	
+						send GotoposEngineCmdMsg(targetPos = currentMoveCommandPickupPosition.rotationPos) to rotationEngineController;
+						send GotoposEngineCmdMsg(targetPos = currentMoveCommandPickupPosition.verticalPos) to verticalEngineController;
+						send GotoposEngineCmdMsg(targetPos = currentMoveCommandPickupPosition.horizontalPos) to horizontalEngineController;
 						// for convenience 
-						assign currentCommandTargetPosition.rotationPos := currentMoveCommandPickupPosition.rotationPos;
-						assign currentCommandTargetPosition.verticalPos := currentMoveCommandPickupPosition.verticalPos;
-						assign currentCommandTargetPosition.horizontalPos := currentMoveCommandPickupPosition.horizontalPos;					
+						assign currentCommandTargetPosition := 	GripperRelativePosition(
+							rotationPos = currentMoveCommandPickupPosition.rotationPos,
+							verticalPos = currentMoveCommandPickupPosition.verticalPos, 
+							horizontalPos = currentMoveCommandPickupPosition.horizontalPos);					
 					}
 					perform action activateGrip {
 						assign compressorController.compressorActuator.value := true;
@@ -192,30 +324,43 @@ package REN_1V_01_VGRSystemPLCModel {
 					}
 					perform action rotateToDropPos {
 						/* performs only the rotation */
-						assign rotationEngineController.gotoposCmdPort := currentMoveCommandDropPosition.rotationPos;
-						// for convenience 
-						assign currentCommandTargetPosition.rotationPos := currentMoveCommandDropPosition.rotationPos;						
+						send GotoposEngineCmdMsg(targetPos = currentMoveCommandDropPosition.rotationPos) to rotationEngineController;
+						// for convenience 	
+						assign currentCommandTargetPosition := 	GripperRelativePosition(
+							rotationPos = currentMoveCommandDropPosition.rotationPos,
+							verticalPos = currentCommandTargetPosition.verticalPos,			// unchanged
+							horizontalPos = currentCommandTargetPosition.horizontalPos);	// unchanged				
 					}
 					perform action gotoAboveDropPos {
-						assign rotationEngineController.gotoposCmdPort := currentMoveCommandDropPosition.rotationPos;
-						assign verticalEngineController.gotoposCmdPort := currentMoveCommandDropPosition.verticalPos - verticalOffset;
-						assign horizontalEngineController.gotoposCmdPort := currentMoveCommandDropPosition.horizontalPos;	
+						send GotoposEngineCmdMsg(targetPos = currentMoveCommandDropPosition.rotationPos) to rotationEngineController;
+						send GotoposEngineCmdMsg(targetPos = currentMoveCommandDropPosition.verticalPos - verticalOffset) to verticalEngineController;
+						send GotoposEngineCmdMsg(targetPos = currentMoveCommandDropPosition.horizontalPos) to horizontalEngineController;	
 						// for convenience 					
-						assign currentCommandTargetPosition.rotationPos := currentMoveCommandDropPosition.rotationPos;
-						assign currentCommandTargetPosition.verticalPos := currentMoveCommandDropPosition.verticalPos - verticalOffset;
-						assign currentCommandTargetPosition.horizontalPos := currentMoveCommandDropPosition.horizontalPos;
+						assign currentCommandTargetPosition := 	GripperRelativePosition(
+							rotationPos = currentMoveCommandDropPosition.rotationPos,
+							verticalPos = currentMoveCommandDropPosition.verticalPos - verticalOffset, 
+							horizontalPos = currentMoveCommandDropPosition.horizontalPos);
 					}
 					perform action gotoDropPos {
-						assign rotationEngineController.gotoposCmdPort := currentMoveCommandDropPosition.rotationPos;
-						assign verticalEngineController.gotoposCmdPort := currentMoveCommandDropPosition.verticalPos;
-						assign horizontalEngineController.gotoposCmdPort := currentMoveCommandDropPosition.horizontalPos;	
+						send GotoposEngineCmdMsg(targetPos = currentMoveCommandDropPosition.rotationPos) to rotationEngineController;
+						send GotoposEngineCmdMsg(targetPos = currentMoveCommandDropPosition.verticalPos) to verticalEngineController;
+						send GotoposEngineCmdMsg(targetPos = currentMoveCommandDropPosition.horizontalPos) to horizontalEngineController;	
 						// for convenience 					
-						assign currentCommandTargetPosition.rotationPos := currentMoveCommandDropPosition.rotationPos;
-						assign currentCommandTargetPosition.verticalPos := currentMoveCommandDropPosition.verticalPos;
-						assign currentCommandTargetPosition.horizontalPos := currentMoveCommandDropPosition.horizontalPos;
+						assign currentCommandTargetPosition := 	GripperRelativePosition(
+							rotationPos = currentMoveCommandDropPosition.rotationPos,
+							verticalPos = currentMoveCommandDropPosition.verticalPos, 
+							horizontalPos = currentMoveCommandDropPosition.horizontalPos);
 					}
 					action setupEngines {
-						// TODO send command
+						send SetupEngineCmdMsg() to rotationEngineController;
+						send SetupEngineCmdMsg() to verticalEngineController;
+						send SetupEngineCmdMsg() to horizontalEngineController;
+					}
+					perform action stopAll {
+						action releaseGrip;
+						send StopEngineCmdMsg() to rotationEngineController;
+						send StopEngineCmdMsg() to verticalEngineController;
+						send StopEngineCmdMsg() to horizontalEngineController;
 					}
 					action resetDecoderCounters  {
 						action resetRotationImpulseCounter : QuadratureDecoder::Reset{ in selfDecoder = rotationImpulseCounter;}
@@ -312,17 +457,14 @@ package REN_1V_01_VGRSystemPLCModel {
 					}
 				}
 				part def EncoderEngineWithSwitchSystemPLCModule {
-					
-					port gotoposCmdPort:GotoposEnginePort;
 
-					
 					in port decoderCount : CounterPort;
 					in port referenceSwitch : SensorPort;
 
 					out port forwardActuator : ActuatorPort;
 					out port backwardActuator : ActuatorPort;
 
-					
+					attribute tolerance : Natural := 20;
 					
 					attribute currentTargetDecoderValue : Positive {
 						doc /* target value for the encoder, used by some states	*/
@@ -334,16 +476,24 @@ package REN_1V_01_VGRSystemPLCModel {
 						in selfEncoderEngineWithSwitch : EncoderEngineWithSwitchSystemPLCModule;
 						
 						entry; then idle;
-						state idle;
+						state idle {
+							entry action stopEngine {
+								action assign selfEncoderEngineWithSwitch.forwardActuator.value := false;
+								action assign selfEncoderEngineWithSwitch.backwardActuator.value := false;
+							}
+						}
 						
 						state forward_until_ref {
-							do assign selfEncoderEngineWithSwitch.referenceSwitch := true;
+							// at some point in the future / this is simulation if not connected to real ...
+							//do assign selfEncoderEngineWithSwitch.referenceSwitch := true;
 						}
 						state forward_until_target_pos {
-							do assign selfEncoderEngineWithSwitch.decoderCount.value := selfEncoderEngineWithSwitch.currentTargetDecoderValue; 
+							// at some point in the future / this is simulation if not connected to real ...
+							//do assign selfEncoderEngineWithSwitch.decoderCount.value := selfEncoderEngineWithSwitch.currentTargetDecoderValue; 
 						}
 						state backward_until_target_pos {
-							do assign selfEncoderEngineWithSwitch.decoderCount.value := selfEncoderEngineWithSwitch.currentTargetDecoderValue; 
+							// at some point in the future / this is simulation if not connected to real ...
+							//do assign selfEncoderEngineWithSwitch.decoderCount.value := selfEncoderEngineWithSwitch.currentTargetDecoderValue; 
 						}
 						
 						transition idle_to_forward_until_ref
@@ -357,41 +507,81 @@ package REN_1V_01_VGRSystemPLCModel {
 							
 						transition idle_to_forward_until_target_pos
 							first idle
-							accept msg : GotoposEngineCmdMsg via selfEncoderEngineWithSwitch.gotoposCmdPort
-								if selfEncoderEngineWithSwitch.decoderCount.value <  msg.targetPos
+							accept msg : GotoposEngineCmdMsg 
+								if selfEncoderEngineWithSwitch.decoderCount.value <  msg.targetPos - selfEncoderEngineWithSwitch.tolerance
 							do action goForward {
 								action assign selfEncoderEngineWithSwitch.forwardActuator.value := true;
 								action assign selfEncoderEngineWithSwitch.backwardActuator.value := false;
-								action assign selfEncoderEngineWithSwitch.currentTargetDecoderValue := msg.targetPos; 
+								// at some point in the future / this is simulation if not connected to real ...
+								//action assign selfEncoderEngineWithSwitch.currentTargetDecoderValue := msg.targetPos; 
 							}
 							then forward_until_target_pos;
 						transition idle_to_backward_until_target_pos
 							first idle
-							accept msg : GotoposEngineCmdMsg via selfEncoderEngineWithSwitch.gotoposCmdPort
-								if selfEncoderEngineWithSwitch.decoderCount.value >  msg.targetPos
-							do action goForward {
+							accept msg : GotoposEngineCmdMsg 
+								if selfEncoderEngineWithSwitch.decoderCount.value >  msg.targetPos + selfEncoderEngineWithSwitch.tolerance
+							do action goBackward {
 								action assign selfEncoderEngineWithSwitch.forwardActuator.value := false;
 								action assign selfEncoderEngineWithSwitch.backwardActuator.value := true;
-								action assign selfEncoderEngineWithSwitch.currentTargetDecoderValue := msg.targetPos; 
+								// at some point in the future / this is simulation if not connected to real ...
+								//action assign selfEncoderEngineWithSwitch.currentTargetDecoderValue := msg.targetPos; 
 							}
-							then forward_until_target_pos;
+							then backward_until_target_pos;
 						transition  forward_until_ref_to_idle
 							first forward_until_ref
 							accept when selfEncoderEngineWithSwitch.referenceSwitch.value == true
 							then idle;
-						transition  forward_until_target_pos_to_idle
+						transition  forward_until_ref_to_idle_on_stop
 							first forward_until_ref
-							if selfEncoderEngineWithSwitch.decoderCount.value == selfEncoderEngineWithSwitch.currentTargetDecoderValue
+							accept msg : StopEngineCmdMsg
+							then idle;
+						transition  forward_until_target_pos_to_idle
+							first forward_until_target_pos
+							if selfEncoderEngineWithSwitch.decoderCount.value >= selfEncoderEngineWithSwitch.currentTargetDecoderValue - selfEncoderEngineWithSwitch.tolerance and
+							   selfEncoderEngineWithSwitch.decoderCount.value <= selfEncoderEngineWithSwitch.currentTargetDecoderValue + selfEncoderEngineWithSwitch.tolerance 
+							then idle;
+						
+						transition  forward_until_target_pos_to_idle_on_stop
+							first forward_until_target_pos
+							accept msg : StopEngineCmdMsg
 							then idle;
 						transition  backward_until_target_pos_to_idle
 							first backward_until_target_pos
-							if selfEncoderEngineWithSwitch.decoderCount.value == selfEncoderEngineWithSwitch.currentTargetDecoderValue
+							if selfEncoderEngineWithSwitch.decoderCount.value >= selfEncoderEngineWithSwitch.currentTargetDecoderValue - selfEncoderEngineWithSwitch.tolerance and
+							   selfEncoderEngineWithSwitch.decoderCount.value <= selfEncoderEngineWithSwitch.currentTargetDecoderValue + selfEncoderEngineWithSwitch.tolerance 
 							then idle;
 						
-						transition  backward_until_target_pos_stop
-							first forward_until_ref
-							if selfEncoderEngineWithSwitch.decoderCount.value == selfEncoderEngineWithSwitch.currentTargetDecoderValue
+						transition  backward_until_target_pos_on_stop
+							first backward_until_target_pos
+							accept msg : StopEngineCmdMsg
 							then idle;
+
+						transition forward_until_target_pos_to_forward_until_ref
+							first forward_until_target_pos
+							accept SetupCmdMsg
+							then forward_until_ref;
+						transition backward_until_target_pos_to_forward_until_ref
+							first backward_until_target_pos
+							accept SetupCmdMsg
+							then forward_until_ref;
+						transition backward_until_target_pos_to_forward_until_target_pos
+							first backward_until_target_pos
+							accept msg : GotoposEngineCmdMsg 
+								if selfEncoderEngineWithSwitch.decoderCount.value <  msg.targetPos - selfEncoderEngineWithSwitch.tolerance
+							do action goForward {
+								action assign selfEncoderEngineWithSwitch.forwardActuator.value := true;
+								action assign selfEncoderEngineWithSwitch.backwardActuator.value := false;
+							}
+							then forward_until_target_pos;
+						transition forward_until_target_pos_to_backward_until_target_pos
+							first forward_until_target_pos
+							accept msg : GotoposEngineCmdMsg 
+								if selfEncoderEngineWithSwitch.decoderCount.value >  msg.targetPos + selfEncoderEngineWithSwitch.tolerance
+							do action goBackward {
+								action assign selfEncoderEngineWithSwitch.forwardActuator.value := false;
+								action assign selfEncoderEngineWithSwitch.backwardActuator.value := true;
+							}
+							then backward_until_target_pos;
 					}
 					
 				}
@@ -402,15 +592,21 @@ package REN_1V_01_VGRSystemPLCModel {
 	            item def MoveCmdMsg:>CmdMsg{
 	            	attribute pickupPosition : GripperRelativePosition;
 	            	attribute dropPosition : GripperRelativePosition;
-	            }
-	            item def GotoposEngineCmdMsg {
-	            	attribute targetPos : Natural;
-	            }
-	            
+	            }        
 	            item def SetupCmdMsg:>CmdMsg{
 	            }
 	            item def StopCmdMsg:>CmdMsg{
 	            }
+				item def EngineCmdMsg{
+	            }
+				item def GotoposEngineCmdMsg :> EngineCmdMsg{
+	            	attribute targetPos : Natural;
+	            }	        
+	            item def SetupEngineCmdMsg:>EngineCmdMsg{
+	            }
+	            item def StopEngineCmdMsg:>EngineCmdMsg{
+	            }
+
 		        attribute def GripperRelativePosition {
 	            	comment /* 
 	            	 * discussion: should we use a standard coordinate system such as ISQSpaceTime::universalCartesianSpatial3dCoordinateFrame
