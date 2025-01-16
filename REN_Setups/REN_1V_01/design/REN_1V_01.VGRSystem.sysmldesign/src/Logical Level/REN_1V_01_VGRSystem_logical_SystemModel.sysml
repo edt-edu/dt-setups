@@ -356,7 +356,7 @@ package REN_1V_01_VGRSystemPLCModel {
 						send SetupEngineCmdMsg() to verticalEngineController;
 						send SetupEngineCmdMsg() to horizontalEngineController;
 					}
-					perform action stopAll {
+					action stopAll {
 						action releaseGrip;
 						send StopEngineCmdMsg() to rotationEngineController;
 						send StopEngineCmdMsg() to verticalEngineController;

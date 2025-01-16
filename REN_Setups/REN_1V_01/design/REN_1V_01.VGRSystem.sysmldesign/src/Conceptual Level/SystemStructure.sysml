@@ -127,7 +127,7 @@ package REN_1V_01_VGRSystemModel {
 							then setup_before_move;
 						
 						transition 'setup_before_move_to_step_1'
-							first setup_before_move
+							first setup_before_move 
 							if selfVGRSystem.isOnReferencePosition == true 
 							// do selfVGRSystemPLC.resetDecoderCounters
 							then moveStep01_gotoPickPosition;
@@ -140,19 +140,19 @@ package REN_1V_01_VGRSystemModel {
 						transition 'move_step_1_to_move_step_2' 
 							first moveStep01_gotoPickPosition
 							// if has reached step_1 target
-							if IsInTolerance(value = selfVGRSystem.gripperStatus.gripperPosition, expectedValue = selfVGRSystem.currentMoveCommandPickupPosition, tolerance = selfVGRSystem.moveTolerance)
+							if IsInTolerance(value = selfVGRSystem.gripperStatus.gripperPosition.abstractPos, expectedValue = selfVGRSystem.currentMoveCommandPickupPosition.abstractPos, tolerance = selfVGRSystem.moveTolerance)
 							then moveStep02_pickToken;
 						
 						transition 'move_step_2_to_move_step_3' 
 							first moveStep02_pickToken
 							// if has reached step_2 target
 							if selfVGRSystem.gripperStatus.isGripping
-							then moveStep03_gotoDropPos;
+							then moveStep03_gotoDropPos; 
 						
 						transition 'move_step_3_to_move_step_4' 
 							first moveStep03_gotoDropPos
 							// if has reached step_3 target
-							if IsInTolerance(value = selfVGRSystem.gripperStatus.gripperPosition, expectedValue = selfVGRSystem.currentMoveCommandDropPosition, tolerance = selfVGRSystem.moveTolerance)			
+							if IsInTolerance(value = selfVGRSystem.gripperStatus.gripperPosition.abstractPos, expectedValue = selfVGRSystem.currentMoveCommandDropPosition.abstractPos, tolerance = selfVGRSystem.moveTolerance)			
 							then moveStep04_dropToken;
 						
 						transition 'move_step_4_to_move_done' 
@@ -218,14 +218,21 @@ package REN_1V_01_VGRSystemModel {
 							then idle;
 						
 					}
-
-					
  				} 
-				
 			}
 			package ActionDefinitions {
 				import ContraintDefinitions::*;
+				import SystemConstants::*;
 				action def GotoReferencePos {
+					in moveTolerance : Natural;
+					out reachedPosition : SignalDefinitions::GripperRelativePosition; // used to send result for assertion/control	
+
+					
+					constraint reachedPositionIsAccetable : IsCloseToPosition {
+						in gripperPosition = reachedPosition;
+						in expectedPosition = referencePos_value;
+						in tolerance = moveTolerance;
+					}
 				}
 				action def GotoPosition {
 					in targetPosition : SignalDefinitions::GripperRelativePosition;
@@ -258,6 +265,8 @@ package REN_1V_01_VGRSystemModel {
 				calc def IsInTolerance { in value : Natural; in expectedValue : Natural; in tolerance : Positive;
 					return : Boolean = value  < expectedValue + tolerance and value  > expectedValue - tolerance;
 				}
+
+				
 			}
 			package PortDefinitions{
 				port def PowerSwitchCmdPort;
@@ -297,8 +306,13 @@ package REN_1V_01_VGRSystemModel {
 					attribute gripperPosition : SignalDefinitions::GripperRelativePosition;
 					attribute isGripping : Boolean; 
 	            }
-	          
 	        }
+			package SystemConstants {
+				attribute referencePos_value : SignalDefinitions::GripperRelativePosition {
+					doc /* value of the reference position */
+					attribute redefines abstractPos = 0;
+				}
+			}
 		}
 	
 		package SystemConfigurations {
@@ -340,20 +354,75 @@ package REN_1V_01_VGRSystemModel {
 					}
 				}
 				package ActionTree{
+					import SystemStructure::*;
 					comment /* TODO */
 					comment /* in this package, the actions simulates the system behavior */
+					comment about gotoReferencePos::simulateGotoReferencePos::vgrSystem, gotoPosition::simulateGotoPosition::vgrSystem, activateGrip::simulateActivateGrip::vgrSystem, deactivateGrip::simulateDeactivateGrip::vgrSystem 
+						/* TODO 
+						   Q1 how to bind it ? 
+						   Q2 used to assign: is it a in or a out ? */
+					comment about gotoReferencePos, gotoPosition 
+						/* Q1: should we simulate some time spent to move depending on initial status ?  
+						   Q2: should we simulate some intermediate reached positions ?
+						*/
 					action provideLogService;
 					action gotoReferencePos : GotoReferencePos{
-						comment /* TODO */
+						comment /* Simulate move to reference position */
+						//in vgrSystem : VGRSystem;
+
+						in moveTolerance : Natural;
+						out reachedPosition : SignalDefinitions::GripperRelativePosition;
+
+						first start;
+
+						then action simulateGotoReferencePos {
+							in vgrSystem : VGRSystem;
+							action assign vgrSystem.gripperStatus.gripperPosition := 0; 
+							action assign vgrSystem.isOnReferencePosition := true;
+							action assign reachedPosition := vgrSystem.gripperStatus.gripperPosition;
+						}
+
+						//then action assign reachedPosition := vgrSystem.gripperStatus.gripperPosition;
+						then done;
 					}
 					action gotoPosition : GotoPosition{
-						comment /* TODO */
+						comment /* Simulate move to target position */
+						in targetPosition : SignalDefinitions::GripperRelativePosition;
+						in moveTolerance : Natural;
+						out reachedPosition : SignalDefinitions::GripperRelativePosition;
+ 
+						first start;
+						then action simulateGotoPosition {
+							in vgrSystem : VGRSystem;
+							assign vgrSystem.gripperStatus.gripperPosition := targetPosition; 
+							then assign vgrSystem.isOnReferencePosition :=  SimulatedIsOnReferencePosition(pos = targetPosition);
+							then assign reachedPosition := vgrSystem.gripperStatus.gripperPosition; 
+						}
+						then done;
 					}
 					action activateGrip : ActivateGrip{
-						comment /* TODO */
+
+						comment /* Simulate activation of the gripper */
+						first start; 
+						then action simulateActivateGrip {
+							in vgrSystem : VGRSystem;
+							assign vgrSystem.gripperStatus.isGripping := true;
+						}
+						then done;
+
 					}
 					action deactivateGrip : DeactivateGrip{
-						comment /* TODO */
+
+						comment /* Simulate deactivation of the gripper */
+						first start; 
+						then action simulateDeactivateGrip {
+							in vgrSystem : VGRSystem;
+							assign vgrSystem.gripperStatus.isGripping := false;
+						}
+						then done;
+					}
+					calc def SimulatedIsOnReferencePosition { in pos : SignalDefinitions::GripperRelativePosition;
+						return : Boolean = pos.abstractPos == 0;
 					}
 				}
 			}
