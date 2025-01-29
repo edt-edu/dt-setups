@@ -130,9 +130,6 @@ if __name__ == "__main__":
     logFormatter = logging.Formatter("%(levelname)-5s: %(module)-30s,%(lineno)-3s: %(message)s")
     handler.setFormatter(logFormatter)
     logging.getLogger().addHandler(handler)
-    # Default controller
-    gripper1 = VacuumGripperController()
-    gripper2 = VacuumGripperController2()
 
     # Start communication threads and main control loop
     Island1Controller(configurationFile="island1_config.yml").start()
