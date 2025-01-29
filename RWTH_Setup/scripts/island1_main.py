@@ -178,21 +178,8 @@ if __name__ == "__main__":
     handler.setFormatter(logFormatter)
     logging.getLogger().addHandler(handler)
     # Default controller
-    controller_choice = "1"
-
-    # Check if an argument is provided
-    if len(sys.argv) > 1:
-        if sys.argv[1] in ["1", "2"]:  # Validate input
-            controller_choice = sys.argv[1]
-        else:
-            print("Invalid argument. Use '1' for VacuumGripperController or '2' for VacuumGripperController2.")
-            sys.exit(1)
-
-    # Select the controller based on the argument
-    if controller_choice == "2":
-        root = VacuumGripperController2(configurationFile="island1_config.yml")
-    else:
-        root = VacuumGripperController(configurationFile="island1_config.yml")
+    root = VacuumGripperController2(configurationFile="island1_config.yml")
+    #root = VacuumGripperController(configurationFile="island1_config.yml")
 
     # Start communication threads and main control loop
     root.start()
