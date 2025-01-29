@@ -1,110 +1,12 @@
-import logging
-import multiprocessing 
-from multiprocessing import Process
-from multiprocessing import Queue
-from queue import Empty
-import signal
-import socket
-import sys
-import time
-import json
-import os
 import ctypes
+import logging
 
 import revpimodio2
-
-import rppmcontroller
-import rppmcontroller.machine
-import rppmcontroller.machine.vacuumgripper
-from rppmcontroller.protocol import socketConnexionHelper
-from rppmcontroller.protocol.JSONParser import JSONParser
-from rppmcontroller.protocol.JSONOutput import JSONOutput
-from rppmcontroller.protocol.MachineStatusRequestAnswer import MachineStatusRequestAnswer
-from rppmcontroller.machine.vacuumgripper.VacuumGripper import VacuumGripper
 from rppmcontroller.RevPiPyMachineController import RevPiPyMachineController
+from rppmcontroller.machine.vacuumgripper.VacuumGripper import VacuumGripper
 
 
-class VacuumGripperController(RevPiPyMachineController):
-    """
-    Class allowing to stream commands to and from  a vacuum gripper
-    """
-
-    def __init__(self, simulatedRevPiModIO: bool = False, configurationFile : str = ""):
-        """
-        Init method of this class, starts all threads and everything is ready for receiving commands via Sockets and executing them
-        """
-
-        super().__init__(configurationFile)
-        
-        # Instantiate RevPiModIO
-        if(not simulatedRevPiModIO):
-            self.rpi = revpimodio2.RevPiModIO(autorefresh=True)
-
-        # TODO find a way to read from a configuration file
-        #the list of all machines that are connected to this core
-        self.machines = []
-        #dict, which keys are the machines, than there is a tuple holding the function currently executed ([0]) and the id it was sent with ([1])
-        self.currentlyExecuting = {}
-        self.vacuumGripperMachine = VacuumGripper("VacuumGripper01")
-        self.machines = [self.vacuumGripperMachine]
-        self.currentlyExecuting = {
-            self.vacuumGripperMachine: [None, None]
-        }
-
-        self.feedback = {
-            self.vacuumGripperMachine: None
-        }
-
-    def read(self):
-        # TODO find a way to read from a configuration file
-        assert self.rpi.io is not None
-        self.vacuumGripperMachine.vacuumSensVerticalEndUp = self.rpi.io.I_1.value
-        self.vacuumGripperMachine.vacuumSensArmEndIn = self.rpi.io.I_2.value
-        self.vacuumGripperMachine.vacuumSensRotEnd = self.rpi.io.I_3.value
-        # use signed int32 to deal with possible negative values of the encoders
-        self.vacuumGripperMachine.vacuumSensVerticalEncoderCounter = ctypes.c_int32(self.rpi.io.Counter_5.value).value
-        self.vacuumGripperMachine.vacuumSensArmEncoderCounter = ctypes.c_int32(self.rpi.io.Counter_7.value).value
-        # note: the rotation encoder counts in negative when going counterclockwise
-        self.vacuumGripperMachine.vacuumSensRotEncoderCounter = -ctypes.c_int32(self.rpi.io.Counter_9.value).value
-
-
-
-        # once setup: maximum physical observed values are:
-        # -12 <= vacuumSensVerticalEncoderCounter <= 1779
-        # -1 <= vacuumSensArmEncoderCounter <= 2017
-        # -1 <= vacuumSensRotEncoderCounter <= 3053
-
-
-    def write(self):
-        # TODO find a way to read from a configuration file
-        assert self.rpi.io is not None
-        self.rpi.io.O_1.value = self.vacuumGripperMachine.vacuumActVerticalUp
-        self.rpi.io.O_2.value = self.vacuumGripperMachine.vacuumActVerticalDown
-        self.rpi.io.O_3.value = self.vacuumGripperMachine.vacuumActArmIn
-        self.rpi.io.O_4.value = self.vacuumGripperMachine.vacuumActArmOut
-        self.rpi.io.O_5.value = self.vacuumGripperMachine.vacuumActRotRight
-        self.rpi.io.O_6.value = self.vacuumGripperMachine.vacuumActRotLeft
-        self.rpi.io.O_7.value = self.vacuumGripperMachine.vacuumActCompressorOn
-        self.rpi.io.O_8.value = self.vacuumGripperMachine.vacuumActValve
-
-
-
-
-    def reset(self) -> None:
-        # TODO find a way to read from a configuration file
-        assert self.rpi.io is not None
-        vg = self.vacuumGripperMachine.executeHelper()
-        if vg[0]:
-            self.rpi.io.Counter_5.reset()
-            self.rpi.io.Counter_7.reset()
-            self.rpi.io.Counter_9.reset()
-
-
-class VacuumGripperController2(RevPiPyMachineController):
-    """
-    Class allowing to stream commands to and from  a vacuum gripper
-    """
-
+class Island1Controller(RevPiPyMachineController):
     def __init__(self, simulatedRevPiModIO: bool = False, configurationFile: str = ""):
         """
         Init method of this class, starts all threads and everything is ready for receiving commands via Sockets and executing them
@@ -118,59 +20,110 @@ class VacuumGripperController2(RevPiPyMachineController):
 
         # TODO find a way to read from a configuration file
         # the list of all machines that are connected to this core
-        self.machines = []
-        # dict, which keys are the machines, than there is a tuple holding the function currently executed ([0]) and the id it was sent with ([1])
-        self.currentlyExecuting = {}
-        self.vacuumGripperMachine = VacuumGripper("VacuumGripper02")
-        self.machines = [self.vacuumGripperMachine]
+        # TODO simplify with arrays and for loops so adding a Machine and controller is as simple as adding the classes below
+        self.vacuumGripperMachine = VacuumGripper("VacuumGripper01")
+        self.vacuumGripperController = VacuumGripperController(self.vacuumGripperMachine, self.rpi)
+
+        self.vacuumGripperMachine2 = VacuumGripper("VacuumGripper02")
+        self.vacuumGripperController2 = VacuumGripperController2(self.vacuumGripperMachine2, self.rpi)
+
+        self.machines = [
+            self.vacuumGripperMachine,
+            self.vacuumGripperMachine2
+        ]
         self.currentlyExecuting = {
-            self.vacuumGripperMachine: [None, None]
+            self.vacuumGripperMachine: [None, None],
+            self.vacuumGripperMachine2: [None, None]
         }
 
         self.feedback = {
-            self.vacuumGripperMachine: None
+            self.vacuumGripperMachine: None,
+            self.vacuumGripperMachine2: None
         }
 
     def read(self):
         # TODO find a way to read from a configuration file
         assert self.rpi.io is not None
-        self.vacuumGripperMachine.vacuumSensVerticalEndUp = self.rpi.io.I_1_i03.value
-        self.vacuumGripperMachine.vacuumSensArmEndIn = self.rpi.io.I_2_i03.value
-        self.vacuumGripperMachine.vacuumSensRotEnd = self.rpi.io.I_3_i03.value
-        # use signed int32 to deal with possible negative values of the encoders
-        self.vacuumGripperMachine.vacuumSensVerticalEncoderCounter = ctypes.c_int32(self.rpi.io.Counter_5_i03.value).value
-        self.vacuumGripperMachine.vacuumSensArmEncoderCounter = ctypes.c_int32(self.rpi.io.Counter_7_i03.value).value
-        # note: the rotation encoder counts in negative when going counterclockwise
-        self.vacuumGripperMachine.vacuumSensRotEncoderCounter = -ctypes.c_int32(self.rpi.io.Counter_9_i03.value).value
-
-        # once setup: maximum physical observed values are:
-        # -12 <= vacuumSensVerticalEncoderCounter <= 1779
-        # -1 <= vacuumSensArmEncoderCounter <= 2017
-        # -1 <= vacuumSensRotEncoderCounter <= 3053
+        self.vacuumGripperController.read()
+        self.vacuumGripperController2.read()
 
     def write(self):
         # TODO find a way to read from a configuration file
         assert self.rpi.io is not None
-        self.rpi.io.O_1_i03.value = self.vacuumGripperMachine.vacuumActVerticalUp
-        self.rpi.io.O_2_i03.value = self.vacuumGripperMachine.vacuumActVerticalDown
-        self.rpi.io.O_3_i03.value = self.vacuumGripperMachine.vacuumActArmIn
-        self.rpi.io.O_4_i03.value = self.vacuumGripperMachine.vacuumActArmOut
-        self.rpi.io.O_5_i03.value = self.vacuumGripperMachine.vacuumActRotRight
-        self.rpi.io.O_6_i03.value = self.vacuumGripperMachine.vacuumActRotLeft
-        self.rpi.io.O_7_i03.value = self.vacuumGripperMachine.vacuumActCompressorOn
-        self.rpi.io.O_8_i03.value = self.vacuumGripperMachine.vacuumActValve
+        self.vacuumGripperController.write()
+        self.vacuumGripperController2.write()
 
     def reset(self) -> None:
         # TODO find a way to read from a configuration file
         assert self.rpi.io is not None
-        vg = self.vacuumGripperMachine.executeHelper()
+        self.vacuumGripperController.reset()
+        self.vacuumGripperController2.reset()
+
+
+class VacuumGripperController:
+    def __init__(self, machine, rpi):
+        self.machine = machine
+        self.rpi = rpi
+
+    def read(self):
+        self.machine.vacuumSensVerticalEndUp = self.rpi.io.I_1.value
+        self.machine.vacuumSensArmEndIn = self.rpi.io.I_2.value
+        self.machine.vacuumSensRotEnd = self.rpi.io.I_3.value
+        self.machine.vacuumSensVerticalEncoderCounter = ctypes.c_int32(self.rpi.io.Counter_5.value).value
+        self.machine.vacuumSensArmEncoderCounter = ctypes.c_int32(self.rpi.io.Counter_7.value).value
+        self.machine.vacuumSensRotEncoderCounter = -ctypes.c_int32(self.rpi.io.Counter_9.value).value
+
+    def write(self):
+        self.rpi.io.O_1.value = self.machine.vacuumActVerticalUp
+        self.rpi.io.O_2.value = self.machine.vacuumActVerticalDown
+        self.rpi.io.O_3.value = self.machine.vacuumActArmIn
+        self.rpi.io.O_4.value = self.machine.vacuumActArmOut
+        self.rpi.io.O_5.value = self.machine.vacuumActRotRight
+        self.rpi.io.O_6.value = self.machine.vacuumActRotLeft
+        self.rpi.io.O_7.value = self.machine.vacuumActCompressorOn
+        self.rpi.io.O_8.value = self.machine.vacuumActValve
+
+    def reset(self) -> None:
+        vg = self.machine.executeHelper()
+        if vg[0]:
+            self.rpi.io.Counter_5.reset()
+            self.rpi.io.Counter_7.reset()
+            self.rpi.io.Counter_9.reset()
+
+
+class VacuumGripperController2:
+    def __init__(self, machine, rpi):
+        self.machine = machine
+        self.rpi = rpi
+
+    def read(self):
+        self.machine.vacuumSensVerticalEndUp = self.rpi.io.I_1_i03.value
+        self.machine.vacuumSensArmEndIn = self.rpi.io.I_2_i03.value
+        self.machine.vacuumSensRotEnd = self.rpi.io.I_3_i03.value
+        self.machine.vacuumSensVerticalEncoderCounter = ctypes.c_int32(self.rpi.io.Counter_5_i03.value).value
+        self.machine.vacuumSensArmEncoderCounter = ctypes.c_int32(self.rpi.io.Counter_7_i03.value).value
+        self.machine.vacuumSensRotEncoderCounter = -ctypes.c_int32(self.rpi.io.Counter_9_i03.value).value
+    
+    def write(self):
+        self.rpi.io.O_1_i03.value = self.machine.vacuumActVerticalUp
+        self.rpi.io.O_2_i03.value = self.machine.vacuumActVerticalDown
+        self.rpi.io.O_3_i03.value = self.machine.vacuumActArmIn
+        self.rpi.io.O_4_i03.value = self.machine.vacuumActArmOut
+        self.rpi.io.O_5_i03.value = self.machine.vacuumActRotRight
+        self.rpi.io.O_6_i03.value = self.machine.vacuumActRotLeft
+        self.rpi.io.O_7_i03.value = self.machine.vacuumActCompressorOn
+        self.rpi.io.O_8_i03.value = self.machine.vacuumActValve
+    
+    def reset(self) -> None:
+        vg = self.machine.executeHelper()
         if vg[0]:
             self.rpi.io.Counter_5_i03.reset()
             self.rpi.io.Counter_7_i03.reset()
             self.rpi.io.Counter_9_i03.reset()
-            
+
+
 if __name__ == "__main__":
-    logging.basicConfig(format='%(asctime)s %(levelname)-5s: %(module)-30s,%(lineno)-3s: %(message)s', 
+    logging.basicConfig(format='%(asctime)s %(levelname)-5s: %(module)-30s,%(lineno)-3s: %(message)s',
                         level=logging.DEBUG,
                         datefmt='%Y-%m-%d %H:%M:%S')
     handler = logging.FileHandler("logfile.log")
@@ -178,8 +131,8 @@ if __name__ == "__main__":
     handler.setFormatter(logFormatter)
     logging.getLogger().addHandler(handler)
     # Default controller
-    root = VacuumGripperController2(configurationFile="island1_config.yml")
-    #root = VacuumGripperController(configurationFile="island1_config.yml")
+    gripper1 = VacuumGripperController()
+    gripper2 = VacuumGripperController2()
 
     # Start communication threads and main control loop
-    root.start()
+    Island1Controller(configurationFile="island1_config.yml").start()
