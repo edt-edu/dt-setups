@@ -1,0 +1,22 @@
+
+# Configuration for VacuumGripperController
+---
+plc:
+  id: "Island 1"
+connection:
+  # if host is commented, will default to "<hostname>.local"
+  host: "192.168.178.200"
+  # host: "RevPi103156.local"
+  command_port: 6001
+  notification_port: 6011
+  # connectionListening: "controller" or "orchestrator"
+  connectionListening: "controller"
+
+controller:
+  mainLoopDelay: 1.0
+
+mqtt:
+  server: "192.168.178.200"
+  port: 1883
+  keepalive: 60
+
