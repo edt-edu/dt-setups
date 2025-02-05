@@ -27,7 +27,7 @@ class Island1Controller(RevPiPyMachineController):
         self.vacuumGripperMachine2 = VacuumGripper("VacuumGripper02")
         self.vacuumGripperController2 = VacuumGripperController2(self.vacuumGripperMachine2, self.rpi)
 
-        self.conveyorBeltMachine = ConveyorBelt("ConveyorBelt")
+        self.conveyorBeltMachine = ConveyorBelt("ConveyorBelt01")
         self.conveyorBeltController = ConveyorBeltController(self.conveyorBeltMachine, self.rpi)
 
         self.machines = [
