@@ -4,6 +4,7 @@ import logging
 import revpimodio2
 from rppmcontroller.RevPiPyMachineController import RevPiPyMachineController
 from rppmcontroller.machine.vacuumgripper.VacuumGripper import VacuumGripper
+from rppmcontroller.machine.conveyorbelt.ConveyorBelt import ConveyorBelt
 
 
 class Island1Controller(RevPiPyMachineController):
