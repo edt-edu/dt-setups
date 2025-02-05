@@ -157,4 +157,4 @@ if __name__ == "__main__":
     logging.getLogger().addHandler(handler)
 
     # Start communication threads and main control loop
-    Island1Controller(configurationFile="island1_config.yml").start()
+    Island1Controller(configurationFile="/home/pi/rppmcontroller/rppmcontroller/example/island1_config.yml").start()
