@@ -27,18 +27,24 @@ class Island1Controller(RevPiPyMachineController):
         self.vacuumGripperMachine2 = VacuumGripper("VacuumGripper02")
         self.vacuumGripperController2 = VacuumGripperController2(self.vacuumGripperMachine2, self.rpi)
 
+        self.conveyorBeltMachine = ConveyorBelt("ConveyorBelt")
+        self.conveyorBeltController = ConveyorBeltController(self.conveyorBeltMachine, self.rpi)
+
         self.machines = [
             self.vacuumGripperMachine,
-            self.vacuumGripperMachine2
+            self.vacuumGripperMachine2,
+            self.conveyorBeltMachine
         ]
         self.currentlyExecuting = {
             self.vacuumGripperMachine: [None, None],
-            self.vacuumGripperMachine2: [None, None]
+            self.vacuumGripperMachine2: [None, None],
+            self.conveyorBeltMachine: [None, None]
         }
 
         self.feedback = {
             self.vacuumGripperMachine: None,
-            self.vacuumGripperMachine2: None
+            self.vacuumGripperMachine2: None,
+            self.conveyorBeltMachine: None
         }
 
     def read(self):
@@ -46,18 +52,21 @@ class Island1Controller(RevPiPyMachineController):
         assert self.rpi.io is not None
         self.vacuumGripperController.read()
         self.vacuumGripperController2.read()
+        self.conveyorBeltController.read()
 
     def write(self):
         # TODO find a way to read from a configuration file
         assert self.rpi.io is not None
         self.vacuumGripperController.write()
         self.vacuumGripperController2.write()
+        self.conveyorBeltController.write()
 
     def reset(self) -> None:
         # TODO find a way to read from a configuration file
         assert self.rpi.io is not None
         self.vacuumGripperController.reset()
         self.vacuumGripperController2.reset()
+        self.conveyorBeltController.reset()
 
 
 class VacuumGripperController:
@@ -121,6 +130,22 @@ class VacuumGripperController2:
             self.rpi.io.Counter_7_i03.reset()
             self.rpi.io.Counter_9_i03.reset()
 
+class ConveyorBeltController:
+    def __init__(self, machine, rpi):
+        self.machine = machine
+        self.rpi = rpi
+
+    def read(self):
+        self.machine.conveyorSensFeed = self.rpi.io.I_1_i04.value
+        self.machine.conveyorSensSwap = self.rpi.io.I_2_i04.value
+        self.machine.conveyorSensImpulse = self.rpi.io.I_3_i04.value
+
+    def write(self):
+        self.rpi.io.O_1_i04.value = self.machine.conveyorActForward
+        self.rpi.io.O_2_i04.value = self.machine.conveyorActBackward
+
+    def reset(self) -> None:
+        pass
 
 if __name__ == "__main__":
     logging.basicConfig(format='%(asctime)s %(levelname)-5s: %(module)-30s,%(lineno)-3s: %(message)s',
