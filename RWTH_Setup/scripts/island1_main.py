@@ -6,6 +6,7 @@ from rppmcontroller.RevPiPyMachineController import RevPiPyMachineController
 from rppmcontroller.machine.vacuumgripper.VacuumGripper import VacuumGripper
 from rppmcontroller.machine.conveyorbelt.ConveyorBelt import ConveyorBelt
 from rppmcontroller.machine.multiprocessing.MultiProcessing import MultiProcessing
+from rppmcontroller.machine.sortingLine.SortingLine import SortingLine
 
 
 class Island1Controller(RevPiPyMachineController):
@@ -35,24 +36,30 @@ class Island1Controller(RevPiPyMachineController):
         self.multiProcessingMachine = MultiProcessing("MultiProcessing01")
         self.multiProcessingController = MultiProcessingController(self.multiProcessingMachine, self.rpi)
 
+        self.sortingLineMachine = SortingLine("SortingLine01")
+        self.sortingLineController = SortingLineController(self.sortingLineMachine, self.rpi)
+
         self.machines = [
             self.vacuumGripperMachine,
             self.vacuumGripperMachine2,
             self.conveyorBeltMachine,
-            self.multiProcessingMachine
+            self.multiProcessingMachine,
+            self.sortingLineMachine
         ]
         self.currentlyExecuting = {
             self.vacuumGripperMachine: [None, None],
             self.vacuumGripperMachine2: [None, None],
             self.conveyorBeltMachine: [None, None],
-            self.multiProcessingMachine: [None, None]
+            self.multiProcessingMachine: [None, None],
+            self.SortingLineMachine: [None, None]
         }
 
         self.feedback = {
             self.vacuumGripperMachine: None,
             self.vacuumGripperMachine2: None,
             self.conveyorBeltMachine: None,
-            self.multiProcessingMachine: None
+            self.multiProcessingMachine: None,
+            self.sortingLine: None
         }
 
     def read(self):
@@ -61,7 +68,8 @@ class Island1Controller(RevPiPyMachineController):
         self.vacuumGripperController.read()
         self.vacuumGripperController2.read()
         self.conveyorBeltController.read()
-        self.MultiProcessingController.read()
+        self.multiProcessingController.read()
+        self.sortingLineController.read()
 
     def write(self):
         # TODO find a way to read from a configuration file
@@ -69,7 +77,8 @@ class Island1Controller(RevPiPyMachineController):
         self.vacuumGripperController.write()
         self.vacuumGripperController2.write()
         self.conveyorBeltController.write()
-        self.MultiProcessingController.write()
+        self.multiProcessingController.write()
+        self.sortingLineController.write()
 
     def reset(self) -> None:
         # TODO find a way to read from a configuration file
@@ -77,7 +86,8 @@ class Island1Controller(RevPiPyMachineController):
         self.vacuumGripperController.reset()
         self.vacuumGripperController2.reset()
         self.conveyorBeltController.reset()
-        self.MultiProcessingController.reset()
+        self.multiProcessingController.reset()
+        self.sortingLineController.reset()
 
 
 class VacuumGripperController:
@@ -174,7 +184,6 @@ class MultiProcessingController:
         self.machine.multiProcessingSensVacuumGripperAtOven = self.rpi.io.I_8_i06.value
         self.machine.multiProcessingSensOven = self.rpi.io.I_9_i06.value
 
-
     def write(self):
         self.rpi.io.O_1_i06.value = self.machine.multiProcessingActRotClockwise
         self.rpi.io.O_2_i06.value = self.machine.multiProcessingActRotCounterclockwise
@@ -190,6 +199,30 @@ class MultiProcessingController:
         self.rpi.io.O_12_i06.value = self.machine.multiProcessingActLowerValve
         self.rpi.io.O_13_i06.value = self.machine.multiProcessingValveOvenDoor
         self.rpi.io.O_14_i06.value = self.machine.multiProcessingValveFeeder
+
+    def reset(self) -> None:
+        pass
+
+class SortingLineController:
+    def __init__(self, machine, rpi):
+        self.machine = machine
+        self.rpi = rpi
+
+    def read(self):
+        self.machine.sortingLineSensImpulseCounterRaw = self.rpi.io.I_1_i07.value
+        self.machine.sortingLineSensInputLightBarrier = self.rpi.io.I_2_i07.value
+        self.machine.sortingLineSensMiddleLightBarrier = self.rpi.io.I_3_i07.value
+        # color sensor missing 
+        self.machine.sortingLineSensWhiteLightBarrier = self.rpi.io.I_5_i07.value
+        self.machine.sortingLineSensRedLightBarrier = self.rpi.io.I_6_i07.value
+        self.machine.sortingLineSensBlueLightBarrier = self.rpi.io.I_7_i07.value
+
+    def write(self):
+        self.rpi.io.O_1_i07.value = self.machine.sortingLineActMotorConveyor
+        self.rpi.io.O_2_i07.value = self.machine.sortingLineActCompressorOn
+        self.rpi.io.O_3_i07.value = self.machine.sortingLineActWhiteEjector
+        self.rpi.io.O_4_i07.value = self.machine.sortingLineActRedEjector
+        self.rpi.io.O_5_i07.value = self.machine.sortingLineActBlueEjector
 
     def reset(self) -> None:
         pass
