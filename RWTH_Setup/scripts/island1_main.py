@@ -33,7 +33,7 @@ class Island1Controller(RevPiPyMachineController):
         self.conveyorBeltController = ConveyorBeltController(self.conveyorBeltMachine, self.rpi)
 
         self.multiProcessingMachine = MultiProcessing("MultiProcessing01")
-        self.MultiProcessingController = MultiProcessingController(self,multiProcessingMachine, self.rpi)
+        self.multiProcessingController = MultiProcessingController(self.multiProcessingMachine, self.rpi)
 
         self.machines = [
             self.vacuumGripperMachine,
