@@ -51,7 +51,7 @@ class Island1Controller(RevPiPyMachineController):
             self.vacuumGripperMachine2: [None, None],
             self.conveyorBeltMachine: [None, None],
             self.multiProcessingMachine: [None, None],
-            self.SortingLineMachine: [None, None]
+            self.sortingLineMachine: [None, None]
         }
 
         self.feedback = {
