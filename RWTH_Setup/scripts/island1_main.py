@@ -5,6 +5,7 @@ import revpimodio2
 from rppmcontroller.RevPiPyMachineController import RevPiPyMachineController
 from rppmcontroller.machine.vacuumgripper.VacuumGripper import VacuumGripper
 from rppmcontroller.machine.conveyorbelt.ConveyorBelt import ConveyorBelt
+from rppmcontroller.machine.multiprocessing.MultiProcessing import MultiProcessing
 
 
 class Island1Controller(RevPiPyMachineController):
@@ -31,21 +32,27 @@ class Island1Controller(RevPiPyMachineController):
         self.conveyorBeltMachine = ConveyorBelt("ConveyorBelt01")
         self.conveyorBeltController = ConveyorBeltController(self.conveyorBeltMachine, self.rpi)
 
+        self.multiProcessingMachine = MultiProcessing("MultiProcessing01")
+        self.MultiProcessingController = MultiProcessingController(self,multiProcessingMachine, self.rpi)
+
         self.machines = [
             self.vacuumGripperMachine,
             self.vacuumGripperMachine2,
-            self.conveyorBeltMachine
+            self.conveyorBeltMachine,
+            self.multiProcessingMachine
         ]
         self.currentlyExecuting = {
             self.vacuumGripperMachine: [None, None],
             self.vacuumGripperMachine2: [None, None],
-            self.conveyorBeltMachine: [None, None]
+            self.conveyorBeltMachine: [None, None],
+            self.multiProcessingMachine: [None, None]
         }
 
         self.feedback = {
             self.vacuumGripperMachine: None,
             self.vacuumGripperMachine2: None,
-            self.conveyorBeltMachine: None
+            self.conveyorBeltMachine: None,
+            self.multiProcessingMachine: None
         }
 
     def read(self):
@@ -54,6 +61,7 @@ class Island1Controller(RevPiPyMachineController):
         self.vacuumGripperController.read()
         self.vacuumGripperController2.read()
         self.conveyorBeltController.read()
+        self.MultiProcessingController.read()
 
     def write(self):
         # TODO find a way to read from a configuration file
@@ -61,6 +69,7 @@ class Island1Controller(RevPiPyMachineController):
         self.vacuumGripperController.write()
         self.vacuumGripperController2.write()
         self.conveyorBeltController.write()
+        self.MultiProcessingController.write()
 
     def reset(self) -> None:
         # TODO find a way to read from a configuration file
@@ -68,6 +77,7 @@ class Island1Controller(RevPiPyMachineController):
         self.vacuumGripperController.reset()
         self.vacuumGripperController2.reset()
         self.conveyorBeltController.reset()
+        self.MultiProcessingController.reset()
 
 
 class VacuumGripperController:
@@ -144,6 +154,42 @@ class ConveyorBeltController:
     def write(self):
         self.rpi.io.O_1_i04.value = self.machine.conveyorActForward
         self.rpi.io.O_2_i04.value = self.machine.conveyorActBackward
+
+    def reset(self) -> None:
+        pass
+
+class MultiProcessingController:
+    def __init__(self, machine, rpi):
+        self.machine = machine
+        self.rpi = rpi
+
+    def read(self):
+        self.machine.multiProcessingSensTurntablePosVacuum = self.rpi.io.I_1_i06.value
+        self.machine.multiProcessingSensTurntablePosBelt = self.rpi.io.I_2_i06.value
+        self.machine.multiProcessingSensEndConveyor = self.rpi.io.I_3_i06.value
+        self.machine.multiProcessingSensTurntablePosSaw = self.rpi.io.I_4_i06.value
+        self.machine.multiProcessingSensVacuumGripperAtTurntable = self.rpi.io.I_5_i06.value
+        self.machine.multiProcessingSensOvenFeederIn = self.rpi.io.I_6_i06.value
+        self.machine.multiProcessingSensOvenFeederOut = self.rpi.io.I_7_i06.value
+        self.machine.multiProcessingSensVacuumGripperAtOven = self.rpi.io.I_8_i06.value
+        self.machine.multiProcessingSensOven = self.rpi.io.I_9_i06.value
+
+
+    def write(self):
+        self.rpi.io.O_1_i06.value = self.machine.multiProcessingActRotClockwise
+        self.rpi.io.O_2_i06.value = self.machine.multiProcessingActRotCounterclockwise
+        self.rpi.io.O_3_i06.value = self.machine.multiProcessingActConveyorForward
+        self.rpi.io.O_4_i06.value = self.machine.multiProcessingActSaw
+        self.rpi.io.O_5_i06.value = self.machine.multiProcessingActOvenInward
+        self.rpi.io.O_6_i06.value = self.machine.multiProcessingActOvenOutward
+        self.rpi.io.O_7_i06.value = self.machine.multiProcessingActGripperToOven
+        self.rpi.io.O_8_i06.value = self.machine.multiProcessingActGripperToTurntable
+        self.rpi.io.O_9_i06.value = self.machine.multiProcessingOvenLight
+        self.rpi.io.O_10_i06.value = self.machine.multiProcessingCompressor
+        self.rpi.io.O_11_i06.value = self.machine.multiProcessingValveVacuum
+        self.rpi.io.O_12_i06.value = self.machine.multiProcessingActLowerValve
+        self.rpi.io.O_13_i06.value = self.machine.multiProcessingValveOvenDoor
+        self.rpi.io.O_14_i06.value = self.machine.multiProcessingValveFeeder
 
     def reset(self) -> None:
         pass
