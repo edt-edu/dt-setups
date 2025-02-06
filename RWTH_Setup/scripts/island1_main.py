@@ -59,7 +59,7 @@ class Island1Controller(RevPiPyMachineController):
             self.vacuumGripperMachine2: None,
             self.conveyorBeltMachine: None,
             self.multiProcessingMachine: None,
-            self.sortingLine: None
+            self.sortingLineMachine: None
         }
 
     def read(self):
