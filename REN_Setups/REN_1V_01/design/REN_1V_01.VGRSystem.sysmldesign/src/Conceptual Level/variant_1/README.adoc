@@ -1,0 +1,3 @@
+Variant that uses "decide" and internal attributes for internal states
+
+(this is actually the first version developed, but it uses many "internal" attributes to save the states)
