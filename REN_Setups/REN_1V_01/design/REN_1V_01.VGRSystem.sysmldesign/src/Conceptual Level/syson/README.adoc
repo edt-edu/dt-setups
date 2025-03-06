@@ -1,0 +1,17 @@
+Projects that can be imported in SysON or SysONDT
+
+== VGR_with_workaround.zip
+
+This version comes from `../SystemStructure.sysml` imported in SysON 2025.1.5 
+
+then manually patched in order to recreate some missing informations.
+
+
+IMPORTANT: The created information may not use the correct structure. but apparently some element are not possible to create directly in the SysON UI. (I observed that the text importer created some element that I can't create with the UI)
+
+"Fix/workaround" in the StateMachine:
+
+- add missing transition target (fails to import in this SysON version) (by recreating the transition and thus using `Succession` instead of  `SuccessionAsUsage`)
+- `if` and `accept` are added but the expression are in the comment only (original import seems to do more, but cannot see the relations except the containment (and without knowning the owning feature name) )
+- `do`` are added as an `ActionUsage` but the expression are in the comment 
+
