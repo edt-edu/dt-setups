@@ -17,7 +17,7 @@ configuration:
          name: "ConveyorBelt01"
        - type: "conveyorBelt"
          name: "ConveyorBelt01"
-       - type: "multiProcessing"
+       - type: "multiProcessingStation"
          name: "MultiProcessing01"
        - type: "sortingLine"
          name: "SortingLine01"
