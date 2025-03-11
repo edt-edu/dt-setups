@@ -11,41 +11,15 @@ configuration:
          name: "SortingLine01"
        - type: "vacuumGripper"
          name: "VacuumGripper01"
-    
-#    - name: "plc-4"
-#      host: 'localhost'
-#      commandPort: 6001
-#      notificationPort: 6011
-#      machines:
-#        - type: "conveyorBelt"
-#          name: "ConveyorBelt01"
-    # - name: "plc-5"
-    #   host: 'localhost'
-    #   commandPort: 6001
-    #   notificationPort: 6011
-    #   machines:
-    #     - type: "vacuumGripper"
-    #       name: "VacuumGripper01"
-#   - name: "plc-6"
-#     host: 'localhost'
-#     commandPort: 6001
-#     notificationPort: 6011
-#     machines:
-#       - type: "sortingLine"
-#         name: "SortingLine0"
-#   - name: "plc-7"
-#     host: 'localhost'
-#     commandPort: 6001
-#     notificationPort: 6011
-#     machines:
-#       - type: "vacuumGripper"
-#         name: "VacuumGripper01"
-#       - type: "conveyorBelt"
-#         name: "ConveyorBelt01"
-#       - type: "sortingLine"
-#         name: "SortingLine01"
-#       - type: "multiProcessingStation"
-#         name: "MultiProcessing01"
-#       - type: "highBayWarehouse"
-#         name: "HighBayWarehouse01"
+       - type: "vacuumGripper"
+         name: "VacuumGripper02"
+       - type: "conveyorBelt"
+         name: "ConveyorBelt01"
+       - type: "conveyorBelt"
+         name: "ConveyorBelt01"
+       - type: "multiProcessing"
+         name: "MultiProcessing01"
+       - type: "sortingLine"
+         name: "SortingLine01"
+       # TODO: highbay
 
