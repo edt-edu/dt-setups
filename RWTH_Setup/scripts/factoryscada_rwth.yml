@@ -15,8 +15,6 @@ configuration:
          name: "VacuumGripper02"
        - type: "conveyorBelt"
          name: "ConveyorBelt01"
-       - type: "conveyorBelt"
-         name: "ConveyorBelt01"
        - type: "multiProcessingStation"
          name: "MultiProcessing01"
        - type: "sortingLine"
