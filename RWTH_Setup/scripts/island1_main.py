@@ -18,7 +18,7 @@ class Island1Controller(RevPiPyMachineController):
         super().__init__(configurationFile)
 
         # Instantiate RevPiModIO
-        if (not simulatedRevPiModIO):
+        if not simulatedRevPiModIO:
             self.rpi = revpimodio2.RevPiModIO(autorefresh=True)
 
         # TODO find a way to read from a configuration file
@@ -226,6 +226,20 @@ class SortingLineController:
 
     def reset(self) -> None:
         pass
+
+class HighBayController:
+    def __init__(self, machine, rpi):
+        self.machine = machine
+        self.rpi = rpi
+
+    def read(self):
+        pass #TODO implement
+
+    def write(self):
+        pass #TODO implement
+
+    def reset(self):
+        pass #TODO implement
 
 if __name__ == "__main__":
     logging.basicConfig(format='%(asctime)s %(levelname)-5s: %(module)-30s,%(lineno)-3s: %(message)s',
