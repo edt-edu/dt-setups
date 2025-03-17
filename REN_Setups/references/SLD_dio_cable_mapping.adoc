@@ -25,6 +25,18 @@ image::./img/dio-connectors.png[role="related thumb right", 240]
 |Input 7   |I_7   | 12 | I7 | light-barrier blue
 |===
 
+Arduino connections on the DIO side:
+
+[options="header",cols="1,1,1,1,4"]
+|===
+| DIO pin number | DIO var name | arduino pin | arduino Name | arduino Description
+//----------------------
+| Input 10 | I_10 | D3 | Green indicator | Send a logical 1 when an object/color is detected
+| Input 11 | I_11 | D2 | Blue indicator | Send a logical 1 when the color blue is detected
+| Input 12 | I_12 | D1 | Red indicator | Send a logical 1 when the color red is detected
+| Input 13 | I_13 | D0 | White indicator | Send a logical 1 when the color white is detected
+|===
+
 
 Other pins on the FT side
 [options="header",cols="1,1,2,3"]
@@ -46,3 +58,11 @@ Other pins on the FT side
 |===
 
 
+Arduino connections on the FT side:
+
+[options="header",cols="1,1,1,1,1,3,5"]
+|===
+| FT pin number | FT Name | FT Description | arduino pin | arduino Name | arduino Description | comment
+//----------------------
+| 9 | A4 Analog 0-10VDC | color sensor | A0 | analog input 0 | Analog 0-5VDC | The analog signal sent by the FT color sensor is reduced to a 0-5V signal and  sent to the A0 pin
+|===
