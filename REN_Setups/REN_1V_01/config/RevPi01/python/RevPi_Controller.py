@@ -29,13 +29,12 @@ class RevPi_Controller(RevPiPyModIOMachineController):
             self.vacuumGripperMachine: [None, None]
         }
 
-        self.feedback = {
+        self.machineFeedback = {
             self.vacuumGripperMachine: None
         }
 
         self.commandFeedback = {
-            self.vacuumGripperMachine: None,
-            self.sortingLineMachine: None
+            self.vacuumGripperMachine: None
         }
 
         self.MQTT = MQTTFunctions("mbdo-server.local", 1883, 60)

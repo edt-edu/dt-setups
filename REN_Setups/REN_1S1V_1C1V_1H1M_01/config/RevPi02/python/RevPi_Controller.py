@@ -30,7 +30,7 @@ class RevPi_Controller(RevPiPyModIOMachineController):
             self.conveyorBeltMachine: [None, None]
         }
 
-        self.feedback = {
+        self.machineFeedback = {
             self.vacuumGripperMachine: None,
             self.conveyorBeltMachine: None
         }
