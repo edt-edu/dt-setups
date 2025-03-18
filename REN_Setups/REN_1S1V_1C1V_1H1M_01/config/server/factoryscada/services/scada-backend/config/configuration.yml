@@ -1,0 +1,40 @@
+# Configuration (00)
+
+configuration:
+  name: "REN_1S1V_1C1V_1H1M_01_configuration"
+
+  controllers:
+    - name: "plc-1"
+      host: 'RevPi103156.local'
+      commandPort: 6001
+      notificationPort: 6011
+      machines:
+        - type: "sortingLine"
+          name: "SortingLine01"
+
+        - type: "vacuumGripper"
+          name: "VacuumGripper01"
+
+    - name: "plc-2"
+      host: 'RevPi103259.local'
+      commandPort: 6001
+      notificationPort: 6011
+      machines:
+        - type: "conveyorBelt"
+          name: "ConveyorBelt01"
+
+        - type: "vacuumGripper"
+          name: "VacuumGripper02"
+
+    - name: "plc-3"
+      host: 'RevPi103228.local'
+      commandPort: 6001
+      notificationPort: 6011
+      machines:
+        # - type: "multiProcessingStation"
+        #   name: "MultiProcessing0101"
+
+        # - type: "highBayWarehouse"
+        #   name: "HighBayWarehouse01"   
+        - type: "vacuumGripper"
+          name: "VacuumGripper03"       
