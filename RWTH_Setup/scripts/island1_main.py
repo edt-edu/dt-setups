@@ -7,6 +7,7 @@ from rppmcontroller.machine.vacuumgripper.VacuumGripper import VacuumGripper
 from rppmcontroller.machine.conveyorbelt.ConveyorBelt import ConveyorBelt
 from rppmcontroller.machine.multiprocessing.MultiProcessing import MultiProcessing
 from rppmcontroller.machine.sortingLine.SortingLine import SortingLine
+from rppmcontroller.machine.highbay.HighBay import HighBay
 
 
 class Island1Controller(RevPiPyMachineController):
@@ -39,19 +40,24 @@ class Island1Controller(RevPiPyMachineController):
         self.sortingLineMachine = SortingLine("SortingLine01")
         self.sortingLineController = SortingLineController(self.sortingLineMachine, self.rpi)
 
+        self.highBayMachine = HighBay("HighBay01")
+        self.highBayController = HighBayController(self.highBayMachine, self.rpi)
+
         self.machines = [
             self.vacuumGripperMachine,
             self.vacuumGripperMachine2,
             self.conveyorBeltMachine,
             self.multiProcessingMachine,
-            self.sortingLineMachine
+            self.sortingLineMachine,
+            self.highBayMachine
         ]
         self.currentlyExecuting = {
             self.vacuumGripperMachine: [None, None],
             self.vacuumGripperMachine2: [None, None],
             self.conveyorBeltMachine: [None, None],
             self.multiProcessingMachine: [None, None],
-            self.sortingLineMachine: [None, None]
+            self.sortingLineMachine: [None, None],
+            self.highBayMachine: [None, None]
         }
 
         self.feedback = {
@@ -59,7 +65,8 @@ class Island1Controller(RevPiPyMachineController):
             self.vacuumGripperMachine2: None,
             self.conveyorBeltMachine: None,
             self.multiProcessingMachine: None,
-            self.sortingLineMachine: None
+            self.sortingLineMachine: None,
+            self.highBayMachine: None,
         }
 
     def read(self):
@@ -70,6 +77,7 @@ class Island1Controller(RevPiPyMachineController):
         self.conveyorBeltController.read()
         self.multiProcessingController.read()
         self.sortingLineController.read()
+        self.highBayController.read()
 
     def write(self):
         # TODO find a way to read from a configuration file
@@ -79,6 +87,7 @@ class Island1Controller(RevPiPyMachineController):
         self.conveyorBeltController.write()
         self.multiProcessingController.write()
         self.sortingLineController.write()
+        self.highBayController.write()
 
     def reset(self) -> None:
         # TODO find a way to read from a configuration file
@@ -88,6 +97,7 @@ class Island1Controller(RevPiPyMachineController):
         self.conveyorBeltController.reset()
         self.multiProcessingController.reset()
         self.sortingLineController.reset()
+        self.highBayController.reset()
 
 
 class VacuumGripperController:
@@ -233,13 +243,30 @@ class HighBayController:
         self.rpi = rpi
 
     def read(self):
-        pass #TODO implement
+        self.machine.highbaySensHorizontal = self.rpi.io.I_1_i05.value
+        self.machine.highbaySensInside = self.rpi.io.I_2_i05.value
+        self.machine.highbaySensOutside = self.rpi.io.I_3_i05.value
+        self.machine.highbaySensVertical = self.rpi.io.I_4_i05.value
+        # no trail sensors
+        self.machine.highbaySensHorizontalEncoderCounter = -ctypes.c_int32(self.rpi.io.Counter_7_i05.value).value
+        self.machine.highbaySensVerticalEncoderCounter = ctypes.c_int32(self.rpi.io.Counter_9_i05.value).value
+        self.machine.highbaySensCantileverFront = self.rpi.io.I_11_i05.value
+        self.machine.highbaySensCantileverBack = self.rpi.io.I_12_i05.value
 
     def write(self):
-        pass #TODO implement
+        self.rpi.io.O_1_i05.value = self.machine.highbayActConveyorForward
+        self.rpi.io.O_2_i05.value = self.machine.highbayActConveyorBackward
+        self.rpi.io.O_3_i05.value = self.machine.highbayActHorizontalToRack
+        self.rpi.io.O_4_i05.value = self.machine.highbayActHorizontalToConveyor
+        self.rpi.io.O_5_i05.value = self.machine.highbayActDown
+        self.rpi.io.O_6_i05.value = self.machine.highbayActUp
+        self.rpi.io.O_7_i05.value = self.machine.highbayActCantileverForward
+        self.rpi.io.O_8_i05.value = self.machine.highbayActCantileverBackward
 
     def reset(self):
-        pass #TODO implement
+        if self.machine.setup():
+            self.rpi.io.Counter_7_i05.reset()
+            self.rpi.io.Counter_9_i05.reset()
 
 if __name__ == "__main__":
     logging.basicConfig(format='%(asctime)s %(levelname)-5s: %(module)-30s,%(lineno)-3s: %(message)s',
