@@ -19,5 +19,6 @@ configuration:
          name: "MultiProcessing01"
        - type: "sortingLine"
          name: "SortingLine01"
-       # TODO: highbay
+       - type: "highBayWarehouse"
+         name: "HighBay01"
 
