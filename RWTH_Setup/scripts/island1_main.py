@@ -248,7 +248,7 @@ class HighBayController:
         self.machine.highbaySensOutside = self.rpi.io.I_3_i05.value
         self.machine.highbaySensVertical = self.rpi.io.I_4_i05.value
         # no trail sensors
-        self.machine.highbaySensHorizontalEncoderCounter = -ctypes.c_int32(self.rpi.io.Counter_7_i05.value).value
+        self.machine.highbaySensHorizontalEncoderCounter = ctypes.c_int32(self.rpi.io.Counter_7_i05.value).value
         self.machine.highbaySensVerticalEncoderCounter = ctypes.c_int32(self.rpi.io.Counter_9_i05.value).value
         self.machine.highbaySensCantileverFront = self.rpi.io.I_11_i05.value
         self.machine.highbaySensCantileverBack = self.rpi.io.I_12_i05.value
