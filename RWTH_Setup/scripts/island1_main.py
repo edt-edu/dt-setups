@@ -264,9 +264,11 @@ class HighBayController:
         self.rpi.io.O_8_i05.value = self.machine.highbayActCantileverBackward
 
     def reset(self):
-        if self.machine.setup():
+        if self.machine.reset_rpi_encoder_counters:
+            self.machine.reset_rpi_encoder_counters = False
             self.rpi.io.Counter_7_i05.reset()
             self.rpi.io.Counter_9_i05.reset()
+
 
 if __name__ == "__main__":
     logging.basicConfig(format='%(asctime)s %(levelname)-5s: %(module)-30s,%(lineno)-3s: %(message)s',
