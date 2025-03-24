@@ -1,0 +1,27 @@
+
+- name: Push rppmcontroller library folder
+  ansible.builtin.synchronize:
+    src: ../../../../rppmcontroller/
+    dest: /home/pi/rppmcontroller
+    use_ssh_args: yes # required to enable jump ansible_host
+    rsync_opts:
+      - "--exclude=rppmcontroller.egg-info"
+      - "--exclude=.eggs"
+      - "--exclude=__pycache__"
+    recursive: true
+    delete: true  # 'true' to delete files not in the source
+  notify:
+    - Pip install dependencies from requirements.txt
+    - Pip install rppmcontroller library
+
+- name: Push config to rppmcontroller_current_setup folder
+  ansible.builtin.synchronize:
+    #src: "{{ python_config_folder_path }}"
+    src: ../../config/{{ inventory_hostname }}/python/
+    dest: /home/pi/rppmcontroller_current_setup
+    use_ssh_args: yes # required to enable jump ansible_host
+    rsync_opts:
+      - "--exclude=logfile.log"
+    recursive: true
+    delete: true  # 'true' to delete files not in the source
+
