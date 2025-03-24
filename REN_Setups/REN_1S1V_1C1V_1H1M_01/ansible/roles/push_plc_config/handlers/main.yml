@@ -1,0 +1,12 @@
+- name: Pip install dependencies from requirements.txt
+  ansible.builtin.pip:
+    executable: pip3
+    requirements: /home/pi/rppmcontroller/requirements.txt
+    # virtualenv: /path/to/optional/virtualenv  # Optional: Specify a virtual environment
+    state: present
+  # become: true  # If elevated privileges are needed
+- name: Pip install rppmcontroller library
+  ansible.builtin.pip:
+    executable: pip3
+    name: /home/pi/rppmcontroller
+    extra_args: --editable

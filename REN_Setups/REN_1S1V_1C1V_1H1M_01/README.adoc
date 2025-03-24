@@ -43,6 +43,9 @@ ansible-playbook playbooks/push_plcs_config.yml
 ansible-playbook playbooks/push_server_config.yml
 ```
 
+
+TIP: using `ansible-playbook playbooks/push_plcs_config.yml -l RevPi03` will limit the action to a single PLC
+
 #### start revpi PLCs
 
 PLC1
