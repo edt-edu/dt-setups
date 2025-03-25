@@ -26,8 +26,8 @@ class RevPi_Controller(RevPiPyModIOMachineController):
         self.conveyorBeltMachine = ConveyorBelt("ConveyorBelt01")
         self.machines = [self.vacuumGripperMachine,self.conveyorBeltMachine]
         self.currentlyExecuting = {
-            self.vacuumGripperMachine: [None, None],
-            self.conveyorBeltMachine: [None, None]
+            self.vacuumGripperMachine: None,
+            self.conveyorBeltMachine: None
         }
 
         self.machineFeedback = {

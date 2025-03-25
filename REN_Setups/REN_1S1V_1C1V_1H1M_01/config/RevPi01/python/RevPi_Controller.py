@@ -26,8 +26,8 @@ class RevPi_Controller(RevPiPyModIOMachineController):
         self.sortingLineMachine = SortingLine("SortingLine01")
         self.machines = [self.vacuumGripperMachine,self.sortingLineMachine]
         self.currentlyExecuting = {
-            self.vacuumGripperMachine: [None, None],
-            self.sortingLineMachine: [None, None]
+            self.vacuumGripperMachine: None,
+            self.sortingLineMachine: None
         }
 
         self.machineFeedback = {
