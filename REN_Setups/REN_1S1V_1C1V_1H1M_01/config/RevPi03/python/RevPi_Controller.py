@@ -24,7 +24,7 @@ class RevPi_Controller(RevPiPyModIOMachineController):
         self.multiProcessingMachine = MultiProcessing("MultiProcessing01")
         self.machines = [self.multiProcessingMachine]
         self.currentlyExecuting = {
-            self.multiProcessingMachine: [None, None]
+            self.multiProcessingMachine: None
         }
         
         self.machineFeedback = {
