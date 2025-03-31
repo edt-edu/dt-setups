@@ -23,7 +23,7 @@ factoryMissionsConfiguration:
                   "passableType": "POSITIONPARAMETERTHREED",
                   "passable": {
                     "meaning": "START",
-                    "vertical": 1450,
+                    "vertical": 1350,
                     "horizontal": 1480,
                     "rot": 1920
                   }
@@ -47,7 +47,7 @@ factoryMissionsConfiguration:
                   "passableType": "POSITIONPARAMETERTHREED",
                   "passable": {
                     "meaning": "START",
-                    "vertical": 1450,
+                    "vertical": 1350,
                     "horizontal": 1820,
                     "rot": 1530
                   }
