@@ -107,7 +107,7 @@ npm run start
 
 ```sh
 cd ../physical-impl/factoryscada/backend
-gradle bootrun --args='--missions.configuration.path=../../../REN_Setups/REN_1S1V_1C1V_1H1M_01/config/server/factoryscada/services/scada-backend/config/missions-configuration.yml --configuration.path=../../../REN_Setups/REN_1S1V_1C1V_1H1M_01/config/server/factoryscada/services/scada-backend/config/configuration.yml'
+gradle bootrun --args='--missions.configuration.path=../../../../REN_Setups/REN_1S1V_1C1V_1H1M_01/config/server/factoryscada/services/scada-backend/config/missions-configuration.yml --configuration.path=../../../../REN_Setups/REN_1S1V_1C1V_1H1M_01/config/server/factoryscada/services/scada-backend/config/configuration.yml'
 ```
 
 #### useful commands:
