@@ -61,6 +61,10 @@ class RevPi_Controller(RevPiPyModIOMachineController):
         self.sortingLineMachine.sortingLineSensWhiteLightBarrier = self.rpi.io.dio2_I_5.value
         self.sortingLineMachine.sortingLineSensRedLightBarrier = self.rpi.io.dio2_I_6.value
         self.sortingLineMachine.sortingLineSensBlueLightBarrier = self.rpi.io.dio2_I_7.value
+        self.sortingLineMachine.sortingLineSensPresenceADC = self.rpi.io.dio2_I_10.value
+        self.sortingLineMachine.sortingLineSensBlueADC = self.rpi.io.dio2_I_11.value
+        self.sortingLineMachine.sortingLineSensRedADC = self.rpi.io.dio2_I_12.value
+        self.sortingLineMachine.sortingLineSensWhiteADC = self.rpi.io.dio2_I_13.value
         
     def write(self):
         assert self.rpi.io is not None
