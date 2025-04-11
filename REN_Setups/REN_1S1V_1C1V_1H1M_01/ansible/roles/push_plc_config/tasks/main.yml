@@ -11,6 +11,7 @@
     recursive: true
     delete: true  # 'true' to delete files not in the source
   notify:
+    - Pip install dependencies from requirements.txt
     - Pip install rppmcontroller library
 
 - name: Push config to rppmcontroller_current_setup folder

@@ -1,7 +1,7 @@
 # Configuration (00)
 
 configuration:
-  name: "configuration"
+  name: "REN_1V_01_configuration"
 
   controllers:
     - name: "plc-1"

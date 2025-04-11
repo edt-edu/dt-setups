@@ -1,0 +1,56 @@
+factoryMissionsConfiguration:
+  name: "Factory missions"
+  missions:
+    - name: "VGR1 pick-place mission"
+      description: >
+        Mission involving VacuumGripper01.
+        The VGR picks a token on the left side of the Conveyor and places it on the right side of the Conveyor. 
+      commands:
+      - name: "VGR1_Pick"
+        description: "[VGR1] Pick on left of CB1"
+        placeholder: >
+          {
+            "topicName": "VacuumGripper01",
+            "timestamp": 0,
+            "message": {
+              "jsonType": "COMMAND",
+              "type": "VACUUM",
+              "outputId": "AUTO_ID",
+              "name": "PICK",
+              "parameters": [
+                {
+                  "passableType": "POSITIONPARAMETERTHREED",
+                  "passable": {
+                    "meaning": "START",
+                    "vertical": 1450,
+                    "horizontal": 1480,
+                    "rot": 1920
+                  }
+                }
+              ]
+            }
+          }
+      - name: "VGR1_Place"
+        description: "[VGR1] Place on right of CB1"
+        placeholder: >
+          {
+            "topicName": "VacuumGripper01",
+            "timestamp": 0,
+            "message": {
+              "jsonType": "COMMAND",
+              "type": "VACUUM",
+              "outputId": "AUTO_ID",
+              "name": "PLACE",
+              "parameters": [
+                {
+                  "passableType": "POSITIONPARAMETERTHREED",
+                  "passable": {
+                    "meaning": "START",
+                    "vertical": 1450,
+                    "horizontal": 1820,
+                    "rot": 1530
+                  }
+                }
+              ]
+            }
+          }

@@ -1,7 +1,7 @@
 # Configuration (00)
 
 configuration:
-  name: "configuration"
+  name: "REN_1S1V_1C1V_1H1M_01_configuration"
 
   controllers:
     - name: "plc-1"
@@ -31,10 +31,8 @@ configuration:
       commandPort: 6001
       notificationPort: 6011
       machines:
-        # - type: "multiProcessingStation"
-        #   name: "MultiProcessing0101"
+        - type: "multiProcessingStation"
+          name: "MultiProcessing0101"
 
         # - type: "highBayWarehouse"
         #   name: "HighBayWarehouse01"   
-        - type: "vacuumGripper"
-          name: "VacuumGripper03"       

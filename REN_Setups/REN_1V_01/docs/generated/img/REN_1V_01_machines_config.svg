@@ -92,11 +92,11 @@
 			</rect>
 		</g>
 		<g id="vgrRotationAxis_vgr1">
-			<circle r="5" cx="5" cy="5" transform="matrix(1,0,0,1,160,100)" stroke="black" fill="none">
+			<circle r="5" cx="5" cy="5" transform="matrix(1,0,0,1,209,100)" stroke="black" fill="none">
 			</circle>
-			<line x1="160" y1="110" x2="170" y2="100" stroke-width="1" stroke="black">
+			<line x1="209" y1="110" x2="219" y2="100" stroke-width="1" stroke="black">
 			</line>
-			<line x1="160" y1="100" x2="170" y2="110" stroke-width="1" stroke="black">
+			<line x1="209" y1="100" x2="219" y2="110" stroke-width="1" stroke="black">
 			</line>
 		</g>
 		<g id="vgrArmAccessZone_vgr1">

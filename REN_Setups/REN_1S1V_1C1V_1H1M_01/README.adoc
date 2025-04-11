@@ -22,6 +22,7 @@ The `ansible` folder contains the playbooks used to deploy the setup on the Renn
 
 ### Deploy and start instructions
 
+#### deploy
 
 mosquitto
 ```sh
@@ -43,62 +44,87 @@ ansible-playbook playbooks/push_server_config.yml
 ```
 
 
+TIP: using `ansible-playbook playbooks/push_plcs_config.yml -l RevPi03` will limit the action to a single PLC
+
+#### start revpi PLCs
+
 PLC1
-```
+```sh
 ssh pi@RevPi103156.local
 
 ```
 
-```
+```sh
 cd ~/rppmcontroller_current_setup
 python3 RevPi_Controller.py 
 ```
 
 PLC2
-```
+```sh
 ssh pi@RevPi103259.local
 
 ```
 
-```
+```sh
 cd ~/rppmcontroller_current_setup
 python3 RevPi_Controller.py 
 ```
 
 PLC3
-```
+```sh
 ssh pi@RevPi103228.local
 
 ```
 
-```
+```sh
 cd ~/rppmcontroller_current_setup
 python3 RevPi_Controller.py 
 ```
 
+#### start factory scada on mbdo-server (ie. prod)
+
+```sh
+ssh mbdo-admin@mbdo-server.local
 
 ```
-ssh mbdo-admin@mbdo-server.local
+
+```sh
 cd ~/mbdo/factoryscada
 sudo docker compose pull
 sudo docker compose up 
 ```
 
+#### start factory scada locally (ie. dev) 
+
+- start front end
+
+```sh
+cd ../physical-impl/factoryscada/frontend
+npm run start
+```
+
+- start backend (using REN_1S1V_1C1V_1H1M_01 both mission and plc configurations files)
+
+```sh
+cd ../physical-impl/factoryscada/backend
+gradle bootrun --args='--missions.configuration.path=../../../../REN_Setups/REN_1S1V_1C1V_1H1M_01/config/server/factoryscada/services/scada-backend/config/missions-configuration.yml --configuration.path=../../../../REN_Setups/REN_1S1V_1C1V_1H1M_01/config/server/factoryscada/services/scada-backend/config/configuration.yml'
+```
+
 #### useful commands:
 
 Connection allowing x display and ssh agent forwarding
-```
+```sh
 ssh -X -A mbdo-admin@mbdo.inria.fr
 export XAUTHORITY=$HOME/.Xauthority
 ```
 
 see the factoryscada logs (useful if docker compse is launched  with `-d` option)
-```
+```sh
 sudo docker logs scada-backend
 ```
 
 see socket connection (in order to kill thread that haven't properly been closed)
-```
+```sh
 netstat -tulnap
 ```
 

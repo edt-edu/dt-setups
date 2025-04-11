@@ -52,12 +52,12 @@ class Island1Controller(RevPiPyMachineController):
             self.highBayMachine
         ]
         self.currentlyExecuting = {
-            self.vacuumGripperMachine: [None, None],
-            self.vacuumGripperMachine2: [None, None],
-            self.conveyorBeltMachine: [None, None],
-            self.multiProcessingMachine: [None, None],
-            self.sortingLineMachine: [None, None],
-            self.highBayMachine: [None, None]
+            self.vacuumGripperMachine: None,
+            self.vacuumGripperMachine2: None,
+            self.conveyorBeltMachine: None,
+            self.multiProcessingMachine: None,
+            self.sortingLineMachine: None,
+            self.highBayMachine: None
         }
 
         self.feedback = {
@@ -124,8 +124,8 @@ class VacuumGripperController:
         self.rpi.io.O_8.value = self.machine.vacuumActValve
 
     def reset(self) -> None:
-        vg = self.machine.executeHelper()
-        if vg[0]:
+        vg = self.machine.resetHelper()
+        if vg:
             self.rpi.io.Counter_5.reset()
             self.rpi.io.Counter_7.reset()
             self.rpi.io.Counter_9.reset()
@@ -143,7 +143,7 @@ class VacuumGripperController2:
         self.machine.vacuumSensVerticalEncoderCounter = -ctypes.c_int32(self.rpi.io.Counter_5_i03.value).value
         self.machine.vacuumSensArmEncoderCounter = -ctypes.c_int32(self.rpi.io.Counter_7_i03.value).value
         self.machine.vacuumSensRotEncoderCounter = ctypes.c_int32(self.rpi.io.Counter_9_i03.value).value
-    
+
     def write(self):
         self.rpi.io.O_1_i03.value = self.machine.vacuumActVerticalUp
         self.rpi.io.O_2_i03.value = self.machine.vacuumActVerticalDown
@@ -153,7 +153,7 @@ class VacuumGripperController2:
         self.rpi.io.O_6_i03.value = self.machine.vacuumActRotLeft
         self.rpi.io.O_7_i03.value = self.machine.vacuumActCompressorOn
         self.rpi.io.O_8_i03.value = self.machine.vacuumActValve
-    
+
     def reset(self) -> None:
         vg = self.machine.executeHelper()
         if vg[0]:
@@ -222,7 +222,7 @@ class SortingLineController:
         self.machine.sortingLineSensImpulseCounterRaw = self.rpi.io.I_1_i07.value
         self.machine.sortingLineSensInputLightBarrier = self.rpi.io.I_2_i07.value
         self.machine.sortingLineSensMiddleLightBarrier = self.rpi.io.I_3_i07.value
-        # color sensor missing 
+        # color sensor missing
         self.machine.sortingLineSensWhiteLightBarrier = self.rpi.io.I_5_i07.value
         self.machine.sortingLineSensRedLightBarrier = self.rpi.io.I_6_i07.value
         self.machine.sortingLineSensBlueLightBarrier = self.rpi.io.I_7_i07.value
