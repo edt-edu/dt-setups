@@ -24,15 +24,17 @@ This setup uses:
 
 Typical use: 
 
-* 🚧 send individual commands to the machines 
-* 🚧 launch factory level scenarios (via the SCADA) such as
+* send individual commands to the machines ( https://git.rwth-aachen.de/mbdo/mbdo-impl/-/blob/master/REN_Setups/physical-impl/factoryscada/backend/src/main/resources/command-placeholder.yml?ref_type=heads[List of supported machine commands])
+* launch factory level scenarios (via the SCADA) such as ( https://git.rwth-aachen.de/mbdo/mbdo-impl/-/blob/master/REN_Setups/REN_1S1V_1C1V_1H1M_01/config/server/factoryscada/services/scada-backend/config/missions-configuration.yml?ref_type=heads[List of officially supported factory missions] )
 **  an operator put tokens on the SLC, while another asks for `processed token` on the other end of teh process line.
 ** "infinite" loop scenario (ie. queried `processes tokens` are computed via a scenario/algorithm and  are automatically reintroduced on the beginning of the process line)
 
 
 .REN_1S1V_1C1V_1H1M_01_machines_config 2D map (with highlight of reachable zones)
-[#img-REN_1S1V_1C1V_1H1M_01_machines_config,link=https://git.rwth-aachen.de/mbdo/mbdo-impl/-/tree/master/REN_Setups/REN_1S1V_1C1V_1H1M_01/docs/resources]
+[#img-REN_1S1V_1C1V_1H1M_01_machines_config,link=https://git.rwth-aachen.de/mbdo/mbdo-impl/-/raw/master/REN_Setups/REN_1S1V_1C1V_1H1M_01/docs/generated/img/REN_1S1V_1C1V_1H1M_01_machines_config.svg]
 image::REN_1S1V_1C1V_1H1M_01_machines_config.svg[REN_1S1V_1C1V_1H1M_01_machines_config,300,300] 
+
+Coordinates of the machines: https://git.rwth-aachen.de/mbdo/mbdo-impl/-/tree/master/REN_Setups/REN_1S1V_1C1V_1H1M_01/docs/resources
 
 IMPORTANT: This description doesn't state what is part of the system, part of its environment or part of the DT. This is up to the design model to clearly  separate the considered system and its environment. We may produce different system twins based on this setup description.
 
