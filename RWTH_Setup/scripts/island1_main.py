@@ -8,6 +8,7 @@ from rppmcontroller.machine.conveyorbelt.ConveyorBelt import ConveyorBelt
 from rppmcontroller.machine.multiprocessing.MultiProcessing import MultiProcessing
 from rppmcontroller.machine.sortingLine.SortingLine import SortingLine
 from rppmcontroller.machine.highbay.HighBay import HighBay
+from rppmcontroller.machine.punchingmachine.PunchingMachine import PunchingMachine
 
 
 class Island1Controller(RevPiPyMachineController):
@@ -43,13 +44,18 @@ class Island1Controller(RevPiPyMachineController):
         self.highBayMachine = HighBay("HighBay01")
         self.highBayController = HighBayController(self.highBayMachine, self.rpi)
 
+        self.punchingMachine = PunchingMachine("PunchingMachine01")
+        self.punchingMachineController = PunchingMachineController(self.punchingMachine, self.rpi)
+
+
         self.machines = [
             self.vacuumGripperMachine,
             self.vacuumGripperMachine2,
             self.conveyorBeltMachine,
             self.multiProcessingMachine,
             self.sortingLineMachine,
-            self.highBayMachine
+            self.highBayMachine,
+            self.punchingMachine,
         ]
         self.currentlyExecuting = {
             self.vacuumGripperMachine: None,
@@ -57,7 +63,8 @@ class Island1Controller(RevPiPyMachineController):
             self.conveyorBeltMachine: None,
             self.multiProcessingMachine: None,
             self.sortingLineMachine: None,
-            self.highBayMachine: None
+            self.highBayMachine: None,
+            self.punchingMachine: None,
         }
 
         self.feedback = {
@@ -67,6 +74,7 @@ class Island1Controller(RevPiPyMachineController):
             self.multiProcessingMachine: None,
             self.sortingLineMachine: None,
             self.highBayMachine: None,
+            self.punchingMachine: None,
         }
 
     def read(self):
@@ -78,6 +86,7 @@ class Island1Controller(RevPiPyMachineController):
         self.multiProcessingController.read()
         self.sortingLineController.read()
         self.highBayController.read()
+        self.punchingMachineController.read()
 
     def write(self):
         # TODO find a way to read from a configuration file
@@ -88,6 +97,7 @@ class Island1Controller(RevPiPyMachineController):
         self.multiProcessingController.write()
         self.sortingLineController.write()
         self.highBayController.write()
+        self.punchingMachineController.write()
 
     def reset(self) -> None:
         # TODO find a way to read from a configuration file
@@ -98,6 +108,7 @@ class Island1Controller(RevPiPyMachineController):
         self.multiProcessingController.reset()
         self.sortingLineController.reset()
         self.highBayController.reset()
+        self.punchingMachineController.reset()
 
 
 class VacuumGripperController:
@@ -265,6 +276,26 @@ class HighBayController:
         if self.machine.isInitialized:
             self.rpi.io.Counter_7_i05.reset()
             self.rpi.io.Counter_9_i05.reset()
+
+class PunchingMachineController:
+    def __init__(self, machine, rpi):
+        self.machine = machine
+        self.rpi = rpi
+
+    def read(self):
+        self.machine.punchingMachineSensGoods = self.rpi.io.I_1_i08.value
+        self.machine.punchingMachineSensMachine = self.rpi.io.I_2_i08.value
+        self.machine.punchingMachineSensUp = self.rpi.io.I_3_i08.value
+        self.machine.punchingMachineSensDown = self.rpi.io.I_4_i08.value
+
+    def write(self):
+        self.rpi.io.O_1_i08.value = self.machine.punchingMachineActConveyorForward
+        self.rpi.io.O_2_i08.value = self.machine.punchingMachineActConveyorBackward
+        self.rpi.io.O_3_i08.value = self.machine.punchingMachineActUp
+        self.rpi.io.O_4_i08.value = self.machine.punchingMachineActDown
+
+    def reset(self):
+        pass
 
 
 if __name__ == "__main__":
