@@ -77,7 +77,7 @@ class RevPi_Controller(RevPiPyModIOMachineController):
 
         #______SL______
         self.rpi.io.dio2_O_1.value = self.sortingLineMachine.sortingLineActMotorConveyor
-        self.rpi.io.dio2_O_2.value = self.sortingLineMachine.sortingLineActMotorConveyor
+        self.rpi.io.dio2_O_2.value = self.sortingLineMachine.sortingLineActCompressorOn
         self.rpi.io.dio2_O_3.value = self.sortingLineMachine.sortingLineActWhiteEjector
         self.rpi.io.dio2_O_4.value = self.sortingLineMachine.sortingLineActRedEjector
         self.rpi.io.dio2_O_5.value = self.sortingLineMachine.sortingLineActBlueEjector
