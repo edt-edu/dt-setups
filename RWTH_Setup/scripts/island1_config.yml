@@ -20,3 +20,20 @@ mqtt:
   port: 1883
   keepalive: 60
 
+# TODO write down remaining bindings from island1_main
+machines:
+  - name: "VacuumGripper01"
+    type: "VACUUM"
+    inputs:
+      - field: "vacuumSensVerticalEndUp"
+        port: "I_1"
+      - field: "vacuumSensVerticalEncoderCounter"
+        port: "Counter_5"
+        counter: true
+      - field: "vacuumSensRotEncoderCounter"
+        port: "Counter_9"
+        counter: true
+        inverted: true
+    outputs:
+      - field: "vacuumActVerticalUp"
+        port: "O_1"
