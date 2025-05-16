@@ -12,6 +12,17 @@ from rppmcontroller.machine.punchingmachine.PunchingMachine import PunchingMachi
 from rppmcontroller.machine.indexedline.IndexedLine import IndexedLine
 
 
+class MachineController:
+    def read(self):
+        pass
+
+    def write(self):
+        pass
+
+    def reset(self):
+        pass
+
+
 class Island1Controller(RevPiPyMachineController):
     def __init__(self, simulatedRevPiModIO: bool = False, configurationFile: str = ""):
         """
@@ -20,107 +31,40 @@ class Island1Controller(RevPiPyMachineController):
 
         super().__init__(configurationFile)
 
-        # Instantiate RevPiModIO
-        if not simulatedRevPiModIO:
-            self.rpi = revpimodio2.RevPiModIO(autorefresh=True)
+        self.rpi = revpimodio2.RevPiModIO(autorefresh=True)
 
-        # TODO find a way to read from a configuration file
-        # the list of all machines that are connected to this core
-        # TODO simplify with arrays and for loops so adding a Machine and controller is as simple as adding the classes below
-        self.vacuumGripperMachine = VacuumGripper("VacuumGripper01")
-        self.vacuumGripperController = VacuumGripperController(self.vacuumGripperMachine, self.rpi)
+        self.controllers = list()
+        self.currentlyExecuting = map()
+        self.feedback = map()
 
-        self.vacuumGripperMachine2 = VacuumGripper("VacuumGripper02")
-        self.vacuumGripperController2 = VacuumGripperController2(self.vacuumGripperMachine2, self.rpi)
+        self.addController(VacuumGripperController(VacuumGripper("VacuumGripper01"), self.rpi))
+        self.addController(VacuumGripperController2(VacuumGripper("VacuumGripper02"), self.rpi))
+        self.addController(ConveyorBeltController(ConveyorBelt("ConveyorBelt01"), self.rpi))
+        self.addController(MultiProcessingController(MultiProcessing("MultiProcessing01"), self.rpi))
+        self.addController(SortingLineController(SortingLine("SortingLine01"), self.rpi))
+        self.addController(HighBayController(HighBay("HighBay01"), self.rpi))
+        self.addController(PunchingMachineController(PunchingMachine("PunchingMachine01"), self.rpi))
+        self.addController(IndexedLineController(IndexedLine("IndexedLine01"), self.rpi))
 
-        self.conveyorBeltMachine = ConveyorBelt("ConveyorBelt01")
-        self.conveyorBeltController = ConveyorBeltController(self.conveyorBeltMachine, self.rpi)
-
-        self.multiProcessingMachine = MultiProcessing("MultiProcessing01")
-        self.multiProcessingController = MultiProcessingController(self.multiProcessingMachine, self.rpi)
-
-        self.sortingLineMachine = SortingLine("SortingLine01")
-        self.sortingLineController = SortingLineController(self.sortingLineMachine, self.rpi)
-
-        self.highBayMachine = HighBay("HighBay01")
-        self.highBayController = HighBayController(self.highBayMachine, self.rpi)
-
-        self.punchingMachine = PunchingMachine("PunchingMachine01")
-        self.punchingMachineController = PunchingMachineController(self.punchingMachine, self.rpi)
-
-        self.indexedLine = IndexedLine("IndexedLine01")
-        self.indexedLineController = IndexedLineController(self.indexedLine, self.rpi)
-
-        self.machines = [
-            self.vacuumGripperMachine,
-            self.vacuumGripperMachine2,
-            self.conveyorBeltMachine,
-            self.multiProcessingMachine,
-            self.sortingLineMachine,
-            self.highBayMachine,
-            self.punchingMachine,
-            self.indexedLine,
-        ]
-        self.currentlyExecuting = {
-            self.vacuumGripperMachine: None,
-            self.vacuumGripperMachine2: None,
-            self.conveyorBeltMachine: None,
-            self.multiProcessingMachine: None,
-            self.sortingLineMachine: None,
-            self.highBayMachine: None,
-            self.punchingMachine: None,
-            self.indexedLine: None,
-        }
-
-        self.feedback = {
-            self.vacuumGripperMachine: None,
-            self.vacuumGripperMachine2: None,
-            self.conveyorBeltMachine: None,
-            self.multiProcessingMachine: None,
-            self.sortingLineMachine: None,
-            self.highBayMachine: None,
-            self.punchingMachine: None,
-            self.indexedLine: None,
-        }
+    def addController(self, controller: MachineController):
+        self.controllers.append(controller)
+        self.currentlyExecuting[controller.machine] = None
+        self.feedback[controller.machine] = None
 
     def read(self):
-        # TODO find a way to read from a configuration file
-        assert self.rpi.io is not None
-        self.vacuumGripperController.read()
-        self.vacuumGripperController2.read()
-        self.conveyorBeltController.read()
-        self.multiProcessingController.read()
-        self.sortingLineController.read()
-        self.highBayController.read()
-        self.punchingMachineController.read()
-        self.indexedLineController.read()
+        for c in self.controllers:
+            c.read()
 
     def write(self):
-        # TODO find a way to read from a configuration file
-        assert self.rpi.io is not None
-        self.vacuumGripperController.write()
-        self.vacuumGripperController2.write()
-        self.conveyorBeltController.write()
-        self.multiProcessingController.write()
-        self.sortingLineController.write()
-        self.highBayController.write()
-        self.punchingMachineController.write()
-        self.indexedLineController.write()
+        for c in self.controllers:
+            c.write()
 
     def reset(self) -> None:
-        # TODO find a way to read from a configuration file
-        assert self.rpi.io is not None
-        self.vacuumGripperController.reset()
-        self.vacuumGripperController2.reset()
-        self.conveyorBeltController.reset()
-        self.multiProcessingController.reset()
-        self.sortingLineController.reset()
-        self.highBayController.reset()
-        self.punchingMachineController.reset()
-        self.indexedLineController.reset()
+        for c in self.controllers:
+            c.reset()
 
 
-class VacuumGripperController:
+class VacuumGripperController(MachineController):
     def __init__(self, machine, rpi):
         self.machine = machine
         self.rpi = rpi
@@ -149,8 +93,7 @@ class VacuumGripperController:
             self.rpi.io.Counter_7.reset()
             self.rpi.io.Counter_9.reset()
 
-
-class VacuumGripperController2:
+class VacuumGripperController2(MachineController):
     def __init__(self, machine, rpi):
         self.machine = machine
         self.rpi = rpi
@@ -179,7 +122,7 @@ class VacuumGripperController2:
             self.rpi.io.Counter_7_i03.reset()
             self.rpi.io.Counter_9_i03.reset()
 
-class ConveyorBeltController:
+class ConveyorBeltController(MachineController):
     def __init__(self, machine, rpi):
         self.machine = machine
         self.rpi = rpi
@@ -196,7 +139,7 @@ class ConveyorBeltController:
     def reset(self) -> None:
         pass
 
-class MultiProcessingController:
+class MultiProcessingController(MachineController):
     def __init__(self, machine, rpi):
         self.machine = machine
         self.rpi = rpi
@@ -231,7 +174,7 @@ class MultiProcessingController:
     def reset(self) -> None:
         pass
 
-class SortingLineController:
+class SortingLineController(MachineController):
     def __init__(self, machine, rpi):
         self.machine = machine
         self.rpi = rpi
@@ -255,7 +198,7 @@ class SortingLineController:
     def reset(self) -> None:
         pass
 
-class HighBayController:
+class HighBayController(MachineController):
     def __init__(self, machine, rpi):
         self.machine = machine
         self.rpi = rpi
@@ -286,7 +229,7 @@ class HighBayController:
             self.rpi.io.Counter_7_i05.reset()
             self.rpi.io.Counter_9_i05.reset()
 
-class PunchingMachineController:
+class PunchingMachineController(MachineController):
     def __init__(self, machine, rpi):
         self.machine = machine
         self.rpi = rpi
@@ -307,7 +250,7 @@ class PunchingMachineController:
         pass
 
 
-class IndexedLineController:
+class IndexedLineController(MachineController):
     def __init__(self, machine, rpi):
         self.machine = machine
         self.rpi = rpi
