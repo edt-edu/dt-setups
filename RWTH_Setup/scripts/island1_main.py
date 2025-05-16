@@ -35,14 +35,14 @@ class Island1Controller(RevPiPyMachineController):
 
         self.controllers = list()
 
-        self.addController(VacuumGripperController(VacuumGripper("VacuumGripper01"), self.rpi))
-        self.addController(VacuumGripperController2(VacuumGripper("VacuumGripper02"), self.rpi))
-        self.addController(ConveyorBeltController(ConveyorBelt("ConveyorBelt01"), self.rpi))
-        self.addController(MultiProcessingController(MultiProcessing("MultiProcessing01"), self.rpi))
-        self.addController(SortingLineController(SortingLine("SortingLine01"), self.rpi))
-        self.addController(HighBayController(HighBay("HighBay01"), self.rpi))
-        self.addController(PunchingMachineController(PunchingMachine("PunchingMachine01"), self.rpi))
-        self.addController(IndexedLineController(IndexedLine("IndexedLine01"), self.rpi))
+        self.addController(VacuumGripperController(VacuumGripper("I1VacuumGripper01"), self.rpi))
+        self.addController(VacuumGripperController2(VacuumGripper("I1VacuumGripper02"), self.rpi))
+        self.addController(ConveyorBeltController(ConveyorBelt("I1ConveyorBelt01"), self.rpi))
+        self.addController(MultiProcessingController(MultiProcessing("I1MultiProcessing01"), self.rpi))
+        self.addController(SortingLineController(SortingLine("I1SortingLine01"), self.rpi))
+        self.addController(HighBayController(HighBay("I1HighBay01"), self.rpi))
+        self.addController(PunchingMachineController(PunchingMachine("I1PunchingMachine01"), self.rpi))
+        self.addController(IndexedLineController(IndexedLine("I1IndexedLine01"), self.rpi))
 
     def addController(self, controller: MachineController):
         self.controllers.append(controller)
