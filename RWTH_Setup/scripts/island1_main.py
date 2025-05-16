@@ -34,8 +34,6 @@ class Island1Controller(RevPiPyMachineController):
         self.rpi = revpimodio2.RevPiModIO(autorefresh=True)
 
         self.controllers = list()
-        self.currentlyExecuting = dict()
-        self.feedback = dict()
 
         self.addController(VacuumGripperController(VacuumGripper("VacuumGripper01"), self.rpi))
         self.addController(VacuumGripperController2(VacuumGripper("VacuumGripper02"), self.rpi))
@@ -48,8 +46,9 @@ class Island1Controller(RevPiPyMachineController):
 
     def addController(self, controller: MachineController):
         self.controllers.append(controller)
+        self.machines.append(controller.machine)
         self.currentlyExecuting[controller.machine] = None
-        self.feedback[controller.machine] = None
+        self.machineFeedback[controller.machine] = None
 
     def read(self):
         for c in self.controllers:
