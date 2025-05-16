@@ -21,9 +21,30 @@ configuration:
          name: "I1SortingLine01"
        - type: "highBayWarehouse"
          name: "I1HighBay01"
+   - name: "plc-2"
+     host: '192.168.178.202'
+     commandPort: 6001
+     notificationPort: 6011
+     machines:
        - type: "punchingMachine"
-         name: "I1PunchingMachine01"
+         name: "I2PunchingMachine01"
+       - type: "punchingMachine"
+         name: "I2PunchingMachine01"
        - type: "indexedLine"
-         name: "I1IndexedLine01"
-
-
+         name: "I2IndexedLine01"
+       - type: "vacuumGripper"
+         name: "I2VacuumGripper03"
+       - type: "vacuumGripper"
+         name: "I2VacuumGripper04"
+       - type: "vacuumGripper"
+         name: "I2VacuumGripper05"
+       - type: "conveyorBelt"
+         name: "I2ConveyorBelt02"
+       - type: "conveyorBelt"
+         name: "I2ConveyorBelt03"
+       - type: "conveyorBelt"
+         name: "I2ConveyorBelt04"
+       - type: "sortingLine"
+         name: "I2SortingLine02"
+       - type: "highBayWarehouse"
+         name: "I2HighBay02" 
