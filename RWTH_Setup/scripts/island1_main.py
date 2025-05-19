@@ -9,6 +9,7 @@ from rppmcontroller.machine.multiprocessing.MultiProcessing import MultiProcessi
 from rppmcontroller.machine.sortingLine.SortingLine import SortingLine
 from rppmcontroller.machine.highbay.HighBay import HighBay
 from rppmcontroller.machine.punchingmachine.PunchingMachine import PunchingMachine
+from rppmcontroller.machine.indexedline.IndexedLine import IndexedLine
 
 
 class Island1Controller(RevPiPyMachineController):
@@ -47,6 +48,8 @@ class Island1Controller(RevPiPyMachineController):
         self.punchingMachine = PunchingMachine("PunchingMachine01")
         self.punchingMachineController = PunchingMachineController(self.punchingMachine, self.rpi)
 
+        self.indexedLine = IndexedLine("IndexedLine01")
+        self.indexedLineController = IndexedLineController(self.indexedLine, self.rpi)
 
         self.machines = [
             self.vacuumGripperMachine,
@@ -56,6 +59,7 @@ class Island1Controller(RevPiPyMachineController):
             self.sortingLineMachine,
             self.highBayMachine,
             self.punchingMachine,
+            self.indexedLine,
         ]
         self.currentlyExecuting = {
             self.vacuumGripperMachine: None,
@@ -65,6 +69,7 @@ class Island1Controller(RevPiPyMachineController):
             self.sortingLineMachine: None,
             self.highBayMachine: None,
             self.punchingMachine: None,
+            self.indexedLine: None,
         }
 
         self.feedback = {
@@ -75,6 +80,7 @@ class Island1Controller(RevPiPyMachineController):
             self.sortingLineMachine: None,
             self.highBayMachine: None,
             self.punchingMachine: None,
+            self.indexedLine: None,
         }
 
     def read(self):
@@ -87,6 +93,7 @@ class Island1Controller(RevPiPyMachineController):
         self.sortingLineController.read()
         self.highBayController.read()
         self.punchingMachineController.read()
+        self.indexedLineController.read()
 
     def write(self):
         # TODO find a way to read from a configuration file
@@ -98,6 +105,7 @@ class Island1Controller(RevPiPyMachineController):
         self.sortingLineController.write()
         self.highBayController.write()
         self.punchingMachineController.write()
+        self.indexedLineController.write()
 
     def reset(self) -> None:
         # TODO find a way to read from a configuration file
@@ -109,6 +117,7 @@ class Island1Controller(RevPiPyMachineController):
         self.sortingLineController.reset()
         self.highBayController.reset()
         self.punchingMachineController.reset()
+        self.indexedLineController.reset()
 
 
 class VacuumGripperController:
@@ -293,6 +302,38 @@ class PunchingMachineController:
         self.rpi.io.O_2_i08.value = self.machine.punchingMachineActConveyorBackward
         self.rpi.io.O_3_i08.value = self.machine.punchingMachineActUp
         self.rpi.io.O_4_i08.value = self.machine.punchingMachineActDown
+
+    def reset(self):
+        pass
+
+
+class IndexedLineController:
+    def __init__(self, machine, rpi):
+        self.machine = machine
+        self.rpi = rpi
+
+    def read(self):
+        self.machine.indexedLineSensSlider1Front = self.rpi.io.I_1_i08.value
+        self.machine.indexedLineSensSlider1Rear = self.rpi.io.I_2_i08.value
+        self.machine.indexedLineSensSlider2Front = self.rpi.io.I_3_i08.value
+        self.machine.indexedLineSensSlider2Rear = self.rpi.io.I_4_i08.value
+        self.machine.indexedLineSensSlider1 = self.rpi.io.I_5_i08.value
+        self.machine.indexedLineSensMilling = self.rpi.io.I_6_i08.value
+        self.machine.indexedLineSensLoading = self.rpi.io.I_7_i08.value
+        self.machine.indexedLineSensDrilling = self.rpi.io.I_8_i08.value
+        self.machine.indexedLineSensSwap = self.rpi.io.I_9_i08.value
+
+    def write(self):
+        self.rpi.io.O_1_i08.value = self.machine.indexedLineActSlider1Forward
+        self.rpi.io.O_2_i08.value = self.machine.indexedLineActSlider1Backward
+        self.rpi.io.O_3_i08.value = self.machine.indexedLineActSlider2Forward
+        self.rpi.io.O_4_i08.value = self.machine.indexedLineActSlider2Backward
+        self.rpi.io.O_5_i08.value = self.machine.indexedLineActFeedConveyor
+        self.rpi.io.O_6_i08.value = self.machine.indexedLineActMillingConveyor
+        self.rpi.io.O_7_i08.value = self.machine.indexedLineActMilling
+        self.rpi.io.O_8_i08.value = self.machine.indexedLineActDrillingConveyor
+        self.rpi.io.O_9_i08.value = self.machine.indexedLineActDrilling
+        self.rpi.io.O_10_i08.value = self.machine.indexedLineActSwapConveyor
 
     def reset(self):
         pass

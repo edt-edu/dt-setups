@@ -23,4 +23,7 @@ configuration:
          name: "HighBay01"
        - type: "punchingMachine"
          name: "PunchingMachine01"
+       - type: "indexedLine"
+         name: "IndexedLine01"
+
 
