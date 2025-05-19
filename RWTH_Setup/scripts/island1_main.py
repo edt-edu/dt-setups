@@ -341,7 +341,7 @@ class IndexedLineController:
 
 if __name__ == "__main__":
     logging.basicConfig(format='%(asctime)s %(levelname)-5s: %(module)-30s,%(lineno)-3s: %(message)s',
-                        level=logging.DEBUG,
+                        level=logging.INFO,
                         datefmt='%Y-%m-%d %H:%M:%S')
     handler = logging.FileHandler("logfile.log")
     logFormatter = logging.Formatter("%(levelname)-5s: %(module)-30s,%(lineno)-3s: %(message)s")
