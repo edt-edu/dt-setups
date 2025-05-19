@@ -1,5 +1,5 @@
 #!/bin/bash
-TARGET_IP=192.168.178.201
+TARGET_IP=$1
 set -e
 echo "Downloading deps on control pc"
 rm -r ./downloads

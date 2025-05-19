@@ -20,14 +20,14 @@ esac
 
 if [[ "$2" == "-d" ]]; then
   echo "Installing dependencies for island $1"
-  ./install_dependencies $TARGET_IP || exit 1
+  ./util/install_dependencies $TARGET_IP || exit 1
 fi
 
 echo "Uploading controller for island $1"
 
 rsync -r ../../rppmcontroller/ pi@$TARGET_IP:/home/pi/rppmcontroller
-rsync -r "./island$1_main.py" pi@$TARGET_IP:/home/pi/rppmcontroller/rppmcontroller/example/
-rsync -r "./island$1_config.yml" pi@$TARGET_IP:/home/pi/rppmcontroller/rppmcontroller/example/
+rsync -r "./island${1}_main.py" pi@$TARGET_IP:/home/pi/rppmcontroller/rppmcontroller/example/
+rsync -r "./island${1}_config.yml" pi@$TARGET_IP:/home/pi/rppmcontroller/rppmcontroller/example/
 
 echo "Starting controller for island $1"
 
