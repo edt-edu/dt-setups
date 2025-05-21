@@ -45,6 +45,7 @@ class Island1Controller(RevPiPyMachineController):
 
         self.addController(ConveyorBeltController2(ConveyorBelt("I2ConveyorBelt02"), self.rpi))
         self.addController(ConveyorBeltController3(ConveyorBelt("I2ConveyorBelt03"), self.rpi))
+        self.addController(ConveyorBeltController4(ConveyorBelt("I2ConveyorBelt04"), self.rpi))
         
         self.addController(SortingLineController2(SortingLine("I2SortingLine02"), self.rpi))
 
@@ -179,6 +180,23 @@ class ConveyorBeltController2(MachineController):
 
 
 class ConveyorBeltController3(MachineController):
+    def __init__(self, machine, rpi):
+        super().__init__(machine, rpi)
+
+    def read(self):
+        self.machine.conveyorSensFeed = self.rpi.io.I_1_i04.value
+        self.machine.conveyorSensSwap = self.rpi.io.I_2_i04.value
+        self.machine.conveyorSensImpulse = self.rpi.io.I_3_i04.value
+
+    def write(self):
+        self.rpi.io.O_1_i04.value = self.machine.conveyorActForward
+        self.rpi.io.O_2_i04.value = self.machine.conveyorActBackward
+
+    def reset(self) -> None:
+        pass
+
+
+class ConveyorBeltController4(MachineController):
     def __init__(self, machine, rpi):
         super().__init__(machine, rpi)
 
