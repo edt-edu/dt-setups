@@ -45,8 +45,9 @@ class Island1Controller(RevPiPyMachineController):
         self.addController(MultiProcessingController(MultiProcessing("I1MultiProcessing01"), self.rpi))
         self.addController(SortingLineController(SortingLine("I1SortingLine01"), self.rpi))
         self.addController(HighBayController(HighBay("I1HighBay01"), self.rpi))
-        self.addController(PunchingMachineController(PunchingMachine("I1PunchingMachine01"), self.rpi))
-        self.addController(IndexedLineController(IndexedLine("I1IndexedLine01"), self.rpi))
+        # machines which are usually not connected to island 1
+        # self.addController(PunchingMachineController(PunchingMachine("I1PunchingMachine01"), self.rpi))
+        # self.addController(IndexedLineController(IndexedLine("I1IndexedLine01"), self.rpi))
 
     def addController(self, controller: MachineController):
         self.controllers.append(controller)
