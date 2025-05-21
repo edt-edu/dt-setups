@@ -35,14 +35,21 @@ class Island1Controller(RevPiPyMachineController):
 
         self.controllers = list()
 
-        self.addController(VacuumGripperController(VacuumGripper("I1VacuumGripper01"), self.rpi))
-        self.addController(VacuumGripperController2(VacuumGripper("I1VacuumGripper02"), self.rpi))
-        self.addController(ConveyorBeltController(ConveyorBelt("I1ConveyorBelt01"), self.rpi))
-        self.addController(MultiProcessingController(MultiProcessing("I1MultiProcessing01"), self.rpi))
-        self.addController(SortingLineController(SortingLine("I1SortingLine01"), self.rpi))
-        self.addController(HighBayController(HighBay("I1HighBay01"), self.rpi))
-        self.addController(PunchingMachineController(PunchingMachine("I1PunchingMachine01"), self.rpi))
-        self.addController(IndexedLineController(IndexedLine("I1IndexedLine01"), self.rpi))
+        self.addController(VacuumGripperController3(VacuumGripper("I2VacuumGripper03"), self.rpi))
+        self.addController(VacuumGripperController4(VacuumGripper("I2VacuumGripper04"), self.rpi))
+        self.addController(VacuumGripperController5(VacuumGripper("I2VacuumGripper05"), self.rpi))
+
+        self.addController(ConveyorBeltController2(ConveyorBelt("I2ConveyorBelt02"), self.rpi))
+        self.addController(ConveyorBeltController3(ConveyorBelt("I2ConveyorBelt03"), self.rpi))
+        
+        self.addController(SortingLineController2(SortingLine("I2SortingLine02"), self.rpi))
+
+        self.addController(HighBayController2(HighBay("I2HighBay02"), self.rpi))
+
+        self.addController(PunchingMachineController1(PunchingMachine("I2PunchingMachine01"), self.rpi))
+        self.addController(PunchingMachineController2(PunchingMachine("I2PunchingMachine02"), self.rpi))
+
+        self.addController(IndexedLineController1(IndexedLine("I1IndexedLine01"), self.rpi))
 
     def addController(self, controller: MachineController):
         self.controllers.append(controller)
@@ -63,7 +70,9 @@ class Island1Controller(RevPiPyMachineController):
             c.reset()
 
 
-class VacuumGripperController(MachineController):
+# TODO: add values for all revpis
+
+class VacuumGripperController3(MachineController):
     def __init__(self, machine, rpi):
         self.machine = machine
         self.rpi = rpi
@@ -92,7 +101,7 @@ class VacuumGripperController(MachineController):
             self.rpi.io.Counter_7.reset()
             self.rpi.io.Counter_9.reset()
 
-class VacuumGripperController2(MachineController):
+class VacuumGripperController4(MachineController):
     def __init__(self, machine, rpi):
         self.machine = machine
         self.rpi = rpi
@@ -121,7 +130,37 @@ class VacuumGripperController2(MachineController):
             self.rpi.io.Counter_7_i03.reset()
             self.rpi.io.Counter_9_i03.reset()
 
-class ConveyorBeltController(MachineController):
+class VacuumGripperController5(MachineController):
+    def __init__(self, machine, rpi):
+        self.machine = machine
+        self.rpi = rpi
+
+    def read(self):
+        self.machine.vacuumSensVerticalEndUp = self.rpi.io.I_1_i03.value
+        self.machine.vacuumSensArmEndIn = self.rpi.io.I_2_i03.value
+        self.machine.vacuumSensRotEnd = self.rpi.io.I_3_i03.value
+        self.machine.vacuumSensVerticalEncoderCounter = -ctypes.c_int32(self.rpi.io.Counter_5_i03.value).value
+        self.machine.vacuumSensArmEncoderCounter = -ctypes.c_int32(self.rpi.io.Counter_7_i03.value).value
+        self.machine.vacuumSensRotEncoderCounter = ctypes.c_int32(self.rpi.io.Counter_9_i03.value).value
+
+    def write(self):
+        self.rpi.io.O_1_i03.value = self.machine.vacuumActVerticalUp
+        self.rpi.io.O_2_i03.value = self.machine.vacuumActVerticalDown
+        self.rpi.io.O_3_i03.value = self.machine.vacuumActArmIn
+        self.rpi.io.O_4_i03.value = self.machine.vacuumActArmOut
+        self.rpi.io.O_5_i03.value = self.machine.vacuumActRotRight
+        self.rpi.io.O_6_i03.value = self.machine.vacuumActRotLeft
+        self.rpi.io.O_7_i03.value = self.machine.vacuumActCompressorOn
+        self.rpi.io.O_8_i03.value = self.machine.vacuumActValve
+
+    def reset(self) -> None:
+        if self.machine.resetHelper():
+            self.rpi.io.Counter_5_i03.reset()
+            self.rpi.io.Counter_7_i03.reset()
+            self.rpi.io.Counter_9_i03.reset()
+
+
+class ConveyorBeltController2(MachineController):
     def __init__(self, machine, rpi):
         self.machine = machine
         self.rpi = rpi
@@ -138,42 +177,26 @@ class ConveyorBeltController(MachineController):
     def reset(self) -> None:
         pass
 
-class MultiProcessingController(MachineController):
+
+class ConveyorBeltController3(MachineController):
     def __init__(self, machine, rpi):
         self.machine = machine
         self.rpi = rpi
 
     def read(self):
-        self.machine.multiProcessingSensTurntablePosVacuum = self.rpi.io.I_1_i06.value
-        self.machine.multiProcessingSensTurntablePosBelt = self.rpi.io.I_2_i06.value
-        self.machine.multiProcessingSensEndConveyor = self.rpi.io.I_3_i06.value
-        self.machine.multiProcessingSensTurntablePosSaw = self.rpi.io.I_4_i06.value
-        self.machine.multiProcessingSensVacuumGripperAtTurntable = self.rpi.io.I_5_i06.value
-        self.machine.multiProcessingSensOvenFeederIn = self.rpi.io.I_6_i06.value
-        self.machine.multiProcessingSensOvenFeederOut = self.rpi.io.I_7_i06.value
-        self.machine.multiProcessingSensVacuumGripperAtOven = self.rpi.io.I_8_i06.value
-        self.machine.multiProcessingSensOven = self.rpi.io.I_9_i06.value
+        self.machine.conveyorSensFeed = self.rpi.io.I_1_i04.value
+        self.machine.conveyorSensSwap = self.rpi.io.I_2_i04.value
+        self.machine.conveyorSensImpulse = self.rpi.io.I_3_i04.value
 
     def write(self):
-        self.rpi.io.O_1_i06.value = self.machine.multiProcessingActRotClockwise
-        self.rpi.io.O_2_i06.value = self.machine.multiProcessingActRotCounterclockwise
-        self.rpi.io.O_3_i06.value = self.machine.multiProcessingActConveyorForward
-        self.rpi.io.O_4_i06.value = self.machine.multiProcessingActSaw
-        self.rpi.io.O_5_i06.value = self.machine.multiProcessingActOvenInward
-        self.rpi.io.O_6_i06.value = self.machine.multiProcessingActOvenOutward
-        self.rpi.io.O_7_i06.value = self.machine.multiProcessingActGripperToOven
-        self.rpi.io.O_8_i06.value = self.machine.multiProcessingActGripperToTurntable
-        self.rpi.io.O_9_i06.value = self.machine.multiProcessingOvenLight
-        self.rpi.io.O_10_i06.value = self.machine.multiProcessingCompressor
-        self.rpi.io.O_11_i06.value = self.machine.multiProcessingValveVacuum
-        self.rpi.io.O_12_i06.value = self.machine.multiProcessingActLowerValve
-        self.rpi.io.O_13_i06.value = self.machine.multiProcessingValveOvenDoor
-        self.rpi.io.O_14_i06.value = self.machine.multiProcessingValveFeeder
+        self.rpi.io.O_1_i04.value = self.machine.conveyorActForward
+        self.rpi.io.O_2_i04.value = self.machine.conveyorActBackward
 
     def reset(self) -> None:
         pass
 
-class SortingLineController(MachineController):
+    
+class SortingLineController2(MachineController):
     def __init__(self, machine, rpi):
         self.machine = machine
         self.rpi = rpi
@@ -197,7 +220,7 @@ class SortingLineController(MachineController):
     def reset(self) -> None:
         pass
 
-class HighBayController(MachineController):
+class HighBayController2(MachineController):
     def __init__(self, machine, rpi):
         self.machine = machine
         self.rpi = rpi
@@ -228,7 +251,9 @@ class HighBayController(MachineController):
             self.rpi.io.Counter_7_i05.reset()
             self.rpi.io.Counter_9_i05.reset()
 
-class PunchingMachineController(MachineController):
+
+
+class PunchingMachineController1(MachineController):
     def __init__(self, machine, rpi):
         self.machine = machine
         self.rpi = rpi
@@ -249,7 +274,29 @@ class PunchingMachineController(MachineController):
         pass
 
 
-class IndexedLineController(MachineController):
+
+class PunchingMachineController2(MachineController):
+    def __init__(self, machine, rpi):
+        self.machine = machine
+        self.rpi = rpi
+
+    def read(self):
+        self.machine.punchingMachineSensGoods = self.rpi.io.I_1_i08.value
+        self.machine.punchingMachineSensMachine = self.rpi.io.I_2_i08.value
+        self.machine.punchingMachineSensUp = self.rpi.io.I_3_i08.value
+        self.machine.punchingMachineSensDown = self.rpi.io.I_4_i08.value
+
+    def write(self):
+        self.rpi.io.O_1_i08.value = self.machine.punchingMachineActConveyorForward
+        self.rpi.io.O_2_i08.value = self.machine.punchingMachineActConveyorBackward
+        self.rpi.io.O_3_i08.value = self.machine.punchingMachineActUp
+        self.rpi.io.O_4_i08.value = self.machine.punchingMachineActDown
+
+    def reset(self):
+        pass
+
+
+class IndexedLineController1(MachineController):
     def __init__(self, machine, rpi):
         self.machine = machine
         self.rpi = rpi

@@ -1,10 +1,5 @@
 #!/bin/bash
-
-TARGET_IP=192.168.178.201
 script_dir=$(dirname -- "$( readlink -f -- "$0"; )")
-
-# Check if controller is running
-ssh pi@$TARGET_IP pgrep -f island1_main.py && echo "Controller is running" || { echo "Controller on RevPi $TARGET_IP is not running"; exit 1; }
 
 # Function to run backend
 run_backend() {
