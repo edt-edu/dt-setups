@@ -28,7 +28,7 @@ esac
 
 if [[ "$2" == "-d" ]]; then
   echo "Installing dependencies for island $ISLAND_NUMBER..."
-  ./util/install_dependencies $TARGET_IP || exit 1
+  ./util/install_dependencies.sh $TARGET_IP || exit 1
 fi
 
 echo "Uploading controller for island $ISLAND_NUMBER..."
