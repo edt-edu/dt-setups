@@ -34,11 +34,10 @@ fi
 echo "Uploading controller for island $ISLAND_NUMBER..."
 
 rsync -r ../../rppmcontroller/ "pi@$TARGET_IP:/home/pi/rppmcontroller"
-rsync -r "./island_controller.py" "pi@$TARGET_IP:/home/pi/rppmcontroller/rppmcontroller/example/"
+rsync -r "./island${ISLAND_NUMBER}_main.py" "pi@$TARGET_IP:/home/pi/rppmcontroller/rppmcontroller/example/"
 rsync -r "./island${ISLAND_NUMBER}_config.yml" "pi@$TARGET_IP:/home/pi/rppmcontroller/rppmcontroller/example/"
 
 echo "Starting controller for island $ISLAND_NUMBER..."
 
-# we can assume that only one controller is running on each pi, so pgrepping the python file is okay here
-trap 'ssh pi@$TARGET_IP \"pgrep -f island_controller.py | xargs kill\"' INT
-ssh "pi@$TARGET_IP" "cd /home/pi/rppmcontroller && source .venv/bin/activate && python ./rppmcontroller/example/island_controller.py $ISLAND_NUMBER"
+trap 'ssh pi@$TARGET_IP \"pgrep -f island${ISLAND_NUMBER}_controller.py | xargs kill\"' INT
+ssh "pi@$TARGET_IP" "cd /home/pi/rppmcontroller && source .venv/bin/activate && python ./rppmcontroller/example/island${ISLAND_NUMBER}_main.py"

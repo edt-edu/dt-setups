@@ -3,16 +3,20 @@ import logging
 
 import revpimodio2
 from rppmcontroller.RevPiPyMachineController import RevPiPyMachineController
-from rppmcontroller.machine.vacuumgripper.VacuumGripper import VacuumGripper
 from rppmcontroller.machine.conveyorbelt.ConveyorBelt import ConveyorBelt
-from rppmcontroller.machine.multiprocessing.MultiProcessing import MultiProcessing
-from rppmcontroller.machine.sortingLine.SortingLine import SortingLine
 from rppmcontroller.machine.highbay.HighBay import HighBay
-from rppmcontroller.machine.punchingmachine.PunchingMachine import PunchingMachine
 from rppmcontroller.machine.indexedline.IndexedLine import IndexedLine
+from rppmcontroller.machine.multiprocessing.MultiProcessing import MultiProcessing
+from rppmcontroller.machine.punchingmachine.PunchingMachine import PunchingMachine
+from rppmcontroller.machine.sortingLine.SortingLine import SortingLine
+from rppmcontroller.machine.vacuumgripper.VacuumGripper import VacuumGripper
 
 
 class MachineController:
+    def __init__(self, machine, rpi):
+        self.machine = machine
+        self.rpi = rpi
+
     def read(self):
         pass
 
@@ -49,7 +53,7 @@ class Island1Controller(RevPiPyMachineController):
         self.addController(PunchingMachineController1(PunchingMachine("I2PunchingMachine01"), self.rpi))
         self.addController(PunchingMachineController2(PunchingMachine("I2PunchingMachine02"), self.rpi))
 
-        self.addController(IndexedLineController1(IndexedLine("I1IndexedLine01"), self.rpi))
+        self.addController(IndexedLineController1(IndexedLine("I2IndexedLine01"), self.rpi))
 
     def addController(self, controller: MachineController):
         self.controllers.append(controller)
@@ -74,8 +78,7 @@ class Island1Controller(RevPiPyMachineController):
 
 class VacuumGripperController3(MachineController):
     def __init__(self, machine, rpi):
-        self.machine = machine
-        self.rpi = rpi
+        super().__init__(machine, rpi)
 
     def read(self):
         self.machine.vacuumSensVerticalEndUp = self.rpi.io.I_1.value
@@ -103,8 +106,7 @@ class VacuumGripperController3(MachineController):
 
 class VacuumGripperController4(MachineController):
     def __init__(self, machine, rpi):
-        self.machine = machine
-        self.rpi = rpi
+        super().__init__(machine, rpi)
 
     def read(self):
         self.machine.vacuumSensVerticalEndUp = self.rpi.io.I_1_i03.value
@@ -132,8 +134,7 @@ class VacuumGripperController4(MachineController):
 
 class VacuumGripperController5(MachineController):
     def __init__(self, machine, rpi):
-        self.machine = machine
-        self.rpi = rpi
+        super().__init__(machine, rpi)
 
     def read(self):
         self.machine.vacuumSensVerticalEndUp = self.rpi.io.I_1_i03.value
@@ -162,8 +163,7 @@ class VacuumGripperController5(MachineController):
 
 class ConveyorBeltController2(MachineController):
     def __init__(self, machine, rpi):
-        self.machine = machine
-        self.rpi = rpi
+        super().__init__(machine, rpi)
 
     def read(self):
         self.machine.conveyorSensFeed = self.rpi.io.I_1_i04.value
@@ -180,8 +180,7 @@ class ConveyorBeltController2(MachineController):
 
 class ConveyorBeltController3(MachineController):
     def __init__(self, machine, rpi):
-        self.machine = machine
-        self.rpi = rpi
+        super().__init__(machine, rpi)
 
     def read(self):
         self.machine.conveyorSensFeed = self.rpi.io.I_1_i04.value
@@ -198,8 +197,7 @@ class ConveyorBeltController3(MachineController):
     
 class SortingLineController2(MachineController):
     def __init__(self, machine, rpi):
-        self.machine = machine
-        self.rpi = rpi
+        super().__init__(machine, rpi)
 
     def read(self):
         self.machine.sortingLineSensImpulseCounterRaw = self.rpi.io.I_1_i07.value
@@ -222,8 +220,7 @@ class SortingLineController2(MachineController):
 
 class HighBayController2(MachineController):
     def __init__(self, machine, rpi):
-        self.machine = machine
-        self.rpi = rpi
+        super().__init__(machine, rpi)
 
     def read(self):
         self.machine.highbaySensHorizontal = self.rpi.io.I_1_i05.value
@@ -255,8 +252,7 @@ class HighBayController2(MachineController):
 
 class PunchingMachineController1(MachineController):
     def __init__(self, machine, rpi):
-        self.machine = machine
-        self.rpi = rpi
+        super().__init__(machine, rpi)
 
     def read(self):
         self.machine.punchingMachineSensGoods = self.rpi.io.I_1_i08.value
@@ -277,8 +273,7 @@ class PunchingMachineController1(MachineController):
 
 class PunchingMachineController2(MachineController):
     def __init__(self, machine, rpi):
-        self.machine = machine
-        self.rpi = rpi
+        super().__init__(machine, rpi)
 
     def read(self):
         self.machine.punchingMachineSensGoods = self.rpi.io.I_1_i08.value
@@ -298,8 +293,7 @@ class PunchingMachineController2(MachineController):
 
 class IndexedLineController1(MachineController):
     def __init__(self, machine, rpi):
-        self.machine = machine
-        self.rpi = rpi
+        super().__init__(machine, rpi)
 
     def read(self):
         self.machine.indexedLineSensSlider1Front = self.rpi.io.I_1_i08.value
@@ -338,4 +332,4 @@ if __name__ == "__main__":
     logging.getLogger().addHandler(handler)
 
     # Start communication threads and main control loop
-    Island1Controller(configurationFile="/home/pi/rppmcontroller/rppmcontroller/example/island1_config.yml").start()
+    Island1Controller(configurationFile="/home/pi/rppmcontroller/rppmcontroller/example/island2_config.yml").start()
