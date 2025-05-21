@@ -12,7 +12,7 @@ case "$ISLAND_NUMBER" in
     TARGET_IP=192.168.178.201
     ;;
   2)
-    TARGET_IP=192.168.178.201
+    TARGET_IP=192.168.178.202
     ;;
   -h|--help|help|?)
     echo "./start_controller <island_number> [-d]"
