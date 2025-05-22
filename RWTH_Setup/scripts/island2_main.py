@@ -49,7 +49,7 @@ class Island1Controller(RevPiPyMachineController):
         
         self.addController(SortingLineController2(SortingLine("I2SortingLine02"), self.rpi))
 
-        self.addController(HighBayController2(HighBay("I2HighBay02", row_offset=-50), self.rpi))
+        self.addController(HighBayController2(HighBay("I2HighBay02", row_offset=-100), self.rpi))
 
         self.addController(PunchingMachineController1(PunchingMachine("I2PunchingMachine01"), self.rpi))
         self.addController(PunchingMachineController2(PunchingMachine("I2PunchingMachine02"), self.rpi))
