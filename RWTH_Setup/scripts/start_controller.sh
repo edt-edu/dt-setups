@@ -39,5 +39,5 @@ rsync -r "./island${ISLAND_NUMBER}_config.yml" "pi@$TARGET_IP:/home/pi/rppmcontr
 
 echo "Starting controller for island $ISLAND_NUMBER..."
 
-trap 'ssh pi@$TARGET_IP \"pgrep -f island${ISLAND_NUMBER}_main.py | xargs kill\"' INT
+trap "ssh pi@$TARGET_IP \"pgrep -f island${ISLAND_NUMBER}_main.py | xargs kill\"" INT
 ssh "pi@$TARGET_IP" "cd /home/pi/rppmcontroller && source .venv/bin/activate && python ./rppmcontroller/example/island${ISLAND_NUMBER}_main.py"
