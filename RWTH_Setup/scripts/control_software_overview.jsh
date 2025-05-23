@@ -16,7 +16,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Vector;
 
 // --- ProcessContext Record ---
 // A record to hold all components related to a single running process.
@@ -35,8 +34,8 @@ JTable processStatusTable;
 
 // --- New Enum for Process Configuration ---
 enum ProcessConfig {
-    ISLAND_1_CONTROLLER("Island 1 Controller", new String[]{"bash", "-c", "while true; do sleep 1; echo Island 1 output; done"}),
-    ISLAND_2_CONTROLLER("Island 2 Controller", new String[]{"bash", "-c", "while true; do sleep 1; echo Island 2 output; done"}),
+    ISLAND_1_CONTROLLER("Island 1 Controller", new String[]{"./start_controller.sh", "1"}),
+    ISLAND_2_CONTROLLER("Island 2 Controller", new String[]{"./start_controller.sh", "2"}),
     FACTORY_SCADA_BACKEND("Factory Scada Backend", new String[]{"bash", "-c", "while true; do sleep 1; echo Scada Backend output; done"}),
     FACTORY_SCADA_FRONTEND("Factory Scada Frontend", new String[]{"bash", "-c", "while true; do sleep 1; echo Scada Frontend output; done"});
 
