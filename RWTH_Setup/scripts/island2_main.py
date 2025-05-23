@@ -111,9 +111,9 @@ class VacuumGripperController4(MachineController):
         self.machine.vacuumSensVerticalEndUp = self.rpi.io.I_1_i05.value
         self.machine.vacuumSensArmEndIn = self.rpi.io.I_2_i05.value
         self.machine.vacuumSensRotEnd = self.rpi.io.I_3_i05.value
-        self.machine.vacuumSensVerticalEncoderCounter = -ctypes.c_int32(self.rpi.io.Counter_5_i05.value).value
-        self.machine.vacuumSensArmEncoderCounter = -ctypes.c_int32(self.rpi.io.Counter_7_i05.value).value
-        self.machine.vacuumSensRotEncoderCounter = ctypes.c_int32(self.rpi.io.Counter_9_i05.value).value
+        self.machine.vacuumSensVerticalEncoderCounter = ctypes.c_int32(self.rpi.io.Counter_5_i05.value).value
+        self.machine.vacuumSensArmEncoderCounter = ctypes.c_int32(self.rpi.io.Counter_7_i05.value).value
+        self.machine.vacuumSensRotEncoderCounter = -ctypes.c_int32(self.rpi.io.Counter_9_i05.value).value
 
     def write(self):
         self.rpi.io.O_1_i05.value = self.machine.vacuumActVerticalUp
