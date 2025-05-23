@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.Map;
 import java.util.HashMap;
+import java.io.File;
 
 // --- ProcessContext Record ---
 // A record to hold all components related to a single running process.
@@ -34,17 +35,19 @@ JTable processStatusTable;
 
 // --- New Enum for Process Configuration ---
 enum ProcessConfig {
-    ISLAND_1_CONTROLLER("Island 1 Controller", new String[]{"./start_controller.sh", "1"}),
-    ISLAND_2_CONTROLLER("Island 2 Controller", new String[]{"./start_controller.sh", "2"}),
-    FACTORY_SCADA_BACKEND("Factory Scada Backend", new String[]{"bash", "-c", "while true; do sleep 1; echo Scada Backend output; done"}),
-    FACTORY_SCADA_FRONTEND("Factory Scada Frontend", new String[]{"bash", "-c", "while true; do sleep 1; echo Scada Frontend output; done"});
+    ISLAND_1_CONTROLLER("Island 1 Controller", new String[]{./start_controller.sh", "1"}, null),
+    ISLAND_2_CONTROLLER("Island 2 Controller", new String[]{./start_controller.sh", "1"}, null),
+    FACTORY_SCADA_BACKEND("Factory Scada Backend", new String[]{"./gradlew", "bootRun, "--args=\"--configuration.path=/home/se-rechnerpool2/fischertechnik/mbdo-impl/RWTH_Setup/scripts/factoryscada_rwth.yml\""}, "/home/se-rechnerpool2/fischertechnik/mbdo-impl/REN_Setups/physical-impl/factoryscada/backend"),
+    FACTORY_SCADA_FRONTEND("Factory Scada Frontend", new String[]{"npm", "run, "start"}, "/home/se-rechnerpool2/fischertechnik/mbdo-impl/REN_Setups/physical-impl/factoryscada/frontend");
 
     private final String processName;
     private final String[] command;
+    private final String workingDirectory;
 
-    ProcessConfig(String processName, String[] command) {
+    ProcessConfig(String processName, String[] command, String workingDirectory) {
         this.processName = processName;
         this.command = command;
+        this.workingDirectory = workingDirectory;
     }
 
     public String getProcessName() {
@@ -53,6 +56,10 @@ enum ProcessConfig {
 
     public String[] getCommand() {
         return command;
+    }
+
+    public String getWorkingDirectory() {
+        return workingDirectory;
     }
 }
 
@@ -83,12 +90,13 @@ void updateProcessStatusUI() {
  *
  * @param processName The logical name of the process (e.g., "Island 1 Controller").
  * @param command The command array for the ProcessBuilder (e.g., "bash", "-c", "echo hello").
+ * @param workingDirectory The working directory for the process, or null if default.
  * @param processRef The AtomicReference holding the ProcessContext for this process.
  * @param outputArea The JTextArea where the process output will be displayed.
  * @param startButton The start button associated with this process.
  * @param stopButton The stop button associated with this process.
  */
-void startProcess(String processName, String[] command, AtomicReference<ProcessContext> processRef, JTextArea outputArea, JButton startButton, JButton stopButton) {
+void startProcess(String processName, String[] command, String workingDirectory, AtomicReference<ProcessContext> processRef, JTextArea outputArea, JButton startButton, JButton stopButton) {
     // Retrieve the current ProcessContext.
     ProcessContext currentContext = processRef.get();
 
@@ -105,6 +113,14 @@ void startProcess(String processName, String[] command, AtomicReference<ProcessC
 
     try {
         var processBuilder = new ProcessBuilder(command); // Use the passed command array
+        if (workingDirectory != null && !workingDirectory.isEmpty()) {
+            File cwd = new File(workingDirectory);
+            if (cwd.exists() && cwd.isDirectory()) {
+                processBuilder.directory(cwd);
+            } else {
+                SwingUtilities.invokeLater(() -> outputArea.append("Warning: Working directory " + workingDirectory + " does not exist or is not a directory for " + processName + ".\n"));
+            }
+        }
         processBuilder.redirectErrorStream(true);
         Process process = processBuilder.start();
 
@@ -234,11 +250,12 @@ void startAllProcesses() {
     for (ProcessConfig config : ProcessConfig.values()) {
         String name = config.getProcessName();
         String[] command = config.getCommand();
+        String workingDirectory = config.getWorkingDirectory();
         JTextArea associatedOutputArea = outputAreas.get(name);
         JButton associatedStartButton = startButtons.get(name);
         JButton associatedStopButton = stopButtons.get(name);
         AtomicReference<ProcessContext> processRef = processRefs.get(name); // Get the existing ref from map
-        startProcess(name, command, processRef, associatedOutputArea, associatedStartButton, associatedStopButton);
+        startProcess(name, command, workingDirectory, processRef, associatedOutputArea, associatedStartButton, associatedStopButton);
     }
 }
 
@@ -300,6 +317,7 @@ void setupUI() {
     for (ProcessConfig config : ProcessConfig.values()) {
         String processName = config.getProcessName();
         String[] command = config.getCommand();
+        String workingDirectory = config.getWorkingDirectory();
 
         JTextArea outputArea = new JTextArea();
         outputArea.setEditable(false);
@@ -313,7 +331,7 @@ void setupUI() {
         stopButtons.put(processName, stopButton);
         processRefs.put(processName, processRef);
 
-        startButton.addActionListener(e -> startProcess(processName, command, processRef, outputArea, startButton, stopButton));
+        startButton.addActionListener(e -> startProcess(processName, command, workingDirectory, processRef, outputArea, startButton, stopButton));
         stopButton.addActionListener(e -> stopProcess(processName, processRef, outputArea, startButton, stopButton));
 
         JPanel buttonPanel = new JPanel(new FlowLayout());
