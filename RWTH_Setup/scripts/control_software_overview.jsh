@@ -35,10 +35,10 @@ JTable processStatusTable;
 
 // --- New Enum for Process Configuration ---
 enum ProcessConfig {
-    ISLAND_1_CONTROLLER("Island 1 Controller", new String[]{./start_controller.sh", "1"}, null),
-    ISLAND_2_CONTROLLER("Island 2 Controller", new String[]{./start_controller.sh", "1"}, null),
-    FACTORY_SCADA_BACKEND("Factory Scada Backend", new String[]{"./gradlew", "bootRun, "--args=\"--configuration.path=/home/se-rechnerpool2/fischertechnik/mbdo-impl/RWTH_Setup/scripts/factoryscada_rwth.yml\""}, "/home/se-rechnerpool2/fischertechnik/mbdo-impl/REN_Setups/physical-impl/factoryscada/backend"),
-    FACTORY_SCADA_FRONTEND("Factory Scada Frontend", new String[]{"npm", "run, "start"}, "/home/se-rechnerpool2/fischertechnik/mbdo-impl/REN_Setups/physical-impl/factoryscada/frontend");
+    ISLAND_1_CONTROLLER("Island 1 Controller", new String[]{"./start_controller.sh", "1"}, null),
+    ISLAND_2_CONTROLLER("Island 2 Controller", new String[]{"./start_controller.sh", "1"}, null),
+    FACTORY_SCADA_BACKEND("Factory Scada Backend", new String[]{"./gradlew", "bootRun", "--args=\"--configuration.path=/home/se-rechnerpool2/fischertechnik/mbdo-impl/RWTH_Setup/scripts/factoryscada_rwth.yml\""}, "/home/se-rechnerpool2/fischertechnik/mbdo-impl/REN_Setups/physical-impl/factoryscada/backend"),
+    FACTORY_SCADA_FRONTEND("Factory Scada Frontend", new String[]{"npm", "run", "start"}, "/home/se-rechnerpool2/fischertechnik/mbdo-impl/REN_Setups/physical-impl/factoryscada/frontend");
 
     private final String processName;
     private final String[] command;
