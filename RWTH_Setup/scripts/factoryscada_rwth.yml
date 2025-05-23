@@ -29,7 +29,7 @@ configuration:
        - type: "punchingMachine"
          name: "I2PunchingMachine01"
        - type: "punchingMachine"
-         name: "I2PunchingMachine01"
+         name: "I2PunchingMachine02"
        - type: "indexedLine"
          name: "I2IndexedLine01"
        - type: "vacuumGripper"
