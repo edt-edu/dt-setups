@@ -209,7 +209,7 @@ void stopProcess(String processName, AtomicReference<ProcessContext> processRef,
 
     SwingUtilities.invokeLater(() -> outputArea.append("Stopping " + processName + "...\n"));
     if (currentContext.process() != null) {
-        currentContext.process().destroyForcibly(); // Terminate the process
+        currentContext.process().destroy();
     }
 
     if (currentContext.executor() != null && !currentContext.executor().isShutdown()) {
