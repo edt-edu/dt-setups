@@ -209,6 +209,7 @@ void stopProcess(String processName, AtomicReference<ProcessContext> processRef,
 
     SwingUtilities.invokeLater(() -> outputArea.append("Stopping " + processName + "...\n"));
     if (currentContext.process() != null) {
+        currentContext.process().descendants().forEach(d -> d.destroy());
         currentContext.process().destroy();
     }
 
