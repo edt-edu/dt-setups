@@ -36,6 +36,12 @@ Map<String, JButton> stopButtons = new HashMap<>();
 DefaultTableModel processStatusTableModel;
 JTable processStatusTable;
 
+// --- New Maps for Search Functionality ---
+// Stores the last found index for each JTextArea
+Map<JTextArea, Integer> lastFoundIndexes = new HashMap<>();
+// Stores the last search term for each JTextArea to handle "next" searches
+Map<JTextArea, String> lastSearchTerms = new HashMap<>();
+
 // --- New Enum for Process Configuration ---
 enum ProcessConfig {
     ISLAND_1_CONTROLLER("Island 1 Controller", new String[]{"./start_controller.sh", "1"}, null),
@@ -278,33 +284,73 @@ void stopAllProcesses() {
 }
 
 /**
- * Performs a search within the given JTextArea and highlights all occurrences of the searchText.
+ * Performs a search within the given JTextArea, highlights all occurrences, and
+ * moves the cursor to the next found position. It wraps around when the bottom is hit.
  *
  * @param textArea The JTextArea to search within.
  * @param searchText The text to search for.
+ * @param isNewSearch True if this is a fresh search, false if it's a "find next".
  */
-void searchAndHighlight(JTextArea textArea, String searchText) {
+void searchAndNavigate(JTextArea textArea, String searchText, boolean isNewSearch) {
     Highlighter highlighter = textArea.getHighlighter();
     highlighter.removeAllHighlights(); // Clear previous highlights
 
     if (searchText == null || searchText.isEmpty()) {
+        lastFoundIndexes.remove(textArea); // Clear last found index
+        lastSearchTerms.remove(textArea); // Clear last search term
         return; // Nothing to search
     }
 
-    String content = textArea.getText();
-    int lastIndex = 0;
+    String currentContent = textArea.getText();
     int searchLength = searchText.length();
     DefaultHighlighter.DefaultHighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(java.awt.Color.YELLOW);
 
-    while ((lastIndex = content.indexOf(searchText, lastIndex)) != -1) {
+    int startIndex;
+
+    // Determine the starting index for the search
+    if (isNewSearch || !searchText.equals(lastSearchTerms.get(textArea))) {
+        // Start from the beginning if it's a new search or the search term has changed
+        startIndex = 0;
+        lastSearchTerms.put(textArea, searchText); // Store the new search term
+    } else {
+        // Continue from the last found position + 1
+        startIndex = lastFoundIndexes.getOrDefault(textArea, -1) + 1;
+    }
+
+    int foundIndex = currentContent.indexOf(searchText, startIndex);
+
+    // If no match found from startIndex, try wrapping around
+    if (foundIndex == -1 && startIndex > 0) {
+        foundIndex = currentContent.indexOf(searchText, 0); // Search from beginning
+        if (foundIndex != -1) {
+            SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(textArea, "Search wrapped around to the beginning."));
+        }
+    }
+
+    if (foundIndex != -1) {
         try {
-            highlighter.addHighlight(lastIndex, lastIndex + searchLength, painter);
-            lastIndex += searchLength;
+            // Highlight all occurrences first
+            int tempIndex = 0;
+            while ((tempIndex = currentContent.indexOf(searchText, tempIndex)) != -1) {
+                highlighter.addHighlight(tempIndex, tempIndex + searchLength, painter);
+                tempIndex += searchLength;
+            }
+
+            // Then set the caret to the next found position
+            textArea.setCaretPosition(foundIndex + searchLength);
+            textArea.moveCaretPosition(foundIndex); // Select the found text
+
+            lastFoundIndexes.put(textArea, foundIndex); // Store the current found index
         } catch (BadLocationException e) {
             e.printStackTrace();
         }
+    } else {
+        // No match found at all
+        SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(textArea, "No occurrences of '" + searchText + "' found."));
+        lastFoundIndexes.remove(textArea); // Clear last found index
     }
 }
+
 
 /**
  * Sets up the main Swing UI with tabs for different processes.
@@ -359,12 +405,16 @@ void setupUI() {
         // --- Search Bar Components ---
         JTextField searchField = new JTextField(20);
         JButton searchButton = new JButton("Search");
-        searchButton.addActionListener(e -> searchAndHighlight(outputArea, searchField.getText()));
+        JButton nextButton = new JButton("Next"); // New "Next" button
+
+        searchButton.addActionListener(e -> searchAndNavigate(outputArea, searchField.getText(), true)); // Pass true for new search
+        nextButton.addActionListener(e -> searchAndNavigate(outputArea, searchField.getText(), false)); // Pass false for "next" search
 
         JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         searchPanel.add(new JLabel("Search:"));
         searchPanel.add(searchField);
         searchPanel.add(searchButton);
+        searchPanel.add(nextButton); // Add the "Next" button
         // --- End Search Bar Components ---
 
         JButton startButton = new JButton("Start " + processName);
