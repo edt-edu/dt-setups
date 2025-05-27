@@ -304,6 +304,7 @@ void searchAndNavigate(JTextArea textArea, String searchText, boolean isNewSearc
     String currentContent = textArea.getText();
     int searchLength = searchText.length();
     DefaultHighlighter.DefaultHighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(java.awt.Color.YELLOW);
+    DefaultHighlighter.DefaultHighlightPainter currentMatchPainter = new DefaultHighlighter.DefaultHighlightPainter(java.awt.Color.GREEN); // New painter for the current match
 
     int startIndex;
 
@@ -329,12 +330,17 @@ void searchAndNavigate(JTextArea textArea, String searchText, boolean isNewSearc
 
     if (foundIndex != -1) {
         try {
-            // Highlight all occurrences first
+            // Highlight all occurrences with the default painter, *excluding* the current foundIndex
             int tempIndex = 0;
             while ((tempIndex = currentContent.indexOf(searchText, tempIndex)) != -1) {
-                highlighter.addHighlight(tempIndex, tempIndex + searchLength, painter);
+                if (tempIndex != foundIndex) { // Only highlight if it's not the current match
+                    highlighter.addHighlight(tempIndex, tempIndex + searchLength, painter);
+                }
                 tempIndex += searchLength;
             }
+
+            // Highlight the current match with a different color
+            highlighter.addHighlight(foundIndex, foundIndex + searchLength, currentMatchPainter);
 
             // Then set the caret to the next found position
             textArea.setCaretPosition(foundIndex + searchLength);
