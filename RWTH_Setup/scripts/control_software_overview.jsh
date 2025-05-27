@@ -17,6 +17,9 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.Map;
 import java.util.HashMap;
 import java.io.File;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
 
 // --- ProcessContext Record ---
 // A record to hold all components related to a single running process.
@@ -275,6 +278,35 @@ void stopAllProcesses() {
 }
 
 /**
+ * Performs a search within the given JTextArea and highlights all occurrences of the searchText.
+ *
+ * @param textArea The JTextArea to search within.
+ * @param searchText The text to search for.
+ */
+void searchAndHighlight(JTextArea textArea, String searchText) {
+    Highlighter highlighter = textArea.getHighlighter();
+    highlighter.removeAllHighlights(); // Clear previous highlights
+
+    if (searchText == null || searchText.isEmpty()) {
+        return; // Nothing to search
+    }
+
+    String content = textArea.getText();
+    int lastIndex = 0;
+    int searchLength = searchText.length();
+    DefaultHighlighter.DefaultHighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(java.awt.Color.YELLOW);
+
+    while ((lastIndex = content.indexOf(searchText, lastIndex)) != -1) {
+        try {
+            highlighter.addHighlight(lastIndex, lastIndex + searchLength, painter);
+            lastIndex += searchLength;
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+/**
  * Sets up the main Swing UI with tabs for different processes.
  */
 void setupUI() {
@@ -323,6 +355,18 @@ void setupUI() {
         JTextArea outputArea = new JTextArea();
         outputArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(outputArea);
+
+        // --- Search Bar Components ---
+        JTextField searchField = new JTextField(20);
+        JButton searchButton = new JButton("Search");
+        searchButton.addActionListener(e -> searchAndHighlight(outputArea, searchField.getText()));
+
+        JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        searchPanel.add(new JLabel("Search:"));
+        searchPanel.add(searchField);
+        searchPanel.add(searchButton);
+        // --- End Search Bar Components ---
+
         JButton startButton = new JButton("Start " + processName);
         JButton stopButton = new JButton("Stop " + processName);
         AtomicReference<ProcessContext> processRef = new AtomicReference<>();
@@ -347,6 +391,7 @@ void setupUI() {
         }
 
         JPanel processPanel = new JPanel(new BorderLayout());
+        processPanel.add(searchPanel, BorderLayout.NORTH); // Add search bar to the top
         processPanel.add(scrollPane, BorderLayout.CENTER);
         processPanel.add(buttonPanel, BorderLayout.SOUTH);
         tabs.add(processName.replace("Controller", "").trim(), processPanel); // Tab title might need adjustment
