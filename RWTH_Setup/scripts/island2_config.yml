@@ -2,7 +2,7 @@
 # Configuration for VacuumGripperController
 ---
 plc:
-  id: "Island 1"
+  id: "Island 2"
 connection:
   # if host is commented, will default to "<hostname>.local"
   host: "0.0.0.0"
