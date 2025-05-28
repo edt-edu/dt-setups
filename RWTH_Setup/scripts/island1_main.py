@@ -223,7 +223,8 @@ class HighBayController(MachineController):
         self.rpi.io.O_8_i05.value = self.machine.highbayActCantileverBackward
 
     def reset(self):
-        if self.machine.isInitialized:
+        if self.machine.must_reset:
+            self.machine.must_reset = False
             self.rpi.io.Counter_7_i05.reset()
             self.rpi.io.Counter_9_i05.reset()
 
