@@ -3,12 +3,12 @@ script_dir=$(dirname -- "$( readlink -f -- "$0"; )")
 
 # Function to run backend
 run_backend() {
-    cd /home/se-rechnerpool2/fischertechnik/mbdo-impl/REN_Setups/physical-impl/factoryscada/backend && ./gradlew bootRun --args="--configuration.path=/home/se-rechnerpool2/fischertechnik/mbdo-impl/RWTH_Setup/scripts/factoryscada_rwth.yml" | sed "s/^/[backend] /"
+    cd /home/se-rechnerpool2/fischertechnik/mbdo-impl/factoryscada/backend && ./gradlew bootRun --args="--configuration.path=/home/se-rechnerpool2/fischertechnik/mbdo-impl/RWTH_Setup/scripts/factoryscada_rwth.yml" | sed "s/^/[backend] /"
 }
 
 # Function to run frontend
 run_frontend() {
-    cd /home/se-rechnerpool2/fischertechnik/mbdo-impl/REN_Setups/physical-impl/factoryscada/frontend && npm run start | sed "s/^/[frontend] /"
+    cd /home/se-rechnerpool2/fischertechnik/mbdo-impl/factoryscada/frontend && npm run start | sed "s/^/[frontend] /"
 }
 
 # Run backend and frontend in the background
