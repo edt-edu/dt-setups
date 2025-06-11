@@ -34,5 +34,5 @@ configuration:
         - type: "multiProcessingStation"
           name: "MultiProcessing0101"
 
-        # - type: "highBayWarehouse"
-        #   name: "HighBayWarehouse01"   
+        - type: "highBayWarehouse"
+          name: "HighBay01"   

@@ -2,6 +2,7 @@ import ctypes
 import logging
 
 from rppmcontroller.machine.multiprocessing.MultiProcessing import MultiProcessing
+from rppmcontroller.machine.highbay.HighBay import HighBay
 from rppmcontroller.RevPiPyModIOMachineController import RevPiPyModIOMachineController
 from rppmcontroller.protocol.MQTTFunctions import MQTTFunctions
 from rppmcontroller.machine.Type import Type
@@ -22,16 +23,20 @@ class RevPi_Controller(RevPiPyModIOMachineController):
         #dict, which keys are the machines, than there is a tuple holding the function currently executed ([0]) and the id it was sent with ([1])
         self.currentlyExecuting = {}
         self.multiProcessingMachine = MultiProcessing("MultiProcessing01")
-        self.machines = [self.multiProcessingMachine]
+        self.highBayMachine = HighBay("HighBay01")
+        self.machines = [self.multiProcessingMachine, self.highBayMachine]
         self.currentlyExecuting = {
-            self.multiProcessingMachine: None
+            self.multiProcessingMachine: None,
+            self.highBayMachine: None
         }
         
         self.machineFeedback = {
-            self.multiProcessingMachine: None
+            self.multiProcessingMachine: None,
+            self.highBayMachine: None
         }
         self.commandFeedback = {
-            self.multiProcessingMachine: None
+            self.multiProcessingMachine: None,
+            self.highBayMachine: None
         }
 
         self.MQTT = MQTTFunctions("mbdo-server.local", 1883, 60)
@@ -49,6 +54,16 @@ class RevPi_Controller(RevPiPyModIOMachineController):
         self.multiProcessingMachine.multiProcessingSensOvenFeederOut = self.rpi.io.dio6_I_7.value
         self.multiProcessingMachine.multiProcessingSensVacuumGripperAtOven = self.rpi.io.dio6_I_8.value   
         self.multiProcessingMachine.multiProcessingSensOven = self.rpi.io.dio6_I_9.value
+
+        #______HB______
+        self.highBayMachine.highbaySensHorizontal = self.rpi.io.dio5_I_1.value
+        self.highBayMachine.highbaySensInside = self.rpi.io.dio5_I_2.value
+        self.highBayMachine.highbaySensOutside = self.rpi.io.dio5_I_3.value
+        self.highBayMachine.highbaySensVertical = self.rpi.io.dio5_I_4.value
+        self.highBayMachine.highbaySensCantileverFront = self.rpi.io.dio5_I_11.value
+        self.highBayMachine.highbaySensCantileverBack = self.rpi.io.dio5_I_12.value
+        self.highBayMachine.highbaySensHorizontalEncoderCounter = ctypes.c_int32(self.rpi.io.dio5_Counter_7.value).value
+        self.highBayMachine.highbaySensVerticalEncoderCounter = ctypes.c_int32(self.rpi.io.dio5_Counter_9.value).value
                 
     def write(self):
         assert self.rpi.io is not None
@@ -68,6 +83,23 @@ class RevPi_Controller(RevPiPyModIOMachineController):
         self.rpi.io.dio6_O_13.value = self.multiProcessingMachine.multiProcessingValveOvenDoor
         self.rpi.io.dio6_O_14.value = self.multiProcessingMachine.multiProcessingValveFeeder
 
+        #______HB______
+        self.rpi.io.dio5_O_1.value = self.highBayMachine.highbayActConveyorForward
+        self.rpi.io.dio5_O_2.value = self.highBayMachine.highbayActConveyorBackward
+        self.rpi.io.dio5_O_3.value = self.highBayMachine.highbayActHorizontalToRack
+        self.rpi.io.dio5_O_4.value = self.highBayMachine.highbayActHorizontalToConveyor
+        self.rpi.io.dio5_O_5.value = self.highBayMachine.highbayActDown
+        self.rpi.io.dio5_O_6.value = self.highBayMachine.highbayActUp
+        self.rpi.io.dio5_O_7.value = self.highBayMachine.highbayActCantileverForward
+        self.rpi.io.dio5_O_8.value = self.highBayMachine.highbayActCantileverBackward
+
+
+    def reset(self) -> None:
+        assert self.rpi.io is not None
+        if self.highBayMachine.must_reset:
+            self.rpi.io.dio5_Counter_7.reset()
+            self.rpi.io.dio5_Counter_9.reset()
+            self.highBayMachine.must_reset = False
          
 if __name__ == "__main__":
     logging.basicConfig(format='%(asctime)s %(levelname)-5s: %(module)-30s,%(lineno)-3s: %(message)s', 
