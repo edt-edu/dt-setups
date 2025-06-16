@@ -62,7 +62,7 @@ class RevPi_Controller(RevPiPyModIOMachineController):
         self.highBayMachine.highbaySensVertical = self.rpi.io.dio5_I_4.value
         self.highBayMachine.highbaySensCantileverFront = self.rpi.io.dio5_I_11.value
         self.highBayMachine.highbaySensCantileverBack = self.rpi.io.dio5_I_12.value
-        self.highBayMachine.highbaySensHorizontalEncoderCounter = ctypes.c_int32(self.rpi.io.dio5_Counter_7.value).value
+        self.highBayMachine.highbaySensHorizontalEncoderCounter = -ctypes.c_int32(self.rpi.io.dio5_Counter_7.value).value
         self.highBayMachine.highbaySensVerticalEncoderCounter = ctypes.c_int32(self.rpi.io.dio5_Counter_9.value).value
                 
     def write(self):
