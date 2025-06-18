@@ -98,8 +98,8 @@ C4Context
       BiRel(mbdoPLC01, slc1, "dio2")
       BiRel(mbdoPLC02, vgr2, "dio3")
       BiRel(mbdoPLC02, cb1, "dio4")
-      BiRel(mbdoPLC03, mps1, "dio5")
-      BiRel(mbdoPLC03, hbw1, "dio6")
+      BiRel(mbdoPLC03, mps1, "dio6")
+      BiRel(mbdoPLC03, hbw1, "dio5")
 
 
 
