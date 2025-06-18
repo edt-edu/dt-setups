@@ -22,7 +22,7 @@ class RevPi_Controller(RevPiPyModIOMachineController):
         
         #dict, which keys are the machines, than there is a tuple holding the function currently executed ([0]) and the id it was sent with ([1])
         self.currentlyExecuting = {}
-        self.vacuumGripperMachine = VacuumGripper("VacuumGripper02")
+        self.vacuumGripperMachine = VacuumGripper("VacuumGripper02", safetyPos = {'rotation': 1700, 'horizontal': 0, 'vertical': 0})
         self.conveyorBeltMachine = ConveyorBelt("ConveyorBelt01")
         self.machines = [self.vacuumGripperMachine,self.conveyorBeltMachine]
         self.currentlyExecuting = {

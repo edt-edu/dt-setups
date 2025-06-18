@@ -32,7 +32,7 @@ configuration:
       notificationPort: 6011
       machines:
         - type: "multiProcessingStation"
-          name: "MultiProcessing0101"
+          name: "MultiProcessing01"
 
         - type: "highBayWarehouse"
           name: "HighBay01"   
