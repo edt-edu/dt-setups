@@ -22,8 +22,8 @@ class RevPi_Controller(RevPiPyModIOMachineController):
         
         #dict, which keys are the machines, than there is a tuple holding the function currently executed ([0]) and the id it was sent with ([1])
         self.currentlyExecuting = {}
-        self.multiProcessingMachine = MultiProcessing("MultiProcessing01")
-        self.highBayMachine = HighBay("HighBay01")
+        self.multiProcessingMachine = MultiProcessing("MultiProcessing01", safetyPos = {'toOven': True})
+        self.highBayMachine = HighBay("HighBay01", safetyPos = {'horizontal': 0, 'vertical': 0})
         self.machines = [self.multiProcessingMachine, self.highBayMachine]
         self.currentlyExecuting = {
             self.multiProcessingMachine: None,
