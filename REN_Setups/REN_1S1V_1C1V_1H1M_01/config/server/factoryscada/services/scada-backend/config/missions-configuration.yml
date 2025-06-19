@@ -192,17 +192,17 @@ factoryMissionsConfiguration:
                         "passable": {
                             "meaning": "START",
                             "vertical": 1100,
-                            "horizontal": 1210,
-                            "rot": 2680
+                            "horizontal": 1400,
+                            "rot": 2700
                         }
                     },
                     {
                         "passableType": "POSITIONPARAMETERTHREED",
                         "passable": {
                             "meaning": "END",
-                            "vertical": 700,
-                            "horizontal": 1930,
-                            "rot": 1995
+                            "vertical": 800,
+                            "horizontal": 1790,
+                            "rot": 2025
                         }
                     }
                 ]
@@ -264,7 +264,7 @@ factoryMissionsConfiguration:
             }
           }
       - name: "VGR2_Move"
-        description: "[VGR1] Move from MPS to HBW"
+        description: "[VGR2] Move from MPS to HBW"
         placeholder: >
           {
             "topicName": "VacuumGripper02",
@@ -279,9 +279,9 @@ factoryMissionsConfiguration:
                         "passableType": "POSITIONPARAMETERTHREED",
                         "passable": {
                             "meaning": "START",
-                            "vertical": 700,
-                            "horizontal": 2000,
-                            "rot": 1450
+                            "vertical": 1050,
+                            "horizontal": 1900,
+                            "rot": 1460
                         }
                     },
                     {
@@ -289,11 +289,25 @@ factoryMissionsConfiguration:
                         "passable": {
                             "meaning": "END",
                             "vertical": 0,
-                            "horizontal": 1060,
-                            "rot": 1050
+                            "horizontal": 800,
+                            "rot": 1030
                         }
                     }
                 ]
+            }
+          }
+      - name: "VG2_Setup"
+        description: "[VG2] Go to setup position"
+        placeholder: >
+          {
+            "topicName": "VacuumGripper02",
+            "timestamp": 1750322931414,
+            "message": {
+                "jsonType": "COMMAND",
+                "type": "VACUUM",
+                "outputId": 2,
+                "name": "SETUP",
+                "parameters": []
             }
           }
       - name: "HBW_Store"

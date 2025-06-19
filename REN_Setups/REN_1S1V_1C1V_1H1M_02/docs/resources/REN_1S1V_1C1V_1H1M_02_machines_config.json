@@ -36,8 +36,8 @@
       "id": "mps1"
     },
     {
-      "x": 470,
-      "y": 608,
+      "x": 460,
+      "y": 590,
       "degrees": 0,
       "kind": "VGR",
       "name": "VacuumGripper2",
