@@ -23,7 +23,7 @@ factoryMissionsConfiguration:
                   "passableType": "POSITIONPARAMETERTHREED",
                   "passable": {
                     "meaning": "START",
-                    "vertical": 1350,
+                    "vertical": 1450,
                     "horizontal": 1480,
                     "rot": 1920
                   }
@@ -47,7 +47,7 @@ factoryMissionsConfiguration:
                   "passableType": "POSITIONPARAMETERTHREED",
                   "passable": {
                     "meaning": "START",
-                    "vertical": 1350,
+                    "vertical": 1450,
                     "horizontal": 1820,
                     "rot": 1530
                   }
@@ -74,5 +74,151 @@ factoryMissionsConfiguration:
                       }
                   }
               ]
+            }
+          }
+
+
+
+    - name: "Sort_Process_Store_Mission"
+      description: >
+        Mission involving all machines.
+        The sorting line sort the payload to red, then the vacuum gripper 1 take it to the conveyor.
+        The conveyor move it forward and the vacuum gripper 2 take it to the multi processing station.
+        Then the vacuum gripper move it to the highbay, which store it.
+      commands:
+      - name: "SL1_Sort"
+        description: "[SL1] Sort to red"
+        placeholder: >
+          {
+            "topicName": "SortingLine01",
+            "timestamp": 1750259194372,
+            "message": {
+                "jsonType": "COMMAND",
+                "type": "SORTING",
+                "outputId": 7,
+                "name": "EJECT",
+                "parameters": [
+                    {
+                        "passableType": "COLOR",
+                        "passable": {
+                            "color": "RED"
+                        }
+                    }
+                ]
+            }
+          }
+      - name: "VGR1_Move"
+        description: "[VGR1] Move from SL to CB"
+        placeholder: >
+          {
+            "topicName": "VacuumGripper01",
+            "timestamp": 1750259239375,
+            "message": {
+                "jsonType": "COMMAND",
+                "type": "VACUUM",
+                "outputId": 1,
+                "name": "MOVE",
+                "parameters": [
+                    {
+                        "passableType": "POSITIONPARAMETERTHREED",
+                        "passable": {
+                            "meaning": "START",
+                            "vertical": 1350,
+                            "horizontal": 1300,
+                            "rot": 2240
+                        }
+                    },
+                    {
+                        "passableType": "POSITIONPARAMETERTHREED",
+                        "passable": {
+                            "meaning": "END",
+                            "vertical": 1100,
+                            "horizontal": 1400,
+                            "rot": 1800
+                        }
+                    }
+                ]
+            }
+          }
+      - name: "CB1_Move_to_sensor"
+        description: "[CB1] Move to right sensor"
+        placeholder: >
+          {
+            "topicName" : "ConveyorBelt01",
+            "timestamp" : 0,
+            "message" : {
+              "jsonType" : "COMMAND",
+              "type" : "CONVEYOR",
+              "outputId" : "AUTO_ID",
+              "name": "MOVE_TO_SENSOR",
+              "parameters": [
+                  {
+                      "passableType": "DIRECTION",
+                      "passable": {
+                          "direction": "FORWARD"
+                      }
+                  }
+              ]
+            }
+          }
+      - name: "VGR2_Move"
+        description: "[VGR1] Move from CB to MPS"
+        placeholder: >
+          {
+            "topicName": "VacuumGripper02",
+            "timestamp": 1750259239375,
+            "message": {
+                "jsonType": "COMMAND",
+                "type": "VACUUM",
+                "outputId": 1,
+                "name": "MOVE",
+                "parameters": [
+                    {
+                        "passableType": "POSITIONPARAMETERTHREED",
+                        "passable": {
+                            "meaning": "START",
+                            "vertical": 1100,
+                            "horizontal": 1650,
+                            "rot": 1000
+                        }
+                    },
+                    {
+                        "passableType": "POSITIONPARAMETERTHREED",
+                        "passable": {
+                            "meaning": "END",
+                            "vertical": 700,
+                            "horizontal": 1300,
+                            "rot": 200
+                        }
+                    }
+                ]
+            }
+          }
+      - name: "VG2_Setup"
+        description: "[VG2] Go to setup position"
+        placeholder: >
+          {
+            "topicName": "VacuumGripper02",
+            "timestamp": 1750322931414,
+            "message": {
+                "jsonType": "COMMAND",
+                "type": "VACUUM",
+                "outputId": 2,
+                "name": "SETUP",
+                "parameters": []
+            }
+          }
+      - name: "MPS_Process1"
+        description: "[MPS1] Execute process1"
+        placeholder: >
+          {
+            "topicName": "MultiProcessing01",
+            "timestamp": 1750259348009,
+            "message": {
+                "jsonType": "COMMAND",
+                "type": "MULTIPROCESSING",
+                "outputId": 1,
+                "name": "PROCESS1",
+                "parameters": []
             }
           }
