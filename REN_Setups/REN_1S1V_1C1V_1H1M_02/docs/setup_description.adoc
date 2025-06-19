@@ -1,0 +1,124 @@
+
+ifdef::included_in_readme[]
+:imagesdir: docs/generated/img
+endif::included_in_readme[]
+ifndef::included_in_readme[]
+:imagesdir: generated/img
+endif::included_in_readme[]
+
+
+## Setup description
+
+This setup uses:
+
+* 3 PLC 
+* 6 DIO
+* 2 VGR
+* 1 CB
+* 1 MPS
+* 1 HBW
+* 1 Server 
+** the factory scada 
+** MQTT broker
+** camera support
+
+Typical use: 
+
+* send individual commands to the machines ( https://git.rwth-aachen.de/mbdo/mbdo-impl/-/blob/master/REN_Setups/physical-impl/factoryscada/backend/src/main/resources/command-placeholder.yml?ref_type=heads[List of supported machine commands])
+* launch factory level scenarios (via the SCADA) such as ( https://git.rwth-aachen.de/mbdo/mbdo-impl/-/blob/master/REN_Setups/REN_1S1V_1C1V_1H1M_01/config/server/factoryscada/services/scada-backend/config/missions-configuration.yml?ref_type=heads[List of officially supported factory missions] )
+**  an operator put tokens on the SLC, while another asks for `processed token` on the other end of teh process line.
+** "infinite" loop scenario (ie. queried `processes tokens` are computed via a scenario/algorithm and  are automatically reintroduced on the beginning of the process line)
+
+
+.REN_1S1V_1C1V_1H1M_01_machines_config 2D map (with highlight of reachable zones)
+[#img-REN_1S1V_1C1V_1H1M_01_machines_config,link=https://git.rwth-aachen.de/mbdo/mbdo-impl/-/raw/master/REN_Setups/REN_1S1V_1C1V_1H1M_01/docs/generated/img/REN_1S1V_1C1V_1H1M_01_machines_config.svg]
+image::REN_1S1V_1C1V_1H1M_01_machines_config.svg[REN_1S1V_1C1V_1H1M_01_machines_config,300,300] 
+
+Coordinates of the machines: https://git.rwth-aachen.de/mbdo/mbdo-impl/-/tree/master/REN_Setups/REN_1S1V_1C1V_1H1M_01/docs/resources
+
+IMPORTANT: This description doesn't state what is part of the system, part of its environment or part of the DT. This is up to the design model to clearly  separate the considered system and its environment. We may produce different system twins based on this setup description.
+
+
+[mermaid]
+----
+C4Context
+      title Physical overview for REN_1S1V_1C1V_1H1M_01
+      
+      Boundary(b_sofware, "Software") {
+        
+
+        Boundary(b_services, "Server Services") {
+        
+            Component(mqtt, "MQTT broker", "")
+            Component(gateway, "DT gateway", "")
+            Component(influxdb, "InfluxDB", "")
+            Component(grafana, "Granafa", "")
+            Component(scada, "SCADA", "")
+            Component(camera, "Camera", "")
+
+        }
+
+        Component(mbdoRouter, "mbdo-router", "")
+        Boundary(b_network, "Computationnal Resources", "") {
+            Component(mbdoPLC01, "plc-01 (RevPi103156.local)", "")
+            Component(mbdoPLC02, "plc-02 (RevPi103259.local)", "")
+            Component(mbdoPLC03, "plc-03 (RevPi103228.local)", "")
+            Component(mbdoServer, "mbdo-server", "")
+
+        }
+
+      }
+
+      Boundary(b_mechanical, "Mechanical") {
+        
+        Component(vgr1, "VacuumGripper01", "")
+        Component(slc1, "SortingLine01", "")
+        Component(vgr2, "VacuumGripper02", "")
+        Component(cb1,  "ConveyorBelt01", "")
+        Component(mps1, "MultiProcessingStation01", "")
+        Component(hbw1, "HighBayWarehouse01", "")
+
+      }
+      
+    
+      
+      BiRel(mbdoServer, mbdoRouter, "eth")
+      BiRel(mbdoPLC01, mbdoRouter, "eth")
+      BiRel(mbdoPLC02, mbdoRouter, "eth")
+      BiRel(mbdoPLC03, mbdoRouter, "eth")
+
+      Rel(mbdoServer, mqtt, "docker")
+      Rel(mbdoServer, camera, "host")
+      Rel(mbdoServer, scada, "docker")
+      Rel(mbdoServer, gateway, "docker")
+      Rel(mbdoServer, influxdb, "docker")
+      Rel(mbdoServer, grafana, "docker")
+
+      BiRel(mbdoPLC01, vgr1, "dio1")
+      BiRel(mbdoPLC01, slc1, "dio2")
+      BiRel(mbdoPLC02, vgr2, "dio3")
+      BiRel(mbdoPLC02, cb1, "dio4")
+      BiRel(mbdoPLC03, mps1, "dio6")
+      BiRel(mbdoPLC03, hbw1, "dio5")
+
+
+
+      UpdateElementStyle(vgr1, $fontColor="black", $bgColor="lightgreen", $borderColor="black")
+      UpdateElementStyle(slc1, $fontColor="black", $bgColor="lightgreen", $borderColor="black")
+      UpdateElementStyle(vgr2, $fontColor="black", $bgColor="lightgreen", $borderColor="black")
+      UpdateElementStyle(cb1, $fontColor="black", $bgColor="lightgreen", $borderColor="black")
+      UpdateElementStyle(mps1, $fontColor="black", $bgColor="lightgreen", $borderColor="black")
+      UpdateElementStyle(hbw1, $fontColor="black", $bgColor="lightgreen", $borderColor="black")
+      
+      UpdateRelStyle(mbdoPLC01, vgr1,  $lineColor="green", $offsetY="-20")
+      UpdateRelStyle(mbdoPLC01, slc1,  $lineColor="green", $offsetX="0")
+      UpdateRelStyle(mbdoPLC02, vgr2,  $lineColor="green", $offsetX="10")
+      UpdateRelStyle(mbdoPLC02, cb1,  $lineColor="green", $offsetX="10")
+      UpdateRelStyle(mbdoPLC03, mps1,  $lineColor="green", $offsetX="10")
+      UpdateRelStyle(mbdoPLC03, hbw1,  $lineColor="green", $offsetX="10")
+      UpdateRelStyle(mbdoServer, mbdoRouter,  $offsetY="30")
+
+ 
+      UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="2")
+----
+
