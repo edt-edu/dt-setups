@@ -125,7 +125,7 @@ factoryMissionsConfiguration:
                             "meaning": "START",
                             "vertical": 1350,
                             "horizontal": 1300,
-                            "rot": 2240
+                            "rot": 2260
                         }
                     },
                     {
@@ -133,11 +133,25 @@ factoryMissionsConfiguration:
                         "passable": {
                             "meaning": "END",
                             "vertical": 1100,
-                            "horizontal": 1400,
+                            "horizontal": 1390,
                             "rot": 1800
                         }
                     }
                 ]
+            }
+          }
+      - name: "VG1_Setup"
+        description: "[VG1] Go to setup position"
+        placeholder: >
+          {
+            "topicName": "VacuumGripper01",
+            "timestamp": 1750322931414,
+            "message": {
+                "jsonType": "COMMAND",
+                "type": "VACUUM",
+                "outputId": 2,
+                "name": "SETUP",
+                "parameters": []
             }
           }
       - name: "CB1_Move_to_sensor"
@@ -162,7 +176,7 @@ factoryMissionsConfiguration:
             }
           }
       - name: "VGR2_Move"
-        description: "[VGR1] Move from CB to MPS"
+        description: "[VGR2] Move from CB to MPS"
         placeholder: >
           {
             "topicName": "VacuumGripper02",
@@ -178,8 +192,8 @@ factoryMissionsConfiguration:
                         "passable": {
                             "meaning": "START",
                             "vertical": 1100,
-                            "horizontal": 1650,
-                            "rot": 1000
+                            "horizontal": 1210,
+                            "rot": 2680
                         }
                     },
                     {
@@ -187,8 +201,8 @@ factoryMissionsConfiguration:
                         "passable": {
                             "meaning": "END",
                             "vertical": 700,
-                            "horizontal": 1300,
-                            "rot": 200
+                            "horizontal": 1930,
+                            "rot": 1995
                         }
                     }
                 ]
@@ -220,5 +234,92 @@ factoryMissionsConfiguration:
                 "outputId": 1,
                 "name": "PROCESS1",
                 "parameters": []
+            }
+          }
+      - name: "HBW_Retrieve"
+        description: "[MPS1] Retrieve box from place 1;1"
+        placeholder: >
+          {
+            "topicName": "HighBay01",
+            "timestamp": 1750259441566,
+            "message": {
+                "jsonType": "COMMAND",
+                "type": "WAREHOUSE",
+                "outputId": 1,
+                "name": "PICKUP_FROM",
+                "parameters": [
+                    {
+                        "passableType": "NUMBERNATURAL",
+                        "passable": {
+                            "number": 1
+                        }
+                    },
+                    {
+                        "passableType": "NUMBERNATURAL",
+                        "passable": {
+                            "number": 1
+                        }
+                    }
+                ]
+            }
+          }
+      - name: "VGR2_Move"
+        description: "[VGR1] Move from MPS to HBW"
+        placeholder: >
+          {
+            "topicName": "VacuumGripper02",
+            "timestamp": 1750259239375,
+            "message": {
+                "jsonType": "COMMAND",
+                "type": "VACUUM",
+                "outputId": 1,
+                "name": "MOVE",
+                "parameters": [
+                    {
+                        "passableType": "POSITIONPARAMETERTHREED",
+                        "passable": {
+                            "meaning": "START",
+                            "vertical": 700,
+                            "horizontal": 2000,
+                            "rot": 1450
+                        }
+                    },
+                    {
+                        "passableType": "POSITIONPARAMETERTHREED",
+                        "passable": {
+                            "meaning": "END",
+                            "vertical": 0,
+                            "horizontal": 1060,
+                            "rot": 1050
+                        }
+                    }
+                ]
+            }
+          }
+      - name: "HBW_Store"
+        description: "[MPS1] Store payload to place 1;1"
+        placeholder: >
+          {
+            "topicName": "HighBay01",
+            "timestamp": 1750259441566,
+            "message": {
+                "jsonType": "COMMAND",
+                "type": "WAREHOUSE",
+                "outputId": 1,
+                "name": "STORE_TO",
+                "parameters": [
+                    {
+                        "passableType": "NUMBERNATURAL",
+                        "passable": {
+                            "number": 1
+                        }
+                    },
+                    {
+                        "passableType": "NUMBERNATURAL",
+                        "passable": {
+                            "number": 1
+                        }
+                    }
+                ]
             }
           }
