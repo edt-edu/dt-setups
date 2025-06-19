@@ -1,0 +1,8 @@
+on deploy will be copied into `\home\pi\rppmcontroller_current_setup`
+
+Manual start:
+
+```
+cd \home\pi\rppmcontroller_current_setup
+python3 RevPi_Controller.py
+```
