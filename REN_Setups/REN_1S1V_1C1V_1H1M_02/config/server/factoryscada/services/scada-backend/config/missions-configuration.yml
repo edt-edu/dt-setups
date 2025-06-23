@@ -146,8 +146,8 @@ factoryMissionsConfiguration:
                 ]
             }
           }
-      - name: "VG2_Setup"
-        description: "[VG2] Go to setup position"
+      - name: "VG2_RetractArm"
+        description: "[VG2] Retract arm"
         placeholder: >
           {
             "topicName": "VacuumGripper02",
@@ -156,7 +156,7 @@ factoryMissionsConfiguration:
                 "jsonType": "COMMAND",
                 "type": "VACUUM",
                 "outputId": 2,
-                "name": "SETUP",
+                "name": "RETRACT_ARM",
                 "parameters": []
             }
           }
@@ -295,8 +295,8 @@ factoryMissionsConfiguration:
                 ]
             }
           }
-      - name: "VG1_Setup"
-        description: "[VG1] Go to setup position"
+      - name: "VG1_RetractArm"
+        description: "[VG1] Retract arm"
         placeholder: >
           {
             "topicName": "VacuumGripper01",
@@ -305,7 +305,7 @@ factoryMissionsConfiguration:
                 "jsonType": "COMMAND",
                 "type": "VACUUM",
                 "outputId": 2,
-                "name": "SETUP",
+                "name": "RETRACT_ARM",
                 "parameters": []
             }
           }
@@ -363,8 +363,8 @@ factoryMissionsConfiguration:
                 ]
             }
           }
-      - name: "VG2_Setup"
-        description: "[VG2] Go to setup position"
+      - name: "VG2_RetractArm"
+        description: "[VG2] Retract arm"
         placeholder: >
           {
             "topicName": "VacuumGripper02",
@@ -373,7 +373,7 @@ factoryMissionsConfiguration:
                 "jsonType": "COMMAND",
                 "type": "VACUUM",
                 "outputId": 2,
-                "name": "SETUP",
+                "name": "RETRACT_ARM",
                 "parameters": []
             }
           }
@@ -451,8 +451,8 @@ factoryMissionsConfiguration:
                 ]
             }
           }
-      - name: "VG2_Setup"
-        description: "[VG2] Go to setup position"
+      - name: "VG2_RetractArm"
+        description: "[VG2] Retract arm"
         placeholder: >
           {
             "topicName": "VacuumGripper02",
@@ -461,7 +461,7 @@ factoryMissionsConfiguration:
                 "jsonType": "COMMAND",
                 "type": "VACUUM",
                 "outputId": 2,
-                "name": "SETUP",
+                "name": "RETRACT_ARM",
                 "parameters": []
             }
           }
