@@ -1,0 +1,13 @@
+Stuttgart hat diese zusätzlichen packages auf dem PI (Turtlebot3) installiert:
+
+- ros-humble-diff-drive-controller
+- ros-humble-gripper-controllers
+- ros-humble-joint-trajectory-controller
+- ros-humble-moveit-planners-ompl
+- ros-humble-moveit-planners
+- ros-humble-moveit-simple-controller-manager
+- ros-humble-joint-state-broadcaster
+- ros-humble-imu-sensor-broadcaster
+- ros-humble-pilz-industrial-motion-planner
+
+

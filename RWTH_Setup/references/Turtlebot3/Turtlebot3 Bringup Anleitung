@@ -1,0 +1,9 @@
+1. Terminal via ssh auf dem RaspberryPI:
+export TURTLEBOT3_MODEL=waffle_pi
+ros2 launch turtlebot3_manipulation_bringup hardware.launch.py
+
+
+
+Hinweis:
+alle C++ Packages müssen bei jeder Änderung neu gebuildet werden. 
+Bei Python Packages kannst du beim ersten Build --symulink-install mit angeben, dann werden änderungen direkt aus dem source-code übernommen. Andernfalls auch bei jeder Änderung neu builden

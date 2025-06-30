@@ -1,0 +1,8 @@
+1. Dynamixel Mototren konfigurieren -> Anleitung aus Stuttgart
+2. Turtlebot3 e-Manual von Robotis
+	-> bei Kapitel 3.2.4 Schritt 13 ersetzen durch Anleitung im git
+3. zusätzliche ROS2 Packages installieren -> siehe .sh Dateien aus Stuttgart
+4. chrony installieren auf PC und RaspberryPI -> sudo apt install chrony
+5. NTP Server auf dem RaspberryPI spezifizieren -> in "/etc/chrony/chrony.conf" folgendes am Ende hinzufügen: "server fritz.box iburst"
+
+
