@@ -5,39 +5,38 @@ FactoryMissionsParallelized:
       description: >
         Just the first mission
       nodes:
-        entryNode:
+        - type: entryNode
           id: "Entry node"
           description: >
-            The entry node
-          outputs:
-            Fork1
+              The entry node
+          outputs: 
+            - Fork1
 
-        fork:
+        - type: fork
           id: "Fork1"
           description: >
             The first Fork
           outputs:
-            ActionNode1
-            WaitAction1
-        
-        actionNode:
+            - ActionNode1
+            - WaitAction1
+
+        - type: rawMachineCommand
           id: "ActionNode1"
           description: >
             The action node
           outputs:
-            Join1
-        
-        waitAction:
+            - Join1
+
+        - type: waitAction
           id: "WaitAction1"
           description: >
             The delay action
-          time:
-            5
-          outputs:
-            Join1
+          time: 5
+          outputs: 
+            - Join1
 
-        join:
+        - type: join
           id: "Join1"
           description: >
             The last join
-          outputs:
+          outputs: []
