@@ -24,6 +24,8 @@ FactoryMissionsParallelized:
           id: "ActionNode1"
           description: >
             The action node
+          placeholder: >
+            {THE COMMAND}
           outputs:
             - Join1
 
