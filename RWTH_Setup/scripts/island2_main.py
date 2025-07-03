@@ -47,7 +47,7 @@ class Island1Controller(RevPiPyMachineController):
         self.addController(ConveyorBeltController3(ConveyorBelt("I2ConveyorBelt03"), self.rpi))
         self.addController(ConveyorBeltController4(ConveyorBelt("I2ConveyorBelt04"), self.rpi))
         
-        self.addController(SortingLineController2(SortingLine("I2SortingLine02"), self.rpi))
+        self.addController(SortingLineController2(SortingLine("I2SortingLine02", delay_offsets=(0, -0.05, -0.1)), self.rpi))
 
         self.addController(HighBayController2(HighBay("I2HighBay02", column_offset=(-20, -30, -30, -60)), self.rpi))
 
