@@ -1,9 +1,9 @@
 FactoryMissionsParallelized:
   name: "Factory missions parallelized"
   missions:
-    - name: "First mission"
+    - name: "VGR setup and CB moving"
       description: >
-        Just the first mission
+        Setup the vacuum gripper and forward the conveyor belt a few step
       nodes:
         - type: entryNode
           id: "Entry node"
@@ -18,27 +18,787 @@ FactoryMissionsParallelized:
             The first Fork
           outputs:
             - ActionNode1
-            - WaitAction1
+            - ActionNode2
 
         - type: rawMachineCommand
           id: "ActionNode1"
           description: >
-            The action node
+            Setup the VG1
           placeholder: >
-            {THE COMMAND}
+            {
+              "topicName": "VacuumGripper01",
+              "timestamp": 1751547231773,
+              "message": 
+                {
+                  "jsonType": "COMMAND",
+                  "type": "VACUUM",
+                  "outputId": "AUTO_ID",
+                  "name": "SETUP",
+                  "parameters": []
+                }
+            }
           outputs:
             - Join1
 
-        - type: waitAction
-          id: "WaitAction1"
+        - type: rawMachineCommand
+          id: "ActionNode2"
           description: >
-            The delay action
-          time: 5
-          outputs: 
+            Setup the VG2
+          placeholder: >
+            {
+              "topicName": "ConveyorBelt01",
+              "timestamp": 1751547508462,
+              "message": 
+                {
+                  "jsonType": "COMMAND",
+                  "type": "CONVEYOR",
+                  "outputId": "AUTO_ID",
+                  "name": "MOVE_NB_STEPS",
+                  "parameters": [
+                      {
+                          "passableType": "NUMBERNATURAL",
+                          "passable": {
+                              "number": 15
+                          }
+                      },
+                      {
+                          "passableType": "DIRECTION",
+                          "passable": {
+                              "direction": "FORWARD"
+                          }
+                      }
+                  ]
+                }
+            }
+          outputs:
             - Join1
 
         - type: join
           id: "Join1"
           description: >
             The last join
+          outputs:
+            - ActionNode3
+        
+        - type: rawMachineCommand
+          id: "ActionNode3"
+          description: >
+            Move back the CB
+          placeholder: >
+            {
+              "topicName": "ConveyorBelt01",
+              "timestamp": 1751547508462,
+              "message": 
+                {
+                  "jsonType": "COMMAND",
+                  "type": "CONVEYOR",
+                  "outputId": "AUTO_ID",
+                  "name": "MOVE_NB_STEPS",
+                  "parameters": [
+                      {
+                          "passableType": "NUMBERNATURAL",
+                          "passable": {
+                              "number": 5
+                          }
+                      },
+                      {
+                          "passableType": "DIRECTION",
+                          "passable": {
+                              "direction": "BACKWARD"
+                          }
+                      }
+                  ]
+                }
+            }
+          outputs: []
+
+
+
+
+
+    - name: "Sort_Process_Store_Mission"
+      description: >
+        Mission involving all machines.
+        The sorting line sort the payload to red, then the vacuum gripper 1 take it to the conveyor.
+        The conveyor move it forward and the vacuum gripper 2 take it to the multi processing station.
+        Then the vacuum gripper move it to the highbay, which store it.
+      nodes:
+        - type: entryNode
+          id: "Entry node"
+          description: >
+              Entry of mission
+          outputs: 
+            - Fork1
+
+        - type: fork
+          id: "Fork1"
+          description: >
+            HB retrieve and VGR2 to HBW
+          outputs:
+            - HBretrieve
+            - VGR2toHBW
+
+        - type: rawMachineCommand
+          id: "HBretrieve"
+          description: >
+            Retrieve the box 1:1
+          placeholder: >
+            {
+              "topicName": "HighBay01",
+              "timestamp": 1750259441566,
+              "message": {
+                  "jsonType": "COMMAND",
+                  "type": "WAREHOUSE",
+                  "outputId": "AUTO_ID",
+                  "name": "PICKUP_FROM",
+                  "parameters": [
+                      {
+                          "passableType": "NUMBERNATURAL",
+                          "passable": {
+                              "number": 1
+                          }
+                      },
+                      {
+                          "passableType": "NUMBERNATURAL",
+                          "passable": {
+                              "number": 1
+                          }
+                      }
+                  ]
+              }
+            }
+          outputs:
+            - Join1
+
+        - type: rawMachineCommand
+          id: "VGR2toHBW"
+          description: >
+            Move the VGR2 to HBW
+          placeholder: >
+            {
+                "topicName": "VacuumGripper02",
+                "timestamp": 1751556715977,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "VACUUM",
+                    "outputId": "AUTO_ID",
+                    "name": "ORDERED_MOVE_TO",
+                    "parameters": [
+                        {
+                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passable": {
+                                "meaning": "START",
+                                "vertical": 100,
+                                "horizontal": 800,
+                                "rot": 1030
+                            }
+                        },
+                        {
+                            "passableType": "AXISPRIORITIZED",
+                            "passable": {
+                                "vertical": true,
+                                "horizontal": false,
+                                "rot": true
+                            }
+                        }
+                    ]
+                }
+            }
+          outputs:
+            - Join1
+
+        - type: join
+          id: "Join1"
+          description: >
+            Join of HB and VGR2
+          outputs:
+            - Fork2
+
+        - type: fork
+          id: "Fork2"
+          description: >
+            HB process and payload process
+          outputs:
+            - HBstore
+            - VGR2toCB
+        
+        - type: rawMachineCommand
+          id: "HBstore"
+          description: >
+            [HBW1] Store payload to place 1;1
+          placeholder: >
+            {
+              "topicName": "HighBay01",
+              "timestamp": 1750259441566,
+              "message": {
+                  "jsonType": "COMMAND",
+                  "type": "WAREHOUSE",
+                  "outputId": "AUTO_ID",
+                  "name": "STORE_TO",
+                  "parameters": [
+                      {
+                          "passableType": "NUMBERNATURAL",
+                          "passable": {
+                              "number": 1
+                          }
+                      },
+                      {
+                          "passableType": "NUMBERNATURAL",
+                          "passable": {
+                              "number": 1
+                          }
+                      }
+                  ]
+              }
+            }
+          outputs:
+            - HBretrieve2
+        
+        - type: rawMachineCommand
+          id: "HBretrieve2"
+          description: >
+            [HBW1] Retrieve box from place 1;1
+          placeholder: >
+            {
+                "topicName": "HighBay01",
+                "timestamp": 1750259441566,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "WAREHOUSE",
+                    "outputId": "AUTO_ID",
+                    "name": "PICKUP_FROM",
+                    "parameters": [
+                        {
+                            "passableType": "NUMBERNATURAL",
+                            "passable": {
+                                "number": 1
+                            }
+                        },
+                        {
+                            "passableType": "NUMBERNATURAL",
+                            "passable": {
+                                "number": 1
+                            }
+                        }
+                    ]
+                }
+              }
+          outputs:
+            - Join5
+        
+        - type: rawMachineCommand
+          id: "VGR2toCB"
+          description: >
+            [VGR2] Move from HBW to CB
+          placeholder: >
+            {
+                "topicName": "VacuumGripper02",
+                "timestamp": 1750259239375,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "VACUUM",
+                    "outputId": "AUTO_ID",
+                    "name": "MOVE",
+                    "parameters": [
+                        {
+                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passable": {
+                                "meaning": "START",
+                                "vertical": 100,
+                                "horizontal": 800,
+                                "rot": 1030
+                            }
+                        },
+                        {
+                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passable": {
+                                "meaning": "END",
+                                "vertical": 1100,
+                                "horizontal": 1400,
+                                "rot": 2700
+                            }
+                        }
+                    ]
+                }
+              }
+          outputs:
+            - Fork3
+
+        - type: fork
+          id: "Fork3"
+          description: >
+            CB move and VGR2 retract
+          outputs:
+            - CBmove
+            - VGR2retract
+        
+        - type: rawMachineCommand
+          id: "CBmove"
+          description: >
+            [CB1] Move to left sensor
+          placeholder: >
+            {
+                "topicName" : "ConveyorBelt01",
+                "timestamp" : 0,
+                "message" : {
+                  "jsonType" : "COMMAND",
+                  "type" : "CONVEYOR",
+                  "outputId" : "AUTO_ID",
+                  "name": "MOVE_TO_SENSOR",
+                  "parameters": [
+                      {
+                          "passableType": "DIRECTION",
+                          "passable": {
+                              "direction": "BACKWARD"
+                          }
+                      }
+                  ]
+                }
+              }
+          outputs:
+            - Join2
+        
+        - type: rawMachineCommand
+          id: "VGR2retract"
+          description: >
+            [VG2] Retract arm
+          placeholder: >
+            {
+                "topicName": "VacuumGripper02",
+                "timestamp": 1750322931414,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "VACUUM",
+                    "outputId": "AUTO_ID",
+                    "name": "RETRACT_ARM",
+                    "parameters": []
+                }
+              }
+          outputs:
+            - Join2
+
+        - type: join
+          id: "Join2"
+          description: >
+            Join of CB and VGR2
+          outputs:
+            - VGR1toSL
+        
+        - type: rawMachineCommand
+          id: "VGR1toSL"
+          description: >
+            [VGR1] Move from CB to SL
+          placeholder: >
+            {
+                "topicName": "VacuumGripper01",
+                "timestamp": 1750259239375,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "VACUUM",
+                    "outputId": "AUTO_ID",
+                    "name": "MOVE",
+                    "parameters": [
+                        {
+                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passable": {
+                                "meaning": "START",
+                                "vertical": 1200,
+                                "horizontal": 1440,
+                                "rot": 1900
+                            }
+                        },
+                        {
+                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passable": {
+                                "meaning": "END",
+                                "vertical": 1000,
+                                "horizontal": 1590,
+                                "rot": 2870
+                            }
+                        }
+                    ]
+                }
+              }
+          outputs:
+            - Fork4
+
+        - type: fork
+          id: "Fork4"
+          description: >
+            VGR1 to SL and SL
+          outputs:
+            - VGR1retractarm
+            - SLprocess
+        
+        - type: rawMachineCommand
+          id: "VGR1retractarm"
+          description: >
+            [VGR1] Retract arm
+          placeholder: >
+            {
+                "topicName": "VacuumGripper01",
+                "timestamp": 1751559304159,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "VACUUM",
+                    "outputId": 2,
+                    "name": "RETRACT_ARM",
+                    "parameters": []
+                }
+            }
+          outputs:
+            - VGR1toSLoutput
+        
+        - type: rawMachineCommand
+          id: "VGR1toSLoutput"
+          description: >
+            [VGR1] Move from SL to SL output
+          placeholder: >
+            {
+                "topicName": "VacuumGripper01",
+                "timestamp": 1751557555834,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "VACUUM",
+                    "outputId": "AUTO_ID",
+                    "name": "ORDERED_MOVE_TO",
+                    "parameters": [
+                        {
+                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passable": {
+                                "meaning": "START",
+                                "vertical": 1350,
+                                "horizontal": 1300,
+                                "rot": 2230
+                            }
+                        },
+                        {
+                            "passableType": "AXISPRIORITIZED",
+                            "passable": {
+                                "vertical": true,
+                                "horizontal": false,
+                                "rot": true
+                            }
+                        }
+                    ]
+                }
+            }
+          outputs:
+            - Join3
+        
+        - type: rawMachineCommand
+          id: "SLprocess"
+          description: >
+            [SL1] Sort to red
+          placeholder: >
+            {
+                "topicName": "SortingLine01",
+                "timestamp": 1750259194372,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "SORTING",
+                    "outputId": "AUTO_ID",
+                    "name": "EJECT",
+                    "parameters": [
+                        {
+                            "passableType": "COLOR",
+                            "passable": {
+                                "color": "RED"
+                            }
+                        }
+                    ]
+                }
+              }
+          outputs:
+            - Join3
+
+        - type: join
+          id: "Join3"
+          description: >
+            Join of SL and VGR1
+          outputs:
+            - VGR1toCB
+        
+        - type: rawMachineCommand
+          id: "VGR1toCB"
+          description: >
+            [VGR1] Move from SL to CB
+          placeholder: >
+            {
+                "topicName": "VacuumGripper01",
+                "timestamp": 1750259239375,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "VACUUM",
+                    "outputId": "AUTO_ID",
+                    "name": "MOVE",
+                    "parameters": [
+                        {
+                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passable": {
+                                "meaning": "START",
+                                "vertical": 1350,
+                                "horizontal": 1300,
+                                "rot": 2230
+                            }
+                        },
+                        {
+                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passable": {
+                                "meaning": "END",
+                                "vertical": 1100,
+                                "horizontal": 1390,
+                                "rot": 1800
+                            }
+                        }
+                    ]
+                }
+              }
+          outputs:
+            - Fork5
+
+        - type: fork
+          id: "Fork5"
+          description: >
+            VGR1 setup and CB to sensor
+          outputs:
+            - VGR1setup
+            - CBtosens
+        
+        - type: rawMachineCommand
+          id: "VGR1setup"
+          description: >
+            [VG1] VG1 setup
+          placeholder: >
+            {
+                "topicName": "VacuumGripper01",
+                "timestamp": 1751557981438,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "VACUUM",
+                    "outputId": "AUTO_ID",
+                    "name": "SETUP",
+                    "parameters": []
+                }
+            }
+          outputs:
+            - Join4
+        
+        - type: rawMachineCommand
+          id: "CBtosens"
+          description: >
+            [CB1] Move to right sensor
+          placeholder: >
+            {
+                "topicName" : "ConveyorBelt01",
+                "timestamp" : 0,
+                "message" : {
+                  "jsonType" : "COMMAND",
+                  "type" : "CONVEYOR",
+                  "outputId" : "AUTO_ID",
+                  "name": "MOVE_TO_SENSOR",
+                  "parameters": [
+                      {
+                          "passableType": "DIRECTION",
+                          "passable": {
+                              "direction": "FORWARD"
+                          }
+                      }
+                  ]
+                }
+              }
+          outputs:
+            - Join4
+
+        - type: join
+          id: "Join4"
+          description: >
+            Join of VGR1 and CB
+          outputs:
+            - VGR2toMPS
+        
+        - type: rawMachineCommand
+          id: "VGR2toMPS"
+          description: >
+            [VGR2] Move from CB to MPS
+          placeholder: >
+            {
+                "topicName": "VacuumGripper02",
+                "timestamp": 1750259239375,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "VACUUM",
+                    "outputId": "AUTO_ID",
+                    "name": "MOVE",
+                    "parameters": [
+                        {
+                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passable": {
+                                "meaning": "START",
+                                "vertical": 1100,
+                                "horizontal": 1400,
+                                "rot": 2700
+                            }
+                        },
+                        {
+                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passable": {
+                                "meaning": "END",
+                                "vertical": 800,
+                                "horizontal": 1790,
+                                "rot": 2025
+                            }
+                        }
+                    ]
+                }
+              }
+          outputs:
+            - VGR2retractbis
+        
+        - type: rawMachineCommand
+          id: "VGR2retractbis"
+          description: >
+            [VG2] Retract arm
+          placeholder: >
+            {
+              "topicName": "VacuumGripper02",
+              "timestamp": 1750322931414,
+              "message": {
+                  "jsonType": "COMMAND",
+                  "type": "VACUUM",
+                  "outputId": "AUTO_ID",
+                  "name": "RETRACT_ARM",
+                  "parameters": []
+              }
+            }
+          outputs:
+            - MPSprocess
+        
+        - type: rawMachineCommand
+          id: "MPSprocess"
+          description: >
+            [MPS1] Execute process1
+          placeholder: >
+            {
+              "topicName": "MultiProcessing01",
+              "timestamp": 1750259348009,
+              "message": {
+                  "jsonType": "COMMAND",
+                  "type": "MULTIPROCESSING",
+                  "outputId": "AUTO_ID",
+                  "name": "PROCESS1",
+                  "parameters": []
+              }
+            }
+          outputs:
+            - VGR2toHBWbis
+        
+        - type: rawMachineCommand
+          id: "VGR2toHBWbis"
+          description: >
+            [VGR2] Move from MPS to HBW
+          placeholder: >
+            {
+                "topicName": "VacuumGripper02",
+                "timestamp": 1750259239375,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "VACUUM",
+                    "outputId": "AUTO_ID",
+                    "name": "MOVE",
+                    "parameters": [
+                        {
+                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passable": {
+                                "meaning": "START",
+                                "vertical": 1050,
+                                "horizontal": 1900,
+                                "rot": 1460
+                            }
+                        },
+                        {
+                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passable": {
+                                "meaning": "END",
+                                "vertical": 0,
+                                "horizontal": 800,
+                                "rot": 1030
+                            }
+                        }
+                    ]
+                }
+              }
+          outputs:
+            - Join5
+
+        - type: join
+          id: "Join5"
+          description: >
+            Join of VGR2 and HBW
+          outputs:
+            - Fork6
+
+        - type: fork
+          id: "Fork6"
+          description: >
+            VGR2 setup and HBW store
+          outputs:
+            - VGR2setup
+            - HBWstorebis
+        
+        - type: rawMachineCommand
+          id: "VGR2setup"
+          description: >
+            [VGR2] VGR setup
+          placeholder: >
+            {
+                "topicName": "VacuumGripper02",
+                "timestamp": 1751558383804,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "VACUUM",
+                    "outputId": "AUTO_ID",
+                    "name": "SETUP",
+                    "parameters": []
+                }
+            }
+          outputs:
+            - Join6
+        
+        - type: rawMachineCommand
+          id: "HBWstorebis"
+          description: >
+            [HBW] Store payload to place 1;1
+          placeholder: >
+            {
+              "topicName": "HighBay01",
+              "timestamp": 1750259441566,
+              "message": {
+                  "jsonType": "COMMAND",
+                  "type": "WAREHOUSE",
+                  "outputId": "AUTO_ID",
+                  "name": "STORE_TO",
+                  "parameters": [
+                      {
+                          "passableType": "NUMBERNATURAL",
+                          "passable": {
+                              "number": 1
+                          }
+                      },
+                      {
+                          "passableType": "NUMBERNATURAL",
+                          "passable": {
+                              "number": 1
+                          }
+                      }
+                  ]
+              }
+            }
+          outputs:
+            - Join6
+
+        - type: join
+          id: "Join6"
+          description: >
+            Join of VGR2 and HBW
           outputs: []
