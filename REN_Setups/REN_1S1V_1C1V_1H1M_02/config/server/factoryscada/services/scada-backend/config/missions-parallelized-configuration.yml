@@ -18,7 +18,7 @@ FactoryMissionsParallelized:
             The first Fork
           outputs:
             - ActionNode1
-            - ActionNode2
+            - WaitAction
 
         - type: rawMachineCommand
           id: "ActionNode1"
@@ -40,36 +40,11 @@ FactoryMissionsParallelized:
           outputs:
             - Join1
 
-        - type: rawMachineCommand
-          id: "ActionNode2"
+        - type: waitAction
+          id: "WaitAction"
           description: >
             Setup the VG2
-          placeholder: >
-            {
-              "topicName": "ConveyorBelt01",
-              "timestamp": 1751547508462,
-              "message": 
-                {
-                  "jsonType": "COMMAND",
-                  "type": "CONVEYOR",
-                  "outputId": "AUTO_ID",
-                  "name": "MOVE_NB_STEPS",
-                  "parameters": [
-                      {
-                          "passableType": "NUMBERNATURAL",
-                          "passable": {
-                              "number": 15
-                          }
-                      },
-                      {
-                          "passableType": "DIRECTION",
-                          "passable": {
-                              "direction": "FORWARD"
-                          }
-                      }
-                  ]
-                }
-            }
+          time: 10
           outputs:
             - Join1
 
