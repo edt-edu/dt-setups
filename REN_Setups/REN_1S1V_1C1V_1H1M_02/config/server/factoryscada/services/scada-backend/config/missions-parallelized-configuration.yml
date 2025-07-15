@@ -43,7 +43,7 @@ FactoryMissionsParallelized:
         - type: waitAction
           id: "WaitAction"
           description: >
-            Setup the VG2
+            Wait for 10s
           time: 10
           outputs:
             - Join1
