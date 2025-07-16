@@ -777,3 +777,806 @@ FactoryMissionsParallelized:
           description: >
             Join of VGR2 and HBW
           outputs: []
+
+
+
+
+    - name: "10 sort"
+      description: >
+        Sort and move payload from SL output to input 10 times
+      nodes:
+        - type: entryNode
+          id: "Entry node"
+          description: >
+              The entry node
+          outputs: 
+            - Fork1
+
+        - type: fork
+          id: "Fork1"
+          description: >
+            The first Fork
+          outputs:
+            - ActionNode1
+            - ActionNode2
+
+        - type: rawMachineCommand
+          id: "ActionNode1"
+          description: >
+            Sort the payload
+          placeholder: >
+            {
+                "topicName": "SortingLine01",
+                "timestamp": 1752655388422,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "SORTING",
+                    "outputId": 7,
+                    "name": "EJECT",
+                    "parameters": [
+                        {
+                            "passableType": "COLOR",
+                            "passable": {
+                                "color": "AUTO"
+                            }
+                        }
+                    ]
+                }
+            }
+          outputs:
+            - Join1
+
+        - type: rawMachineCommand
+          id: "ActionNode2"
+          description: >
+            Move the payload from SL output to SL input
+          placeholder: >
+            {
+                "topicName": "VacuumGripper01",
+                "timestamp": 1752658933177,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "VACUUM",
+                    "outputId": 1,
+                    "name": "MOVE",
+                    "parameters": [
+                        {
+                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passable": {
+                                "meaning": "START",
+                                "vertical": 1350,
+                                "horizontal": 1270,
+                                "rot": 2250
+                            }
+                        },
+                        {
+                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passable": {
+                                "meaning": "END",
+                                "vertical": 1000,
+                                "horizontal": 1610,
+                                "rot": 2880
+                            }
+                        }
+                    ]
+                }
+            }
+          outputs:
+            - Join1
+
+        - type: join
+          id: "Join1"
+          description: >
+            The last join
+          outputs:
+            - Fork2
+
+        - type: fork
+          id: "Fork2"
+          description: >
+            The first Fork
+          outputs:
+            - ActionNode3
+            - ActionNode4
+
+        - type: rawMachineCommand
+          id: "ActionNode3"
+          description: >
+            Sort the payload
+          placeholder: >
+            {
+                "topicName": "SortingLine01",
+                "timestamp": 1752655388422,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "SORTING",
+                    "outputId": 7,
+                    "name": "EJECT",
+                    "parameters": [
+                        {
+                            "passableType": "COLOR",
+                            "passable": {
+                                "color": "AUTO"
+                            }
+                        }
+                    ]
+                }
+            }
+          outputs:
+            - Join2
+
+        - type: rawMachineCommand
+          id: "ActionNode4"
+          description: >
+            Move the payload from SL output to SL input
+          placeholder: >
+            {
+                "topicName": "VacuumGripper01",
+                "timestamp": 1752658933177,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "VACUUM",
+                    "outputId": 1,
+                    "name": "MOVE",
+                    "parameters": [
+                        {
+                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passable": {
+                                "meaning": "START",
+                                "vertical": 1350,
+                                "horizontal": 1270,
+                                "rot": 2250
+                            }
+                        },
+                        {
+                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passable": {
+                                "meaning": "END",
+                                "vertical": 1000,
+                                "horizontal": 1610,
+                                "rot": 2880
+                            }
+                        }
+                    ]
+                }
+            }
+          outputs:
+            - Join2
+
+        - type: join
+          id: "Join2"
+          description: >
+            The last join
+          outputs:
+            - Fork3
+
+        - type: fork
+          id: "Fork3"
+          description: >
+            The first Fork
+          outputs:
+            - ActionNode5
+            - ActionNode6
+
+        - type: rawMachineCommand
+          id: "ActionNode5"
+          description: >
+            Sort the payload
+          placeholder: >
+            {
+                "topicName": "SortingLine01",
+                "timestamp": 1752655388422,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "SORTING",
+                    "outputId": 7,
+                    "name": "EJECT",
+                    "parameters": [
+                        {
+                            "passableType": "COLOR",
+                            "passable": {
+                                "color": "AUTO"
+                            }
+                        }
+                    ]
+                }
+            }
+          outputs:
+            - Join3
+
+        - type: rawMachineCommand
+          id: "ActionNode6"
+          description: >
+            Move the payload from SL output to SL input
+          placeholder: >
+            {
+                "topicName": "VacuumGripper01",
+                "timestamp": 1752658933177,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "VACUUM",
+                    "outputId": 1,
+                    "name": "MOVE",
+                    "parameters": [
+                        {
+                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passable": {
+                                "meaning": "START",
+                                "vertical": 1350,
+                                "horizontal": 1270,
+                                "rot": 2250
+                            }
+                        },
+                        {
+                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passable": {
+                                "meaning": "END",
+                                "vertical": 1000,
+                                "horizontal": 1610,
+                                "rot": 2880
+                            }
+                        }
+                    ]
+                }
+            }
+          outputs:
+            - Join3
+
+        - type: join
+          id: "Join3"
+          description: >
+            The last join
+          outputs:
+            - Fork4
+
+        - type: fork
+          id: "Fork4"
+          description: >
+            The first Fork
+          outputs:
+            - ActionNode7
+            - ActionNode8
+
+        - type: rawMachineCommand
+          id: "ActionNode7"
+          description: >
+            Sort the payload
+          placeholder: >
+            {
+                "topicName": "SortingLine01",
+                "timestamp": 1752655388422,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "SORTING",
+                    "outputId": 7,
+                    "name": "EJECT",
+                    "parameters": [
+                        {
+                            "passableType": "COLOR",
+                            "passable": {
+                                "color": "AUTO"
+                            }
+                        }
+                    ]
+                }
+            }
+          outputs:
+            - Join4
+
+        - type: rawMachineCommand
+          id: "ActionNode8"
+          description: >
+            Move the payload from SL output to SL input
+          placeholder: >
+            {
+                "topicName": "VacuumGripper01",
+                "timestamp": 1752658933177,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "VACUUM",
+                    "outputId": 1,
+                    "name": "MOVE",
+                    "parameters": [
+                        {
+                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passable": {
+                                "meaning": "START",
+                                "vertical": 1350,
+                                "horizontal": 1270,
+                                "rot": 2250
+                            }
+                        },
+                        {
+                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passable": {
+                                "meaning": "END",
+                                "vertical": 1000,
+                                "horizontal": 1610,
+                                "rot": 2880
+                            }
+                        }
+                    ]
+                }
+            }
+          outputs:
+            - Join4
+
+        - type: join
+          id: "Join4"
+          description: >
+            The last join
+          outputs:
+            - Fork5
+
+        - type: fork
+          id: "Fork5"
+          description: >
+            The first Fork
+          outputs:
+            - ActionNode9
+            - ActionNode10
+
+        - type: rawMachineCommand
+          id: "ActionNode9"
+          description: >
+            Sort the payload
+          placeholder: >
+            {
+                "topicName": "SortingLine01",
+                "timestamp": 1752655388422,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "SORTING",
+                    "outputId": 7,
+                    "name": "EJECT",
+                    "parameters": [
+                        {
+                            "passableType": "COLOR",
+                            "passable": {
+                                "color": "AUTO"
+                            }
+                        }
+                    ]
+                }
+            }
+          outputs:
+            - Join5
+
+        - type: rawMachineCommand
+          id: "ActionNode10"
+          description: >
+            Move the payload from SL output to SL input
+          placeholder: >
+            {
+                "topicName": "VacuumGripper01",
+                "timestamp": 1752658933177,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "VACUUM",
+                    "outputId": 1,
+                    "name": "MOVE",
+                    "parameters": [
+                        {
+                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passable": {
+                                "meaning": "START",
+                                "vertical": 1350,
+                                "horizontal": 1270,
+                                "rot": 2250
+                            }
+                        },
+                        {
+                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passable": {
+                                "meaning": "END",
+                                "vertical": 1000,
+                                "horizontal": 1610,
+                                "rot": 2880
+                            }
+                        }
+                    ]
+                }
+            }
+          outputs:
+            - Join5
+
+        - type: join
+          id: "Join5"
+          description: >
+            The last join
+          outputs:
+            - Fork6
+
+        - type: fork
+          id: "Fork6"
+          description: >
+            The first Fork
+          outputs:
+            - ActionNode11
+            - ActionNode12
+
+        - type: rawMachineCommand
+          id: "ActionNode11"
+          description: >
+            Sort the payload
+          placeholder: >
+            {
+                "topicName": "SortingLine01",
+                "timestamp": 1752655388422,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "SORTING",
+                    "outputId": 7,
+                    "name": "EJECT",
+                    "parameters": [
+                        {
+                            "passableType": "COLOR",
+                            "passable": {
+                                "color": "AUTO"
+                            }
+                        }
+                    ]
+                }
+            }
+          outputs:
+            - Join6
+
+        - type: rawMachineCommand
+          id: "ActionNode12"
+          description: >
+            Move the payload from SL output to SL input
+          placeholder: >
+            {
+                "topicName": "VacuumGripper01",
+                "timestamp": 1752658933177,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "VACUUM",
+                    "outputId": 1,
+                    "name": "MOVE",
+                    "parameters": [
+                        {
+                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passable": {
+                                "meaning": "START",
+                                "vertical": 1350,
+                                "horizontal": 1270,
+                                "rot": 2250
+                            }
+                        },
+                        {
+                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passable": {
+                                "meaning": "END",
+                                "vertical": 1000,
+                                "horizontal": 1610,
+                                "rot": 2880
+                            }
+                        }
+                    ]
+                }
+            }
+          outputs:
+            - Join6
+
+        - type: join
+          id: "Join6"
+          description: >
+            The last join
+          outputs:
+            - Fork7
+
+        - type: fork
+          id: "Fork7"
+          description: >
+            The first Fork
+          outputs:
+            - ActionNode13
+            - ActionNode14
+
+        - type: rawMachineCommand
+          id: "ActionNode13"
+          description: >
+            Sort the payload
+          placeholder: >
+            {
+                "topicName": "SortingLine01",
+                "timestamp": 1752655388422,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "SORTING",
+                    "outputId": 7,
+                    "name": "EJECT",
+                    "parameters": [
+                        {
+                            "passableType": "COLOR",
+                            "passable": {
+                                "color": "AUTO"
+                            }
+                        }
+                    ]
+                }
+            }
+          outputs:
+            - Join7
+
+        - type: rawMachineCommand
+          id: "ActionNode14"
+          description: >
+            Move the payload from SL output to SL input
+          placeholder: >
+            {
+                "topicName": "VacuumGripper01",
+                "timestamp": 1752658933177,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "VACUUM",
+                    "outputId": 1,
+                    "name": "MOVE",
+                    "parameters": [
+                        {
+                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passable": {
+                                "meaning": "START",
+                                "vertical": 1350,
+                                "horizontal": 1270,
+                                "rot": 2250
+                            }
+                        },
+                        {
+                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passable": {
+                                "meaning": "END",
+                                "vertical": 1000,
+                                "horizontal": 1610,
+                                "rot": 2880
+                            }
+                        }
+                    ]
+                }
+            }
+          outputs:
+            - Join7
+
+        - type: join
+          id: "Join7"
+          description: >
+            The last join
+          outputs:
+            - Fork8
+
+        - type: fork
+          id: "Fork8"
+          description: >
+            The first Fork
+          outputs:
+            - ActionNode15
+            - ActionNode16
+
+        - type: rawMachineCommand
+          id: "ActionNode15"
+          description: >
+            Sort the payload
+          placeholder: >
+            {
+                "topicName": "SortingLine01",
+                "timestamp": 1752655388422,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "SORTING",
+                    "outputId": 7,
+                    "name": "EJECT",
+                    "parameters": [
+                        {
+                            "passableType": "COLOR",
+                            "passable": {
+                                "color": "AUTO"
+                            }
+                        }
+                    ]
+                }
+            }
+          outputs:
+            - Join8
+
+        - type: rawMachineCommand
+          id: "ActionNode16"
+          description: >
+            Move the payload from SL output to SL input
+          placeholder: >
+            {
+                "topicName": "VacuumGripper01",
+                "timestamp": 1752658933177,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "VACUUM",
+                    "outputId": 1,
+                    "name": "MOVE",
+                    "parameters": [
+                        {
+                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passable": {
+                                "meaning": "START",
+                                "vertical": 1350,
+                                "horizontal": 1270,
+                                "rot": 2250
+                            }
+                        },
+                        {
+                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passable": {
+                                "meaning": "END",
+                                "vertical": 1000,
+                                "horizontal": 1610,
+                                "rot": 2880
+                            }
+                        }
+                    ]
+                }
+            }
+          outputs:
+            - Join8
+
+        - type: join
+          id: "Join8"
+          description: >
+            The last join
+          outputs:
+            - Fork9
+
+        - type: fork
+          id: "Fork9"
+          description: >
+            The first Fork
+          outputs:
+            - ActionNode17
+            - ActionNode18
+
+        - type: rawMachineCommand
+          id: "ActionNode17"
+          description: >
+            Sort the payload
+          placeholder: >
+            {
+                "topicName": "SortingLine01",
+                "timestamp": 1752655388422,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "SORTING",
+                    "outputId": 7,
+                    "name": "EJECT",
+                    "parameters": [
+                        {
+                            "passableType": "COLOR",
+                            "passable": {
+                                "color": "AUTO"
+                            }
+                        }
+                    ]
+                }
+            }
+          outputs:
+            - Join9
+
+        - type: rawMachineCommand
+          id: "ActionNode18"
+          description: >
+            Move the payload from SL output to SL input
+          placeholder: >
+            {
+                "topicName": "VacuumGripper01",
+                "timestamp": 1752658933177,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "VACUUM",
+                    "outputId": 1,
+                    "name": "MOVE",
+                    "parameters": [
+                        {
+                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passable": {
+                                "meaning": "START",
+                                "vertical": 1350,
+                                "horizontal": 1270,
+                                "rot": 2250
+                            }
+                        },
+                        {
+                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passable": {
+                                "meaning": "END",
+                                "vertical": 1000,
+                                "horizontal": 1610,
+                                "rot": 2880
+                            }
+                        }
+                    ]
+                }
+            }
+          outputs:
+            - Join9
+
+        - type: join
+          id: "Join9"
+          description: >
+            The last join
+          outputs:
+            - Fork10
+
+        - type: fork
+          id: "Fork10"
+          description: >
+            The first Fork
+          outputs:
+            - ActionNode19
+            - ActionNode20
+
+        - type: rawMachineCommand
+          id: "ActionNode19"
+          description: >
+            Sort the payload
+          placeholder: >
+            {
+                "topicName": "SortingLine01",
+                "timestamp": 1752655388422,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "SORTING",
+                    "outputId": 7,
+                    "name": "EJECT",
+                    "parameters": [
+                        {
+                            "passableType": "COLOR",
+                            "passable": {
+                                "color": "AUTO"
+                            }
+                        }
+                    ]
+                }
+            }
+          outputs:
+            - Join10
+
+        - type: rawMachineCommand
+          id: "ActionNode20"
+          description: >
+            Move the payload from SL output to SL input
+          placeholder: >
+            {
+                "topicName": "VacuumGripper01",
+                "timestamp": 1752658933177,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "VACUUM",
+                    "outputId": 1,
+                    "name": "MOVE",
+                    "parameters": [
+                        {
+                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passable": {
+                                "meaning": "START",
+                                "vertical": 1350,
+                                "horizontal": 1270,
+                                "rot": 2250
+                            }
+                        },
+                        {
+                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passable": {
+                                "meaning": "END",
+                                "vertical": 1000,
+                                "horizontal": 1610,
+                                "rot": 2880
+                            }
+                        }
+                    ]
+                }
+            }
+          outputs:
+            - Join10
+
+        - type: join
+          id: "Join10"
+          description: >
+            The last join
+          outputs: []
