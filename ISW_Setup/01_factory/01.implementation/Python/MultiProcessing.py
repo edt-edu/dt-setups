@@ -48,7 +48,7 @@ class MultiProcessing(Machine):
         self.__multiProcessingActLowerValve = False
         self.__multiProcessingValveOvenDoor = False
         self.__multiProcessingValveFeeder = False
-        dictMap = {RequestedParameter.REFERENCESWITCHTURNTABLEPOSITOINVACUUM: self.__multiProcessingSensTurntablePosVacuum,
+        dictMap = {RequestedParameter.REFERENCESWITCHTURNTABLEPOSITIONVACUUM: self.__multiProcessingSensTurntablePosVacuum,
                    RequestedParameter.REFERENCESWITCHTURNTABLEPOSITIONBELT: self.__multiProcessingSensTurntablePosConveyor,
                    RequestedParameter.LIGHTBARRIERENDOFCONVEYORBELT: self.__multiProcessingSensDelivery,
                    RequestedParameter.REFERENCESWITCHTURNTABLEPOSITIONSAW: self.__multiProcessingSensTurntablePosSaw,
