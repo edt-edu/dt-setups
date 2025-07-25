@@ -92,7 +92,7 @@
 		<line x1="0" y1="1400" x2="10" y2="1400" stroke-width="1" stroke="black">
 		</line>
 	</g>
-	<g id="cb1" transform="matrix(-1,1.2246467991473532e-16,-1.2246467991473532e-16,-1,730,1000)">
+	<g id="cb1" transform="matrix(-1,1.2246467991473532e-16,-1.2246467991473532e-16,-1,670,940)">
 		<g id="woodBase_cb1">
 			<rect width="260" height="186" class="woodBase">
 			</rect>
@@ -118,7 +118,7 @@
 			</rect>
 		</g>
 	</g>
-	<g id="hbw1" transform="matrix(1,0,0,1,460,150)">
+	<g id="hbw1" transform="matrix(1,0,0,1,410,100)">
 		<g id="woodBase_hbw1">
 			<rect width="690" height="440" class="woodBase">
 			</rect>
@@ -156,7 +156,7 @@
 			</rect>
 		</g>
 	</g>
-	<g id="slc1" transform="matrix(-1.8369701987210297e-16,-1,1,-1.8369701987210297e-16,160,1346)">
+	<g id="slc1" transform="matrix(-1.8369701987210297e-16,-1,1,-1.8369701987210297e-16,100,1325)">
 		<g id="woodBase_slc1">
 			<rect width="440" height="310" class="woodBase">
 			</rect>
@@ -206,7 +206,7 @@
 			</rect>
 		</g>
 	</g>
-	<g id="mps1" transform="matrix(6.123233995736766e-17,1,-1,6.123233995736766e-17,460,466)">
+	<g id="mps1" transform="matrix(6.123233995736766e-17,1,-1,6.123233995736766e-17,410,445)">
 		<g id="woodBase_mps1">
 			<rect width="438" height="310" class="woodBase">
 			</rect>
@@ -266,7 +266,7 @@
 			</polygon>
 		</g>
 	</g>
-	<g id="vgr2" transform="matrix(1,0,0,1,460,590)">
+	<g id="vgr2" transform="matrix(1,0,0,1,410,540)">
 		<g id="vgrWoodBase_vgr2">
 			<rect width="257" height="186" class="woodBase">
 			</rect>
@@ -294,7 +294,7 @@
 			</circle>
 		</g>
 	</g>
-	<g id="vgr1" transform="matrix(6.123233995736766e-17,1,-1,6.123233995736766e-17,660,1020)">
+	<g id="vgr1" transform="matrix(6.123233995736766e-17,1,-1,6.123233995736766e-17,595,970)">
 		<g id="vgrWoodBase_vgr1">
 			<rect width="257" height="186" class="woodBase">
 			</rect>

@@ -5,9 +5,9 @@
 :included_in_readme: true
 
 
-# REN_1S1V_1C1V_1H1M_01 setup
+# REN_1S1V_1C1V_1H1M_02 setup
 
-This folder contains the configuration files and deployment script of the REN_1S1V_1C1V_1H1M_01 Setup
+This folder contains the configuration files and deployment script of the REN_1S1V_1C1V_1H1M_02 Setup
 
 
 include::docs/setup_description.adoc[]
@@ -38,7 +38,7 @@ sudo docker compose up -d
 
 controllers and factoryscada
 ```sh
-cd REN_1S1V_1C1V_1H1M_01/ansible
+cd REN_1S1V_1C1V_1H1M_02/ansible
 ansible-playbook playbooks/push_plcs_config.yml
 ansible-playbook playbooks/push_server_config.yml
 ```
@@ -103,11 +103,11 @@ cd ../physical-impl/factoryscada/frontend
 npm run start
 ```
 
-- start backend (using REN_1S1V_1C1V_1H1M_01 both mission and plc configurations files)
+- start backend (using REN_1S1V_1C1V_1H1M_02 both mission and plc configurations files)
 
 ```sh
 cd ../physical-impl/factoryscada/backend
-gradle bootrun --args='--missions.configuration.path=../../../../REN_Setups/REN_1S1V_1C1V_1H1M_01/config/server/factoryscada/services/scada-backend/config/missions-configuration.yml --configuration.path=../../../../REN_Setups/REN_1S1V_1C1V_1H1M_01/config/server/factoryscada/services/scada-backend/config/configuration.yml'
+gradle bootrun --args='--missions.configuration.path=../../../../REN_Setups/REN_1S1V_1C1V_1H1M_02/config/server/factoryscada/services/scada-backend/config/missions-configuration.yml --configuration.path=../../../../REN_Setups/REN_1S1V_1C1V_1H1M_02/config/server/factoryscada/services/scada-backend/config/configuration.yml'
 ```
 
 #### useful commands:

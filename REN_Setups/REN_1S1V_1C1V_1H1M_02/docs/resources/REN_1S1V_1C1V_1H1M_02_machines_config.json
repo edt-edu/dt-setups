@@ -1,51 +1,51 @@
 {
-  "name": "REN_1S1V_1C1V_1H1M_01",
+  "name": "REN_1S1V_1C1V_1H1M_02",
   "xSize": 1500,
   "ySize": 2000,
   "positions": [
     {
-      "x": 730,
-      "y": 1000,
+      "x": 670,
+      "y": 940,
       "degrees": 180,
       "kind": "CB",
       "name": "ConveyorBelt1",
       "id": "cb1"
     },
     {
-      "x": 460,
-      "y": 150,
+      "x": 410,
+      "y": 100,
       "degrees": 0,
       "kind": "HBW",
       "name": "HighBayWarehouse1",
       "id": "hbw1"
     },
     {
-      "x": 160,
-      "y": 1346,
+      "x": 100,
+      "y": 1325,
       "degrees": 270,
       "kind": "SLC",
       "name": "SortingLine1",
       "id": "slc1"
     },
     {
-      "x": 460,
-      "y": 466,
+      "x": 410,
+      "y": 445,
       "degrees": 90,
       "kind": "MPO",
       "name": "MultiProcessingStation1",
       "id": "mps1"
     },
     {
-      "x": 460,
-      "y": 590,
+      "x": 410,
+      "y": 540,
       "degrees": 0,
       "kind": "VGR",
       "name": "VacuumGripper2",
       "id": "vgr2"
     },
     {
-      "x": 660,
-      "y": 1020,
+      "x": 595,
+      "y": 970,
       "degrees": 90,
       "kind": "VGR",
       "name": "VacuumGripper1",
