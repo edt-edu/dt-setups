@@ -79,6 +79,9 @@ class RevPi_Controller(RevPiPyModIOMachineController):
         self.rpi.io.dio1_O_6.value = self.vacuumGripperMachine.vacuumActRotLeft
         self.rpi.io.dio1_O_7.value = self.vacuumGripperMachine.vacuumActCompressorOn
         self.rpi.io.dio1_O_8.value = self.vacuumGripperMachine.vacuumActValve
+        self.rpi.io.dio1_PWM_9.value = self.vacuumGripperMachine.pwmVertical
+        self.rpi.io.dio1_PWM_10.value = self.vacuumGripperMachine.pwmHorizontal
+        self.rpi.io.dio1_PWM_11.value = self.vacuumGripperMachine.pwmRotational
 
         #______SL______
         self.rpi.io.dio2_O_1.value = self.sortingLineMachine.sortingLineActMotorConveyor
