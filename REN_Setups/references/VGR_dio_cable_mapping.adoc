@@ -20,12 +20,12 @@ image::./img/dio-connectors.png[role="related thumb right", 240]
 |Output 6  |O_6   | 22 | Q6(M3) | motor rotate counterclockwise
 |Output 7  |O_7   | 23 | Q7 | compressor
 |Output 8  |O_8   | 24 | Q8 | Valve vacuum 
-|Output 9  |O_9   | 25 |     | 
-|Output 10 |O_10  | 26 |     |  
-|Output 11 |O_11  | 27 |     | 
-|Output 12 |O_12  | 28 |     |  
-|Output 13 |O_13  | 29 |     | 
-|Output 14 |O_14  | 30 |     | 
+|Output 9  |O_9   | 25 | PWM (M1) | PWM vertical
+|Output 10 |O_10  | 26 | PWM (M2) | PWM horizontal
+|Output 11 |O_11  | 27 | PWM (M3) | PWM rotation
+|Output 12 |O_12  |  |     |  
+|Output 13 |O_13  |  |     | 
+|Output 14 |O_14  |  |     | 
 |Input 1   |I_1   | 5  | I1 | reference switch vertical axis 
 |Input 2   |I_2   | 6  | I2 | reference switch horizontal axis
 |Input 3   |I_3   | 7  | I3 | reference switch rotate
