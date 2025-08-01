@@ -21,8 +21,8 @@ These are the coordinate of the positions of VGR for certain points usefuls to m
 
 | Target             | Rotation | Vertical | Horizontal |
 |:-------------------|:--------:|:--------:|:----------:|
-| CB sensor forward  |   2690   |   1100   |    1250    |
-| CB sensor backward |   2345   |   1100   |    2000    |
-| MPS input          |   2090   |    910   |    1990    |
-| MPS output         |   1510   |   1100   |    1740    |
-| HBW input/output   |   1050   |    210   |     800    |
+| CB sensor forward  |   2695   |   1100   |    1220    |
+| CB sensor backward |   2350   |   1100   |    1975    |
+| MPS input          |   2090   |    910   |    1980    |
+| MPS output         |   1525   |   1100   |    1720    |
+| HBW input/output   |   1050   |    210   |     740    |

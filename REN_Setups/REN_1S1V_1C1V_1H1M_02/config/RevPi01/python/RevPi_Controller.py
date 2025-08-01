@@ -22,7 +22,8 @@ class RevPi_Controller(RevPiPyModIOMachineController):
 
         #dict, which keys are the machines, than there is a tuple holding the function currently executed ([0]) and the id it was sent with ([1])
         self.currentlyExecuting = {}
-        self.vacuumGripperMachine = VacuumGripper("VacuumGripper01", safetyPos = {'rotation': 875, 'horizontal': 0, 'vertical': 0})
+        self.vacuumGripperMachine = VacuumGripper("VacuumGripper01", safetyPos = {'rotation': 875, 'horizontal': 0, 'vertical': 0},
+                                                  pwmParameters = {'stdSpeed' : 100, 'aprchSpeedVer' : 30, 'aprchSpeedHor' : 30, 'aprchSpeedRot' : 20, 'aprchTolerance' : 100})
         self.sortingLineMachine = SortingLine("SortingLine01")
         self.machines = [self.vacuumGripperMachine,self.sortingLineMachine]
         self.currentlyExecuting = {
@@ -79,6 +80,9 @@ class RevPi_Controller(RevPiPyModIOMachineController):
         self.rpi.io.dio1_O_6.value = self.vacuumGripperMachine.vacuumActRotLeft
         self.rpi.io.dio1_O_7.value = self.vacuumGripperMachine.vacuumActCompressorOn
         self.rpi.io.dio1_O_8.value = self.vacuumGripperMachine.vacuumActValve
+        self.rpi.io.dio1_PWM_9.value = self.vacuumGripperMachine.pwmVertical
+        self.rpi.io.dio1_PWM_10.value = self.vacuumGripperMachine.pwmHorizontal
+        self.rpi.io.dio1_PWM_11.value = self.vacuumGripperMachine.pwmRotational
 
         #______SL______
         self.rpi.io.dio2_O_1.value = self.sortingLineMachine.sortingLineActMotorConveyor

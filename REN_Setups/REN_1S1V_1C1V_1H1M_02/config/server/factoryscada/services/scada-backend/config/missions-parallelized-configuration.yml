@@ -165,7 +165,7 @@ FactoryMissionsParallelized:
                                 "meaning": "START",
                                 "vertical": 210,
                                 "horizontal": 0,
-                                "rot": 1040
+                                "rot": 1050
                             }
                         },
                         {
@@ -280,8 +280,8 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "START",
                                 "vertical": 210,
-                                "horizontal": 800,
-                                "rot": 1040
+                                "horizontal": 740,
+                                "rot": 1050
                             }
                         },
                         {
@@ -289,8 +289,8 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "END",
                                 "vertical": 1100,
-                                "horizontal": 1250,
-                                "rot": 2680
+                                "horizontal": 1220,
+                                "rot": 2695
                             }
                         }
                     ]
@@ -379,7 +379,7 @@ FactoryMissionsParallelized:
                                 "meaning": "START",
                                 "vertical": 1200,
                                 "horizontal": 1460,
-                                "rot": 1880
+                                "rot": 1890
                             }
                         },
                         {
@@ -388,7 +388,7 @@ FactoryMissionsParallelized:
                                 "meaning": "END",
                                 "vertical": 1050,
                                 "horizontal": 1720,
-                                "rot": 2930
+                                "rot": 2940
                             }
                         }
                     ]
@@ -444,7 +444,7 @@ FactoryMissionsParallelized:
                                 "meaning": "START",
                                 "vertical": 1410,
                                 "horizontal": 0,
-                                "rot": 2310
+                                "rot": 2300
                             }
                         },
                         {
@@ -514,7 +514,7 @@ FactoryMissionsParallelized:
                                 "meaning": "START",
                                 "vertical": 1410,
                                 "horizontal": 970,
-                                "rot": 2310
+                                "rot": 2300
                             }
                         },
                         {
@@ -523,7 +523,7 @@ FactoryMissionsParallelized:
                                 "meaning": "END",
                                 "vertical": 1200,
                                 "horizontal": 1460,
-                                "rot": 1900
+                                "rot": 1890
                             }
                         }
                     ]
@@ -611,8 +611,8 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "START",
                                 "vertical": 1100,
-                                "horizontal": 1250,
-                                "rot": 2690
+                                "horizontal": 1220,
+                                "rot": 2695
                             }
                         },
                         {
@@ -620,7 +620,7 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "END",
                                 "vertical": 910,
-                                "horizontal": 1990,
+                                "horizontal": 1980,
                                 "rot": 2090
                             }
                         }
@@ -687,8 +687,8 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "START",
                                 "vertical": 1100,
-                                "horizontal": 1740,
-                                "rot": 1520
+                                "horizontal": 1720,
+                                "rot": 1525
                             }
                         },
                         {
@@ -696,7 +696,7 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "END",
                                 "vertical": 210,
-                                "horizontal": 800,
+                                "horizontal": 740,
                                 "rot": 1050
                             }
                         }
@@ -854,7 +854,7 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "END",
                                 "vertical": 1050,
-                                "horizontal": 1720
+                                "horizontal": 1720,
                                 "rot": 2940
                             }
                         }
@@ -933,7 +933,7 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "END",
                                 "vertical": 1050,
-                                "horizontal": 1720
+                                "horizontal": 1720,
                                 "rot": 2940
                             }
                         }
@@ -1012,7 +1012,7 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "END",
                                 "vertical": 1050,
-                                "horizontal": 1720
+                                "horizontal": 1720,
                                 "rot": 2940
                             }
                         }
@@ -1091,7 +1091,7 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "END",
                                 "vertical": 1050,
-                                "horizontal": 1720
+                                "horizontal": 1720,
                                 "rot": 2940
                             }
                         }
@@ -1170,7 +1170,7 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "END",
                                 "vertical": 1050,
-                                "horizontal": 1720
+                                "horizontal": 1720,
                                 "rot": 2940
                             }
                         }
@@ -1249,7 +1249,7 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "END",
                                 "vertical": 1050,
-                                "horizontal": 1720
+                                "horizontal": 1720,
                                 "rot": 2940
                             }
                         }
@@ -1328,7 +1328,7 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "END",
                                 "vertical": 1050,
-                                "horizontal": 1720
+                                "horizontal": 1720,
                                 "rot": 2940
                             }
                         }
@@ -1407,7 +1407,7 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "END",
                                 "vertical": 1050,
-                                "horizontal": 1720
+                                "horizontal": 1720,
                                 "rot": 2940
                             }
                         }
@@ -1486,7 +1486,7 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "END",
                                 "vertical": 1050,
-                                "horizontal": 1720
+                                "horizontal": 1720,
                                 "rot": 2940
                             }
                         }
@@ -1565,7 +1565,7 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "END",
                                 "vertical": 1050,
-                                "horizontal": 16101720
+                                "horizontal": 1720,
                                 "rot": 2940
                             }
                         }
