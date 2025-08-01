@@ -280,7 +280,7 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "START",
                                 "vertical": 210,
-                                "horizontal": 800,
+                                "horizontal": 740,
                                 "rot": 1050
                             }
                         },
@@ -289,8 +289,8 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "END",
                                 "vertical": 1100,
-                                "horizontal": 1250,
-                                "rot": 2690
+                                "horizontal": 1220,
+                                "rot": 2695
                             }
                         }
                     ]
@@ -611,8 +611,8 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "START",
                                 "vertical": 1100,
-                                "horizontal": 1250,
-                                "rot": 2690
+                                "horizontal": 1220,
+                                "rot": 2695
                             }
                         },
                         {
@@ -620,7 +620,7 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "END",
                                 "vertical": 910,
-                                "horizontal": 1990,
+                                "horizontal": 1980,
                                 "rot": 2090
                             }
                         }
@@ -687,8 +687,8 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "START",
                                 "vertical": 1100,
-                                "horizontal": 1740,
-                                "rot": 1510
+                                "horizontal": 1720,
+                                "rot": 1525
                             }
                         },
                         {
@@ -696,7 +696,7 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "END",
                                 "vertical": 210,
-                                "horizontal": 800,
+                                "horizontal": 740,
                                 "rot": 1050
                             }
                         }
