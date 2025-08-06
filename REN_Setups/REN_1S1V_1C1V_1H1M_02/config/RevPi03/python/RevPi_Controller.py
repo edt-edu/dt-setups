@@ -23,7 +23,7 @@ class RevPi_Controller(RevPiPyModIOMachineController):
         #dict, which keys are the machines, than there is a tuple holding the function currently executed ([0]) and the id it was sent with ([1])
         self.currentlyExecuting = {}
         self.multiProcessingMachine = MultiProcessing("MultiProcessing01", safetyPos = {'toOven': True})
-        self.highBayMachine = HighBay("HighBay01", column_offset=(-10, -25, -25, -75), safetyPos = {'horizontal': 0, 'vertical': 0})
+        self.highBayMachine = HighBay("HighBay01", column_offset=(-25, -65, -45, -80), safetyPos = {'horizontal': 0, 'vertical': 0})
         self.machines = [self.multiProcessingMachine, self.highBayMachine]
         self.currentlyExecuting = {
             self.multiProcessingMachine: None,
@@ -92,6 +92,8 @@ class RevPi_Controller(RevPiPyModIOMachineController):
         self.rpi.io.dio6_O_6.value = self.highBayMachine.highbayActUp
         self.rpi.io.dio6_O_7.value = self.highBayMachine.highbayActCantileverForward
         self.rpi.io.dio6_O_8.value = self.highBayMachine.highbayActCantileverBackward
+        self.rpi.io.dio6_PWM_10.value = self.highBayMachine.pwmHorizontal
+        self.rpi.io.dio6_PWM_11.value = self.highBayMachine.pwmVertical
 
 
     def reset(self) -> None:
