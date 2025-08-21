@@ -1,5 +1,6 @@
 configuration:
   name: "configuration"
+  mqttHost: "tcp://localhost:1883"
 
   controllers:
    - name: "plc-1"
