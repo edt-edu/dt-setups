@@ -1,0 +1,10 @@
+---
+
+## example of use:
+# ansible-playbook  playbooks/push_revpi_config.yml 
+
+- name: Push RevPis config
+  hosts: plcs
+  
+  roles:
+    - push_revpi_config
