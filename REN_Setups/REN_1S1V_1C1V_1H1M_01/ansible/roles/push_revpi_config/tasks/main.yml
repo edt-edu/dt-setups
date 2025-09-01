@@ -1,0 +1,11 @@
+- name: Push revpi config to rppmcontroller_current_setup folder
+  ansible.builtin.synchronize:
+    #src: "{{ python_config_folder_path }}"
+    src: ../../config/{{ inventory_hostname }}/PiCtory/_config.rsc
+    dest: /var/www/revpi/pictory/projects/_config.rsc
+    use_ssh_args: yes # required to enable jump ansible_host
+    recursive: true
+    delete: false  # 'true' to delete files not in the source
+  become: true
+  notify:
+    - RevPi_Reset
