@@ -1,0 +1,10 @@
+---
+
+## example of use:
+# ansible-playbook  playbooks/pull_revpi_config.yml 
+
+- name: Pull RevPis config
+  hosts: plcs
+  
+  roles:
+    - pull_revpi_config

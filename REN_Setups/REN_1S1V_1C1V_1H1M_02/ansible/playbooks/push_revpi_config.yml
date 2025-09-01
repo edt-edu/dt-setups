@@ -1,7 +1,7 @@
 ---
 
 ## example of use:
-# ansible-playbook  playbooks/push_revpi_conig.yml 
+# ansible-playbook  playbooks/push_revpi_config.yml 
 
 - name: Push RevPis config
   hosts: plcs
