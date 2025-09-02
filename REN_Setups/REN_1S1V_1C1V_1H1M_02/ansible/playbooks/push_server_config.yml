@@ -1,7 +1,7 @@
 ---
 
 ## example of use:
-# ansible-playbook  playbooks/push_plcs_code.yml 
+# ansible-playbook  playbooks/push_server_config.yml 
 
 - name: Push Server configuration
   hosts: mbdo_server
