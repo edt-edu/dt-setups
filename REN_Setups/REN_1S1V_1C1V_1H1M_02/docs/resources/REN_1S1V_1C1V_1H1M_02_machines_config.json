@@ -36,6 +36,38 @@
       "id": "mps1"
     },
     {
+      "x": 670,
+      "y": 941,
+      "degrees": 270,
+      "kind": "CB_MPS_SLI",
+      "name": "CBSlider1",
+      "id": "sli1"
+    },
+    {
+      "x": 413,
+      "y": 879,
+      "degrees": 90,
+      "kind": "CB_MPS_SLI",
+      "name": "CBSlider2",
+      "id": "sli2"
+    },
+    {
+      "x": 390,
+      "y": 538,
+      "degrees": 270,
+      "kind": "CB_MPS_SLI",
+      "name": "MPSSlider",
+      "id": "sli3"
+    },
+    {
+      "x": 203,
+      "y": 899,
+      "degrees": 0,
+      "kind": "SL_SLI",
+      "name": "SLSlider",
+      "id": "sli4"
+    },
+    {
       "x": 410,
       "y": 540,
       "degrees": 0,
@@ -53,6 +85,3 @@
     }
   ]
 }
-
-
-
