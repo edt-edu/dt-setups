@@ -6,7 +6,7 @@ FactoryMissionsParallelized:
         Setup the vacuum gripper and forward the conveyor belt a few step
       nodes:
         - type: entryNode
-          id: "Entry node"
+          id: "Start"
           description: >
               The entry node
           outputs: 

@@ -61,7 +61,7 @@ cd ../../factoryscada/backend
 
 [source,shell]
 ----
-./gradlew bootrun --args='--missions.configuration.path=../../VIRTUAL_Setups/VIRTUAL_1C1H1M1S1V_01/config/server/factoryscada/services/scada-backend/config/missions-configuration.yml --configuration.path=../../VIRTUAL_Setups/VIRTUAL_1C1H1M1S1V_01/config/server/factoryscada/services/scada-backend/config/configuration.yml'
+./gradlew bootrun --args='--missions.parallelized.configuration.path=../../VIRTUAL_Setups/VIRTUAL_1C1H1M1S1V_01/config/server/factoryscada/services/scada-backend/config/missions-parallelized-configuration.yml --configuration.path=../../VIRTUAL_Setups/VIRTUAL_1C1H1M1S1V_01/config/server/factoryscada/services/scada-backend/config/configuration.yml'
 ----
 
 
