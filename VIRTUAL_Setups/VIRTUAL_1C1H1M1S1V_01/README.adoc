@@ -1,0 +1,67 @@
+This folder contains a virtual setup  for a mini factory composed of a Sorting Line and a Vacuum Gripper Robot (VGR).
+
+This allows testing the controller, SCADA Digital Twin tooling without access to the physical Fishertechnik machines.
+
+
+== Quick start
+
+===  Install and run a mqtt broker
+
+an easy way to get a mqtt broker running on you machine:
+
+go to `VIRTUAL_Setups/VIRTUAL_shared/mosquito` and run 
+
+[source,shell]
+----
+docker compose up
+----
+
+=== Activate your python environment
+
+NOTE: you must make sure to have added the folder containing the rppmcontroller code in development mode in the python environment (see https://git.rwth-aachen.de/mbdo/mbdo-impl/-/blob/master/rppmcontroller/README.md?ref_type=heads#install-the-development-environment)
+
+if  you use the conda environment:
+
+[source,shell]
+----
+conda activate rppmcontroller
+----
+
+
+=== Start simulated machine controller
+
+[source,shell]
+----
+cd config/PLC1
+----
+
+[source,shell]
+----
+python3 SimulatedMachines_Controller.py.py
+----
+
+=== Start SCADA in dev mode for this setup
+
+Frontend
+[source,shell]
+----
+cd ../../factoryscada/frontend
+----
+
+[source,shell]
+----
+npm run start
+----
+
+Backend
+[source,shell]
+----
+cd ../../factoryscada/backend
+----
+
+[source,shell]
+----
+./gradlew bootrun --args='--missions.configuration.path=../../VIRTUAL_Setups/VIRTUAL_1C1H1M1S1V_01/config/server/factoryscada/services/scada-backend/config/missions-configuration.yml --configuration.path=../../VIRTUAL_Setups/VIRTUAL_1C1H1M1S1V_01/config/server/factoryscada/services/scada-backend/config/configuration.yml'
+----
+
+

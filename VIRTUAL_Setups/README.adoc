@@ -8,7 +8,7 @@ This folder contain setups that do not requires the physical FischerTechnik mach
 
 Each setup use the following naming schema: 
 
-`VIRTUAL_((%d[C|H|I|M|P|S|V])\*_)\*%d`
+`VIRTUAL_((%d[C|H|I|M|P|S|V])\*_)*%d`
 
 where:
 
