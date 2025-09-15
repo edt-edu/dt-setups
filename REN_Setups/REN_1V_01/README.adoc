@@ -63,7 +63,7 @@ ssh -X -A mbdo-admin@mbdo.inria.fr
 export XAUTHORITY=$HOME/.Xauthority
 ```
 
-see the factoryscada logs (useful if docker compse is launched  with `-d` option)
+see the factoryscada logs (useful if docker compose is launched  with `-d` option)
 ```
 sudo docker logs scada-backend
 ```

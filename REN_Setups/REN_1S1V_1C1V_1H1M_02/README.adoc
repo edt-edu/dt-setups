@@ -99,15 +99,22 @@ sudo docker compose up
 - start front end
 
 ```sh
-cd ../physical-impl/factoryscada/frontend
+cd ../../factoryscada/frontend
+```
+
+```sh
 npm run start
 ```
 
 - start backend (using REN_1S1V_1C1V_1H1M_02 both mission and plc configurations files)
 
 ```sh
-cd ../physical-impl/factoryscada/backend
-gradle bootrun --args='--missions.configuration.path=../../../../REN_Setups/REN_1S1V_1C1V_1H1M_02/config/server/factoryscada/services/scada-backend/config/missions-configuration.yml --configuration.path=../../../../REN_Setups/REN_1S1V_1C1V_1H1M_02/config/server/factoryscada/services/scada-backend/config/configuration.yml'
+cd ../../factoryscada/backend
+```
+
+
+```sh
+./gradlew bootrun --args='--missions.parallelized.configuration.path=../../REN_Setups/REN_1S1V_1C1V_1H1M_02/config/server/factoryscada/services/scada-backend/config/missions-parallelized-configuration.yml --configuration.path=../../REN_Setups/REN_1S1V_1C1V_1H1M_02/config/server/factoryscada/services/scada-backend/config/configuration.yml'
 ```
 
 #### useful commands:
