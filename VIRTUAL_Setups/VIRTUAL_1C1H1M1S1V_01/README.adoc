@@ -65,3 +65,13 @@ cd ../../factoryscada/backend
 ----
 
 
+
+=== Note about machines speed
+
+For calibrating  the simulatedMachines speed with respect to the cycle step time, the following where used as reference:
+
+- Cycle step set to 0.1s
+- VGR: process 1000 (horizontal, vertical or rotation ) in about 3 seconds : increment of 33 per cycle step
+- CB: count about 20 steps in about 3 seconds : increment of 1 per cycle step
+
+

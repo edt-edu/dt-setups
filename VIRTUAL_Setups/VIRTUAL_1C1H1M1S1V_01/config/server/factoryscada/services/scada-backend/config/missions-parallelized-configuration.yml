@@ -73,7 +73,7 @@ FactoryMissionsParallelized:
                       {
                           "passableType": "NUMBERNATURAL",
                           "passable": {
-                              "number": 5
+                              "number": 20
                           }
                       },
                       {

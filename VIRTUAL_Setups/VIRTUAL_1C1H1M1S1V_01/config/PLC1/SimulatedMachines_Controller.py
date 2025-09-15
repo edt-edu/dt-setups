@@ -65,7 +65,7 @@ class SimulatedMiniFactoryController(RevPiPyMachineController):
         self.conveyorBeltSimulator = ConveyorBeltSimpleSimulator(self.conveyorBeltMachine)
         """Simulator for the Conveyor Belt"""
 
-        self.vaccumGripperSimulator = VacuumGripperSimpleSimulator(controlledVacuumGripper = self.vacuumGripperMachine, encoderIncrement= 5)
+        self.vaccumGripperSimulator = VacuumGripperSimpleSimulator(controlledVacuumGripper = self.vacuumGripperMachine, encoderIncrement= 33)
         """Simulator for the Vacuum Gripper"""
 
         self.multiProcessingSimulator = MultiProcessingSimpleSimulator(self.multiProcessingMachine)
