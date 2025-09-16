@@ -1,4 +1,4 @@
-This folder contains a virtual setup  for a mini factory composed of a Sorting Line and a Vacuum Gripper Robot (VGR).
+This folder contains a virtual setup  for a mini factory composed of a Converyor Belt, a Sorting Line, a MultiProcessingMachine, a HighBayWarehouse, and a Vacuum Gripper Robot (VGR).
 
 This allows testing the controller, SCADA Digital Twin tooling without access to the physical Fishertechnik machines.
 
