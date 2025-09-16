@@ -1,0 +1,223 @@
+FactoryMissionsParallelized:
+  name: "Factory missions parallelized"
+  missions:
+    - name: "VGR setup and CB moving"
+      description: >
+        Setup the vacuum gripper and forward the conveyor belt a few step
+      nodes:
+        - type: entryNode
+          id: "Start"
+          description: >
+              The entry node
+          outputs: 
+            - Fork1
+
+        - type: fork
+          id: "Fork1"
+          description: >
+            The first Fork
+          outputs:
+            - ActionNode1
+            - WaitAction
+
+        - type: rawMachineCommand
+          id: "ActionNode1"
+          description: >
+            Setup the VG1
+          placeholder: >
+            {
+              "topicName": "VacuumGripper01",
+              "timestamp": 1751547231773,
+              "message": 
+                {
+                  "jsonType": "COMMAND",
+                  "type": "VACUUM",
+                  "outputId": "AUTO_ID",
+                  "name": "SETUP",
+                  "parameters": []
+                }
+            }
+          outputs:
+            - Join1
+
+        - type: waitAction
+          id: "WaitAction"
+          description: >
+            Wait for 10s
+          time: 10
+          outputs:
+            - Join1
+
+        - type: join
+          id: "Join1"
+          description: >
+            The last join
+          outputs:
+            - ActionNode3
+        
+        - type: rawMachineCommand
+          id: "ActionNode3"
+          description: >
+            Move back the CB
+          placeholder: >
+            {
+              "topicName": "ConveyorBelt01",
+              "timestamp": 1751547508462,
+              "message": 
+                {
+                  "jsonType": "COMMAND",
+                  "type": "CONVEYOR",
+                  "outputId": "AUTO_ID",
+                  "name": "MOVE_NB_STEPS",
+                  "parameters": [
+                      {
+                          "passableType": "NUMBERNATURAL",
+                          "passable": {
+                              "number": 20
+                          }
+                      },
+                      {
+                          "passableType": "DIRECTION",
+                          "passable": {
+                              "direction": "BACKWARD"
+                          }
+                      }
+                  ]
+                }
+            }
+          outputs: []
+
+
+    - name: "Move payload using VGR and back wit CB"
+      description: >
+        Mission involving VacuumGripper01 and ConveyorBelt01.
+        The VGR picks a token on the left side of the Conveyor and places it on the right side of the Conveyor.
+        Then the conveyor moves back the token to its left side while the VGR is returning to setup position 
+      nodes:
+        - type: entryNode
+          id: "Start"
+          description: >
+              Start of the mission
+          outputs: 
+            - Pick_with_VGR
+
+        - type: rawMachineCommand
+          id: "Pick_with_VGR"
+          description: >
+            VGR picks payload on left side of CB
+          placeholder: >
+            {
+              "topicName": "VacuumGripper01",
+              "timestamp": 0,
+              "message": {
+                "jsonType": "COMMAND",
+                "type": "VACUUM",
+                "outputId": "AUTO_ID",
+                "name": "PICK",
+                "parameters": [
+                  {
+                    "passableType": "POSITIONPARAMETERTHREED",
+                    "passable": {
+                      "meaning": "START",
+                      "vertical": 1450,
+                      "horizontal": 1480,
+                      "rot": 1920
+                    }
+                  }
+                ]
+              }
+            }
+          outputs: 
+            - Place_with_VGR
+        - type: rawMachineCommand
+          id: "Place_with_VGR"
+          description: >
+            VGR places payload on right side of CB
+          placeholder: >
+            {
+              "topicName": "VacuumGripper01",
+              "timestamp": 0,
+              "message": {
+                "jsonType": "COMMAND",
+                "type": "VACUUM",
+                "outputId": "AUTO_ID",
+                "name": "PLACE",
+                "parameters": [
+                  {
+                    "passableType": "POSITIONPARAMETERTHREED",
+                    "passable": {
+                      "meaning": "START",
+                      "vertical": 1450,
+                      "horizontal": 1820,
+                      "rot": 1530
+                    }
+                  }
+                ]
+              }
+            }
+          outputs:
+            - CB_VGR_Fork_1
+        - type: fork
+          id: "CB_VGR_Fork_1"
+          description: >
+            Parralel execution of moving the CB and returning the VGR to pick position
+          outputs:
+            - Move_left_with_CB
+            - Move_VGR_to_setup_position          
+        - type: rawMachineCommand
+          id: "Move_left_with_CB"
+          description: >
+            Move left the payload using CB
+          placeholder: >
+            {
+              "topicName": "ConveyorBelt01",
+              "timestamp": 0,
+              "message": 
+                {
+                  "jsonType": "COMMAND",
+                  "type": "CONVEYOR",
+                  "outputId": "AUTO_ID",
+                  "name": "MOVE_NB_STEPS",
+                  "parameters": [
+                      {
+                          "passableType": "NUMBERNATURAL",
+                          "passable": {
+                              "number": 20
+                          }
+                      },
+                      {
+                          "passableType": "DIRECTION",
+                          "passable": {
+                              "direction": "BACKWARD"
+                          }
+                      }
+                  ]
+                }
+            }
+          outputs: 
+            - CB_VGR_Join_1    
+        - type: rawMachineCommand
+          id: "Move_VGR_to_setup_position"
+          description: >
+            Move VGR back to setup position
+          placeholder: >
+            {
+              "topicName": "VacuumGripper01",
+              "timestamp": 0,
+              "message": 
+                {
+                  "jsonType": "COMMAND",
+                  "type": "VACUUM",
+                  "outputId": "AUTO_ID",
+                  "name": "SETUP",
+                  "parameters": []
+                }
+            }
+          outputs: 
+            - CB_VGR_Join_1
+        - type: join
+          id: "CB_VGR_Join_1"
+          description: >
+            End of the mission
+          outputs: []
+        

@@ -1,0 +1,27 @@
+
+# Virtual Setups
+
+This folder contain setups that do not requires the physical FischerTechnik machines, but stil can be used to mimic the physical FischerTechnik in order to test locally other parts of our software: controller, SCADA and digital twin tooling...
+
+## Folder organisation of the Setups
+
+
+Each setup use the following naming schema: 
+
+`VIRTUAL_((%d[C|H|I|M|P|S|V])\*_)*%d`
+
+where:
+
+- each group separated by '_' represents the machine counts connected to a PLC
+- C,H,I,M,P,S,V represents **C**onvervor Belt, **H**igh bay warehouse, **I**ndexed Line, **M**ulti Processing Station, **P**unching Machine, **S**orting Line with Color, **V**acuum Gripper Robot
+- the last number allows to identify a precise variant using the machines/PLC (ie. be able to handle different scenarios or configurations)
+
+ex: VIRTUAL_1S1V_1C1V_1H1M_01, is the first setup variant based on 1 Sorting Line and 1 Vacuum Gripper on the first PLC, 1 Conveyor belt and 1 Vacuum Gripper on the second PLC, and 1 High Bay Warehouse and 1 Multi Processing Station on the third PLC. 
+
+NOTE: This setup supposes to run 3 rppmcontrolers locally using different ports
+
+Each setup contains:
+
+* VirtualMachinePLC python configuration code
+* scada configuration files (connection, and optionnaly missions)
+* readme with easy to copy command line instructions
