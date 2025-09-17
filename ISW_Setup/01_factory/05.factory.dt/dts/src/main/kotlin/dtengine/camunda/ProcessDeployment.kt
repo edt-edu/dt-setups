@@ -75,7 +75,7 @@ class ProcessDeployment (private val processEngine: ProcessEngine) {
         return processKeys
     }
 
-    fun redeploy(fileName: String): String {
+    fun redeploy(fileName: String){
         thread(name = "RedeployThread") {
             try {
                 val processDefinitionKey = extractProcessDefinitionKeyFromFile(fileName)
@@ -89,7 +89,6 @@ class ProcessDeployment (private val processEngine: ProcessEngine) {
                 logger.error("Redeployment failed for $fileName: ${e.message}", e)
             }
         }
-        return "";
     }
 
     private fun extractProcessDefinitionKeyFromFile(fileName: String): String {
