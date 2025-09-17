@@ -1,0 +1,86 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+           targetNamespace="http://isw.unistuttgart.de/dts/services" 
+           elementFormDefault="qualified"
+           xmlns:tns="http://isw.unistuttgart.de/dts/services"
+           >
+
+
+    <xs:complexType name="t_request">
+            <xs:sequence>
+            <xs:element name="endpoint">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="path" type="xs:string"/>
+                            <xs:element name="method">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:enumeration value="GET"/>
+                                        <xs:enumeration value="POST"/>
+                                        <xs:enumeration value="PUT"/>
+                                        <xs:enumeration value="DELETE"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="headers">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="header" minOccurs="0" maxOccurs="unbounded">
+                                <!-- simple type with string as value and an attribute type -->
+                                <xs:complexType>
+                                    <xs:simpleContent>
+                                        <xs:extension base="xs:string">
+                                            <xs:attribute name="type" type="xs:string"/>
+                                        </xs:extension>
+                                    </xs:simpleContent>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="body">
+                    <!-- list of values -->
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="attribute" minOccurs="0" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:simpleContent>
+                                        <xs:extension base="xs:string">
+                                            <xs:attribute name="type" type="xs:string"/>
+                                        </xs:extension>
+                                    </xs:simpleContent>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+
+
+        <xs:complexType name="tServiceRequest">
+            <xs:sequence>                           
+                <xs:element name="replyTo">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="queueName" type="xs:string"/>
+                            <xs:element name="exchangeName" type="xs:string"/>
+                            <xs:element name="routingKey" type="xs:string"/>
+                            <!-- the id defined in the service context, to prevent to send credentials via a broker -->
+                            <xs:element name="brokerID" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="correlationID" type="xs:string"/>
+                <xs:element name="serviceID" type="xs:string"/>
+                <!-- request-->
+                <xs:element name="request" type="tns:t_request"/>
+                
+            </xs:sequence>
+        </xs:complexType>
+    
+    <xs:element name="serviceRequest" type="tns:tServiceRequest">
+    </xs:element>
+</xs:schema>

@@ -1,0 +1,87 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.3.5'
+	id 'io.spring.dependency-management' version '1.1.6'
+}
+
+group = 'de.uni-stuttgart.isw'
+version = '0.0.1-SNAPSHOT'
+
+def guava_version = '33.1.0-jre'
+def junit_version = '5.10.3'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+
+sourceSets {
+	main {				
+		resources {
+			srcDirs = ['src/main/resources']
+		}
+	}
+
+	test {
+		resources {			 
+			 srcDirs = ['src/test/resources', 'src/main/resources'] 
+		}
+	}
+}
+
+
+
+repositories {
+  mavenCentral()
+  maven {
+    url repo
+  }
+  maven {
+		url = uri('../../v1/build/repo') // Point to the library's local Maven repo
+  }
+}
+
+
+dependencies {	 
+	implementation 'org.springframework.boot:spring-boot-starter-amqp'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.amqp:spring-rabbit-test'
+	implementation 'de.uni-stuttgart.isw:dtservices:0.0.1-SNAPSHOT'
+
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+
+
+tasks.register("generateServiceExport") {	
+	doLast {		
+		 // Set the classpath to include compiled Java classes
+        def classLoader = new URLClassLoader(
+            sourceSets.main.runtimeClasspath.files.collect { it.toURI().toURL() } as URL[],
+            this.class.classLoader
+        )
+		// Load and invoke the method
+		def mainClass = classLoader.loadClass("de.unistuttgart.isw.annotations.ExportGenerator")
+		def instance = mainClass.getDeclaredConstructor().newInstance()
+		def method = mainClass.getMethod("generateServiceExport", String.class, String.class)
+		// output directory is base dir + "typeDef"
+		def outputDir = new File("${project.projectDir}/typeDef")
+		if (!outputDir.exists()) {
+			outputDir.mkdirs()
+		}
+		def outputDirPath = outputDir.getAbsolutePath()
+		// Set the output directory
+		method.invoke(instance, "de.unistuttgart.isw", outputDirPath)
+	}	
+}
+
+tasks.named("generateServiceExport") {
+	dependsOn("compileJava")
+}
+

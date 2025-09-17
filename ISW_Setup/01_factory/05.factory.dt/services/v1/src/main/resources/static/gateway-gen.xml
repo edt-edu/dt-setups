@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><gatewayRequest xmlns="http://isw.unistuttgart.de/dts/gateway"><replyTo><target><rabbitmq><queueName>value</queueName><brokerID>value</brokerID></rabbitmq></target><correlationID>value</correlationID></replyTo><request><endpoint><path>test/path</path><method>POST</method></endpoint><body/></request></gatewayRequest>

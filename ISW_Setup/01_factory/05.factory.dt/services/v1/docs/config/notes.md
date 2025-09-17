@@ -1,0 +1,2 @@
+- Anforderungen an Model
+- Generierung von OpenAPI für Modelle und Services

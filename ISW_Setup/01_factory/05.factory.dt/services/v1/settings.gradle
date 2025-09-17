@@ -1,0 +1,14 @@
+pluginManagement {
+  repositories {
+    if(("true").equals(getProperty('useLocalRepo'))){
+      mavenLocal()
+    }
+    maven {
+      url repo
+    }
+    gradlePluginPortal()
+  }
+}
+
+rootProject.name = 'dtservices'
+

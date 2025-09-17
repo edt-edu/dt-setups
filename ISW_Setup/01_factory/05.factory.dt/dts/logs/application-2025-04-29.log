@@ -1,0 +1,702 @@
+2025-04-01 21:03:29 [main] INFO  org.camunda.feel.FeelEngine - Engine created. [value-mapper: CompositeValueMapper(List(org.camunda.feel.impl.JavaValueMapper@758f4f03)), function-provider: org.camunda.bpm.dmn.feel.impl.scala.function.CustomFunctionTransformer@cc6460c, clock: SystemClock, configuration: {externalFunctionsEnabled: false}]
+2025-04-01 21:03:30 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'engine' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.engine.sql'
+2025-04-01 21:03:30 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'history' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.history.sql'
+2025-04-01 21:03:30 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'identity' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.identity.sql'
+2025-04-01 21:03:30 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'case.engine' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.case.engine.sql'
+2025-04-01 21:03:30 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'case.history' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.case.history.sql'
+2025-04-01 21:03:30 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'decision.engine' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.decision.engine.sql'
+2025-04-01 21:03:30 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'decision.history' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.decision.history.sql'
+2025-04-01 21:03:30 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03067 No history level property found in database
+2025-04-01 21:03:31 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03065 Creating historyLevel property in database for level: HistoryLevelFull(name=full, id=3)
+2025-04-01 21:03:31 [main] INFO  org.camunda.bpm.engine - ENGINE-00001 Process Engine default created.
+2025-04-01 21:03:31 [main] INFO  org.camunda.bpm.engine.jobexecutor - ENGINE-14014 Starting up the JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor].
+2025-04-01 21:03:31 [JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor]] INFO  org.camunda.bpm.engine.jobexecutor - ENGINE-14018 JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor] starting to acquire jobs
+2025-04-01 21:03:31 [main] INFO  org.camunda.feel.FeelEngine - Engine created. [value-mapper: CompositeValueMapper(List(org.camunda.feel.impl.JavaValueMapper@9c93d16)), function-provider: org.camunda.bpm.dmn.feel.impl.scala.function.CustomFunctionTransformer@760487aa, clock: SystemClock, configuration: {externalFunctionsEnabled: false}]
+2025-04-01 21:03:31 [main] INFO  org.camunda.bpm.engine - ENGINE-00001 Process Engine default created.
+2025-04-01 21:03:31 [main] INFO  org.camunda.bpm.engine.jobexecutor - ENGINE-14014 Starting up the JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor].
+2025-04-01 21:03:31 [JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor]] INFO  org.camunda.bpm.engine.jobexecutor - ENGINE-14018 JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor] starting to acquire jobs
+2025-04-01 21:03:31 [Thread-3] ERROR org.camunda.bpm.engine.context - ENGINE-16004 Exception while closing command context: ENGINE-09008 Exception while instantiating class 'dts.dtengine.camunda.CamundaProcessTrackingListener': ENGINE-09017 Cannot load class 'dts.dtengine.camunda.CamundaProcessTrackingListener': dts.dtengine.camunda.CamundaProcessTrackingListener
+org.camunda.bpm.engine.ProcessEngineException: ENGINE-09008 Exception while instantiating class 'dts.dtengine.camunda.CamundaProcessTrackingListener': ENGINE-09017 Cannot load class 'dts.dtengine.camunda.CamundaProcessTrackingListener': dts.dtengine.camunda.CamundaProcessTrackingListener
+	at org.camunda.bpm.engine.impl.util.EngineUtilLogger.exceptionWhileInstantiatingClass(EngineUtilLogger.java:88)
+	at org.camunda.bpm.engine.impl.util.ClassDelegateUtil.instantiateDelegate(ClassDelegateUtil.java:54)
+	at org.camunda.bpm.engine.impl.bpmn.listener.ClassDelegateExecutionListener.getExecutionListenerInstance(ClassDelegateExecutionListener.java:60)
+	at org.camunda.bpm.engine.impl.bpmn.listener.ClassDelegateExecutionListener.notify(ClassDelegateExecutionListener.java:52)
+	at org.camunda.bpm.engine.impl.bpmn.listener.ClassDelegateExecutionListener.notify(ClassDelegateExecutionListener.java:38)
+	at org.camunda.bpm.engine.impl.core.instance.CoreExecution.invokeListener(CoreExecution.java:101)
+	at org.camunda.bpm.engine.impl.core.operation.AbstractEventAtomicOperation.execute(AbstractEventAtomicOperation.java:59)
+	at org.camunda.bpm.engine.impl.interceptor.AtomicOperationInvocation.execute(AtomicOperationInvocation.java:99)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.invokeNext(CommandInvocationContext.java:141)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performNext(CommandInvocationContext.java:128)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:96)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:627)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:601)
+	at org.camunda.bpm.engine.impl.pvm.runtime.PvmExecutionImpl.start(PvmExecutionImpl.java:294)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.start(ExecutionEntity.java:454)
+	at org.camunda.bpm.engine.impl.pvm.runtime.PvmExecutionImpl.start(PvmExecutionImpl.java:271)
+	at org.camunda.bpm.engine.impl.cmd.StartProcessInstanceCmd.execute(StartProcessInstanceCmd.java:66)
+	at org.camunda.bpm.engine.impl.cmd.StartProcessInstanceCmd.execute(StartProcessInstanceCmd.java:38)
+	at org.camunda.bpm.engine.impl.interceptor.CommandExecutorImpl.execute(CommandExecutorImpl.java:28)
+	at org.camunda.bpm.engine.impl.interceptor.CommandContextInterceptor.execute(CommandContextInterceptor.java:111)
+	at org.camunda.bpm.engine.impl.interceptor.ProcessApplicationContextInterceptor.execute(ProcessApplicationContextInterceptor.java:70)
+	at org.camunda.bpm.engine.impl.interceptor.CommandCounterInterceptor.execute(CommandCounterInterceptor.java:34)
+	at org.camunda.bpm.engine.impl.interceptor.LogInterceptor.execute(LogInterceptor.java:33)
+	at org.camunda.bpm.engine.impl.interceptor.ExceptionCodeInterceptor.execute(ExceptionCodeInterceptor.java:55)
+	at org.camunda.bpm.engine.impl.ProcessInstantiationBuilderImpl.executeWithVariablesInReturn(ProcessInstantiationBuilderImpl.java:168)
+	at org.camunda.bpm.engine.impl.ProcessInstantiationBuilderImpl.execute(ProcessInstantiationBuilderImpl.java:134)
+	at org.camunda.bpm.engine.impl.ProcessInstantiationBuilderImpl.execute(ProcessInstantiationBuilderImpl.java:130)
+	at org.camunda.bpm.engine.impl.RuntimeServiceImpl.startProcessInstanceByKey(RuntimeServiceImpl.java:88)
+	at dts.dtengine.camunda.ProcessRunner.startMultipleProcessInstances(ProcessRunner.kt:32)
+	at dts.dtsystem.workflowcontroller.implementations.bpmn.BPMNWorkflowController.execute(BPMNWorkflowController.kt:89)
+	at dts.dtsystem.workflowcontroller.implementations.bpmn.BPMNWorkflowController.thread$lambda$0(BPMNWorkflowController.kt:27)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: org.camunda.bpm.engine.ClassLoadingException: ENGINE-09017 Cannot load class 'dts.dtengine.camunda.CamundaProcessTrackingListener': dts.dtengine.camunda.CamundaProcessTrackingListener
+	at org.camunda.bpm.engine.impl.util.EngineUtilLogger.classLoadingException(EngineUtilLogger.java:145)
+	at org.camunda.bpm.engine.impl.util.ReflectUtil.loadClass(ReflectUtil.java:111)
+	at org.camunda.bpm.engine.impl.util.ClassDelegateUtil.instantiateDelegate(ClassDelegateUtil.java:46)
+	... 30 common frames omitted
+Caused by: java.lang.ClassNotFoundException: dts.dtengine.camunda.CamundaProcessTrackingListener
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641)
+	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:526)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:534)
+	at java.base/java.lang.Class.forName(Class.java:513)
+	at org.camunda.bpm.engine.impl.util.ReflectUtil.loadClass(ReflectUtil.java:88)
+	... 31 common frames omitted
+2025-04-01 21:04:11 [main] INFO  org.camunda.feel.FeelEngine - Engine created. [value-mapper: CompositeValueMapper(List(org.camunda.feel.impl.JavaValueMapper@b5cc23a)), function-provider: org.camunda.bpm.dmn.feel.impl.scala.function.CustomFunctionTransformer@226f885f, clock: SystemClock, configuration: {externalFunctionsEnabled: false}]
+2025-04-01 21:04:12 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'engine' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.engine.sql'
+2025-04-01 21:04:12 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'history' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.history.sql'
+2025-04-01 21:04:12 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'identity' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.identity.sql'
+2025-04-01 21:04:12 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'case.engine' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.case.engine.sql'
+2025-04-01 21:04:12 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'case.history' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.case.history.sql'
+2025-04-01 21:04:12 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'decision.engine' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.decision.engine.sql'
+2025-04-01 21:04:12 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'decision.history' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.decision.history.sql'
+2025-04-01 21:04:12 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03067 No history level property found in database
+2025-04-01 21:04:12 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03065 Creating historyLevel property in database for level: HistoryLevelFull(name=full, id=3)
+2025-04-01 21:04:12 [main] INFO  org.camunda.bpm.engine - ENGINE-00001 Process Engine default created.
+2025-04-01 21:04:12 [main] INFO  org.camunda.bpm.engine.jobexecutor - ENGINE-14014 Starting up the JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor].
+2025-04-01 21:04:12 [JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor]] INFO  org.camunda.bpm.engine.jobexecutor - ENGINE-14018 JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor] starting to acquire jobs
+2025-04-01 21:04:12 [main] INFO  org.camunda.feel.FeelEngine - Engine created. [value-mapper: CompositeValueMapper(List(org.camunda.feel.impl.JavaValueMapper@287ae90c)), function-provider: org.camunda.bpm.dmn.feel.impl.scala.function.CustomFunctionTransformer@2e1b374c, clock: SystemClock, configuration: {externalFunctionsEnabled: false}]
+2025-04-01 21:04:13 [main] INFO  org.camunda.bpm.engine - ENGINE-00001 Process Engine default created.
+2025-04-01 21:04:13 [main] INFO  org.camunda.bpm.engine.jobexecutor - ENGINE-14014 Starting up the JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor].
+2025-04-01 21:04:13 [JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor]] INFO  org.camunda.bpm.engine.jobexecutor - ENGINE-14018 JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor] starting to acquire jobs
+2025-04-01 21:04:13 [Thread-3] ERROR org.camunda.bpm.engine.context - ENGINE-16004 Exception while closing command context: ENGINE-09008 Exception while instantiating class 'dts.dtengine.camunda.CamundaProcessTrackingListener': ENGINE-09017 Cannot load class 'dts.dtengine.camunda.CamundaProcessTrackingListener': dts.dtengine.camunda.CamundaProcessTrackingListener
+org.camunda.bpm.engine.ProcessEngineException: ENGINE-09008 Exception while instantiating class 'dts.dtengine.camunda.CamundaProcessTrackingListener': ENGINE-09017 Cannot load class 'dts.dtengine.camunda.CamundaProcessTrackingListener': dts.dtengine.camunda.CamundaProcessTrackingListener
+	at org.camunda.bpm.engine.impl.util.EngineUtilLogger.exceptionWhileInstantiatingClass(EngineUtilLogger.java:88)
+	at org.camunda.bpm.engine.impl.util.ClassDelegateUtil.instantiateDelegate(ClassDelegateUtil.java:54)
+	at org.camunda.bpm.engine.impl.bpmn.listener.ClassDelegateExecutionListener.getExecutionListenerInstance(ClassDelegateExecutionListener.java:60)
+	at org.camunda.bpm.engine.impl.bpmn.listener.ClassDelegateExecutionListener.notify(ClassDelegateExecutionListener.java:52)
+	at org.camunda.bpm.engine.impl.bpmn.listener.ClassDelegateExecutionListener.notify(ClassDelegateExecutionListener.java:38)
+	at org.camunda.bpm.engine.impl.core.instance.CoreExecution.invokeListener(CoreExecution.java:101)
+	at org.camunda.bpm.engine.impl.core.operation.AbstractEventAtomicOperation.execute(AbstractEventAtomicOperation.java:59)
+	at org.camunda.bpm.engine.impl.interceptor.AtomicOperationInvocation.execute(AtomicOperationInvocation.java:99)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.invokeNext(CommandInvocationContext.java:141)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performNext(CommandInvocationContext.java:128)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:96)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:627)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:601)
+	at org.camunda.bpm.engine.impl.pvm.runtime.PvmExecutionImpl.start(PvmExecutionImpl.java:294)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.start(ExecutionEntity.java:454)
+	at org.camunda.bpm.engine.impl.pvm.runtime.PvmExecutionImpl.start(PvmExecutionImpl.java:271)
+	at org.camunda.bpm.engine.impl.cmd.StartProcessInstanceCmd.execute(StartProcessInstanceCmd.java:66)
+	at org.camunda.bpm.engine.impl.cmd.StartProcessInstanceCmd.execute(StartProcessInstanceCmd.java:38)
+	at org.camunda.bpm.engine.impl.interceptor.CommandExecutorImpl.execute(CommandExecutorImpl.java:28)
+	at org.camunda.bpm.engine.impl.interceptor.CommandContextInterceptor.execute(CommandContextInterceptor.java:111)
+	at org.camunda.bpm.engine.impl.interceptor.ProcessApplicationContextInterceptor.execute(ProcessApplicationContextInterceptor.java:70)
+	at org.camunda.bpm.engine.impl.interceptor.CommandCounterInterceptor.execute(CommandCounterInterceptor.java:34)
+	at org.camunda.bpm.engine.impl.interceptor.LogInterceptor.execute(LogInterceptor.java:33)
+	at org.camunda.bpm.engine.impl.interceptor.ExceptionCodeInterceptor.execute(ExceptionCodeInterceptor.java:55)
+	at org.camunda.bpm.engine.impl.ProcessInstantiationBuilderImpl.executeWithVariablesInReturn(ProcessInstantiationBuilderImpl.java:168)
+	at org.camunda.bpm.engine.impl.ProcessInstantiationBuilderImpl.execute(ProcessInstantiationBuilderImpl.java:134)
+	at org.camunda.bpm.engine.impl.ProcessInstantiationBuilderImpl.execute(ProcessInstantiationBuilderImpl.java:130)
+	at org.camunda.bpm.engine.impl.RuntimeServiceImpl.startProcessInstanceByKey(RuntimeServiceImpl.java:88)
+	at dts.dtengine.camunda.ProcessRunner.startMultipleProcessInstances(ProcessRunner.kt:32)
+	at dts.dtsystem.workflowcontroller.implementations.bpmn.BPMNWorkflowController.execute(BPMNWorkflowController.kt:89)
+	at dts.dtsystem.workflowcontroller.implementations.bpmn.BPMNWorkflowController.thread$lambda$0(BPMNWorkflowController.kt:27)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: org.camunda.bpm.engine.ClassLoadingException: ENGINE-09017 Cannot load class 'dts.dtengine.camunda.CamundaProcessTrackingListener': dts.dtengine.camunda.CamundaProcessTrackingListener
+	at org.camunda.bpm.engine.impl.util.EngineUtilLogger.classLoadingException(EngineUtilLogger.java:145)
+	at org.camunda.bpm.engine.impl.util.ReflectUtil.loadClass(ReflectUtil.java:111)
+	at org.camunda.bpm.engine.impl.util.ClassDelegateUtil.instantiateDelegate(ClassDelegateUtil.java:46)
+	... 30 common frames omitted
+Caused by: java.lang.ClassNotFoundException: dts.dtengine.camunda.CamundaProcessTrackingListener
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641)
+	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:526)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:534)
+	at java.base/java.lang.Class.forName(Class.java:513)
+	at org.camunda.bpm.engine.impl.util.ReflectUtil.loadClass(ReflectUtil.java:88)
+	... 31 common frames omitted
+2025-04-01 21:05:16 [Thread-5] INFO  d.d.w.i.bpmn.BPMNWorkflowController - BPMN file changed: test.bpmn. Redeploying process...
+2025-04-01 21:05:16 [Thread-5] ERROR org.camunda.bpm.engine.context - ENGINE-16004 Exception while closing command context: ENGINE-09008 Exception while instantiating class 'dts.dtengine.camunda.CamundaProcessTrackingListener': ENGINE-09017 Cannot load class 'dts.dtengine.camunda.CamundaProcessTrackingListener': dts.dtengine.camunda.CamundaProcessTrackingListener
+org.camunda.bpm.engine.ProcessEngineException: ENGINE-09008 Exception while instantiating class 'dts.dtengine.camunda.CamundaProcessTrackingListener': ENGINE-09017 Cannot load class 'dts.dtengine.camunda.CamundaProcessTrackingListener': dts.dtengine.camunda.CamundaProcessTrackingListener
+	at org.camunda.bpm.engine.impl.util.EngineUtilLogger.exceptionWhileInstantiatingClass(EngineUtilLogger.java:88)
+	at org.camunda.bpm.engine.impl.util.ClassDelegateUtil.instantiateDelegate(ClassDelegateUtil.java:54)
+	at org.camunda.bpm.engine.impl.bpmn.listener.ClassDelegateExecutionListener.getExecutionListenerInstance(ClassDelegateExecutionListener.java:60)
+	at org.camunda.bpm.engine.impl.bpmn.listener.ClassDelegateExecutionListener.notify(ClassDelegateExecutionListener.java:52)
+	at org.camunda.bpm.engine.impl.bpmn.listener.ClassDelegateExecutionListener.notify(ClassDelegateExecutionListener.java:38)
+	at org.camunda.bpm.engine.impl.core.instance.CoreExecution.invokeListener(CoreExecution.java:101)
+	at org.camunda.bpm.engine.impl.core.operation.AbstractEventAtomicOperation.execute(AbstractEventAtomicOperation.java:59)
+	at org.camunda.bpm.engine.impl.interceptor.AtomicOperationInvocation.execute(AtomicOperationInvocation.java:99)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.invokeNext(CommandInvocationContext.java:141)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performNext(CommandInvocationContext.java:121)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:96)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:86)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperationSync(ExecutionEntity.java:636)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperationSync(ExecutionEntity.java:611)
+	at org.camunda.bpm.engine.impl.core.operation.AbstractEventAtomicOperation.execute(AbstractEventAtomicOperation.java:66)
+	at org.camunda.bpm.engine.impl.interceptor.AtomicOperationInvocation.execute(AtomicOperationInvocation.java:99)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.invokeNext(CommandInvocationContext.java:141)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performNext(CommandInvocationContext.java:121)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:96)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:627)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:601)
+	at org.camunda.bpm.engine.impl.pvm.runtime.operation.PvmAtomicOperationActivityStartCreateScope.scopeCreated(PvmAtomicOperationActivityStartCreateScope.java:43)
+	at org.camunda.bpm.engine.impl.pvm.runtime.operation.PvmAtomicOperationCreateScope.execute(PvmAtomicOperationCreateScope.java:53)
+	at org.camunda.bpm.engine.impl.pvm.runtime.operation.PvmAtomicOperationCreateScope.execute(PvmAtomicOperationCreateScope.java:27)
+	at org.camunda.bpm.engine.impl.interceptor.AtomicOperationInvocation.execute(AtomicOperationInvocation.java:99)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.invokeNext(CommandInvocationContext.java:141)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performNext(CommandInvocationContext.java:128)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:96)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:627)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:601)
+	at org.camunda.bpm.engine.impl.pvm.runtime.PvmExecutionImpl.start(PvmExecutionImpl.java:294)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.start(ExecutionEntity.java:454)
+	at org.camunda.bpm.engine.impl.pvm.runtime.PvmExecutionImpl.start(PvmExecutionImpl.java:271)
+	at org.camunda.bpm.engine.impl.cmd.StartProcessInstanceCmd.execute(StartProcessInstanceCmd.java:66)
+	at org.camunda.bpm.engine.impl.cmd.StartProcessInstanceCmd.execute(StartProcessInstanceCmd.java:38)
+	at org.camunda.bpm.engine.impl.interceptor.CommandExecutorImpl.execute(CommandExecutorImpl.java:28)
+	at org.camunda.bpm.engine.impl.interceptor.CommandContextInterceptor.execute(CommandContextInterceptor.java:111)
+	at org.camunda.bpm.engine.impl.interceptor.ProcessApplicationContextInterceptor.execute(ProcessApplicationContextInterceptor.java:70)
+	at org.camunda.bpm.engine.impl.interceptor.CommandCounterInterceptor.execute(CommandCounterInterceptor.java:34)
+	at org.camunda.bpm.engine.impl.interceptor.LogInterceptor.execute(LogInterceptor.java:33)
+	at org.camunda.bpm.engine.impl.interceptor.ExceptionCodeInterceptor.execute(ExceptionCodeInterceptor.java:55)
+	at org.camunda.bpm.engine.impl.ProcessInstantiationBuilderImpl.executeWithVariablesInReturn(ProcessInstantiationBuilderImpl.java:168)
+	at org.camunda.bpm.engine.impl.ProcessInstantiationBuilderImpl.execute(ProcessInstantiationBuilderImpl.java:134)
+	at org.camunda.bpm.engine.impl.ProcessInstantiationBuilderImpl.execute(ProcessInstantiationBuilderImpl.java:130)
+	at org.camunda.bpm.engine.impl.RuntimeServiceImpl.startProcessInstanceByKey(RuntimeServiceImpl.java:88)
+	at dts.dtengine.camunda.ProcessRunner.startMultipleProcessInstances(ProcessRunner.kt:32)
+	at dts.dtsystem.workflowcontroller.implementations.bpmn.BPMNWorkflowController.redeployProcesses(BPMNWorkflowController.kt:74)
+	at dts.dtsystem.workflowcontroller.implementations.bpmn.BPMNWorkflowController.startFileWatcher$lambda$1(BPMNWorkflowController.kt:64)
+	at kotlin.concurrent.ThreadsKt$thread$thread$1.run(Thread.kt:30)
+Caused by: org.camunda.bpm.engine.ClassLoadingException: ENGINE-09017 Cannot load class 'dts.dtengine.camunda.CamundaProcessTrackingListener': dts.dtengine.camunda.CamundaProcessTrackingListener
+	at org.camunda.bpm.engine.impl.util.EngineUtilLogger.classLoadingException(EngineUtilLogger.java:145)
+	at org.camunda.bpm.engine.impl.util.ReflectUtil.loadClass(ReflectUtil.java:111)
+	at org.camunda.bpm.engine.impl.util.ClassDelegateUtil.instantiateDelegate(ClassDelegateUtil.java:46)
+	... 47 common frames omitted
+Caused by: java.lang.ClassNotFoundException: dts.dtengine.camunda.CamundaProcessTrackingListener
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641)
+	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:526)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:534)
+	at java.base/java.lang.Class.forName(Class.java:513)
+	at org.camunda.bpm.engine.impl.util.ReflectUtil.loadClass(ReflectUtil.java:88)
+	... 48 common frames omitted
+2025-04-01 21:05:24 [main] INFO  org.camunda.feel.FeelEngine - Engine created. [value-mapper: CompositeValueMapper(List(org.camunda.feel.impl.JavaValueMapper@b5cc23a)), function-provider: org.camunda.bpm.dmn.feel.impl.scala.function.CustomFunctionTransformer@226f885f, clock: SystemClock, configuration: {externalFunctionsEnabled: false}]
+2025-04-01 21:05:25 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'engine' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.engine.sql'
+2025-04-01 21:05:25 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'history' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.history.sql'
+2025-04-01 21:05:25 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'identity' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.identity.sql'
+2025-04-01 21:05:25 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'case.engine' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.case.engine.sql'
+2025-04-01 21:05:25 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'case.history' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.case.history.sql'
+2025-04-01 21:05:25 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'decision.engine' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.decision.engine.sql'
+2025-04-01 21:05:25 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'decision.history' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.decision.history.sql'
+2025-04-01 21:05:25 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03067 No history level property found in database
+2025-04-01 21:05:25 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03065 Creating historyLevel property in database for level: HistoryLevelFull(name=full, id=3)
+2025-04-01 21:05:25 [main] INFO  org.camunda.bpm.engine - ENGINE-00001 Process Engine default created.
+2025-04-01 21:05:25 [main] INFO  org.camunda.bpm.engine.jobexecutor - ENGINE-14014 Starting up the JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor].
+2025-04-01 21:05:25 [JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor]] INFO  org.camunda.bpm.engine.jobexecutor - ENGINE-14018 JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor] starting to acquire jobs
+2025-04-01 21:05:25 [main] INFO  org.camunda.feel.FeelEngine - Engine created. [value-mapper: CompositeValueMapper(List(org.camunda.feel.impl.JavaValueMapper@287ae90c)), function-provider: org.camunda.bpm.dmn.feel.impl.scala.function.CustomFunctionTransformer@2e1b374c, clock: SystemClock, configuration: {externalFunctionsEnabled: false}]
+2025-04-01 21:05:26 [main] INFO  org.camunda.bpm.engine - ENGINE-00001 Process Engine default created.
+2025-04-01 21:05:26 [main] INFO  org.camunda.bpm.engine.jobexecutor - ENGINE-14014 Starting up the JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor].
+2025-04-01 21:05:26 [JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor]] INFO  org.camunda.bpm.engine.jobexecutor - ENGINE-14018 JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor] starting to acquire jobs
+2025-04-01 21:05:26 [Thread-3] ERROR org.camunda.bpm.engine.context - ENGINE-16004 Exception while closing command context: ENGINE-09008 Exception while instantiating class 'dts.dtengine.camunda.CamundaProcessTrackingListener': ENGINE-09017 Cannot load class 'dts.dtengine.camunda.CamundaProcessTrackingListener': dts.dtengine.camunda.CamundaProcessTrackingListener
+org.camunda.bpm.engine.ProcessEngineException: ENGINE-09008 Exception while instantiating class 'dts.dtengine.camunda.CamundaProcessTrackingListener': ENGINE-09017 Cannot load class 'dts.dtengine.camunda.CamundaProcessTrackingListener': dts.dtengine.camunda.CamundaProcessTrackingListener
+	at org.camunda.bpm.engine.impl.util.EngineUtilLogger.exceptionWhileInstantiatingClass(EngineUtilLogger.java:88)
+	at org.camunda.bpm.engine.impl.util.ClassDelegateUtil.instantiateDelegate(ClassDelegateUtil.java:54)
+	at org.camunda.bpm.engine.impl.bpmn.listener.ClassDelegateExecutionListener.getExecutionListenerInstance(ClassDelegateExecutionListener.java:60)
+	at org.camunda.bpm.engine.impl.bpmn.listener.ClassDelegateExecutionListener.notify(ClassDelegateExecutionListener.java:52)
+	at org.camunda.bpm.engine.impl.bpmn.listener.ClassDelegateExecutionListener.notify(ClassDelegateExecutionListener.java:38)
+	at org.camunda.bpm.engine.impl.core.instance.CoreExecution.invokeListener(CoreExecution.java:101)
+	at org.camunda.bpm.engine.impl.core.operation.AbstractEventAtomicOperation.execute(AbstractEventAtomicOperation.java:59)
+	at org.camunda.bpm.engine.impl.interceptor.AtomicOperationInvocation.execute(AtomicOperationInvocation.java:99)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.invokeNext(CommandInvocationContext.java:141)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performNext(CommandInvocationContext.java:121)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:96)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:86)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperationSync(ExecutionEntity.java:636)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperationSync(ExecutionEntity.java:611)
+	at org.camunda.bpm.engine.impl.core.operation.AbstractEventAtomicOperation.execute(AbstractEventAtomicOperation.java:66)
+	at org.camunda.bpm.engine.impl.interceptor.AtomicOperationInvocation.execute(AtomicOperationInvocation.java:99)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.invokeNext(CommandInvocationContext.java:141)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performNext(CommandInvocationContext.java:121)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:96)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:627)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:601)
+	at org.camunda.bpm.engine.impl.pvm.runtime.operation.PvmAtomicOperationActivityStartCreateScope.scopeCreated(PvmAtomicOperationActivityStartCreateScope.java:43)
+	at org.camunda.bpm.engine.impl.pvm.runtime.operation.PvmAtomicOperationCreateScope.execute(PvmAtomicOperationCreateScope.java:53)
+	at org.camunda.bpm.engine.impl.pvm.runtime.operation.PvmAtomicOperationCreateScope.execute(PvmAtomicOperationCreateScope.java:27)
+	at org.camunda.bpm.engine.impl.interceptor.AtomicOperationInvocation.execute(AtomicOperationInvocation.java:99)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.invokeNext(CommandInvocationContext.java:141)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performNext(CommandInvocationContext.java:128)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:96)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:627)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:601)
+	at org.camunda.bpm.engine.impl.pvm.runtime.PvmExecutionImpl.start(PvmExecutionImpl.java:294)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.start(ExecutionEntity.java:454)
+	at org.camunda.bpm.engine.impl.pvm.runtime.PvmExecutionImpl.start(PvmExecutionImpl.java:271)
+	at org.camunda.bpm.engine.impl.cmd.StartProcessInstanceCmd.execute(StartProcessInstanceCmd.java:66)
+	at org.camunda.bpm.engine.impl.cmd.StartProcessInstanceCmd.execute(StartProcessInstanceCmd.java:38)
+	at org.camunda.bpm.engine.impl.interceptor.CommandExecutorImpl.execute(CommandExecutorImpl.java:28)
+	at org.camunda.bpm.engine.impl.interceptor.CommandContextInterceptor.execute(CommandContextInterceptor.java:111)
+	at org.camunda.bpm.engine.impl.interceptor.ProcessApplicationContextInterceptor.execute(ProcessApplicationContextInterceptor.java:70)
+	at org.camunda.bpm.engine.impl.interceptor.CommandCounterInterceptor.execute(CommandCounterInterceptor.java:34)
+	at org.camunda.bpm.engine.impl.interceptor.LogInterceptor.execute(LogInterceptor.java:33)
+	at org.camunda.bpm.engine.impl.interceptor.ExceptionCodeInterceptor.execute(ExceptionCodeInterceptor.java:55)
+	at org.camunda.bpm.engine.impl.ProcessInstantiationBuilderImpl.executeWithVariablesInReturn(ProcessInstantiationBuilderImpl.java:168)
+	at org.camunda.bpm.engine.impl.ProcessInstantiationBuilderImpl.execute(ProcessInstantiationBuilderImpl.java:134)
+	at org.camunda.bpm.engine.impl.ProcessInstantiationBuilderImpl.execute(ProcessInstantiationBuilderImpl.java:130)
+	at org.camunda.bpm.engine.impl.RuntimeServiceImpl.startProcessInstanceByKey(RuntimeServiceImpl.java:88)
+	at dts.dtengine.camunda.ProcessRunner.startMultipleProcessInstances(ProcessRunner.kt:32)
+	at dts.dtsystem.workflowcontroller.implementations.bpmn.BPMNWorkflowController.execute(BPMNWorkflowController.kt:89)
+	at dts.dtsystem.workflowcontroller.implementations.bpmn.BPMNWorkflowController.thread$lambda$0(BPMNWorkflowController.kt:27)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: org.camunda.bpm.engine.ClassLoadingException: ENGINE-09017 Cannot load class 'dts.dtengine.camunda.CamundaProcessTrackingListener': dts.dtengine.camunda.CamundaProcessTrackingListener
+	at org.camunda.bpm.engine.impl.util.EngineUtilLogger.classLoadingException(EngineUtilLogger.java:145)
+	at org.camunda.bpm.engine.impl.util.ReflectUtil.loadClass(ReflectUtil.java:111)
+	at org.camunda.bpm.engine.impl.util.ClassDelegateUtil.instantiateDelegate(ClassDelegateUtil.java:46)
+	... 47 common frames omitted
+Caused by: java.lang.ClassNotFoundException: dts.dtengine.camunda.CamundaProcessTrackingListener
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641)
+	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:526)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:534)
+	at java.base/java.lang.Class.forName(Class.java:513)
+	at org.camunda.bpm.engine.impl.util.ReflectUtil.loadClass(ReflectUtil.java:88)
+	... 48 common frames omitted
+2025-04-01 21:06:02 [main] INFO  org.camunda.feel.FeelEngine - Engine created. [value-mapper: CompositeValueMapper(List(org.camunda.feel.impl.JavaValueMapper@758f4f03)), function-provider: org.camunda.bpm.dmn.feel.impl.scala.function.CustomFunctionTransformer@cc6460c, clock: SystemClock, configuration: {externalFunctionsEnabled: false}]
+2025-04-01 21:06:03 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'engine' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.engine.sql'
+2025-04-01 21:06:04 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'history' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.history.sql'
+2025-04-01 21:06:04 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'identity' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.identity.sql'
+2025-04-01 21:06:04 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'case.engine' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.case.engine.sql'
+2025-04-01 21:06:04 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'case.history' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.case.history.sql'
+2025-04-01 21:06:04 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'decision.engine' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.decision.engine.sql'
+2025-04-01 21:06:04 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'decision.history' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.decision.history.sql'
+2025-04-01 21:06:04 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03067 No history level property found in database
+2025-04-01 21:06:04 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03065 Creating historyLevel property in database for level: HistoryLevelFull(name=full, id=3)
+2025-04-01 21:06:04 [main] INFO  org.camunda.bpm.engine - ENGINE-00001 Process Engine default created.
+2025-04-01 21:06:04 [main] INFO  org.camunda.bpm.engine.jobexecutor - ENGINE-14014 Starting up the JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor].
+2025-04-01 21:06:04 [JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor]] INFO  org.camunda.bpm.engine.jobexecutor - ENGINE-14018 JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor] starting to acquire jobs
+2025-04-01 21:06:04 [main] INFO  org.camunda.feel.FeelEngine - Engine created. [value-mapper: CompositeValueMapper(List(org.camunda.feel.impl.JavaValueMapper@9c93d16)), function-provider: org.camunda.bpm.dmn.feel.impl.scala.function.CustomFunctionTransformer@760487aa, clock: SystemClock, configuration: {externalFunctionsEnabled: false}]
+2025-04-01 21:06:04 [main] INFO  org.camunda.bpm.engine - ENGINE-00001 Process Engine default created.
+2025-04-01 21:06:04 [main] INFO  org.camunda.bpm.engine.jobexecutor - ENGINE-14014 Starting up the JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor].
+2025-04-01 21:06:04 [JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor]] INFO  org.camunda.bpm.engine.jobexecutor - ENGINE-14018 JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor] starting to acquire jobs
+2025-04-01 21:06:04 [Thread-3] ERROR org.camunda.bpm.engine.context - ENGINE-16004 Exception while closing command context: ENGINE-09008 Exception while instantiating class 'dts.dtengine.camunda.CamundaProcessTrackingListener': ENGINE-09017 Cannot load class 'dts.dtengine.camunda.CamundaProcessTrackingListener': dts.dtengine.camunda.CamundaProcessTrackingListener
+org.camunda.bpm.engine.ProcessEngineException: ENGINE-09008 Exception while instantiating class 'dts.dtengine.camunda.CamundaProcessTrackingListener': ENGINE-09017 Cannot load class 'dts.dtengine.camunda.CamundaProcessTrackingListener': dts.dtengine.camunda.CamundaProcessTrackingListener
+	at org.camunda.bpm.engine.impl.util.EngineUtilLogger.exceptionWhileInstantiatingClass(EngineUtilLogger.java:88)
+	at org.camunda.bpm.engine.impl.util.ClassDelegateUtil.instantiateDelegate(ClassDelegateUtil.java:54)
+	at org.camunda.bpm.engine.impl.bpmn.listener.ClassDelegateExecutionListener.getExecutionListenerInstance(ClassDelegateExecutionListener.java:60)
+	at org.camunda.bpm.engine.impl.bpmn.listener.ClassDelegateExecutionListener.notify(ClassDelegateExecutionListener.java:52)
+	at org.camunda.bpm.engine.impl.bpmn.listener.ClassDelegateExecutionListener.notify(ClassDelegateExecutionListener.java:38)
+	at org.camunda.bpm.engine.impl.core.instance.CoreExecution.invokeListener(CoreExecution.java:101)
+	at org.camunda.bpm.engine.impl.core.operation.AbstractEventAtomicOperation.execute(AbstractEventAtomicOperation.java:59)
+	at org.camunda.bpm.engine.impl.interceptor.AtomicOperationInvocation.execute(AtomicOperationInvocation.java:99)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.invokeNext(CommandInvocationContext.java:141)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performNext(CommandInvocationContext.java:121)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:96)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:86)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperationSync(ExecutionEntity.java:636)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperationSync(ExecutionEntity.java:611)
+	at org.camunda.bpm.engine.impl.core.operation.AbstractEventAtomicOperation.execute(AbstractEventAtomicOperation.java:66)
+	at org.camunda.bpm.engine.impl.interceptor.AtomicOperationInvocation.execute(AtomicOperationInvocation.java:99)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.invokeNext(CommandInvocationContext.java:141)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performNext(CommandInvocationContext.java:121)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:96)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:627)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:601)
+	at org.camunda.bpm.engine.impl.pvm.runtime.operation.PvmAtomicOperationActivityStartCreateScope.scopeCreated(PvmAtomicOperationActivityStartCreateScope.java:43)
+	at org.camunda.bpm.engine.impl.pvm.runtime.operation.PvmAtomicOperationCreateScope.execute(PvmAtomicOperationCreateScope.java:53)
+	at org.camunda.bpm.engine.impl.pvm.runtime.operation.PvmAtomicOperationCreateScope.execute(PvmAtomicOperationCreateScope.java:27)
+	at org.camunda.bpm.engine.impl.interceptor.AtomicOperationInvocation.execute(AtomicOperationInvocation.java:99)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.invokeNext(CommandInvocationContext.java:141)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performNext(CommandInvocationContext.java:128)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:96)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:627)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:601)
+	at org.camunda.bpm.engine.impl.pvm.runtime.PvmExecutionImpl.start(PvmExecutionImpl.java:294)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.start(ExecutionEntity.java:454)
+	at org.camunda.bpm.engine.impl.pvm.runtime.PvmExecutionImpl.start(PvmExecutionImpl.java:271)
+	at org.camunda.bpm.engine.impl.cmd.StartProcessInstanceCmd.execute(StartProcessInstanceCmd.java:66)
+	at org.camunda.bpm.engine.impl.cmd.StartProcessInstanceCmd.execute(StartProcessInstanceCmd.java:38)
+	at org.camunda.bpm.engine.impl.interceptor.CommandExecutorImpl.execute(CommandExecutorImpl.java:28)
+	at org.camunda.bpm.engine.impl.interceptor.CommandContextInterceptor.execute(CommandContextInterceptor.java:111)
+	at org.camunda.bpm.engine.impl.interceptor.ProcessApplicationContextInterceptor.execute(ProcessApplicationContextInterceptor.java:70)
+	at org.camunda.bpm.engine.impl.interceptor.CommandCounterInterceptor.execute(CommandCounterInterceptor.java:34)
+	at org.camunda.bpm.engine.impl.interceptor.LogInterceptor.execute(LogInterceptor.java:33)
+	at org.camunda.bpm.engine.impl.interceptor.ExceptionCodeInterceptor.execute(ExceptionCodeInterceptor.java:55)
+	at org.camunda.bpm.engine.impl.ProcessInstantiationBuilderImpl.executeWithVariablesInReturn(ProcessInstantiationBuilderImpl.java:168)
+	at org.camunda.bpm.engine.impl.ProcessInstantiationBuilderImpl.execute(ProcessInstantiationBuilderImpl.java:134)
+	at org.camunda.bpm.engine.impl.ProcessInstantiationBuilderImpl.execute(ProcessInstantiationBuilderImpl.java:130)
+	at org.camunda.bpm.engine.impl.RuntimeServiceImpl.startProcessInstanceByKey(RuntimeServiceImpl.java:88)
+	at dts.dtengine.camunda.ProcessRunner.startMultipleProcessInstances(ProcessRunner.kt:32)
+	at dts.dtsystem.workflowcontroller.implementations.bpmn.BPMNWorkflowController.execute(BPMNWorkflowController.kt:89)
+	at dts.dtsystem.workflowcontroller.implementations.bpmn.BPMNWorkflowController.thread$lambda$0(BPMNWorkflowController.kt:27)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: org.camunda.bpm.engine.ClassLoadingException: ENGINE-09017 Cannot load class 'dts.dtengine.camunda.CamundaProcessTrackingListener': dts.dtengine.camunda.CamundaProcessTrackingListener
+	at org.camunda.bpm.engine.impl.util.EngineUtilLogger.classLoadingException(EngineUtilLogger.java:145)
+	at org.camunda.bpm.engine.impl.util.ReflectUtil.loadClass(ReflectUtil.java:111)
+	at org.camunda.bpm.engine.impl.util.ClassDelegateUtil.instantiateDelegate(ClassDelegateUtil.java:46)
+	... 47 common frames omitted
+Caused by: java.lang.ClassNotFoundException: dts.dtengine.camunda.CamundaProcessTrackingListener
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641)
+	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:526)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:534)
+	at java.base/java.lang.Class.forName(Class.java:513)
+	at org.camunda.bpm.engine.impl.util.ReflectUtil.loadClass(ReflectUtil.java:88)
+	... 48 common frames omitted
+2025-04-01 21:06:40 [Thread-5] INFO  d.d.w.i.bpmn.BPMNWorkflowController - BPMN file changed: test.bpmn. Redeploying process...
+2025-04-01 21:06:40 [Thread-5] ERROR org.camunda.bpm.engine.context - ENGINE-16004 Exception while closing command context: ENGINE-09008 Exception while instantiating class 'dts.dtengine.camunda.CamundaProcessTrackingListener': ENGINE-09017 Cannot load class 'dts.dtengine.camunda.CamundaProcessTrackingListener': dts.dtengine.camunda.CamundaProcessTrackingListener
+org.camunda.bpm.engine.ProcessEngineException: ENGINE-09008 Exception while instantiating class 'dts.dtengine.camunda.CamundaProcessTrackingListener': ENGINE-09017 Cannot load class 'dts.dtengine.camunda.CamundaProcessTrackingListener': dts.dtengine.camunda.CamundaProcessTrackingListener
+	at org.camunda.bpm.engine.impl.util.EngineUtilLogger.exceptionWhileInstantiatingClass(EngineUtilLogger.java:88)
+	at org.camunda.bpm.engine.impl.util.ClassDelegateUtil.instantiateDelegate(ClassDelegateUtil.java:54)
+	at org.camunda.bpm.engine.impl.bpmn.listener.ClassDelegateExecutionListener.getExecutionListenerInstance(ClassDelegateExecutionListener.java:60)
+	at org.camunda.bpm.engine.impl.bpmn.listener.ClassDelegateExecutionListener.notify(ClassDelegateExecutionListener.java:52)
+	at org.camunda.bpm.engine.impl.bpmn.listener.ClassDelegateExecutionListener.notify(ClassDelegateExecutionListener.java:38)
+	at org.camunda.bpm.engine.impl.core.instance.CoreExecution.invokeListener(CoreExecution.java:101)
+	at org.camunda.bpm.engine.impl.core.operation.AbstractEventAtomicOperation.execute(AbstractEventAtomicOperation.java:59)
+	at org.camunda.bpm.engine.impl.interceptor.AtomicOperationInvocation.execute(AtomicOperationInvocation.java:99)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.invokeNext(CommandInvocationContext.java:141)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performNext(CommandInvocationContext.java:121)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:96)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:86)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperationSync(ExecutionEntity.java:636)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperationSync(ExecutionEntity.java:611)
+	at org.camunda.bpm.engine.impl.core.operation.AbstractEventAtomicOperation.execute(AbstractEventAtomicOperation.java:66)
+	at org.camunda.bpm.engine.impl.interceptor.AtomicOperationInvocation.execute(AtomicOperationInvocation.java:99)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.invokeNext(CommandInvocationContext.java:141)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performNext(CommandInvocationContext.java:121)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:96)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:627)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:601)
+	at org.camunda.bpm.engine.impl.pvm.runtime.operation.PvmAtomicOperationActivityStartCreateScope.scopeCreated(PvmAtomicOperationActivityStartCreateScope.java:43)
+	at org.camunda.bpm.engine.impl.pvm.runtime.operation.PvmAtomicOperationCreateScope.execute(PvmAtomicOperationCreateScope.java:53)
+	at org.camunda.bpm.engine.impl.pvm.runtime.operation.PvmAtomicOperationCreateScope.execute(PvmAtomicOperationCreateScope.java:27)
+	at org.camunda.bpm.engine.impl.interceptor.AtomicOperationInvocation.execute(AtomicOperationInvocation.java:99)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.invokeNext(CommandInvocationContext.java:141)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performNext(CommandInvocationContext.java:128)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:96)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:627)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:601)
+	at org.camunda.bpm.engine.impl.pvm.runtime.PvmExecutionImpl.start(PvmExecutionImpl.java:294)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.start(ExecutionEntity.java:454)
+	at org.camunda.bpm.engine.impl.pvm.runtime.PvmExecutionImpl.start(PvmExecutionImpl.java:271)
+	at org.camunda.bpm.engine.impl.cmd.StartProcessInstanceCmd.execute(StartProcessInstanceCmd.java:66)
+	at org.camunda.bpm.engine.impl.cmd.StartProcessInstanceCmd.execute(StartProcessInstanceCmd.java:38)
+	at org.camunda.bpm.engine.impl.interceptor.CommandExecutorImpl.execute(CommandExecutorImpl.java:28)
+	at org.camunda.bpm.engine.impl.interceptor.CommandContextInterceptor.execute(CommandContextInterceptor.java:111)
+	at org.camunda.bpm.engine.impl.interceptor.ProcessApplicationContextInterceptor.execute(ProcessApplicationContextInterceptor.java:70)
+	at org.camunda.bpm.engine.impl.interceptor.CommandCounterInterceptor.execute(CommandCounterInterceptor.java:34)
+	at org.camunda.bpm.engine.impl.interceptor.LogInterceptor.execute(LogInterceptor.java:33)
+	at org.camunda.bpm.engine.impl.interceptor.ExceptionCodeInterceptor.execute(ExceptionCodeInterceptor.java:55)
+	at org.camunda.bpm.engine.impl.ProcessInstantiationBuilderImpl.executeWithVariablesInReturn(ProcessInstantiationBuilderImpl.java:168)
+	at org.camunda.bpm.engine.impl.ProcessInstantiationBuilderImpl.execute(ProcessInstantiationBuilderImpl.java:134)
+	at org.camunda.bpm.engine.impl.ProcessInstantiationBuilderImpl.execute(ProcessInstantiationBuilderImpl.java:130)
+	at org.camunda.bpm.engine.impl.RuntimeServiceImpl.startProcessInstanceByKey(RuntimeServiceImpl.java:88)
+	at dts.dtengine.camunda.ProcessRunner.startMultipleProcessInstances(ProcessRunner.kt:32)
+	at dts.dtsystem.workflowcontroller.implementations.bpmn.BPMNWorkflowController.redeployProcesses(BPMNWorkflowController.kt:74)
+	at dts.dtsystem.workflowcontroller.implementations.bpmn.BPMNWorkflowController.startFileWatcher$lambda$1(BPMNWorkflowController.kt:64)
+	at kotlin.concurrent.ThreadsKt$thread$thread$1.run(Thread.kt:30)
+Caused by: org.camunda.bpm.engine.ClassLoadingException: ENGINE-09017 Cannot load class 'dts.dtengine.camunda.CamundaProcessTrackingListener': dts.dtengine.camunda.CamundaProcessTrackingListener
+	at org.camunda.bpm.engine.impl.util.EngineUtilLogger.classLoadingException(EngineUtilLogger.java:145)
+	at org.camunda.bpm.engine.impl.util.ReflectUtil.loadClass(ReflectUtil.java:111)
+	at org.camunda.bpm.engine.impl.util.ClassDelegateUtil.instantiateDelegate(ClassDelegateUtil.java:46)
+	... 47 common frames omitted
+Caused by: java.lang.ClassNotFoundException: dts.dtengine.camunda.CamundaProcessTrackingListener
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641)
+	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:526)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:534)
+	at java.base/java.lang.Class.forName(Class.java:513)
+	at org.camunda.bpm.engine.impl.util.ReflectUtil.loadClass(ReflectUtil.java:88)
+	... 48 common frames omitted
+2025-04-01 21:07:08 [main] INFO  org.camunda.feel.FeelEngine - Engine created. [value-mapper: CompositeValueMapper(List(org.camunda.feel.impl.JavaValueMapper@b5cc23a)), function-provider: org.camunda.bpm.dmn.feel.impl.scala.function.CustomFunctionTransformer@226f885f, clock: SystemClock, configuration: {externalFunctionsEnabled: false}]
+2025-04-01 21:07:09 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'engine' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.engine.sql'
+2025-04-01 21:07:09 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'history' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.history.sql'
+2025-04-01 21:07:09 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'identity' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.identity.sql'
+2025-04-01 21:07:09 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'case.engine' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.case.engine.sql'
+2025-04-01 21:07:09 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'case.history' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.case.history.sql'
+2025-04-01 21:07:09 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'decision.engine' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.decision.engine.sql'
+2025-04-01 21:07:09 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'decision.history' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.decision.history.sql'
+2025-04-01 21:07:09 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03067 No history level property found in database
+2025-04-01 21:07:09 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03065 Creating historyLevel property in database for level: HistoryLevelFull(name=full, id=3)
+2025-04-01 21:07:09 [main] INFO  org.camunda.bpm.engine - ENGINE-00001 Process Engine default created.
+2025-04-01 21:07:09 [main] INFO  org.camunda.bpm.engine.jobexecutor - ENGINE-14014 Starting up the JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor].
+2025-04-01 21:07:09 [JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor]] INFO  org.camunda.bpm.engine.jobexecutor - ENGINE-14018 JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor] starting to acquire jobs
+2025-04-01 21:07:09 [main] INFO  org.camunda.feel.FeelEngine - Engine created. [value-mapper: CompositeValueMapper(List(org.camunda.feel.impl.JavaValueMapper@287ae90c)), function-provider: org.camunda.bpm.dmn.feel.impl.scala.function.CustomFunctionTransformer@2e1b374c, clock: SystemClock, configuration: {externalFunctionsEnabled: false}]
+2025-04-01 21:07:10 [main] INFO  org.camunda.bpm.engine - ENGINE-00001 Process Engine default created.
+2025-04-01 21:07:10 [main] INFO  org.camunda.bpm.engine.jobexecutor - ENGINE-14014 Starting up the JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor].
+2025-04-01 21:07:10 [JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor]] INFO  org.camunda.bpm.engine.jobexecutor - ENGINE-14018 JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor] starting to acquire jobs
+2025-04-01 21:07:10 [Thread-3] ERROR org.camunda.bpm.engine.context - ENGINE-16004 Exception while closing command context: ENGINE-09008 Exception while instantiating class 'dts.dtengine.camunda.CamundaProcessTrackingListener': ENGINE-09017 Cannot load class 'dts.dtengine.camunda.CamundaProcessTrackingListener': dts.dtengine.camunda.CamundaProcessTrackingListener
+org.camunda.bpm.engine.ProcessEngineException: ENGINE-09008 Exception while instantiating class 'dts.dtengine.camunda.CamundaProcessTrackingListener': ENGINE-09017 Cannot load class 'dts.dtengine.camunda.CamundaProcessTrackingListener': dts.dtengine.camunda.CamundaProcessTrackingListener
+	at org.camunda.bpm.engine.impl.util.EngineUtilLogger.exceptionWhileInstantiatingClass(EngineUtilLogger.java:88)
+	at org.camunda.bpm.engine.impl.util.ClassDelegateUtil.instantiateDelegate(ClassDelegateUtil.java:54)
+	at org.camunda.bpm.engine.impl.bpmn.listener.ClassDelegateExecutionListener.getExecutionListenerInstance(ClassDelegateExecutionListener.java:60)
+	at org.camunda.bpm.engine.impl.bpmn.listener.ClassDelegateExecutionListener.notify(ClassDelegateExecutionListener.java:52)
+	at org.camunda.bpm.engine.impl.bpmn.listener.ClassDelegateExecutionListener.notify(ClassDelegateExecutionListener.java:38)
+	at org.camunda.bpm.engine.impl.core.instance.CoreExecution.invokeListener(CoreExecution.java:101)
+	at org.camunda.bpm.engine.impl.core.operation.AbstractEventAtomicOperation.execute(AbstractEventAtomicOperation.java:59)
+	at org.camunda.bpm.engine.impl.interceptor.AtomicOperationInvocation.execute(AtomicOperationInvocation.java:99)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.invokeNext(CommandInvocationContext.java:141)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performNext(CommandInvocationContext.java:121)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:96)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:86)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperationSync(ExecutionEntity.java:636)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperationSync(ExecutionEntity.java:611)
+	at org.camunda.bpm.engine.impl.core.operation.AbstractEventAtomicOperation.execute(AbstractEventAtomicOperation.java:66)
+	at org.camunda.bpm.engine.impl.interceptor.AtomicOperationInvocation.execute(AtomicOperationInvocation.java:99)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.invokeNext(CommandInvocationContext.java:141)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performNext(CommandInvocationContext.java:121)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:96)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:627)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:601)
+	at org.camunda.bpm.engine.impl.pvm.runtime.operation.PvmAtomicOperationActivityStartCreateScope.scopeCreated(PvmAtomicOperationActivityStartCreateScope.java:43)
+	at org.camunda.bpm.engine.impl.pvm.runtime.operation.PvmAtomicOperationCreateScope.execute(PvmAtomicOperationCreateScope.java:53)
+	at org.camunda.bpm.engine.impl.pvm.runtime.operation.PvmAtomicOperationCreateScope.execute(PvmAtomicOperationCreateScope.java:27)
+	at org.camunda.bpm.engine.impl.interceptor.AtomicOperationInvocation.execute(AtomicOperationInvocation.java:99)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.invokeNext(CommandInvocationContext.java:141)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performNext(CommandInvocationContext.java:128)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:96)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:627)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:601)
+	at org.camunda.bpm.engine.impl.pvm.runtime.PvmExecutionImpl.start(PvmExecutionImpl.java:294)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.start(ExecutionEntity.java:454)
+	at org.camunda.bpm.engine.impl.pvm.runtime.PvmExecutionImpl.start(PvmExecutionImpl.java:271)
+	at org.camunda.bpm.engine.impl.cmd.StartProcessInstanceCmd.execute(StartProcessInstanceCmd.java:66)
+	at org.camunda.bpm.engine.impl.cmd.StartProcessInstanceCmd.execute(StartProcessInstanceCmd.java:38)
+	at org.camunda.bpm.engine.impl.interceptor.CommandExecutorImpl.execute(CommandExecutorImpl.java:28)
+	at org.camunda.bpm.engine.impl.interceptor.CommandContextInterceptor.execute(CommandContextInterceptor.java:111)
+	at org.camunda.bpm.engine.impl.interceptor.ProcessApplicationContextInterceptor.execute(ProcessApplicationContextInterceptor.java:70)
+	at org.camunda.bpm.engine.impl.interceptor.CommandCounterInterceptor.execute(CommandCounterInterceptor.java:34)
+	at org.camunda.bpm.engine.impl.interceptor.LogInterceptor.execute(LogInterceptor.java:33)
+	at org.camunda.bpm.engine.impl.interceptor.ExceptionCodeInterceptor.execute(ExceptionCodeInterceptor.java:55)
+	at org.camunda.bpm.engine.impl.ProcessInstantiationBuilderImpl.executeWithVariablesInReturn(ProcessInstantiationBuilderImpl.java:168)
+	at org.camunda.bpm.engine.impl.ProcessInstantiationBuilderImpl.execute(ProcessInstantiationBuilderImpl.java:134)
+	at org.camunda.bpm.engine.impl.ProcessInstantiationBuilderImpl.execute(ProcessInstantiationBuilderImpl.java:130)
+	at org.camunda.bpm.engine.impl.RuntimeServiceImpl.startProcessInstanceByKey(RuntimeServiceImpl.java:88)
+	at dts.dtengine.camunda.ProcessRunner.startMultipleProcessInstances(ProcessRunner.kt:32)
+	at dts.dtsystem.workflowcontroller.implementations.bpmn.BPMNWorkflowController.execute(BPMNWorkflowController.kt:89)
+	at dts.dtsystem.workflowcontroller.implementations.bpmn.BPMNWorkflowController.thread$lambda$0(BPMNWorkflowController.kt:27)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: org.camunda.bpm.engine.ClassLoadingException: ENGINE-09017 Cannot load class 'dts.dtengine.camunda.CamundaProcessTrackingListener': dts.dtengine.camunda.CamundaProcessTrackingListener
+	at org.camunda.bpm.engine.impl.util.EngineUtilLogger.classLoadingException(EngineUtilLogger.java:145)
+	at org.camunda.bpm.engine.impl.util.ReflectUtil.loadClass(ReflectUtil.java:111)
+	at org.camunda.bpm.engine.impl.util.ClassDelegateUtil.instantiateDelegate(ClassDelegateUtil.java:46)
+	... 47 common frames omitted
+Caused by: java.lang.ClassNotFoundException: dts.dtengine.camunda.CamundaProcessTrackingListener
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641)
+	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:526)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:534)
+	at java.base/java.lang.Class.forName(Class.java:513)
+	at org.camunda.bpm.engine.impl.util.ReflectUtil.loadClass(ReflectUtil.java:88)
+	... 48 common frames omitted
+2025-04-01 21:09:50 [Thread-5] INFO  d.d.w.i.bpmn.BPMNWorkflowController - BPMN file changed: test.bpmn. Redeploying process...
+2025-04-01 21:09:50 [Thread-5] INFO  d.d.w.i.bpmn.BPMNWorkflowController - Sent ProcessUpdatedMessage with variable: test
+2025-04-01 21:09:50 [Thread-5] INFO  d.d.w.i.bpmn.BPMNWorkflowController - Processes redeployed. Sent message: ProcessUpdatedMessage
+2025-04-01 21:10:22 [Thread-5] INFO  d.d.w.i.bpmn.BPMNWorkflowController - BPMN file changed: test.bpmn. Redeploying process...
+2025-04-01 21:10:22 [Thread-5] INFO  d.d.w.i.bpmn.BPMNWorkflowController - Sent ProcessUpdatedMessage with variable: test
+2025-04-01 21:10:22 [Thread-5] INFO  d.d.w.i.bpmn.BPMNWorkflowController - Processes redeployed. Sent message: ProcessUpdatedMessage
+2025-04-01 21:10:22 [Thread-5] INFO  d.d.w.i.bpmn.BPMNWorkflowController - BPMN file changed: test.bpmn. Redeploying process...
+2025-04-01 21:10:22 [Thread-5] INFO  d.d.w.i.bpmn.BPMNWorkflowController - Sent ProcessUpdatedMessage with variable: test
+2025-04-01 21:10:22 [Thread-5] INFO  d.d.w.i.bpmn.BPMNWorkflowController - Processes redeployed. Sent message: ProcessUpdatedMessage
+2025-04-01 21:10:49 [Thread-5] INFO  d.d.w.i.bpmn.BPMNWorkflowController - BPMN file changed: test.bpmn. Redeploying process...
+2025-04-01 21:10:49 [Thread-5] INFO  d.d.w.i.bpmn.BPMNWorkflowController - Sent ProcessUpdatedMessage with variable: test
+2025-04-01 21:10:49 [Thread-5] INFO  d.d.w.i.bpmn.BPMNWorkflowController - Processes redeployed. Sent message: ProcessUpdatedMessage
+2025-04-01 21:10:49 [Thread-5] INFO  d.d.w.i.bpmn.BPMNWorkflowController - BPMN file changed: test.bpmn. Redeploying process...
+2025-04-01 21:10:49 [Thread-5] INFO  d.d.w.i.bpmn.BPMNWorkflowController - Sent ProcessUpdatedMessage with variable: test
+2025-04-01 21:10:49 [Thread-5] INFO  d.d.w.i.bpmn.BPMNWorkflowController - Processes redeployed. Sent message: ProcessUpdatedMessage
+2025-04-01 21:11:09 [main] INFO  org.camunda.feel.FeelEngine - Engine created. [value-mapper: CompositeValueMapper(List(org.camunda.feel.impl.JavaValueMapper@b5cc23a)), function-provider: org.camunda.bpm.dmn.feel.impl.scala.function.CustomFunctionTransformer@226f885f, clock: SystemClock, configuration: {externalFunctionsEnabled: false}]
+2025-04-01 21:11:10 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'engine' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.engine.sql'
+2025-04-01 21:11:10 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'history' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.history.sql'
+2025-04-01 21:11:10 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'identity' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.identity.sql'
+2025-04-01 21:11:10 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'case.engine' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.case.engine.sql'
+2025-04-01 21:11:10 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'case.history' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.case.history.sql'
+2025-04-01 21:11:10 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'decision.engine' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.decision.engine.sql'
+2025-04-01 21:11:10 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03016 Performing database operation 'create' on component 'decision.history' with resource 'org/camunda/bpm/engine/db/create/activiti.h2.create.decision.history.sql'
+2025-04-01 21:11:10 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03067 No history level property found in database
+2025-04-01 21:11:10 [main] INFO  org.camunda.bpm.engine.persistence - ENGINE-03065 Creating historyLevel property in database for level: HistoryLevelFull(name=full, id=3)
+2025-04-01 21:11:10 [main] INFO  org.camunda.bpm.engine - ENGINE-00001 Process Engine default created.
+2025-04-01 21:11:10 [main] INFO  org.camunda.bpm.engine.jobexecutor - ENGINE-14014 Starting up the JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor].
+2025-04-01 21:11:10 [JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor]] INFO  org.camunda.bpm.engine.jobexecutor - ENGINE-14018 JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor] starting to acquire jobs
+2025-04-01 21:11:10 [main] INFO  org.camunda.feel.FeelEngine - Engine created. [value-mapper: CompositeValueMapper(List(org.camunda.feel.impl.JavaValueMapper@287ae90c)), function-provider: org.camunda.bpm.dmn.feel.impl.scala.function.CustomFunctionTransformer@2e1b374c, clock: SystemClock, configuration: {externalFunctionsEnabled: false}]
+2025-04-01 21:11:11 [main] INFO  org.camunda.bpm.engine - ENGINE-00001 Process Engine default created.
+2025-04-01 21:11:11 [main] INFO  org.camunda.bpm.engine.jobexecutor - ENGINE-14014 Starting up the JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor].
+2025-04-01 21:11:11 [JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor]] INFO  org.camunda.bpm.engine.jobexecutor - ENGINE-14018 JobExecutor[org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor] starting to acquire jobs
+2025-04-01 21:11:12 [Thread-3] INFO  d.d.w.i.bpmn.BPMNWorkflowController - Controller: handling number of events: 2
+2025-04-01 21:11:12 [Thread-3] INFO  d.d.w.i.bpmn.BPMNWorkflowController - Sent BPMN Signal: NewDatapointEvent
+2025-04-01 21:11:12 [Thread-3] INFO  d.d.w.i.bpmn.BPMNWorkflowController - Sent BPMN Signal: NewDatapointEvent
+2025-04-01 21:11:12 [Thread-3] INFO  d.d.w.i.bpmn.BPMNWorkflowController - Sent BPMN Signal: NewDatapointEvent
+2025-04-01 21:11:12 [Thread-3] INFO  d.d.w.i.bpmn.BPMNWorkflowController - Sent BPMN Signal: NewDatapointEvent
+2025-04-01 21:11:13 [Thread-3] INFO  d.d.w.i.bpmn.BPMNWorkflowController - Controller: handling number of events: 4
+2025-04-01 21:11:13 [Thread-3] INFO  d.d.w.i.bpmn.BPMNWorkflowController - Sent BPMN Signal: NewDatapointEvent
+2025-04-01 21:11:13 [Thread-3] INFO  d.d.w.i.bpmn.BPMNWorkflowController - Sent BPMN Signal: NewDatapointEvent
+2025-04-01 21:11:13 [Thread-3] INFO  d.d.w.i.bpmn.BPMNWorkflowController - Sent BPMN Signal: NewDatapointEvent
+2025-04-01 21:11:13 [Thread-3] INFO  d.d.w.i.bpmn.BPMNWorkflowController - Sent BPMN Signal: NewDatapointEvent
+2025-04-01 21:11:14 [Thread-3] INFO  d.d.w.i.bpmn.BPMNWorkflowController - Controller: handling number of events: 4
+2025-04-01 21:11:14 [Thread-3] ERROR org.camunda.bpm.engine.context - ENGINE-16004 Exception while closing command context: ENGINE-09008 Exception while instantiating class 'dts.dtengine.camunda.Executer': couldn't instantiate class dts.dtengine.camunda.Executer
+org.camunda.bpm.engine.ProcessEngineException: ENGINE-09008 Exception while instantiating class 'dts.dtengine.camunda.Executer': couldn't instantiate class dts.dtengine.camunda.Executer
+	at org.camunda.bpm.engine.impl.util.EngineUtilLogger.exceptionWhileInstantiatingClass(EngineUtilLogger.java:88)
+	at org.camunda.bpm.engine.impl.util.ClassDelegateUtil.instantiateDelegate(ClassDelegateUtil.java:54)
+	at org.camunda.bpm.engine.impl.bpmn.behavior.ClassDelegateActivityBehavior.getActivityBehaviorInstance(ClassDelegateActivityBehavior.java:112)
+	at org.camunda.bpm.engine.impl.bpmn.behavior.ClassDelegateActivityBehavior$1.call(ClassDelegateActivityBehavior.java:68)
+	at org.camunda.bpm.engine.impl.bpmn.behavior.ClassDelegateActivityBehavior$1.call(ClassDelegateActivityBehavior.java:65)
+	at org.camunda.bpm.engine.impl.bpmn.behavior.AbstractBpmnActivityBehavior.executeWithErrorPropagation(AbstractBpmnActivityBehavior.java:90)
+	at org.camunda.bpm.engine.impl.bpmn.behavior.ClassDelegateActivityBehavior.execute(ClassDelegateActivityBehavior.java:65)
+	at org.camunda.bpm.engine.impl.pvm.runtime.operation.PvmAtomicOperationActivityExecute$2.callback(PvmAtomicOperationActivityExecute.java:61)
+	at org.camunda.bpm.engine.impl.pvm.runtime.operation.PvmAtomicOperationActivityExecute$2.callback(PvmAtomicOperationActivityExecute.java:50)
+	at org.camunda.bpm.engine.impl.pvm.runtime.PvmExecutionImpl.continueIfExecutionDoesNotAffectNextOperation(PvmExecutionImpl.java:2109)
+	at org.camunda.bpm.engine.impl.pvm.runtime.operation.PvmAtomicOperationActivityExecute.execute(PvmAtomicOperationActivityExecute.java:42)
+	at org.camunda.bpm.engine.impl.pvm.runtime.operation.PvmAtomicOperationActivityExecute.execute(PvmAtomicOperationActivityExecute.java:31)
+	at org.camunda.bpm.engine.impl.interceptor.AtomicOperationInvocation.execute(AtomicOperationInvocation.java:99)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.invokeNext(CommandInvocationContext.java:141)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performNext(CommandInvocationContext.java:121)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:96)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:627)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:601)
+	at org.camunda.bpm.engine.impl.pvm.runtime.PvmExecutionImpl$6.callback(PvmExecutionImpl.java:2048)
+	at org.camunda.bpm.engine.impl.pvm.runtime.PvmExecutionImpl$6.callback(PvmExecutionImpl.java:2045)
+	at org.camunda.bpm.engine.impl.pvm.runtime.PvmExecutionImpl.continueExecutionIfNotCanceled(PvmExecutionImpl.java:2115)
+	at org.camunda.bpm.engine.impl.pvm.runtime.PvmExecutionImpl.dispatchDelayedEventsAndPerformOperation(PvmExecutionImpl.java:2064)
+	at org.camunda.bpm.engine.impl.pvm.runtime.PvmExecutionImpl.dispatchDelayedEventsAndPerformOperation(PvmExecutionImpl.java:2045)
+	at org.camunda.bpm.engine.impl.pvm.runtime.operation.PvmAtomicOperationTransitionNotifyListenerStart.eventNotificationsCompleted(PvmAtomicOperationTransitionNotifyListenerStart.java:61)
+	at org.camunda.bpm.engine.impl.pvm.runtime.operation.PvmAtomicOperationTransitionNotifyListenerStart.eventNotificationsCompleted(PvmAtomicOperationTransitionNotifyListenerStart.java:30)
+	at org.camunda.bpm.engine.impl.core.operation.AbstractEventAtomicOperation.execute(AbstractEventAtomicOperation.java:70)
+	at org.camunda.bpm.engine.impl.interceptor.AtomicOperationInvocation.execute(AtomicOperationInvocation.java:99)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.invokeNext(CommandInvocationContext.java:141)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performNext(CommandInvocationContext.java:121)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:96)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:86)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperationSync(ExecutionEntity.java:636)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperationSync(ExecutionEntity.java:611)
+	at org.camunda.bpm.engine.impl.core.operation.AbstractEventAtomicOperation.execute(AbstractEventAtomicOperation.java:66)
+	at org.camunda.bpm.engine.impl.interceptor.AtomicOperationInvocation.execute(AtomicOperationInvocation.java:99)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.invokeNext(CommandInvocationContext.java:141)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performNext(CommandInvocationContext.java:121)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:96)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:86)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperationSync(ExecutionEntity.java:636)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperationSync(ExecutionEntity.java:611)
+	at org.camunda.bpm.engine.impl.core.operation.AbstractEventAtomicOperation.execute(AbstractEventAtomicOperation.java:66)
+	at org.camunda.bpm.engine.impl.interceptor.AtomicOperationInvocation.execute(AtomicOperationInvocation.java:99)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.invokeNext(CommandInvocationContext.java:141)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performNext(CommandInvocationContext.java:121)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:96)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:627)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:601)
+	at org.camunda.bpm.engine.impl.pvm.runtime.operation.PvmAtomicOperationTransitionCreateScope.scopeCreated(PvmAtomicOperationTransitionCreateScope.java:38)
+	at org.camunda.bpm.engine.impl.pvm.runtime.operation.PvmAtomicOperationCreateScope.execute(PvmAtomicOperationCreateScope.java:53)
+	at org.camunda.bpm.engine.impl.pvm.runtime.operation.PvmAtomicOperationCreateScope.execute(PvmAtomicOperationCreateScope.java:27)
+	at org.camunda.bpm.engine.impl.interceptor.AtomicOperationInvocation.execute(AtomicOperationInvocation.java:99)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.invokeNext(CommandInvocationContext.java:141)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performNext(CommandInvocationContext.java:128)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:96)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:627)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:601)
+	at org.camunda.bpm.engine.impl.pvm.runtime.PvmExecutionImpl.take(PvmExecutionImpl.java:801)
+	at org.camunda.bpm.engine.impl.pvm.runtime.operation.PvmAtomicOperationTransitionDestroyScope.execute(PvmAtomicOperationTransitionDestroyScope.java:89)
+	at org.camunda.bpm.engine.impl.pvm.runtime.operation.PvmAtomicOperationTransitionDestroyScope.execute(PvmAtomicOperationTransitionDestroyScope.java:37)
+	at org.camunda.bpm.engine.impl.interceptor.AtomicOperationInvocation.execute(AtomicOperationInvocation.java:99)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.invokeNext(CommandInvocationContext.java:141)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performNext(CommandInvocationContext.java:121)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:96)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:627)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:601)
+	at org.camunda.bpm.engine.impl.pvm.runtime.operation.PvmAtomicOperationTransitionNotifyListenerEnd$1.callback(PvmAtomicOperationTransitionNotifyListenerEnd.java:54)
+	at org.camunda.bpm.engine.impl.pvm.runtime.operation.PvmAtomicOperationTransitionNotifyListenerEnd$1.callback(PvmAtomicOperationTransitionNotifyListenerEnd.java:49)
+	at org.camunda.bpm.engine.impl.pvm.runtime.PvmExecutionImpl.continueExecutionIfNotCanceled(PvmExecutionImpl.java:2115)
+	at org.camunda.bpm.engine.impl.pvm.runtime.PvmExecutionImpl.dispatchDelayedEventsAndPerformOperation(PvmExecutionImpl.java:2064)
+	at org.camunda.bpm.engine.impl.pvm.runtime.operation.PvmAtomicOperationTransitionNotifyListenerEnd.eventNotificationsCompleted(PvmAtomicOperationTransitionNotifyListenerEnd.java:49)
+	at org.camunda.bpm.engine.impl.pvm.runtime.operation.PvmAtomicOperationTransitionNotifyListenerEnd.eventNotificationsCompleted(PvmAtomicOperationTransitionNotifyListenerEnd.java:29)
+	at org.camunda.bpm.engine.impl.core.operation.AbstractEventAtomicOperation.execute(AbstractEventAtomicOperation.java:70)
+	at org.camunda.bpm.engine.impl.interceptor.AtomicOperationInvocation.execute(AtomicOperationInvocation.java:99)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.invokeNext(CommandInvocationContext.java:141)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performNext(CommandInvocationContext.java:121)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:96)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:86)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperationSync(ExecutionEntity.java:636)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperationSync(ExecutionEntity.java:611)
+	at org.camunda.bpm.engine.impl.core.operation.AbstractEventAtomicOperation.execute(AbstractEventAtomicOperation.java:66)
+	at org.camunda.bpm.engine.impl.interceptor.AtomicOperationInvocation.execute(AtomicOperationInvocation.java:99)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.invokeNext(CommandInvocationContext.java:141)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performNext(CommandInvocationContext.java:121)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:96)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:86)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperationSync(ExecutionEntity.java:636)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperationSync(ExecutionEntity.java:611)
+	at org.camunda.bpm.engine.impl.core.operation.AbstractEventAtomicOperation.execute(AbstractEventAtomicOperation.java:66)
+	at org.camunda.bpm.engine.impl.interceptor.AtomicOperationInvocation.execute(AtomicOperationInvocation.java:99)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.invokeNext(CommandInvocationContext.java:141)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performNext(CommandInvocationContext.java:121)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:96)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:627)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:601)
+	at org.camunda.bpm.engine.impl.pvm.runtime.PvmExecutionImpl.leaveActivityViaTransitions(PvmExecutionImpl.java:1100)
+	at org.camunda.bpm.engine.impl.pvm.runtime.PvmExecutionImpl.leaveActivityViaTransition(PvmExecutionImpl.java:1032)
+	at org.camunda.bpm.engine.impl.bpmn.behavior.BpmnActivityBehavior.performOutgoingBehavior(BpmnActivityBehavior.java:101)
+	at org.camunda.bpm.engine.impl.bpmn.behavior.BpmnActivityBehavior.performDefaultOutgoingBehavior(BpmnActivityBehavior.java:55)
+	at org.camunda.bpm.engine.impl.bpmn.behavior.FlowNodeActivityBehavior.doLeave(FlowNodeActivityBehavior.java:56)
+	at org.camunda.bpm.engine.impl.bpmn.behavior.AbstractBpmnActivityBehavior.doLeave(AbstractBpmnActivityBehavior.java:62)
+	at org.camunda.bpm.engine.impl.pvm.runtime.operation.PvmAtomicOperationActivityLeave.execute(PvmAtomicOperationActivityLeave.java:56)
+	at org.camunda.bpm.engine.impl.pvm.runtime.operation.PvmAtomicOperationActivityLeave.execute(PvmAtomicOperationActivityLeave.java:32)
+	at org.camunda.bpm.engine.impl.interceptor.AtomicOperationInvocation.execute(AtomicOperationInvocation.java:99)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.invokeNext(CommandInvocationContext.java:141)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performNext(CommandInvocationContext.java:121)
+	at org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext.performOperation(CommandInvocationContext.java:96)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:627)
+	at org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity.performOperation(ExecutionEntity.java:601)
+	at org.camunda.bpm.engine.impl.pvm.runtime.PvmExecutionImpl$6.callback(PvmExecutionImpl.java:2048)
+	at org.camunda.bpm.engine.impl.pvm.runtime.PvmExecutionImpl$6.callback(PvmExecutionImpl.java:2045)
+	at org.camunda.bpm.engine.impl.pvm.runtime.PvmExecutionImpl.continueExecutionIfNotCanceled(PvmExecutionImpl.java:2115)
+	at org.camunda.bpm.engine.impl.pvm.runtime.PvmExecutionImpl.dispatchDelayedEventsAndPerformOperation(PvmExecutionImpl.java:2064)
+	at org.camunda.bpm.engine.impl.pvm.runtime.PvmExecutionImpl.dispatchDelayedEventsAndPerformOperation(PvmExecutionImpl.java:2045)
+	at org.camunda.bpm.engine.impl.bpmn.behavior.FlowNodeActivityBehavior.leave(FlowNodeActivityBehavior.java:52)
+	at org.camunda.bpm.engine.impl.bpmn.behavior.IntermediateCatchEventActivityBehavior.signal(IntermediateCatchEventActivityBehavior.java:50)
+	at org.camunda.bpm.engine.impl.pvm.runtime.PvmExecutionImpl.signal(PvmExecutionImpl.java:783)
+	at org.camunda.bpm.engine.impl.event.EventHandlerImpl.handleIntermediateEvent(EventHandlerImpl.java:74)
+	at org.camunda.bpm.engine.impl.event.SignalEventHandler.handleEvent(SignalEventHandler.java:69)
+	at org.camunda.bpm.engine.impl.persistence.entity.EventSubscriptionEntity.processEventSync(EventSubscriptionEntity.java:105)
+	at org.camunda.bpm.engine.impl.persistence.entity.EventSubscriptionEntity.eventReceived(EventSubscriptionEntity.java:94)
+	at org.camunda.bpm.engine.impl.persistence.entity.EventSubscriptionEntity.eventReceived(EventSubscriptionEntity.java:87)
+	at org.camunda.bpm.engine.impl.cmd.SignalEventReceivedCmd.notifyExecutions(SignalEventReceivedCmd.java:162)
+	at org.camunda.bpm.engine.impl.cmd.SignalEventReceivedCmd.sendSignal(SignalEventReceivedCmd.java:84)
+	at org.camunda.bpm.engine.impl.cmd.SignalEventReceivedCmd.execute(SignalEventReceivedCmd.java:65)
+	at org.camunda.bpm.engine.impl.cmd.SignalEventReceivedCmd.execute(SignalEventReceivedCmd.java:48)
+	at org.camunda.bpm.engine.impl.interceptor.CommandExecutorImpl.execute(CommandExecutorImpl.java:28)
+	at org.camunda.bpm.engine.impl.interceptor.CommandContextInterceptor.execute(CommandContextInterceptor.java:111)
+	at org.camunda.bpm.engine.impl.interceptor.ProcessApplicationContextInterceptor.execute(ProcessApplicationContextInterceptor.java:70)
+	at org.camunda.bpm.engine.impl.interceptor.CommandCounterInterceptor.execute(CommandCounterInterceptor.java:34)
+	at org.camunda.bpm.engine.impl.interceptor.LogInterceptor.execute(LogInterceptor.java:33)
+	at org.camunda.bpm.engine.impl.interceptor.ExceptionCodeInterceptor.execute(ExceptionCodeInterceptor.java:55)
+	at org.camunda.bpm.engine.impl.SignalEventReceivedBuilderImpl.send(SignalEventReceivedBuilderImpl.java:94)
+	at org.camunda.bpm.engine.impl.RuntimeServiceImpl.signalEventReceived(RuntimeServiceImpl.java:678)
+	at dts.dtsystem.workflowcontroller.implementations.bpmn.BPMNWorkflowController.execute(BPMNWorkflowController.kt:95)
+	at dts.dtsystem.workflowcontroller.implementations.bpmn.BPMNWorkflowController.thread$lambda$0(BPMNWorkflowController.kt:27)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: org.camunda.bpm.engine.ProcessEngineException: couldn't instantiate class dts.dtengine.camunda.Executer
+	at org.camunda.bpm.engine.impl.DefaultArtifactFactory.getArtifact(DefaultArtifactFactory.java:38)
+	at org.camunda.bpm.engine.impl.util.ClassDelegateUtil.instantiateDelegate(ClassDelegateUtil.java:48)
+	... 135 common frames omitted
+Caused by: java.lang.InstantiationException: dts.dtengine.camunda.Executer
+	at java.base/java.lang.Class.newInstance(Class.java:719)
+	at org.camunda.bpm.engine.impl.DefaultArtifactFactory.getArtifact(DefaultArtifactFactory.java:36)
+	... 136 common frames omitted
+Caused by: java.lang.NoSuchMethodException: dts.dtengine.camunda.Executer.<init>()
+	at java.base/java.lang.Class.getConstructor0(Class.java:3761)
+	at java.base/java.lang.Class.newInstance(Class.java:706)
+	... 137 common frames omitted

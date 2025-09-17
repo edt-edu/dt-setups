@@ -1,0 +1,194 @@
+/* (c) https://github.com/MontiCore/monticore */
+
+/**
+ * DIGITAL TWIN SERVICE QUERY LANGUAGE
+ * 
+ * OPERATORS: 
+ * SELECT (Data and Model FIELDS) FROM (SERVICE) WHERE (CONDITIONS). % only for read services
+ * CALL (FUNCTION) OF (SERVICE) WITH (PARAMETERS). % calls a function of a service
+ * DESCRIBE SERVICE. (Service) % get information about a service in the context
+ * SWITCH (CONTEXT). % switch the context to another context, the default context is specified in the configuration file
+ * DESCRIBE CONTEXT (Context). % get information about a context
+ * LIST CONTEXTS. % list all contexts
+ * LIST SERVICES. % list all services
+ * LET var = QUERY. % assign the result of a query to a variable
+ * JOIN(var1 , var2) ON ((var1, var2) => CONDITIONS) % join two variables on a condition
+ * FILTER(var, (record => CONDITIONS))
+ * MAP(var, (record => CONDITIONS))
+ * UPDATE UPDATE_FIELDS FROM SERVICE WHERE CONDITIONS % only for computation services
+ * DELETE FROM SERVICE WHERE CONDITIONS % only for computation services
+ * LOG (MESSAGE | QUERY) % log a message or a query to the output entry, use for debugging
+ * NOTIFY EVENT WITH (PARAMETERS) % notify an event with parameters
+ * AWAIT EVENT % wait for an event to occur
+ * 
+ * 
+ * 
+ * 
+ */
+grammar DTSQL{
+
+  
+  Script = (Command)*;
+
+   // Starting rule for commands
+   Command = 
+   (SelectCommand 
+    | ListCommand
+    | DescribeCommand
+    | LetCommand 
+    | JoinCommand 
+    | SwitchCommand
+    | FilterCommand 
+    | UpdateCommand
+    | DeleteCommand
+    | LogCommand
+    | EmptyCommand
+    | MapCommand 
+    | NotifyCommand
+    | AwaitCommand
+    | CallCommand
+    | SigilCompute 
+ )
+ ".";
+
+// SELECT Command
+SelectCommand = 
+ SELECT "(" Fields ")" 
+ FROM "(" Service ")" 
+ (WHERE "(" Conditions ")" )?;
+
+// Empty Command, as return statement
+EmptyCommand = Name;
+
+// LOG Command
+LogCommand = 
+ LOG "(" (StringString | Command) ")";
+
+
+// Switch Command
+
+Context = Name | StringString;
+
+SwitchCommand = 
+ (SWITCH Context) | (SWITCH "(" Context ")");
+
+// LIST Command
+ListTypeService = SERVICE"S";
+ListTypeContext = CONTEXT"S";
+ListType = ListTypeService | ListTypeContext;
+
+DescribeTypesService = SERVICE;
+DescribeTypesContext = CONTEXT;
+DescribeTypes = DescribeTypesService | DescribeTypesContext;
+
+ListCommand = LIST ListType;
+DescribeCommand = DESCRIBE DescribeTypes Name;
+
+// LET Command
+LetCommand = LET Var "=" VarDefinitionValue;
+
+// JOIN Command
+JoinCommand = 
+ JOIN "(" Var "," Var ")" 
+ ON "(" "("Var "," Var ")" "=>" Conditions ")";
+
+// FILTER Command
+FilterCommand = 
+ FILTER "(" Var "," "(" Identifier "=>" Conditions ")" ")";
+
+// MAP Command
+MapCommand = 
+ MAP "(" Var "," "(" Identifier "=>" Conditions ")" ")";
+
+// UPDATE Command
+UpdateCommand = 
+ UPDATE SET "(" Fields ")" 
+ FROM Service 
+ WHERE "(" Conditions ")";
+
+// DELETE Command
+DeleteCommand = 
+ DELETE "(" Fields ")"
+ FROM Service 
+ WHERE "(" Conditions ")";
+
+
+NotifyCommand = 
+ NOTIFY "(" Name ")" WITH "(" Var ")";
+AwaitCommand =
+ AWAIT "(" Name ")";
+CallCommand =
+ CALL "(" Name ")" OF "(" Service ")" WITH "(" Var ")";
+
+// Definitions of Fields, Service, Conditions, and Variables
+Fields = (Field ("," Field)*);
+Field = Name;
+
+Service = Name;
+
+ConditionConnector = AND | OR;
+Conditions = (Condition | BreakedConditions) (ConditionConnector (Condition | BreakedConditions))*;
+ConditionOperator = "==" | "!=" | ">" | "<" | "<=" | ">=";
+BreakedConditions = "(" Conditions ")";
+Condition = Name ConditionOperator Value;
+
+EXPANDABLE_VARS = (Var ("," Var)*);
+Var = Name;
+VarDefinitionValue = Query | Value;
+Query = "(" SelectCommand ")"; // Allowing SELECT commands as part of LET assignments.
+
+// Basic Tokens
+Number = NUM_VALUE;
+Identifier = CHAR_LIST;
+Name = CHAR_LIST | StringString;
+Value = CHAR_LIST | StringString | Number;
+
+
+StringString = STRING_VALUE;
+SigilName = SIGIL;
+SigilCompute = SigilName "(" Value ")";
+
+// catch all as string value
+
+token STRING_VALUE = '"' ~('\n' |'\r')* '"';
+token SIGIL = '~' ~('\n' |'\r' | '(' | ')')*;
+token COMMENT = '%' ~('\n' |'\r')*;
+
+// Keywords
+
+token SELECT = "SELECT";
+token FROM = "FROM";
+token WHERE = "WHERE";
+token DESCRIBE = "DESCRIBE";
+token SWITCH = "SWITCH";
+token LIST = "LIST";
+token LET = "LET";
+token JOIN = "JOIN";
+token FILTER = "FILTER";
+token MAP = "MAP";
+token UPDATE = "UPDATE";
+token DELETE = "DELETE";
+token SERVICE = "SERVICE";
+token CONTEXT = "CONTEXT";
+token LOG = "LOG";
+token AND = "AND";
+token OR = "OR";
+token SET = "SET";
+token ON = "ON";
+token CALL = "CALL";
+token WITH = "WITH";
+token NOTIFY = "NOTIFY";
+token AWAIT = "AWAIT";
+token OF = "OF";
+
+
+
+token CHAR_LIST = ('a'..'z' | '_') ('A'..'Z' | 'a'..'z' | '0'..'9' | '_')*; 
+token NUM_VALUE = ('0'..'9')+( '.' ('0'..'9')+ )?;
+
+// skip whitespaces
+token WS = (' ' | '\t' | '\n' | '\r') :{_channel = HIDDEN;};
+
+
+    
+}

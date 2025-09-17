@@ -1,0 +1,24 @@
+@startuml
+
+
+
+
+"ClientFrontend" -> "ClientBackend": User Enters Query
+"ClientBackend" -> "ServiceEngine": Forwards Query and adds token
+"ServiceEngine" -> "Service(s)": "Fetches the required data from the services"
+"Service(s)" --> "ServiceEngine": "Returns the data"
+note right of "Service(s)"
+  The Service Engine is responsible for
+  processing the query and fetching the
+  required data from the services. 
+  
+  The query can also be used  to build simple composition of services.
+end note
+"ServiceEngine" -> "ServiceEngine": "Processes the data (JOIN, FILTER)"
+"ServiceEngine" --> "ClientBackend": "Returns the Result"
+"ClientBackend" --> "ClientFrontend": "Returns the Result"
+
+
+
+@enduml
+

@@ -1,0 +1,19 @@
+package docs.config.services;
+
+import java.util.List;
+
+public class Weather {
+    
+
+    @ExportServiceFunction(inputNames = ["location"], inputTypes = [LocationType.class], outputType = WeatherResponse.class)
+    public <RequestType, ResponseType> ResponseType getWeather(RequestType request) {
+       
+    }
+
+  
+
+}
+
+
+
+

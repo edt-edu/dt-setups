@@ -20,4 +20,5 @@ dts.iml
 WeatherData.csv
 LocationData.txt
 
+src/main/resources/postgreslxzg.properties
 

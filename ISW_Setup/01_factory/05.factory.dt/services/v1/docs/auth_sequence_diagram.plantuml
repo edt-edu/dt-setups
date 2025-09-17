@@ -1,0 +1,14 @@
+@startuml
+"ClientFrontend" -> "ClientBackend": Trigger Authentication Dialog
+"ClientBackend" -> "ServiceEngine": Request Auth Methods
+"ClientBackend" <-- "ServiceEngine": Return Auth Methods
+"ClientBackend" -> "ServiceEngine": Request Auth
+"ServiceEngine" -> "AuthService": "Forward Auth Request"
+"AuthService" --> "ServiceEngine": Authentication Token
+"ServiceEngine" --> "ClientBackend": Forward Authentication Token
+"ClientBackend" --> "ClientFrontend": Return Authentication Token
+
+
+
+@enduml
+

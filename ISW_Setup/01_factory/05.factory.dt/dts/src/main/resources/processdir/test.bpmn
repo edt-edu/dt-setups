@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_08n05nf" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.31.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:process id="testProcess" name="testProcess" isExecutable="true" camunda:historyTimeToLive="7">
+    <bpmn:extensionElements />
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:extensionElements />
+      <bpmn:outgoing>Flow_12g06ip</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:intermediateCatchEvent id="Event_09f1cle" name="NewDatapointEvent">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="sourceID">${sourceID}</camunda:outputParameter>
+          <camunda:outputParameter name="type">${type}</camunda:outputParameter>
+          <camunda:outputParameter name="value">${value}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_12g06ip</bpmn:incoming>
+      <bpmn:incoming>Flow_0g6w9v0</bpmn:incoming>
+      <bpmn:outgoing>Flow_0dfwrwy</bpmn:outgoing>
+      <bpmn:signalEventDefinition id="SignalEventDefinition_0216xhc" signalRef="Signal_05hlppd" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="Flow_12g06ip" sourceRef="StartEvent_1" targetRef="Event_09f1cle" />
+    <bpmn:exclusiveGateway id="Gateway_11mpvr3">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_0dfwrwy</bpmn:incoming>
+      <bpmn:outgoing>Flow_1yk5x5x</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0g6w9v0</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0dfwrwy" sourceRef="Event_09f1cle" targetRef="Gateway_11mpvr3" />
+    <bpmn:serviceTask id="Activity_1mgubcy" name="Create&#10;shutDownEvent" camunda:class="dts.dtengine.camunda.Executer">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_1yk5x5x</bpmn:incoming>
+      <bpmn:outgoing>Flow_0w3glmd</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1yk5x5x" name="temp &#62; 7" sourceRef="Gateway_11mpvr3" targetRef="Activity_1mgubcy">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${value &gt; 7 &amp;&amp; type =="temp"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0g6w9v0" name="temp &#60;= 7" sourceRef="Gateway_11mpvr3" targetRef="Event_09f1cle">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${value &lt;= 7 || type !="temp" }</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:endEvent id="Event_1xi6r1k">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_0w3glmd</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0w3glmd" sourceRef="Activity_1mgubcy" targetRef="Event_1xi6r1k" />
+  </bpmn:process>
+  <bpmn:signal id="Signal_05hlppd" name="NewDatapointEvent" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="testProcess">
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="182" y="152" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_09f1cle_di" bpmnElement="Event_09f1cle">
+        <dc:Bounds x="272" y="152" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="246" y="195" width="89" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_11mpvr3_di" bpmnElement="Gateway_11mpvr3" isMarkerVisible="true">
+        <dc:Bounds x="365" y="145" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1mgubcy_di" bpmnElement="Activity_1mgubcy">
+        <dc:Bounds x="480" y="130" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1xi6r1k_di" bpmnElement="Event_1xi6r1k">
+        <dc:Bounds x="672" y="162" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_12g06ip_di" bpmnElement="Flow_12g06ip">
+        <di:waypoint x="218" y="170" />
+        <di:waypoint x="272" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0dfwrwy_di" bpmnElement="Flow_0dfwrwy">
+        <di:waypoint x="308" y="170" />
+        <di:waypoint x="365" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1yk5x5x_di" bpmnElement="Flow_1yk5x5x">
+        <di:waypoint x="415" y="170" />
+        <di:waypoint x="480" y="170" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="427" y="152" width="43" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0g6w9v0_di" bpmnElement="Flow_0g6w9v0">
+        <di:waypoint x="390" y="145" />
+        <di:waypoint x="390" y="100" />
+        <di:waypoint x="290" y="100" />
+        <di:waypoint x="290" y="152" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="316" y="82" width="49" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0w3glmd_di" bpmnElement="Flow_0w3glmd">
+        <di:waypoint x="580" y="170" />
+        <di:waypoint x="626" y="170" />
+        <di:waypoint x="626" y="180" />
+        <di:waypoint x="672" y="180" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

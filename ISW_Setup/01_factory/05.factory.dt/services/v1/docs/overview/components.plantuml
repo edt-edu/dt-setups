@@ -1,0 +1,64 @@
+@startuml
+
+component DT {
+    component "Physical World Gateway" as p_gateway {
+        portin "Sensor Data" as sensor_data_pg
+        portout "Actuator Action" as actuator_data_pg
+        portin "Actuator Data" as actuator_data_pg_in
+        portout "Sensor Data" as sensor_data_pg_out
+    }
+    component "DT Engine" as dt_engine {
+        portin "Sensor Data" as sensor_data_dt
+        portout "Actuator Action" as actuator_data_dt
+
+        portout "CRUD Model Request" as crud_requests_dt
+        portin "Model" as model_data_dt
+       
+    }
+    component "Model Manager" as model_manager {
+        portin "CRUD  Model Request" as crud_requests_mm
+        portout "Model" as model_data_mm
+    }
+
+    component "Model" as model {
+        portin "CRUD  Model Requests" as crud_requests_m
+        portout "Model" as model_data_m
+        component "Data Source Connector" as data_source_connector {
+            "Serialiser" as serialiser
+            "Deserialiser" as deserialiser
+        }
+    }
+}
+component "Physical World" as p_world {
+    component "Sensors" as sensors {
+    }
+    component "Actuators" as actuators {
+    }
+}
+
+component "Service World" as service {
+    component "Logical Services" as logical_services {
+
+    }
+    component "Service Gateway" as s_gateway
+    component "Auth Service" as auth_service
+
+    logical_services <-> s_gateway: "Forwards the request"
+    s_gateway <-> auth_service: "Authenticates the request"
+}
+
+' connect the ports
+sensor_data_pg <-- sensors: "Connects to the physical world"
+actuator_data_pg --> actuators: "Connects to the physical world"
+sensor_data_pg_out --> sensor_data_dt: "Forwards the data"
+actuator_data_pg_in --> actuator_data_dt: "Forwards the data"
+
+model_data_dt <-- model_data_mm: "CRUD Requests"
+model_data_mm <-- model_data_m: "CRUD Requests"
+
+crud_requests_dt --> crud_requests_mm: "CRUD Requests"
+crud_requests_mm --> crud_requests_m: "CRUD Requests"
+
+
+
+@enduml

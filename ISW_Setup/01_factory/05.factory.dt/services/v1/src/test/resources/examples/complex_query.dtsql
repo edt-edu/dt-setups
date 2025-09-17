@@ -1,0 +1,44 @@
+%
+% A complex query example in Digital Twin SQL v1.0
+% This query language is a interpreted, functional-oriented language and uses an immutable approach to data processing.
+%
+% !!!! AVOID unnecessary SELECT statements. The System is distributed and the data is not stored in a single place. !!!!
+%
+%
+% Each statement is ended with a "." and runs isolated. 
+% To debug a query, use the LOG command. The result with error all logs at the end of the query.
+% the ~s operator is converting a any result to a string for logging purposes.
+% <> is the concatenation operator for strings.
+% ~d is the date operator to convert a string to a date. The locale time is always UTC. The date format is ISO 8601.
+%
+% services are type sensitive:
+% The following types are supported:
+% - String, i.e "Hello World"
+% - Number, i.e 10
+% - Date i.e ~d("2019-01-01"), ~d("2019-01-01T00:00:00"), 
+% - Boolean, i.e true, false
+% - List, i.e [1,2,3]
+% - Map, i.e {key: value}
+% - Result, the result of a query
+%
+% NOTE: This repo cotains a extension for Visual Studio Code to support the Digital Twin SQL language.
+
+
+LET services = LIST SERVICES.
+LET date = ~d("2019-01-01").
+
+LOG ("Services: " <> ~s(services)).
+
+
+LET a = SELECT (device_id, consumption) FROM (energy_consumption_monitor) WHERE (consumption > 30).
+LET b = SELECT (device_id, run_time, last_update) FROM (device_controller_monitor).
+
+LET c = JOIN a, b ON a.device_id = b.device_id.
+
+% The last computation is the result of the whole script.
+LET d = FILTER c, (record => record.last_update < date).
+
+% you can return another value by simply access the variable
+
+d. % This will force that the result of variable d is returned as the result of the script.
+

@@ -1,0 +1,57 @@
+@startuml
+
+actor "DT Admin" as dt_admin
+actor "Client Frontend" as client_frontend
+
+component "ServiceGateway" {
+    component "ServiceEngine" as service_engine {
+        component "DSL Engine" as dsl_engine     
+        component "ServiceRegistry" as service_registry {
+        }
+    }
+    component "AuthHandler" as auth_handler {
+    }
+    component "RestAPI" as rest_api {
+    }
+    component "WebSocketAPI" as websocket_api {
+    }
+
+    dsl_engine --> service_registry: Fetch services from registry
+    dsl_engine --> auth_handler: runs authentication checks
+
+    rest_api --> service_engine: REST API calls and forwards to service engine
+    websocket_api --> service_engine: Websocket API calls and forwards to service engine
+}
+
+component "External components" {
+    component "Model Engine" as model_engine{
+    }
+    
+    component "ComputationServices" as computation_services {
+    } 
+
+
+    component "VisualizationService" as visualization_service {
+
+    }
+}
+
+service_engine --> model_engine: Fetch models and data
+service_engine --> computation_services: Run computation service
+service_engine --> visualization_service: Run visualizations service 
+
+component "AuthService" as auth_service {
+    component "OAuth2 Interfaces" as oauth2
+    database "User Database" as user_db
+    database "Scopes Database" as scopes_db
+    database "Oauth Database" as oauth_db
+}
+
+auth_handler --> oauth2
+dt_admin --> service_registry: Configure services via JSON file or Custom DSL
+dt_admin --> auth_service: Configure Users, Roles and Scopes
+service_engine <--> scopes_db: Sync available scopes
+
+
+
+@enduml

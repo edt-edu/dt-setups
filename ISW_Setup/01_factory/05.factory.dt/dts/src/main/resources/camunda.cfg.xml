@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="processEngineConfiguration"
+          class="org.camunda.bpm.engine.impl.cfg.StandaloneProcessEngineConfiguration">
+        <!-- Database Configuration -->
+        <property name="jdbcUrl" value="jdbc:h2:mem:camunda-db;DB_CLOSE_DELAY=-1"/>
+        <property name="jdbcDriver" value="org.h2.Driver"/>
+        <property name="jdbcUsername" value="sa"/>
+        <property name="jdbcPassword" value=""/>
+        <property name="databaseSchemaUpdate" value="true"/>
+
+        <!-- Job Executor -->
+        <property name="jobExecutorActivate" value="true"/>
+
+        <!-- History Configuration -->
+        <property name="history" value="full"/>
+        <property name="historyTimeToLive" value="180"/>
+
+        <!-- Extra Config -->
+        <property name="defaultSerializationFormat" value="application/json"/>
+        <property name="enableExpressionsInAdhocQueries" value="true"/>
+        <property name="enableExpressionsInStoredQueries" value="true"/>
+    </bean>
+
+    <bean id="processEngine" class="org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl"
+          factory-method="buildProcessEngine">
+        <constructor-arg ref="processEngineConfiguration"/>
+    </bean>
+</beans>

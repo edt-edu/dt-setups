@@ -1,0 +1,43 @@
+@startuml
+
+component DT {
+    component "Physical World Gateway" as p_gateway
+    component "DT Engine" as dt_engine {
+       
+    }
+    component "Model Manager" as model_manager {
+    }
+
+    component "Model" as model {
+        component "Data Source Connector" as data_source_connector {
+            "Serialiser" as serialiser
+            "Deserialiser" as deserialiser
+        }
+    }
+}
+component "Physical World" as p_world {
+    component "Sensors" as sensors {
+    }
+    component "Actuators" as actuators {
+    }
+}
+
+component "Service World" as service {
+    component "Logical Services" as logical_services {
+
+    }
+    component "Service Gateway" as s_gateway
+    component "Auth Service" as auth_service
+
+    logical_services <-> s_gateway: "Forwards the request"
+    s_gateway <-> auth_service: "Authenticates the request"
+}
+
+
+p_gateway <--> p_world: "Connects to the physical world"
+p_gateway <--> dt_engine: "Forwards the data"
+dt_engine <--> model_manager: "CRUD Requests"
+model_manager <--> model: "Performs CRUD operations"
+dt_engine <--> s_gateway: "Exchange information"
+
+@enduml
