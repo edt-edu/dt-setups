@@ -25,10 +25,18 @@ class MultiProcessing(Machine):
         # logging.debug("__multiProcessingActLowerValve " + str(self.__multiProcessingActLowerValve))
         # logging.debug("__multiProcessingValveOvenDoor " + str(self.__multiProcessingValveOvenDoor))
         # logging.debug("__multiProcessingValveFeeder " + str(self.__multiProcessingValveFeeder))
-        return (self.__multiProcessingActRotClockwise or self.__multiProcessingActRotCounterclockwise or self.__multiProcessingActConveyorForward or self.__multiProcessingActSaw
+        if (self.__multiProcessingActRotClockwise or self.__multiProcessingActRotCounterclockwise or self.__multiProcessingActConveyorForward or self.__multiProcessingActSaw
             or self.__multiProcessingActOvenInward or self.__multiProcessingActOvenOutward or self.__multiProcessingActGripperToOven or self.__multiProcessingActGripperToTurntable
             or self.__multiProcessingOvenLight or self.__multiProcessingCompressor or self.__multiProcessingValve or self.__multiProcessingActLowerValve
-            or self.__multiProcessingValveOvenDoor or self.__multiProcessingValveFeeder)
+            or self.__multiProcessingValveOvenDoor or self.__multiProcessingValveFeeder):
+            self.__isExecutingCount = 0
+            return True
+        else:
+            if self.__isExecutingCount < 15:
+                self.__isExecutingCount += 1
+                return True
+            else:
+                return False
 
 
     def __init__(self, id1):

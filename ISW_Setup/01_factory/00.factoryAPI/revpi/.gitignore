@@ -1,0 +1,11 @@
+__pycache__
+/dist/
+
+# Poetry exact versions
+poetry.lock
+
+# Test results
+.coverage
+
+# PyCharm
+.idea/

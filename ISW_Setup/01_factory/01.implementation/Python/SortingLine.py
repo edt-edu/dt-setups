@@ -15,8 +15,14 @@ class SortingLine(Machine):
 
     @property
     def isExecuting(self) -> bool:
-        logging.debug('is executing ' + str(self.__packageOnLine))
-        return self.__packageOnLine
+        if self.__packageOnLine:
+            return True
+        else:
+            if self.__isExecutingCount < 15:
+                self.__isExecutingCount += 1
+                return True
+            else:
+                return False
 
     def __init__(self, id1: str):
         self.__sortingLineSensImpulseCounterRaw = 0

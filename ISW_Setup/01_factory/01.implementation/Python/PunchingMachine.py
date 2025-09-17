@@ -33,7 +33,14 @@ class PunchingMachine(Machine):
     @property
     def isExecuting(self) -> bool:
         """self.__packageProcessed is here as a reminder to reset it for the next run of the punching machine"""
-        return self.__punchingActConveyorForward or self.__punchingActConveyorBackward or self.__punchingActMachineUp or self.__punchingActMachineDown
+        if (self.__punchingActConveyorForward or self.__punchingActConveyorBackward or self.__punchingActMachineUp or self.__punchingActMachineDown):
+            return True
+        else:
+            if self.__isExecutingCount < 15:
+                self.__isExecutingCount += 1
+                return True
+            else:
+                return False
 
     @property
     def punchingSensLeft(self) -> bool:

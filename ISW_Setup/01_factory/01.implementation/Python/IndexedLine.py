@@ -7,7 +7,14 @@ class IndexedLine(Machine):
     @property
     def isExecuting(self) -> bool:
         #print(self.motorSlider1Forward or self.motorSlider2Forward or self.motorSlider1Backward or self.motorSlider2Backward or self.conveyorBeltSwap or self.conveyorBeltDrilling or self.conveyorBeltMilling or self.conveyorBeltFeed or self.millingMachine or self.drillingMachine)
-        return self.motorSlider1Forward or self.motorSlider2Forward or self.motorSlider1Backward or self.motorSlider2Backward or self.conveyorBeltSwap or self.conveyorBeltDrilling or self.conveyorBeltMilling or self.conveyorBeltFeed or self.millingMachine or self.drillingMachine
+        if (self.motorSlider1Forward or self.motorSlider2Forward or self.motorSlider1Backward or self.motorSlider2Backward or self.conveyorBeltSwap or self.conveyorBeltDrilling or self.conveyorBeltMilling or self.conveyorBeltFeed or self.millingMachine or self.drillingMachine):
+            return True
+        else:
+            if self.__isExecutingCount < 15:
+                self.__isExecutingCount += 1
+                return True
+            else:
+                return False
 
     def __init__(self, id1):
         self.indexSensPushButton1Front = self.indexSensPushButton1Back = self.indexSensPushButton2Front = self.indexSensPushButton2Back = False

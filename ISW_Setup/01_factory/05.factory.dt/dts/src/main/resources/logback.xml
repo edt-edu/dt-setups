@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property scope="context" name="COLORIZER_COLORS" value="red@,yellow@black,green@,blue@,cyan@" />
+    <conversionRule conversionWord="colorize" converterClass="org.tuxdude.logback.extensions.LogColorizer" />
+
+    <appender name="LOG" class="ch.qos.logback.core.FileAppender">
+        <!--append to file-->
+        <file>
+            ./DT.log
+        </file>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %colorize([%-5level]) %logger{36}- %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--Set log level here. -->
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="LOG" />
+    </root>
+</configuration>

@@ -1,9 +1,12 @@
+import time
+
 from MovingMachine import MovingMachine
 from ReachedDirection import ReachedDirection
 from RequestedParameter import RequestedParameter
 from Axis import AxisType, Axis
 from ThreeDRobotConfig import ThreeDRobotConfig
 from Position import Position
+from ExecutionStatus import ExecutionStatus
 import logging
 
 
@@ -78,7 +81,11 @@ class Robot(MovingMachine):
         if self.__robotActRotRight or self.__robotActRotLeft or self.__robotActVerticalUp or self.__robotActVerticalDown or self.__robotActGripperOpen or self.__robotActGripperClose or self.__robotActArmOut or self.__robotActArmIn:
             return True
         else:
-            return False
+            if self.__isExecutingCount < 500:
+                self.__isExecutingCount += 1
+                return True
+            else:
+                return False
 
     # @property
     # def fakeIsExecuting(self):
@@ -395,3 +402,4 @@ class Robot(MovingMachine):
     def stop(self):
         self.robotActRotLeft = self.robotActRotRight = self.robotActVerticalUp = self.robotActVerticalDown = self.robotActArmIn = self.robotActArmOut = self.robotActGripperClose = self.robotActGripperOpen = False
         return None
+

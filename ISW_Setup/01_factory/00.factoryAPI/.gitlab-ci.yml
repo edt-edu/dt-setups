@@ -1,0 +1,15 @@
+image: python:3.9
+
+stages:
+  - test
+
+before_script:
+  # Install dependencies if a requirements.txt file exists
+  - if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+test:
+  stage: test
+  script:
+    # Run tests located in the revpi/tests/ directory using pytest
+    - pip install pytest
+    - pytest revpi/tests/

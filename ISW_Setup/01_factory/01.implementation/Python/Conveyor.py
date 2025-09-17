@@ -13,10 +13,14 @@ class Conveyor(Machine):
 
     @property
     def isExecuting(self) -> bool:
-        #TODO find helpful impl
-        #return not self.arrived
-        #return True
-        return self.__conveyorActForward or self.__conveyorActBackward
+        if (self.__conveyorActForward or self.__conveyorActBackward):
+            return True
+        else:
+            if self.__isExecutingCount < 15:
+                self.__isExecutingCount += 1
+                return True
+            else:
+                return False
 
 
     def __init__(self, id1):

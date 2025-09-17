@@ -23,6 +23,7 @@ class Machine:
         self.__lastExecutionTime = -math.inf
         self.__isExecutingCount = 0
         self.setFakeExecuting = False
+        #self.__fakeIsExecuting = False
 
     @property
     def id(self) -> str:

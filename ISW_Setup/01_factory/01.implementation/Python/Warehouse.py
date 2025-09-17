@@ -55,7 +55,14 @@ class Warehouse(MovingMachine):
 
     @property
     def isExecuting(self) -> bool:
-        return self.__warehouseActConveyorIn or self.__warehouseActConveyorOut or self.__warehouseActHorizontalToRack or self.__warehouseActHorizontalToConveyor or self.__warehouseActVerticalUp or self.__warehouseActVerticalDown or self.__warehouseActArmIn or self.__warehouseActArmOut
+        if (self.__warehouseActConveyorIn or self.__warehouseActConveyorOut or self.__warehouseActHorizontalToRack or self.__warehouseActHorizontalToConveyor or self.__warehouseActVerticalUp or self.__warehouseActVerticalDown or self.__warehouseActArmIn or self.__warehouseActArmOut):
+            return True
+        else:
+            if self.__isExecutingCount < 15:
+                self.__isExecutingCount += 1
+                return True
+            else:
+                return False
 
     def __init__(self, id1):
         self.__isExecutingCount = 0

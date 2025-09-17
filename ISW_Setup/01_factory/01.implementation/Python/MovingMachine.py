@@ -1,6 +1,7 @@
 from abc import abstractmethod
 from Machine import Machine
 from Position import Position
+from ExecutionStatus import ExecutionStatus
 
 from ThreeDRobotConfig import ThreeDRobotConfig
 
@@ -82,14 +83,16 @@ class MovingMachine(Machine):
             self.fin = fin
             self.__pc = 0
         #TODO pc auch zurücksetzen wenn erneute Ausführung
-        if not self.__setupFinished:
+        if not self.__setupFinished and self.setupFirst:
             logging.debug('setup from execute')
             #self.isExecuting = True
             #self.__setupFinished = self.setup()
             self.setup()
             self.setupFinishedHelper = self.__setupFinished
             self.__configReached = True
-        else:
+            logging.debug('setupFinished: ')
+            logging.debug(self.__setupFinished)
+        if not self.setupFirst:
             self.__moveList = []
             ########################################
             # TODO check this change and think about the above reset functionalities
@@ -125,3 +128,5 @@ class MovingMachine(Machine):
     @pc.setter
     def pc(self, value):
         self.__pc = value
+
+

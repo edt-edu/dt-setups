@@ -1,0 +1,38 @@
+[tool.poetry]
+name = "revpi"
+version = "0.1.0"
+description = "Control code for the RevPi's"
+authors = ["Dominik Miller <st151335@stud.uni-stuttgart.de>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+# TODO Which version is used on the RevPi's?
+python = "^3.7.3"
+revpimodio2 = "^2.5.10"
+paho-mqtt = "^2.1.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.2"
+pytest-cov = "^4.1.0"
+# need setuptools for pycharm
+setuptools = "^68.0"
+isort = "5.11.5"
+mypy = "^1.1.1"
+pyflakes = "2.5.0"
+flake8 = "5.0.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.init_options]
+addopts = [
+	"--import-mode=importlib",
+]
+
+[tool.black]
+line-length = 120
+skip-string-normalization = true
+
+[tool.mypy]
+ignore_missing_imports = true
