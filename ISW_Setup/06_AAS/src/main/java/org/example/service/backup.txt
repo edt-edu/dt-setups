@@ -1,0 +1,732 @@
+package org.example.service;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import net.sf.jsqlparser.expression.Expression;
+import net.sf.jsqlparser.expression.LongValue;
+import net.sf.jsqlparser.expression.StringValue;
+import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
+import net.sf.jsqlparser.expression.operators.conditional.OrExpression;
+import net.sf.jsqlparser.expression.operators.relational.EqualsTo;
+import net.sf.jsqlparser.expression.operators.relational.GreaterThan;
+import net.sf.jsqlparser.expression.operators.relational.LikeExpression;
+import net.sf.jsqlparser.parser.CCJSqlParserUtil;
+import net.sf.jsqlparser.schema.Column;
+import net.sf.jsqlparser.schema.Table;
+import net.sf.jsqlparser.statement.Statement;
+import net.sf.jsqlparser.statement.select.PlainSelect;
+import net.sf.jsqlparser.statement.select.Select;
+import net.sf.jsqlparser.statement.select.SelectItem;
+import org.example.database.model.MongoAssetAdministrationShell;
+import org.example.database.model.SubmodelData;
+import org.example.database.model.ConceptDescription;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Service for parsing SQL queries and converting them to MongoDB queries for AAS entities
+ */
+@Service
+@RequiredArgsConstructor
+@Slf4j
+public class AASQueryService {
+
+    private final MongoTemplate mongoTemplate;
+    
+    // Collection mapping
+    private static final Map<String, String> COLLECTION_MAPPING = Map.of(
+        "asset_administration_shells", "asset_administration_shells",
+        "aas", "asset_administration_shells",
+        "submodels", "submodels",
+        "submodel", "submodels",
+        "concept_descriptions", "concept_descriptions",
+        "conceptdescriptions", "concept_descriptions",
+        "cd", "concept_descriptions"
+    );
+    
+    // Class mapping
+    private static final Map<String, Class<?>> CLASS_MAPPING = Map.of(
+        "asset_administration_shells", MongoAssetAdministrationShell.class,
+        "submodels", SubmodelData.class,
+        "concept_descriptions", ConceptDescription.class
+    );
+
+    /**
+     * Execute a SQL query against MongoDB collections
+     * The collection to query is determined from the SQL statement (FROM clause)
+     * @param sqlQuery The SQL query to execute
+     * @return List of objects as maps with only the requested fields
+     */
+    public List<Map<String, Object>> executeQuery(String sqlQuery) {
+        try {
+            log.info("Executing SQL query: {}", sqlQuery);
+            
+            // Clean up the SQL query - remove any markdown formatting that might be present
+            sqlQuery = cleanSqlQuery(sqlQuery);
+            log.debug("Cleaned SQL query: {}", sqlQuery);
+            
+            Statement statement = CCJSqlParserUtil.parse(sqlQuery);
+            
+            if (statement instanceof Select) {
+                Select select = (Select) statement;
+                
+                // Get the select body as PlainSelect
+                if (!(select.getSelectBody() instanceof PlainSelect)) {
+                    throw new IllegalArgumentException("Only simple SELECT statements are supported.");
+                }
+                
+                // Using deprecated method but handling it properly
+                @SuppressWarnings("deprecation")
+                PlainSelect plainSelect = (PlainSelect) select.getSelectBody();
+                
+                // Extract table name from FROM clause
+                if (plainSelect.getFromItem() == null) {
+                    throw new IllegalArgumentException("FROM clause is required in the SQL query.");
+                }
+                
+                if (!(plainSelect.getFromItem() instanceof Table)) {
+                    throw new IllegalArgumentException("Only simple table names are supported in FROM clause.");
+                }
+                
+                Table table = (Table) plainSelect.getFromItem();
+                String tableName = table.getName().toLowerCase();
+                
+                // Map table name to collection name
+                String collectionName = COLLECTION_MAPPING.getOrDefault(tableName, tableName);
+                
+                // Get the class for the collection
+                Class<?> entityClass = CLASS_MAPPING.get(collectionName);
+                if (entityClass == null) {
+                    throw new IllegalArgumentException("Unknown collection: " + collectionName);
+                }
+                
+                // Extract selected fields
+                List<String> selectedFields = new ArrayList<>();
+                boolean selectAll = false;
+                
+                for (SelectItem<?> item : plainSelect.getSelectItems()) {
+                    String selectItemStr = item.toString();
+                    log.debug("Processing select item: {}", selectItemStr);
+                    
+                    if (selectItemStr.equals("*")) {
+                        selectAll = true;
+                        break;
+                    } else {
+                        // Handle potential aliasing in the select item
+                        if (selectItemStr.contains(" as ")) {
+                            selectItemStr = selectItemStr.substring(0, selectItemStr.indexOf(" as ")).trim();
+                        }
+                        
+                        // Remove quotes if present (for fields with dots)
+                        if (selectItemStr.startsWith("\"") && selectItemStr.endsWith("\"")) {
+                            selectItemStr = selectItemStr.substring(1, selectItemStr.length() - 1);
+                        }
+                        
+                        log.debug("Adding field to selected fields: {}", selectItemStr);
+                        selectedFields.add(selectItemStr);
+                    }
+                }
+                
+                log.debug("Selected fields: {}, selectAll: {}", selectedFields, selectAll);
+                
+                // Build MongoDB query
+                Query query = new Query();
+                
+                // Add WHERE clause if present
+                if (plainSelect.getWhere() != null) {
+                    log.debug("WHERE clause present: {}", plainSelect.getWhere());
+                    Criteria criteria = buildMongoCriteria(plainSelect.getWhere());
+                    query.addCriteria(criteria);
+                }
+                
+                log.debug("MongoDB query: {}", query);
+                
+                // Execute the query
+                List<?> results = mongoTemplate.find(query, entityClass, collectionName);
+                log.debug("Query returned {} results", results.size());
+                
+                // Convert results to maps with only the selected fields
+                List<Map<String, Object>> mappedResults = new ArrayList<>();
+                for (Object result : results) {
+                    Map<String, Object> entityMap = convertEntityToMap(result, selectedFields, selectAll);
+                    mappedResults.add(entityMap);
+                }
+                
+                return mappedResults;
+            } else {
+                throw new IllegalArgumentException("Only SELECT statements are supported.");
+            }
+        } catch (Exception e) {
+            log.error("Failed to parse or execute query: {}", e.getMessage(), e);
+            throw new RuntimeException("Failed to parse or execute query: " + e.getMessage(), e);
+        }
+    }
+    
+    /**
+     * Clean SQL query by removing any markdown formatting or other unwanted characters
+     * @param sqlQuery The SQL query to clean
+     * @return Cleaned SQL query
+     */
+    private String cleanSqlQuery(String sqlQuery) {
+        // Remove markdown formatting
+        sqlQuery = sqlQuery.replaceAll("\\[([^\\]]+)\\]\\(([^\\)]+)\\)", "$1");
+    
+        // Fix common errors from Postman / JSQLParser
+        sqlQuery = sqlQuery.replaceAll("=\\s*\\\"(https?://.*?)\\\"", "= '$1'");
+        sqlQuery = sqlQuery.replaceAll("=\\s*\\'(https?://.*?)\\s*$", "= '$1'");
+    
+        // Final cleanup: remove unbalanced quotes at the ends
+        if (sqlQuery.startsWith("\"") && sqlQuery.endsWith("\"")) {
+            sqlQuery = sqlQuery.substring(1, sqlQuery.length() - 1);
+        }
+    
+        return sqlQuery;
+    }
+    
+
+    /**
+     * Convert an entity to a map, including only the selected fields and excluding null values
+     * @param entity The entity to convert
+     * @param selectedFields The fields to include
+     * @param selectAll Whether to include all fields
+     * @return Map representation of the entity with only the requested fields
+     */
+    private Map<String, Object> convertEntityToMap(Object entity, List<String> selectedFields, boolean selectAll) {
+        Map<String, Object> entityMap = new HashMap<>();
+        
+        try {
+            if (entity instanceof MongoAssetAdministrationShell) {
+                MongoAssetAdministrationShell aas = (MongoAssetAdministrationShell) entity;
+                
+                // Always include ID
+                entityMap.put("id", aas.getId());
+                
+                if (selectAll || selectedFields.contains("idShort")) {
+                    if (aas.getIdShort() != null) {
+                        entityMap.put("idShort", aas.getIdShort());
+                    }
+                }
+                
+                if (selectAll || selectedFields.contains("category")) {
+                    if (aas.getCategory() != null) {
+                        entityMap.put("category", aas.getCategory());
+                    }
+                }
+                
+                if (selectAll || selectedFields.contains("descriptions")) {
+                    if (aas.getDescriptions() != null) {
+                        entityMap.put("descriptions", aas.getDescriptions());
+                    }
+                }
+                
+                // Handle assetRef and its nested fields
+                if (aas.getAssetRef() != null) {
+                    // Include full assetRef if selected
+                    if (selectAll || selectedFields.contains("assetRef")) {
+                        entityMap.put("assetRef", aas.getAssetRef());
+                    }
+                    
+                    // Handle nested fields with dot notation
+                    for (String field : selectedFields) {
+                        if (field.startsWith("assetRef.")) {
+                            extractNestedFieldWithDotNotation(field, aas.getAssetRef(), entityMap);
+                        }
+                    }
+                }
+                
+                // Handle submodelRefs and its nested fields
+                if (aas.getSubmodelRefs() != null) {
+                    // Include full submodelRefs if selected
+                    if (selectAll || selectedFields.contains("submodelRefs")) {
+                        entityMap.put("submodelRefs", aas.getSubmodelRefs());
+                    }
+                    
+                    // Handle nested fields with dot notation
+                    for (String field : selectedFields) {
+                        if (field.startsWith("submodelRefs.")) {
+                            extractNestedFieldWithDotNotation(field, aas.getSubmodelRefs(), entityMap);
+                        }
+                    }
+                }
+                
+                if (selectAll || selectedFields.contains("sourceFile")) {
+                    if (aas.getSourceFile() != null) {
+                        entityMap.put("sourceFile", aas.getSourceFile());
+                    }
+                }
+                
+                if (selectAll || selectedFields.contains("importedAt")) {
+                    if (aas.getImportedAt() != null) {
+                        entityMap.put("importedAt", aas.getImportedAt());
+                    }
+                }
+                
+                if (selectAll || selectedFields.contains("administration")) {
+                    if (aas.getAdministration() != null) {
+                        entityMap.put("administration", aas.getAdministration());
+                    }
+                }
+            } else if (entity instanceof SubmodelData) {
+                SubmodelData submodel = (SubmodelData) entity;
+                
+                // Always include ID
+                entityMap.put("id", submodel.getId());
+                
+                if (selectAll || selectedFields.contains("idShort")) {
+                    if (submodel.getIdShort() != null) {
+                        entityMap.put("idShort", submodel.getIdShort());
+                    }
+                }
+                
+                if (selectAll || selectedFields.contains("category")) {
+                    if (submodel.getCategory() != null) {
+                        entityMap.put("category", submodel.getCategory());
+                    }
+                }
+                
+                if (selectAll || selectedFields.contains("description")) {
+                    if (submodel.getDescription() != null) {
+                        entityMap.put("description", submodel.getDescription());
+                    }
+                }
+                
+                if (selectAll || selectedFields.contains("kind")) {
+                    if (submodel.getKind() != null) {
+                        entityMap.put("kind", submodel.getKind());
+                    }
+                }
+                
+                // Handle semanticId and its nested fields
+                if (submodel.getSemanticId() != null) {
+                    // Include full semanticId if selected
+                    if (selectAll || selectedFields.contains("semanticId")) {
+                        entityMap.put("semanticId", submodel.getSemanticId());
+                    }
+                    
+                    // Handle nested fields with dot notation
+                    for (String field : selectedFields) {
+                        if (field.startsWith("semanticId.")) {
+                            extractNestedFieldWithDotNotation(field, submodel.getSemanticId(), entityMap);
+                        }
+                    }
+                }
+                
+                // Handle supplementalSemanticIds and its nested fields
+                if (submodel.getSupplementalSemanticIds() != null) {
+                    // Include full supplementalSemanticIds if selected
+                    if (selectAll || selectedFields.contains("supplementalSemanticIds")) {
+                        entityMap.put("supplementalSemanticIds", submodel.getSupplementalSemanticIds());
+                    }
+                    
+                    // Handle nested fields with dot notation
+                    for (String field : selectedFields) {
+                        if (field.startsWith("supplementalSemanticIds.")) {
+                            extractNestedFieldWithDotNotation(field, submodel.getSupplementalSemanticIds(), entityMap);
+                        }
+                    }
+                }
+                
+                // Handle submodelElements and its nested fields
+                if (submodel.getSubmodelElements() != null) {
+                    // Include full submodelElements if selected
+                    if (selectAll || selectedFields.contains("submodelElements")) {
+                        entityMap.put("submodelElements", submodel.getSubmodelElements());
+                    }
+                    
+                    // Handle nested fields with dot notation
+                    for (String field : selectedFields) {
+                        if (field.startsWith("submodelElements.")) {
+                            extractNestedFieldWithDotNotation(field, submodel.getSubmodelElements(), entityMap);
+                        }
+                    }
+                }
+                
+                if (selectAll || selectedFields.contains("administration")) {
+                    if (submodel.getAdministration() != null) {
+                        entityMap.put("administration", submodel.getAdministration());
+                    }
+                }
+                
+                if (selectAll || selectedFields.contains("sourceFile")) {
+                    if (submodel.getSourceFile() != null) {
+                        entityMap.put("sourceFile", submodel.getSourceFile());
+                    }
+                }
+                
+                if (selectAll || selectedFields.contains("importedAt")) {
+                    if (submodel.getImportedAt() != null) {
+                        entityMap.put("importedAt", submodel.getImportedAt());
+                    }
+                }
+                
+                if (selectAll || selectedFields.contains("aasRef")) {
+                    if (submodel.getAasRef() != null) {
+                        entityMap.put("aasRef", submodel.getAasRef());
+                    }
+                }
+            } else if (entity instanceof ConceptDescription) {
+                ConceptDescription cd = (ConceptDescription) entity;
+                
+                // Always include ID
+                entityMap.put("id", cd.getId());
+                
+                if (selectAll || selectedFields.contains("idShort")) {
+                    if (cd.getIdShort() != null) {
+                        entityMap.put("idShort", cd.getIdShort());
+                    }
+                }
+                
+                if (selectAll || selectedFields.contains("category")) {
+                    if (cd.getCategory() != null) {
+                        entityMap.put("category", cd.getCategory());
+                    }
+                }
+                
+                if (selectAll || selectedFields.contains("descriptions")) {
+                    if (cd.getDescriptions() != null) {
+                        entityMap.put("descriptions", cd.getDescriptions());
+                    }
+                }
+                
+                if (selectAll || selectedFields.contains("isCaseOf")) {
+                    if (cd.getIsCaseOf() != null) {
+                        entityMap.put("isCaseOf", cd.getIsCaseOf());
+                    }
+                }
+                
+                if (selectAll || selectedFields.contains("dataSpecifications")) {
+                    if (cd.getDataSpecifications() != null) {
+                        entityMap.put("dataSpecifications", cd.getDataSpecifications());
+                    }
+                }
+                
+                if (selectAll || selectedFields.contains("embeddedDataSpecifications")) {
+                    if (cd.getEmbeddedDataSpecifications() != null) {
+                        entityMap.put("embeddedDataSpecifications", cd.getEmbeddedDataSpecifications());
+                    }
+                }
+                
+                if (selectAll || selectedFields.contains("iec61360Data")) {
+                    if (cd.getIec61360Data() != null) {
+                        entityMap.put("iec61360Data", cd.getIec61360Data());
+                    }
+                }
+                
+                if (selectAll || selectedFields.contains("sourceFile")) {
+                    if (cd.getSourceFile() != null) {
+                        entityMap.put("sourceFile", cd.getSourceFile());
+                    }
+                }
+                
+                if (selectAll || selectedFields.contains("importedAt")) {
+                    if (cd.getImportedAt() != null) {
+                        entityMap.put("importedAt", cd.getImportedAt());
+                    }
+                }
+            }
+        } catch (Exception e) {
+            log.error("Failed to convert entity to map", e);
+        }
+        
+        return entityMap;
+    }
+
+    /**
+     * Extract nested field from an object using dot notation
+     * @param field The field to extract (e.g., assetRef.type, submodelRefs.0.keys.0.value)
+     * @param object The object to extract from
+     * @param entityMap The map to store the extracted field
+     */
+    private void extractNestedFieldWithDotNotation(String field, Object object, Map<String, Object> entityMap) {
+        try {
+            String[] parts = normalizeIndexedPath(field).split("\\.");
+            Object nestedObject = object;
+            for (int i = 1; i < parts.length; i++) {
+                String nestedField = parts[i];
+                if (nestedObject == null) return;
+                if (nestedField.matches("\\d+")) {
+                    int index = Integer.parseInt(nestedField);
+                    if (nestedObject instanceof List list && index < list.size()) nestedObject = list.get(index);
+                    else return;
+                } else {
+                    try {
+                        String getter = "get" + nestedField.substring(0, 1).toUpperCase() + nestedField.substring(1);
+                        nestedObject = nestedObject.getClass().getMethod(getter).invoke(nestedObject);
+                    } catch (Exception ex) {
+                        try {
+                            java.lang.reflect.Field f = nestedObject.getClass().getDeclaredField(nestedField);
+                            f.setAccessible(true);
+                            nestedObject = f.get(nestedObject);
+                        } catch (Exception e) { return; }
+                    }
+                }
+            }
+            entityMap.put(field, nestedObject);
+        } catch (Exception e) { }
+    }
+
+    /**
+     * Handle nested field names in SQL queries
+     * Converts SQL-style nested field notation to MongoDB dot notation
+     * @param columnName The column name from SQL query
+     * @return MongoDB compatible field name
+     */
+    private String handleNestedField(String columnName) {
+        if (columnName.startsWith("\"") && columnName.endsWith("\"")) {
+            columnName = columnName.substring(1, columnName.length() - 1);
+        }
+        return normalizeIndexedPath(columnName);
+    }
+    private String normalizeIndexedPath(String fieldPath) {
+        // Inject .0 after any array-typed segment if not indexed already
+        String[] parts = fieldPath.split("\\.");
+        StringBuilder normalized = new StringBuilder();
+        for (int i = 0; i < parts.length; i++) {
+            if (i > 0) normalized.append(".");
+            normalized.append(parts[i]);
+            if (isArrayField(parts[i]) && (i + 1 >= parts.length || !parts[i + 1].matches("\\d+"))) {
+                normalized.append(".0");
+            }
+        }
+        return normalized.toString();
+    }
+    
+    /**
+     * Build MongoDB criteria from a JSQLParser expression
+     * @param expression The JSQLParser expression
+     * @return MongoDB criteria
+     */
+    private Criteria buildMongoCriteria(Expression expression) {
+        if (expression instanceof GreaterThan) {
+            GreaterThan greaterThan = (GreaterThan) expression;
+            Column column = (Column) greaterThan.getLeftExpression();
+            Expression rightExp = greaterThan.getRightExpression();
+    
+            String fieldName = handleNestedField(column.getColumnName());
+            log.debug("Processing greater than condition for field: {}", fieldName);
+    
+            return buildNestedCriteria(fieldName, rightExp, "gt");
+    
+        } else if (expression instanceof EqualsTo) {
+            EqualsTo equalsTo = (EqualsTo) expression;
+            Column column = (Column) equalsTo.getLeftExpression();
+            Expression rightExp = equalsTo.getRightExpression();
+    
+            String fieldName = handleNestedField(column.getColumnName());
+            log.debug("Processing equals condition for field: {}", fieldName);
+    
+            return buildNestedCriteria(fieldName, rightExp, "eq");
+    
+        } else if (expression instanceof LikeExpression) {
+            LikeExpression likeExp = (LikeExpression) expression;
+            Column column = (Column) likeExp.getLeftExpression();
+            Expression right = likeExp.getRightExpression();
+    
+            String fieldName = handleNestedField(column.getColumnName());
+            String value = "";
+    
+            if (right instanceof StringValue) {
+                value = ((StringValue) right).getValue().replace("%", ".*").replace("_", ".");
+            } else {
+                throw new RuntimeException("Unsupported LIKE pattern: " + right);
+            }
+    
+            return buildNestedCriteria(fieldName, new StringValue(value), "regex");
+    
+        } else if (expression instanceof AndExpression) {
+            AndExpression andExpression = (AndExpression) expression;
+            Criteria leftCriteria = buildMongoCriteria(andExpression.getLeftExpression());
+            Criteria rightCriteria = buildMongoCriteria(andExpression.getRightExpression());
+            return new Criteria().andOperator(leftCriteria, rightCriteria);
+    
+        } else if (expression instanceof OrExpression) {
+            OrExpression orExpression = (OrExpression) expression;
+            Criteria leftCriteria = buildMongoCriteria(orExpression.getLeftExpression());
+            Criteria rightCriteria = buildMongoCriteria(orExpression.getRightExpression());
+            return new Criteria().orOperator(leftCriteria, rightCriteria);
+        }
+    
+        throw new RuntimeException("Unsupported expression: " + expression);
+    }
+    private Criteria buildNestedCriteria(String path, Expression valueExpr, String operator) {
+        String[] parts = path.split("\\.");
+        Object value;
+    
+        if (valueExpr instanceof StringValue) {
+            value = ((StringValue) valueExpr).getValue();
+            if ("regex".equals(operator)) {
+                value = value.toString().replace("%", ".*").replace("_", ".");
+            }
+        } else if (valueExpr instanceof LongValue) {
+            value = ((LongValue) valueExpr).getValue();
+        } else {
+            throw new RuntimeException("Unsupported value expression: " + valueExpr);
+        }
+    
+        return buildDeepCriteria(parts, 0, value, operator);
+    }
+    
+    private Criteria buildDeepCriteria(String[] parts, int index, Object value, String operator) {
+        String current = parts[index];
+        boolean isLast = index == parts.length - 1;
+    
+        if (isLast) {
+            return switch (operator) {
+                case "eq" -> Criteria.where(current).is(value);
+                case "gt" -> Criteria.where(current).gt(value);
+                case "regex" -> Criteria.where(current).regex(value.toString(), "i");
+                default -> throw new RuntimeException("Unsupported operator: " + operator);
+            };
+        }
+    
+        Criteria inner = buildDeepCriteria(parts, index + 1, value, operator);
+    
+        // Wrap with $elemMatch if next level is an array
+        String nextPath = String.join(".", java.util.Arrays.copyOfRange(parts, 0, index + 2));
+        if (isArrayField(nextPath)) {
+            return Criteria.where(current).elemMatch(inner);
+        } else {
+            // Inline flatten path
+            String flatPath = String.join(".", java.util.Arrays.copyOfRange(parts, 0, index + 2));
+            return switch (operator) {
+                case "eq" -> Criteria.where(flatPath).is(value);
+                case "gt" -> Criteria.where(flatPath).gt(value);
+                case "regex" -> Criteria.where(flatPath).regex(value.toString(), "i");
+                default -> throw new RuntimeException("Unsupported operator: " + operator);
+            };
+        }
+    }
+    
+
+    // private Object extractValue(Expression valueExpr) {
+    //     if (valueExpr instanceof StringValue) return ((StringValue) valueExpr).getValue();
+    //     if (valueExpr instanceof LongValue) return ((LongValue) valueExpr).getValue();
+    //     throw new RuntimeException("Unsupported value expression: " + valueExpr);
+    // }
+    
+    // private Criteria buildNestedRecursively(String[] parts, int index, Expression valueExpr, String operator) {
+    //     String current = parts[index];
+    
+    //     if (index == parts.length - 1) {
+    //         Object value = null;
+    //         if (valueExpr instanceof StringValue) {
+    //             value = ((StringValue) valueExpr).getValue();
+    //         } else if (valueExpr instanceof LongValue) {
+    //             value = ((LongValue) valueExpr).getValue();
+    //         }
+    
+    //         switch (operator) {
+    //             case "eq": return Criteria.where(current).is(value);
+    //             case "gt": return Criteria.where(current).gt(value);
+    //             case "regex": return Criteria.where(current).regex(value.toString(), "i");
+    //             default: throw new RuntimeException("Unsupported operator: " + operator);
+    //         }
+    //     } else {
+    //         Criteria nested = buildNestedRecursively(parts, index + 1, valueExpr, operator);
+    //         return Criteria.where(current).elemMatch(nested);
+    //     }
+    // }
+    
+    // private Criteria buildSimpleCriteria(String field, Expression rightExp, String op) {
+    //     Object val = rightExp instanceof StringValue ? ((StringValue) rightExp).getValue() :
+    //                  rightExp instanceof LongValue ? ((LongValue) rightExp).getValue() : null;
+    //     return switch (op) {
+    //         case "eq" -> Criteria.where(field).is(val);
+    //         case "gt" -> Criteria.where(field).gt(val);
+    //         case "regex" -> Criteria.where(field).regex(val.toString(), "i");
+    //         default -> throw new RuntimeException("Unsupported operator: " + op);
+    //     };
+    // }
+    
+    /**
+ * Check if a field is an array field based on known array prefixes.
+ * Helps decide whether to wrap the query with $elemMatch.
+ *
+ * @param fieldName The field name to check
+ * @return true if the field is an array field or contains one in the path
+ */
+private boolean isArrayField(String fieldName) {
+    return fieldName.matches("(?i).*\\b(submodelElements|qualifiers|semanticId\\.keys|supplementalSemanticIds|embeddedDataSpecifications|definition|preferredName|shortName)\\b.*");
+
+}
+
+
+    
+   /**
+ * Build criteria for array fields using $elemMatch when appropriate.
+ * Supports nested arrays and paths like submodelElements.value, submodelElements.qualifiers.value, etc.
+ * @param fieldName The field name
+ * @param valueExpr The value expression
+ * @param operator The operator (eq, gt, lt, regex)
+ * @return MongoDB criteria
+ */
+// private Criteria buildArrayCriteria(String fieldName, Expression valueExpr, String operator) {
+//     log.debug("Building array criteria for field: {} with operator: {}", fieldName, operator);
+
+//     String[] parts = fieldName.split("\\.");
+//     StringBuilder arrayPath = new StringBuilder();
+//     StringBuilder elementPath = new StringBuilder();
+//     boolean foundIndex = false;
+
+//     // Detect numeric index manually (".0") to handle direct access or fallback to elemMatch
+//     for (int i = 0; i < parts.length; i++) {
+//         String part = parts[i];
+
+//         if (part.matches("\\d+")) {
+//             foundIndex = true;
+//             arrayPath.append(".").append(part);
+//         } else if (!foundIndex) {
+//             if (arrayPath.length() > 0) {
+//                 arrayPath.append(".");
+//             }
+//             arrayPath.append(part);
+//         } else {
+//             if (elementPath.length() > 0) {
+//                 elementPath.append(".");
+//             }
+//             elementPath.append(part);
+//         }
+//     }
+
+//     String arrayPathStr = arrayPath.toString();
+//     String elementPathStr = elementPath.toString();
+
+//     Object value;
+//     if (valueExpr instanceof StringValue) {
+//         value = ((StringValue) valueExpr).getValue();
+//     } else if (valueExpr instanceof LongValue) {
+//         value = ((LongValue) valueExpr).getValue();
+//     } else {
+//         throw new RuntimeException("Unsupported value expression: " + valueExpr);
+//     }
+
+//     if (foundIndex) {
+//         // Direct access (not recommended for user queries but still supported)
+//         String fullPath = arrayPathStr + (elementPathStr.isEmpty() ? "" : "." + elementPathStr);
+//         return switch (operator) {
+//             case "eq" -> Criteria.where(fullPath).is(value);
+//             case "gt" -> Criteria.where(fullPath).gt(value);
+//             case "regex" -> Criteria.where(fullPath).regex(value.toString(), "i");
+//             default -> throw new RuntimeException("Unsupported operator: " + operator);
+//         };
+//     } else {
+//         // Safe fallback to $elemMatch
+//         Criteria innerCriteria = switch (operator) {
+//             case "eq" -> Criteria.where(elementPathStr).is(value);
+//             case "gt" -> Criteria.where(elementPathStr).gt(value);
+//             case "regex" -> Criteria.where(elementPathStr).regex(value.toString(), "i");
+//             default -> throw new RuntimeException("Unsupported operator: " + operator);
+//         };
+
+//         return Criteria.where(arrayPathStr).elemMatch(innerCriteria);
+//     }
+// }
+
+}
