@@ -320,15 +320,15 @@
 			</rect>
 		</g>
 		<g id="firstRectanle_sli4">
-			<rect width="110" height="32" x="0" y="0" fill="gray">
+			<rect width="130" height="32" x="0" y="0" fill="gray">
 			</rect>
 		</g>
 		<g id="circleForm_sli4">
-			<circle r="16" cx="109" cy="16" fill="gray">
+			<circle r="16" cx="129" cy="16" fill="gray">
 			</circle>
 		</g>
 		<g id="arrivalPosition_sli4">
-			<circle r="14" cx="109" cy="16" fill="lightblue" fill-opacity="0.75">
+			<circle r="14" cx="129" cy="16" fill="lightblue" fill-opacity="0.75">
 			</circle>
 		</g>
 	</g>
