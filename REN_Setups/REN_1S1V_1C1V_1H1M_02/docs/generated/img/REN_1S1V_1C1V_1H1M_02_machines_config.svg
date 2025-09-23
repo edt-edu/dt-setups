@@ -108,13 +108,13 @@
 			</rect>
 		</g>
 		<g id="conveyorZone_cb1">
-			<rect width="270" height="50" class="conveyorZone" x="0" y="20">
+			<rect width="270" height="50" class="conveyorZone" x="0" y="5">
 			</rect>
 		</g>
 		<g>
-			<rect width="20" height="100" x="30" y="-10" class="lightBarrier">
+			<rect width="20" height="80" x="30" y="-10" class="lightBarrier">
 			</rect>
-			<rect width="20" height="100" x="220" y="-10" class="lightBarrier">
+			<rect width="20" height="80" x="220" y="-10" class="lightBarrier">
 			</rect>
 		</g>
 	</g>
@@ -264,6 +264,72 @@
 		<g id="saw_mps1">
 			<polygon points="156,165 156,165 160.3388373911756,170.99031132097582 167.72747223702044,170.647652972119 165.74927912181823,177.77479066043685 170.62391868272735,183.33781400934473 163.8183148246803,186.23489801858733 162.50825608676337,193.5145330185363 156,190 149.49174391323663,193.5145330185363 148.1816851753197,186.23489801858733 141.37608131727265,183.33781400934473 146.25072087818177,177.77479066043685 144.27252776297956,170.647652972119 151.6611626088244,170.99031132097582 156,165" stroke="black" fill="none">
 			</polygon>
+		</g>
+	</g>
+	<g id="sli1" transform="matrix(-1.8369701987210297e-16,-1,1,-1.8369701987210297e-16,670,941)">
+		<g id="trapezeForm_sli1">
+			<polygon points="15,0 47,0 62,53 0,53" fill="gray" transform="matrix(-1,1.2246467991473532e-16,-1.2246467991473532e-16,-1,62,53)">
+			</polygon>
+			<rect width="2" height="2" fill="red" id="referencePoint_sli1">
+			</rect>
+		</g>
+		<g id="circleForm_sli1">
+			<circle r="16" cx="31" cy="53" fill="gray">
+			</circle>
+		</g>
+		<g id="arrivalPosition_sli1">
+			<circle r="14" cx="31" cy="53" fill="lightblue" fill-opacity="0.75">
+			</circle>
+		</g>
+	</g>
+	<g id="sli2" transform="matrix(6.123233995736766e-17,1,-1,6.123233995736766e-17,413,879)">
+		<g id="trapezeForm_sli2">
+			<polygon points="15,0 47,0 62,53 0,53" fill="gray" transform="matrix(-1,1.2246467991473532e-16,-1.2246467991473532e-16,-1,62,53)">
+			</polygon>
+			<rect width="2" height="2" fill="red" id="referencePoint_sli2">
+			</rect>
+		</g>
+		<g id="circleForm_sli2">
+			<circle r="16" cx="31" cy="53" fill="gray">
+			</circle>
+		</g>
+		<g id="arrivalPosition_sli2">
+			<circle r="14" cx="31" cy="53" fill="lightblue" fill-opacity="0.75">
+			</circle>
+		</g>
+	</g>
+	<g id="sli3" transform="matrix(-1.8369701987210297e-16,-1,1,-1.8369701987210297e-16,390,538)">
+		<g id="trapezeForm_sli3">
+			<polygon points="15,0 47,0 62,53 0,53" fill="gray" transform="matrix(-1,1.2246467991473532e-16,-1.2246467991473532e-16,-1,62,53)">
+			</polygon>
+			<rect width="2" height="2" fill="red" id="referencePoint_sli3">
+			</rect>
+		</g>
+		<g id="circleForm_sli3">
+			<circle r="16" cx="31" cy="53" fill="gray">
+			</circle>
+		</g>
+		<g id="arrivalPosition_sli3">
+			<circle r="14" cx="31" cy="53" fill="lightblue" fill-opacity="0.75">
+			</circle>
+		</g>
+	</g>
+	<g id="sli4" transform="matrix(1,0,0,1,203,899)">
+		<g id="firstRectanle_sli4">
+			<rect width="34" height="36" x="0" y="0" fill="gray">
+			</rect>
+		</g>
+		<g id="firstRectanle_sli4">
+			<rect width="130" height="32" x="0" y="0" fill="gray">
+			</rect>
+		</g>
+		<g id="circleForm_sli4">
+			<circle r="16" cx="129" cy="16" fill="gray">
+			</circle>
+		</g>
+		<g id="arrivalPosition_sli4">
+			<circle r="14" cx="129" cy="16" fill="lightblue" fill-opacity="0.75">
+			</circle>
 		</g>
 	</g>
 	<g id="vgr2" transform="matrix(1,0,0,1,410,540)">
