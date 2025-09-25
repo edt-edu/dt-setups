@@ -1,0 +1,2 @@
+DEBUG: RevPiPyMachineController      ,61 : init started
+WARNING: RevPiPyMachineController      ,99 : configuration file config.yml not found; stopping the process
