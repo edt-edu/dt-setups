@@ -1,0 +1,1 @@
+attribute ${a.unitName} : StorageAttribute {}

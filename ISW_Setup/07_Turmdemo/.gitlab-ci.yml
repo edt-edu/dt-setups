@@ -1,0 +1,15 @@
+build:
+  image: docker:latest
+  stage: build
+  services:
+    - docker:dind
+  variables:
+    DOCKER_TLS_CERTDIR: ""
+
+  script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+    - IMAGE_TAG=v0.1
+    - IMAGE_NAME=$CI_REGISTRY_IMAGE:$IMAGE_TAG
+    - docker build -t $IMAGE_NAME .   
+
+    - docker push $IMAGE_NAME

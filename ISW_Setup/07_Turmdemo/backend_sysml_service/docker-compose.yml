@@ -1,0 +1,10 @@
+version: "3.8"
+services:
+  backend:
+    build: .
+    container_name: backend_sysml_service
+    ports:
+      - "8982:8080"
+    restart: always
+    volumes:
+      - ./output:/app/output

@@ -1,0 +1,44 @@
+#version: '0.1'
+services:
+  # mbdo_demo:
+  #   image: git.isw.uni-stuttgart.de:5000/projekte/maschinen/gruppe1turm/xzg_mbdo_devops_demo:v0.1
+  #   container_name: mbdo_demo
+  #   ports:
+  #     - '8981:81'
+  #---------------------------------------------------------------------------------------
+  backend:
+    image: git.isw.uni-stuttgart.de:5000/projekte/eigenentwicklungen/software-engineering/hiwis/luca-schorer/backend_sysml_service:v0.3
+    container_name: xzg_mbdo_devops_backend_sysml_service
+    ports:
+      - "8982:8982"
+    volumes:
+      - ./backend_sysml_service/output:/app/output
+    restart: always
+    networks:
+      - syson
+  #---------------------------------------------------------------------------------------
+  database:
+    image: postgres:12
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+    networks:
+      - syson
+  app:
+    image: eclipsesyson/syson:v2025.6.1
+    ports:
+      - "8980:8980"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database/postgres
+      SPRING_DATASOURCE_USERNAME: username
+      SPRING_DATASOURCE_PASSWORD: password
+      SIRIUS_COMPONENTS_CORS_ALLOWEDORIGINPATTERNS: "*"
+      SERVER_PORT: 8980
+    depends_on:
+      - database
+    networks:
+      - syson
+
+networks:
+  syson:
