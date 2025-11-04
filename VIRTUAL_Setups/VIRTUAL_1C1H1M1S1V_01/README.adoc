@@ -37,7 +37,7 @@ cd config/PLC1
 
 [source,shell]
 ----
-python3 SimulatedMachines_Controller.py.py
+python3 SimulatedMachines_Controller.py
 ----
 
 === Start SCADA in dev mode for this setup
