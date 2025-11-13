@@ -27,7 +27,7 @@ class MachineController:
         pass
 
 
-class Island1Controller(RevPiPyMachineController):
+class Island2Controller(RevPiPyMachineController):
     def __init__(self, simulatedRevPiModIO: bool = False, configurationFile: str = ""):
         """
         Init method of this class, starts all threads and everything is ready for receiving commands via Sockets and executing them
@@ -348,4 +348,4 @@ if __name__ == "__main__":
     logging.getLogger().addHandler(handler)
 
     # Start communication threads and main control loop
-    Island1Controller(configurationFile="/home/pi/rppmcontroller/rppmcontroller/example/island2_config.yml").start()
+    Island2Controller(configurationFile="/home/pi/rppmcontroller/rppmcontroller/example/island2_config.yml").start()
