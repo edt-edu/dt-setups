@@ -91,9 +91,11 @@ class VacuumGripperController(MachineController):
         self.rpi.io.O_8.value = self.machine.vacuumActValve
 
     def reset(self) -> None:
-        if self.machine.resetHelper():
+        if self.machine.vertical_reset_helper.reset():
             self.rpi.io.Counter_5.reset()
+        if self.machine.arm_reset_helper.reset():
             self.rpi.io.Counter_7.reset()
+        if self.machine.rot_reset_helper.reset():
             self.rpi.io.Counter_9.reset()
 
 class VacuumGripperController2(MachineController):
@@ -119,9 +121,11 @@ class VacuumGripperController2(MachineController):
         self.rpi.io.O_8_i03.value = self.machine.vacuumActValve
 
     def reset(self) -> None:
-        if self.machine.resetHelper():
+        if self.machine.vertical_reset_helper.reset():
             self.rpi.io.Counter_5_i03.reset()
+        if self.machine.arm_reset_helper.reset():
             self.rpi.io.Counter_7_i03.reset()
+        if self.machine.rot_reset_helper.reset():
             self.rpi.io.Counter_9_i03.reset()
 
 class ConveyorBeltController(MachineController):
@@ -223,9 +227,9 @@ class HighBayController(MachineController):
         self.rpi.io.O_8_i05.value = self.machine.highbayActCantileverBackward
 
     def reset(self):
-        if self.machine.must_reset:
-            self.machine.must_reset = False
+        if self.machine.horizontal_reset_helper.reset():
             self.rpi.io.Counter_7_i05.reset()
+        if self.machine.vertical_reset_helper.reset():
             self.rpi.io.Counter_9_i05.reset()
 
 class PunchingMachineController(MachineController):
