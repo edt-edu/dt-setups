@@ -98,10 +98,10 @@ class RevPi_Controller(RevPiPyModIOMachineController):
 
     def reset(self) -> None:
         assert self.rpi.io is not None
-        if self.highBayMachine.must_reset:
+        if self.highBayMachine.horizontal_reset_helper.reset():
             self.rpi.io.dio6_Counter_7.reset()
+        if self.highBayMachine.vertical_reset_helper.reset():
             self.rpi.io.dio6_Counter_9.reset()
-            self.highBayMachine.must_reset = False
          
 if __name__ == "__main__":
     logging.basicConfig(format='%(asctime)s %(levelname)-5s: %(module)-30s,%(lineno)-3s: %(message)s', 
