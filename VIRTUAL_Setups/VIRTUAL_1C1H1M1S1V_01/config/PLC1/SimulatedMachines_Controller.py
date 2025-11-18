@@ -92,14 +92,17 @@ class SimulatedMiniFactoryController(RevPiPyMachineController):
         self.highBaySimulator.simulatedWrite()
    
     def reset(self) -> None:
-        vg = self.vacuumGripperMachine.resetHelper()
-        if vg:
-            self.vaccumGripperSimulator.simulatedReset()
+        if self.vacuumGripperMachine.arm_reset_helper.reset():
+            self.vaccumGripperSimulator.simulatedArmReset()
+        if self.vacuumGripperMachine.rot_reset_helper.reset():
+            self.vaccumGripperSimulator.simulatedRotationReset()
+        if self.vacuumGripperMachine.vertical_reset_helper.reset():
+            self.vaccumGripperSimulator.simulatedVerticalReset()
 
-
-        if self.highBayMachine.must_reset:
-            self.highBaySimulator.simulatedReset()
-            self.highBayMachine.must_reset = False
+        if self.highBayMachine.horizontal_reset_helper.reset():
+            self.highBaySimulator.simulatedHorizontalReset()
+        if self.highBayMachine.vertical_reset_helper.reset():
+            self.highBaySimulator.simulatedVerticalReset()
 
 if __name__ == "__main__":
     logging.basicConfig(format='%(asctime)s %(levelname)-5s: %(module)-30s,%(lineno)-3s: %(message)s', 
