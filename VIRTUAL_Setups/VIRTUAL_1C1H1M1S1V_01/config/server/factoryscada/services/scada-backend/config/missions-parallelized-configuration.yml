@@ -220,4 +220,43 @@ FactoryMissionsParallelized:
           description: >
             End of the mission
           outputs: []
-        
+    - name: "TEST mission for HBW"
+      description: >
+        this is not functionnal in virtual setup due to missing sensor simulation, but used to test UI
+      nodes:
+        - type: entryNode
+          id: "Entry node"
+          description: >
+              The entry node
+          outputs: 
+            - HBretrieve2        
+        - type: rawMachineCommand
+          id: "HBretrieve2"
+          description: >
+            [HBW1] Retrieve box from place 1;1
+          placeholder: >
+            {
+                "topicName": "HighBay01",
+                "timestamp": 1750259441566,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "WAREHOUSE",
+                    "outputId": "AUTO_ID",
+                    "name": "PICKUP_FROM",
+                    "parameters": [
+                        {
+                            "passableType": "NUMBERNATURAL",
+                            "passable": {
+                                "number": 1
+                            }
+                        },
+                        {
+                            "passableType": "NUMBERNATURAL",
+                            "passable": {
+                                "number": 1
+                            }
+                        }
+                    ]
+                }
+              }
+          outputs: []            
