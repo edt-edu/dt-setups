@@ -110,13 +110,13 @@ FactoryMissionsParallelized:
           description: >
             HB retrieve and VGR2 to HBW
           outputs:
-            - HBretrieve
-            - VGR2toHBW
+            - HBPickup_1
+            - VGR2CloseToHBW
 
         - type: rawMachineCommand
-          id: "HBretrieve"
+          id: "HBPickup_1"
           description: >
-            Retrieve the box 1:1
+            [HBW1] Pickup the box at 1:1 and place it on retrieval location
           placeholder: >
             {
               "topicName": "HighBay01",
@@ -146,9 +146,9 @@ FactoryMissionsParallelized:
             - Join1
 
         - type: rawMachineCommand
-          id: "VGR2toHBW"
+          id: "VGR2CloseToHBW"
           description: >
-            Move the VGR2 to HBW
+            [VGR2] Move arm close to HBW retrieval location
           placeholder: >
             {
                 "topicName": "VacuumGripper02",
@@ -185,7 +185,7 @@ FactoryMissionsParallelized:
         - type: join
           id: "Join1"
           description: >
-            Join of HB and VGR2
+            Join of HBPickup_1 and VGR2CloseToHBW
           outputs:
             - Fork2
 
@@ -194,13 +194,13 @@ FactoryMissionsParallelized:
           description: >
             HB process and payload process
           outputs:
-            - HBstore
+            - HBStoreTo_1
             - VGR2toCB
         
         - type: rawMachineCommand
-          id: "HBstore"
+          id: "HBStoreTo_1"
           description: >
-            [HBW1] Store payload to place 1;1
+            [HBW1] Store empty box from retrieval location to place 1;1
           placeholder: >
             {
               "topicName": "HighBay01",
@@ -227,12 +227,12 @@ FactoryMissionsParallelized:
               }
             }
           outputs:
-            - HBretrieve2
+            - HBPickup_2
         
         - type: rawMachineCommand
-          id: "HBretrieve2"
+          id: "HBPickup_2"
           description: >
-            [HBW1] Retrieve box from place 1;1
+            [HBW1] Pickup the empty box at 1:1 and place it on retrieval location
           placeholder: >
             {
                 "topicName": "HighBay01",
@@ -357,10 +357,10 @@ FactoryMissionsParallelized:
           description: >
             Join of CB and VGR2
           outputs:
-            - VGR1toSL
+            - VGR1_CBtoSL
         
         - type: rawMachineCommand
-          id: "VGR1toSL"
+          id: "VGR1_CBtoSL"
           description: >
             [VGR1] Move from CB to SL
           placeholder: >
@@ -379,7 +379,7 @@ FactoryMissionsParallelized:
                                 "meaning": "START",
                                 "vertical": 1200,
                                 "horizontal": 1460,
-                                "rot": 1890
+                                "rot": 1900
                             }
                         },
                         {
@@ -620,7 +620,7 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "END",
                                 "vertical": 910,
-                                "horizontal": 1980,
+                                "horizontal": 1970,
                                 "rot": 2090
                             }
                         }
