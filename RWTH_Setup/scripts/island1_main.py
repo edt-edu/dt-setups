@@ -93,10 +93,12 @@ class VacuumGripperController(MachineController):
     def reset(self) -> None:
         if self.machine.vertical_reset_helper.reset():
             self.rpi.io.Counter_5.reset()
+            logging.debug("[island1](vgr) reset vertical encoder counter")
         if self.machine.arm_reset_helper.reset():
             self.rpi.io.Counter_7.reset()
+            logging.debug("[island1](vgr) reset horizontal encoder counter")
         if self.machine.rot_reset_helper.reset():
-            self.rpi.io.Counter_9.reset()
+            logging.debug("[island1](vgr) reset rotation encoder counter")
 
 class VacuumGripperController2(MachineController):
     def __init__(self, machine, rpi):
@@ -123,10 +125,13 @@ class VacuumGripperController2(MachineController):
     def reset(self) -> None:
         if self.machine.vertical_reset_helper.reset():
             self.rpi.io.Counter_5_i03.reset()
+            logging.debug("[island1](vgr2) reset vertical encoder counter")
         if self.machine.arm_reset_helper.reset():
             self.rpi.io.Counter_7_i03.reset()
+            logging.debug("[island1](vgr2) reset horizontal encoder counter")
         if self.machine.rot_reset_helper.reset():
             self.rpi.io.Counter_9_i03.reset()
+            logging.debug("[island1](vgr2) reset rotation encoder counter")
 
 class ConveyorBeltController(MachineController):
     def __init__(self, machine, rpi):
@@ -229,8 +234,10 @@ class HighBayController(MachineController):
     def reset(self):
         if self.machine.horizontal_reset_helper.reset():
             self.rpi.io.Counter_7_i05.reset()
+            logging.debug("[island1](high_bay) reset horizontal encoder counter")
         if self.machine.vertical_reset_helper.reset():
             self.rpi.io.Counter_9_i05.reset()
+            logging.debug("[island1](high_bay) reset vertical encoder counter")
 
 class PunchingMachineController(MachineController):
     def __init__(self, machine, rpi):
