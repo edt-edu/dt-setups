@@ -21,3 +21,15 @@
       dest: /home/mbdo-admin/mbdo/gateway
       recursive: true
       delete: true  # 'true' to delete files not in the source
+  - name: Push demo scripts directory contents
+    synchronize:
+      src: ../../config/server/demo-support/scripts/
+      dest: /home/mbdo-admin/mbdo/scripts
+      recursive: true
+      delete: true  # 'true' to delete files not in the source
+  - name: Push demo Desktop directory contents
+    synchronize:
+      src: ../../config/server/demo-support/Desktop/
+      dest: /home/mbdo-admin/Desktop
+      recursive: true
+      delete: false  # 'false' to NOT delete files not in the source
