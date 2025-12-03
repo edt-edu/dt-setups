@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=MBDO PLCs Terminals
+Comment=Open Terminal for MBDO Demo (including tabs connected to the PLCs)
+Exec=/home/mbdo-admin/mbdo/scripts/open_mbdo_terminals.sh
+Icon=utilities-terminal
+Terminal=false
+Type=Application
