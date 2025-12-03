@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Fischertechnik Factory Demo Instructions</title>
+<style>
+body { font-family: sans-serif; margin: 2rem; line-height: 1.6; }
+#content { max-width: 900px; }
+pre, code { background: #f0f0f0; padding: 4px 6px; border-radius: 4px; }
+</style>
+<!-- Marked.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+
+<body>
+<h1>Fischertechnik Factory Demo Instructions</h1>
+
+<div id="content"></div>
+
+<script>
+// Your Markdown content goes here:
+const markdown = `
+# Demo Instructions
+
+## 1. Start  Services
+
+### 1.1. Open Terminals
+Open the terminals connected to the PLCs and the MBDO server. a Launcher is provided on the Desktop. or available at \`~/mbdo/scripts/open_mbdo_terminals.sh\`.
+
+### 1.2. Start Docker Containers of the SCADA System
+In the MBDO server terminal, navigate to the  directory \`/home/mbdo-admin/mbdo/factoryscada\` and
+Run:
+\`\`\`
+docker compose pull
+docker compose up -d
+\`\`\`
+
+## 1.3. Start the 3 PLCs
+
+In each of the PLC terminals, run:
+\`\`\`
+cd ~/rppmcontroller_current_setup
+python3 RevPi_Controller.py 
+\`\`\`
+
+## 2. Open web Pages
+
+- http://mbdo-server.local:9080 : SCADA web page. if possibel show 2 pages side by side: command page and mission page
+- http://mbdo-server.local:8080 : (Optionnal) Camera web page 
+
+## 3. Optionnal: Open MQTT Explorer
+If you want to show the MQTT messages, you can open the MQTT Explorer application and connect to  \`http://mbdo-server.local:1883\`.
+
+## Notes
+(Add descriptions here)
+`;
+
+// Render:
+document.getElementById("content").innerHTML = marked.parse(markdown);
+</script>
+
+</body>
+</html>
+

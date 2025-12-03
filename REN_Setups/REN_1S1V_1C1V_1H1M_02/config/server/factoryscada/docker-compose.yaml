@@ -16,6 +16,6 @@ services:
         container_name: scada-frontend
         ports:
             - 9080:80
-        volumes:
-            - ./services/scada-frontend/config:/app/config
+#        volumes:
+#            - ./services/scada-frontend/config:/app/config
         
