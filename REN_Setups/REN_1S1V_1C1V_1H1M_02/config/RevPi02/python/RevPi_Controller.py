@@ -85,10 +85,11 @@ class RevPi_Controller(RevPiPyModIOMachineController):
     
     def reset(self) -> None:
         assert self.rpi.io is not None
-        vg = self.vacuumGripperMachine.resetHelper()
-        if vg:
+        if self.vacuumGripperMachine.vertical_reset_helper.must_reset():
             self.rpi.io.dio3_Counter_5.reset()
+        if self.vacuumGripperMachine.arm_reset_helper.must_reset():
             self.rpi.io.dio3_Counter_7.reset()
+        if self.vacuumGripperMachine.rot_reset_helper.must_reset():
             self.rpi.io.dio3_Counter_9.reset()
 
 if __name__ == "__main__":

@@ -27,7 +27,7 @@ class MachineController:
         pass
 
 
-class Island1Controller(RevPiPyMachineController):
+class Island2Controller(RevPiPyMachineController):
     def __init__(self, simulatedRevPiModIO: bool = False, configurationFile: str = ""):
         """
         Init method of this class, starts all threads and everything is ready for receiving commands via Sockets and executing them
@@ -98,9 +98,11 @@ class VacuumGripperController3(MachineController):
         self.rpi.io.O_8_i04.value = self.machine.vacuumActValve
 
     def reset(self) -> None:
-        if self.machine.resetHelper():
+        if self.machine.vertical_reset_helper.must_reset():
             self.rpi.io.Counter_5_i04.reset()
+        if self.machine.arm_reset_helper.must_reset():
             self.rpi.io.Counter_7_i04.reset()
+        if self.machine.rot_reset_helper.must_reset():
             self.rpi.io.Counter_9_i04.reset()
 
 class VacuumGripperController4(MachineController):
@@ -126,9 +128,11 @@ class VacuumGripperController4(MachineController):
         self.rpi.io.O_8_i05.value = self.machine.vacuumActValve
 
     def reset(self) -> None:
-        if self.machine.resetHelper():
+        if self.machine.vertical_reset_helper.must_reset():
             self.rpi.io.Counter_5_i05.reset()
+        if self.machine.arm_reset_helper.must_reset():
             self.rpi.io.Counter_7_i05.reset()
+        if self.machine.rot_reset_helper.must_reset():
             self.rpi.io.Counter_9_i05.reset()
 
 class VacuumGripperController5(MachineController):
@@ -154,9 +158,11 @@ class VacuumGripperController5(MachineController):
         self.rpi.io.O_8_i06.value = self.machine.vacuumActValve
 
     def reset(self) -> None:
-        if self.machine.resetHelper():
+        if self.machine.vertical_reset_helper.must_reset():
             self.rpi.io.Counter_5_i06.reset()
+        if self.machine.arm_reset_helper.must_reset():
             self.rpi.io.Counter_7_i06.reset()
+        if self.machine.rot_reset_helper.must_reset():
             self.rpi.io.Counter_9_i06.reset()
 
 
@@ -260,8 +266,9 @@ class HighBayController2(MachineController):
         self.rpi.io.O_8_i08.value = self.machine.highbayActCantileverBackward
 
     def reset(self):
-        if self.machine.isInitialized:
+        if self.machine.horizontal_reset_helper.must_reset():
             self.rpi.io.Counter_7_i08.reset()
+        if self.machine.vertical_reset_helper.must_reset():
             self.rpi.io.Counter_9_i08.reset()
 
 
@@ -348,4 +355,4 @@ if __name__ == "__main__":
     logging.getLogger().addHandler(handler)
 
     # Start communication threads and main control loop
-    Island1Controller(configurationFile="/home/pi/rppmcontroller/rppmcontroller/example/island2_config.yml").start()
+    Island2Controller(configurationFile="/home/pi/rppmcontroller/rppmcontroller/example/island2_config.yml").start()
