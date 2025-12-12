@@ -49,3 +49,10 @@ configuration:
          name: "I2SortingLine02"
        - type: "highBayWarehouse"
          name: "I2HighBay02" 
+   - name: "plc-3"
+     host: '192.168.178.203'
+     commandPort: 6001
+     notificationPort: 6011
+     machines:
+       - type: "multiProcessingStation"
+         name: "I3MultiProcessing02"
