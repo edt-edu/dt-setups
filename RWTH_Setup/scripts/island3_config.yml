@@ -1,0 +1,20 @@
+
+---
+plc:
+  id: "Island 3"
+connection:
+  # if host is commented, will default to "<hostname>.local"
+  host: "0.0.0.0"
+  # host: "RevPi103156.local"
+  command_port: 6001
+  notification_port: 6011
+  # connectionListening: "controller" or "orchestrator"
+  connectionListening: "controller"
+
+controller:
+  mainLoopDelay: 0.001
+
+mqtt:
+  server: "192.168.178.200"
+  port: 1883
+  keepalive: 60

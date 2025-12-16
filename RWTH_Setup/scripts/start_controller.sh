@@ -14,6 +14,9 @@ case "$ISLAND_NUMBER" in
   2)
     TARGET_IP=192.168.178.202
     ;;
+  3)
+    TARGET_IP=192.168.178.203
+    ;;
   -h|--help|help|?)
     echo "./start_controller <island_number> [-d]"
     echo "Upload and start the controller for the specified island"
