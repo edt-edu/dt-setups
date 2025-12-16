@@ -44,7 +44,7 @@ class Island1Controller(RevPiPyMachineController):
         self.addController(ConveyorBeltController(ConveyorBelt("I1ConveyorBelt01"), self.rpi))
         self.addController(MultiProcessingController(MultiProcessing("I1MultiProcessing01"), self.rpi))
         self.addController(SortingLineController(SortingLine("I1SortingLine01", delay_offsets=(0, 0, -0.5), mockAnalogSensor=True), self.rpi))
-        self.addController(HighBayController(HighBay("I1HighBay01", column_offset=(0, -100, -50, -50)), self.rpi))
+        self.addController(HighBayController(HighBay("I1HighBay01", column_offset=(-100, -50, -150, -150)), self.rpi))
         # machines which are usually not connected to island 1
         # self.addController(PunchingMachineController(PunchingMachine("I1PunchingMachine01"), self.rpi))
         # self.addController(IndexedLineController(IndexedLine("I1IndexedLine01"), self.rpi))
