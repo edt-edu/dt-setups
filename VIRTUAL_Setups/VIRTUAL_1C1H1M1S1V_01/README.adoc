@@ -3,9 +3,9 @@ This folder contains a virtual setup  for a mini factory composed of a Converyor
 This allows testing the controller, SCADA Digital Twin tooling without access to the physical Fishertechnik machines.
 
 
-== Quick start
+## Quick start
 
-===  Install and run a mqtt broker
+### Install and run a mqtt broker
 
 an easy way to get a mqtt broker running on you machine:
 
@@ -16,7 +16,7 @@ go to `VIRTUAL_Setups/VIRTUAL_shared/mosquito` and run
 docker compose up
 ----
 
-=== Activate your python environment
+### Activate your python environment
 
 NOTE: you must make sure to have added the folder containing the rppmcontroller code in development mode in the python environment (see https://git.rwth-aachen.de/mbdo/mbdo-impl/-/blob/master/rppmcontroller/README.md?ref_type=heads#install-the-development-environment)
 
@@ -28,7 +28,7 @@ conda activate rppmcontroller
 ----
 
 
-=== Start simulated machine controller
+### Start simulated machine controller
 
 [source,shell]
 ----
@@ -40,7 +40,7 @@ cd config/PLC1
 python3 SimulatedMachines_Controller.py
 ----
 
-=== Start SCADA in dev mode for this setup
+### Start SCADA in dev mode for this setup
 
 Frontend
 [source,shell]
@@ -65,8 +65,30 @@ cd ../../factoryscada/backend
 ----
 
 
+### Start the gateway service for this setup
 
-=== Note about machines speed
+#### Development mode
+
+For development mode, you can start the gateway service directly from the source code.
+Go to 'REN_Setups/dt-support/gateway' and run:
+
+[source,shell]
+----
+./gradlew bootrun --args='--configuration.path=../../VIRTUAL_Setups/VIRTUAL_1C1H1M1S1V_01/config/server/gateway/services/gateway/config/configuration.yml'
+----
+
+#### Testing production mode with docker
+
+Alternatively, you can pull the docker image for the gateway service and run it.
+
+Go to 'VIRTUAL_Setups/dt-support/gateway' and run:
+
+[source,shell]
+----
+docker-compose up --build
+----
+
+### Note about machines speed
 
 For calibrating  the simulatedMachines speed with respect to the cycle step time, the following where used as reference:
 

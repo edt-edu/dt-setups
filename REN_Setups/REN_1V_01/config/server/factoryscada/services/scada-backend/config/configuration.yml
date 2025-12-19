@@ -2,7 +2,7 @@
 
 configuration:
   name: "REN_1V_01_configuration"
-
+  mqttHost: "tcp://mbdo-server.local:1883"
   controllers:
     - name: "plc-1"
       host: 'RevPi103156.local'
