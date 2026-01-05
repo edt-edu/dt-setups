@@ -5,6 +5,7 @@ from rppmcontroller.machine.highbay.HighBayParameters import HighBayParameters
 from rppmcontroller.machine.multiprocessing.MultiProcessing import MultiProcessing
 from rppmcontroller.machine.highbay.HighBay import HighBay
 from rppmcontroller.RevPiPyModIOMachineController import RevPiPyModIOMachineController
+from rppmcontroller.machine.multiprocessing.MultiProcessingParameters import MultiProcessingParameters
 from rppmcontroller.protocol.MQTTFunctions import MQTTFunctions
 from rppmcontroller.machine.Type import Type
 
@@ -23,7 +24,8 @@ class RevPi_Controller(RevPiPyModIOMachineController):
         
         #dict, which keys are the machines, than there is a tuple holding the function currently executed ([0]) and the id it was sent with ([1])
         self.currentlyExecuting = {}
-        self.multiProcessingMachine = MultiProcessing("MultiProcessing01", safetyPos = {'toOven': True})
+        mpsParameters = MultiProcessingParameters(safety_at_oven=True)
+        self.multiProcessingMachine = MultiProcessing("MultiProcessing01", mpsParameters)
         highBayParameters = HighBayParameters(vertical_safety_position=0, horizontal_safety_position=0)
         highBayParameters.add_vertical_offset(-70)
         highBayParameters.conveyor_column -= 25
