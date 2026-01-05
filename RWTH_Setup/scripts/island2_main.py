@@ -10,6 +10,7 @@ from rppmcontroller.machine.indexedline.IndexedLine import IndexedLine
 from rppmcontroller.machine.multiprocessing.MultiProcessing import MultiProcessing
 from rppmcontroller.machine.punchingmachine.PunchingMachine import PunchingMachine
 from rppmcontroller.machine.sortingLine.SortingLine import SortingLine
+from rppmcontroller.machine.sortingLine.SortingLineParameters import SortingLineParameters
 from rppmcontroller.machine.vacuumgripper.VacuumGripper import VacuumGripper
 
 
@@ -47,8 +48,11 @@ class Island2Controller(RevPiPyMachineController):
         self.addController(ConveyorBeltController2(ConveyorBelt("I2ConveyorBelt02"), self.rpi))
         self.addController(ConveyorBeltController3(ConveyorBelt("I2ConveyorBelt03"), self.rpi))
         self.addController(ConveyorBeltController4(ConveyorBelt("I2ConveyorBelt04"), self.rpi))
-        
-        self.addController(SortingLineController2(SortingLine("I2SortingLine02", delay_offsets=(0, -0.1, -0.15)), self.rpi))
+
+        sortingLineParameters = SortingLineParameters()
+        sortingLineParameters.red_ejector_delay -= 0.1
+        sortingLineParameters.blue_ejector_delay -= 0.15
+        self.addController(SortingLineController2(SortingLine("I2SortingLine02", sortingLineParameters), self.rpi))
 
         highBayParameters = HighBayParameters()
         highBayParameters.conveyor_column -= 20
