@@ -5,6 +5,7 @@ import revpimodio2
 from rppmcontroller.RevPiPyMachineController import RevPiPyMachineController
 from rppmcontroller.machine.conveyorbelt.ConveyorBelt import ConveyorBelt
 from rppmcontroller.machine.highbay.HighBay import HighBay
+from rppmcontroller.machine.highbay.HighBayParameters import HighBayParameters
 from rppmcontroller.machine.indexedline.IndexedLine import IndexedLine
 from rppmcontroller.machine.multiprocessing.MultiProcessing import MultiProcessing
 from rppmcontroller.machine.punchingmachine.PunchingMachine import PunchingMachine
@@ -49,7 +50,12 @@ class Island2Controller(RevPiPyMachineController):
         
         self.addController(SortingLineController2(SortingLine("I2SortingLine02", delay_offsets=(0, -0.1, -0.15)), self.rpi))
 
-        self.addController(HighBayController2(HighBay("I2HighBay02", column_offset=(-20, -30, -30, -60)), self.rpi))
+        highBayParameters = HighBayParameters()
+        highBayParameters.conveyor_column -= 20
+        highBayParameters.right_column -= 30
+        highBayParameters.middle_column -= 30
+        highBayParameters.left_column -= 60
+        self.addController(HighBayController2(HighBay("I2HighBay02", highBayParameters), self.rpi))
 
         self.addController(PunchingMachineController1(PunchingMachine("I2PunchingMachine01"), self.rpi))
         self.addController(PunchingMachineController2(PunchingMachine("I2PunchingMachine02"), self.rpi))

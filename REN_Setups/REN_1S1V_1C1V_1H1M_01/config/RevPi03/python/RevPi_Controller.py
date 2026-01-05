@@ -1,11 +1,11 @@
 import ctypes
 import logging
 
-from rppmcontroller.machine.multiprocessing.MultiProcessing import MultiProcessing
-from rppmcontroller.machine.highbay.HighBay import HighBay
 from rppmcontroller.RevPiPyModIOMachineController import RevPiPyModIOMachineController
+from rppmcontroller.machine.highbay.HighBay import HighBay
+from rppmcontroller.machine.highbay.HighBayParameters import HighBayParameters
+from rppmcontroller.machine.multiprocessing.MultiProcessing import MultiProcessing
 from rppmcontroller.protocol.MQTTFunctions import MQTTFunctions
-from rppmcontroller.machine.Type import Type
 
 
 class RevPi_Controller(RevPiPyModIOMachineController):
@@ -23,7 +23,13 @@ class RevPi_Controller(RevPiPyModIOMachineController):
         #dict, which keys are the machines, than there is a tuple holding the function currently executed ([0]) and the id it was sent with ([1])
         self.currentlyExecuting = {}
         self.multiProcessingMachine = MultiProcessing("MultiProcessing01", safetyPos = {'toOven': True})
-        self.highBayMachine = HighBay("HighBay01", row_offset=(-70,-70,-70,-70), column_offset=(-25, -65, -45, -80), safetyPos = {'horizontal': 0, 'vertical': 0})
+        highBayParameters = HighBayParameters(vertical_safety_position=0, horizontal_safety_position=0)
+        highBayParameters.add_vertical_offset(-70)
+        highBayParameters.conveyor_column -= 25
+        highBayParameters.right_column -= 65
+        highBayParameters.middle_column -= 45
+        highBayParameters.left_column -= 80
+        self.highBayMachine = HighBay("HighBay01", highBayParameters)
         self.machines = [self.multiProcessingMachine, self.highBayMachine]
         self.currentlyExecuting = {
             self.multiProcessingMachine: None,

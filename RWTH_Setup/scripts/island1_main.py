@@ -5,6 +5,7 @@ import revpimodio2
 from rppmcontroller.RevPiPyMachineController import RevPiPyMachineController
 from rppmcontroller.machine.conveyorbelt.ConveyorBelt import ConveyorBelt
 from rppmcontroller.machine.highbay.HighBay import HighBay
+from rppmcontroller.machine.highbay.HighBayParameters import HighBayParameters
 from rppmcontroller.machine.indexedline.IndexedLine import IndexedLine
 from rppmcontroller.machine.multiprocessing.MultiProcessing import MultiProcessing
 from rppmcontroller.machine.punchingmachine.PunchingMachine import PunchingMachine
@@ -44,7 +45,12 @@ class Island1Controller(RevPiPyMachineController):
         self.addController(ConveyorBeltController(ConveyorBelt("I1ConveyorBelt01"), self.rpi))
         self.addController(MultiProcessingController(MultiProcessing("I1MultiProcessing01"), self.rpi))
         self.addController(SortingLineController(SortingLine("I1SortingLine01", delay_offsets=(0, -0.2, -0.25), mockAnalogSensor=True), self.rpi))
-        self.addController(HighBayController(HighBay("I1HighBay01", column_offset=(-30, -60, -90, -130)), self.rpi))
+        highBayParameters = HighBayParameters()
+        highBayParameters.conveyor_column -= 30
+        highBayParameters.right_column -= 60
+        highBayParameters.middle_column -= 90
+        highBayParameters.left_column -= 130
+        self.addController(HighBayController(HighBay("I1HighBay01", highBayParameters), self.rpi))
         # machines which are usually not connected to island 1
         # self.addController(PunchingMachineController(PunchingMachine("I1PunchingMachine01"), self.rpi))
         # self.addController(IndexedLineController(IndexedLine("I1IndexedLine01"), self.rpi))
