@@ -90,9 +90,9 @@ class VacuumGripperController(MachineController):
         self.rpi.io.O_7.value = self.machine.vacuumActCompressorOn
         self.rpi.io.O_8.value = self.machine.vacuumActValve
         # PWM
-        self.rpi.io.PWM_9.value = self.vacuumGripperMachine.pwmVertical
-        self.rpi.io.PWM_10.value = self.vacuumGripperMachine.pwmHorizontal
-        self.rpi.io.PWM_11.value = self.vacuumGripperMachine.pwmRotational
+        self.rpi.io.PWM_9.value = self.machine.pwmVertical
+        self.rpi.io.PWM_10.value = self.machine.pwmHorizontal
+        self.rpi.io.PWM_11.value = self.machine.pwmRotational
 
     def reset(self) -> None:
         if self.machine.vertical_reset_helper.must_reset():
