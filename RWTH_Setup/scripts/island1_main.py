@@ -39,7 +39,7 @@ class Island1Controller(RevPiPyMachineController):
 
         self.controllers = list()
 
-        self.addController(VacuumGripperController(VacuumGripper("I1VacuumGripper01"), self.rpi))
+        self.addController(VacuumGripperController(VacuumGripper("I1VacuumGripper01", pwmParameters = {'stdSpeed' : 100, 'aprchSpeedVer' : 30, 'aprchSpeedHor' : 30, 'aprchSpeedRot' : 20, 'aprchTolerance' : 100}), self.rpi))
         self.addController(VacuumGripperController2(VacuumGripper("I1VacuumGripper02"), self.rpi))
         self.addController(ConveyorBeltController(ConveyorBelt("I1ConveyorBelt01"), self.rpi))
         self.addController(MultiProcessingController(MultiProcessing("I1MultiProcessing01"), self.rpi))
@@ -89,6 +89,10 @@ class VacuumGripperController(MachineController):
         self.rpi.io.O_6.value = self.machine.vacuumActRotLeft
         self.rpi.io.O_7.value = self.machine.vacuumActCompressorOn
         self.rpi.io.O_8.value = self.machine.vacuumActValve
+        # PWM
+        self.rpi.io.PWM_9.value = self.vacuumGripperMachine.pwmHorizontal
+        self.rpi.io.PWM_10.value = self.vacuumGripperMachine.pwmVertical
+        self.rpi.io.PWM_11.value = self.vacuumGripperMachine.pwmRotational
 
     def reset(self) -> None:
         if self.machine.vertical_reset_helper.must_reset():
