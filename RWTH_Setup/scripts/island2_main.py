@@ -39,9 +39,11 @@ class Island2Controller(RevPiPyMachineController):
 
         self.controllers = list()
 
-        self.addController(VacuumGripperController3(VacuumGripper("I2VacuumGripper03"), self.rpi))
-        self.addController(VacuumGripperController4(VacuumGripper("I2VacuumGripper04"), self.rpi))
-        self.addController(VacuumGripperController5(VacuumGripper("I2VacuumGripper05"), self.rpi))
+        vgrPwmConfig = {'stdSpeed' : 100, 'aprchSpeedVer' : 30, 'aprchSpeedHor' : 30, 'aprchSpeedRot' : 20, 'aprchTolerance' : 100}
+
+        self.addController(VacuumGripperController3(VacuumGripper("I2VacuumGripper03", pwmParameters = vgrPwmConfig), self.rpi))
+        self.addController(VacuumGripperController4(VacuumGripper("I2VacuumGripper04", pwmParameters = vgrPwmConfig), self.rpi))
+        self.addController(VacuumGripperController5(VacuumGripper("I2VacuumGripper05", pwmParameters = vgrPwmConfig), self.rpi))
 
         self.addController(ConveyorBeltController2(ConveyorBelt("I2ConveyorBelt02"), self.rpi))
         self.addController(ConveyorBeltController3(ConveyorBelt("I2ConveyorBelt03"), self.rpi))
@@ -96,6 +98,10 @@ class VacuumGripperController3(MachineController):
         self.rpi.io.O_6_i04.value = self.machine.vacuumActRotLeft
         self.rpi.io.O_7_i04.value = self.machine.vacuumActCompressorOn
         self.rpi.io.O_8_i04.value = self.machine.vacuumActValve
+        # PWM
+        self.rpi.io.PWM_9_i04.value = self.machine.pwmVertical
+        self.rpi.io.PWM_10_i04.value = self.machine.pwmHorizontal
+        self.rpi.io.PWM_13_i04.value = self.machine.pwmRotational
 
     def reset(self) -> None:
         if self.machine.vertical_reset_helper.must_reset():
@@ -126,6 +132,10 @@ class VacuumGripperController4(MachineController):
         self.rpi.io.O_6_i05.value = self.machine.vacuumActRotLeft
         self.rpi.io.O_7_i05.value = self.machine.vacuumActCompressorOn
         self.rpi.io.O_8_i05.value = self.machine.vacuumActValve
+        # PWM
+        self.rpi.io.PWM_9_i05.value = self.machine.pwmVertical
+        self.rpi.io.PWM_10_i05.value = self.machine.pwmHorizontal
+        self.rpi.io.PWM_13_i05.value = self.machine.pwmRotational
 
     def reset(self) -> None:
         if self.machine.vertical_reset_helper.must_reset():
@@ -156,6 +166,10 @@ class VacuumGripperController5(MachineController):
         self.rpi.io.O_6_i06.value = self.machine.vacuumActRotLeft
         self.rpi.io.O_7_i06.value = self.machine.vacuumActCompressorOn
         self.rpi.io.O_8_i06.value = self.machine.vacuumActValve
+        # PWM
+        self.rpi.io.PWM_9_i06.value = self.machine.pwmVertical
+        self.rpi.io.PWM_10_i06.value = self.machine.pwmHorizontal
+        self.rpi.io.PWM_13_i06.value = self.machine.pwmRotational
 
     def reset(self) -> None:
         if self.machine.vertical_reset_helper.must_reset():
