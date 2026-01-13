@@ -2,11 +2,11 @@ import ctypes
 import logging
 
 import revpimodio2
+
 from rppmcontroller.RevPiPyMachineController import RevPiPyMachineController
 from rppmcontroller.machine.conveyorbelt.ConveyorBelt import ConveyorBelt
 from rppmcontroller.machine.highbay.HighBay import HighBay
 from rppmcontroller.machine.indexedline.IndexedLine import IndexedLine
-from rppmcontroller.machine.multiprocessing.MultiProcessing import MultiProcessing
 from rppmcontroller.machine.punchingmachine.PunchingMachine import PunchingMachine
 from rppmcontroller.machine.sortingLine.SortingLine import SortingLine
 from rppmcontroller.machine.vacuumgripper.VacuumGripper import VacuumGripper
@@ -26,9 +26,20 @@ class MachineController:
     def reset(self):
         pass
 
-
 class Island2Controller(RevPiPyMachineController):
-    def __init__(self, simulatedRevPiModIO: bool = False, configurationFile: str = ""):
+    """
+    Island 2 Pin Plan:
+
+    DIO 1 (i08) -> HighBay 2
+    DIO 2 (i07) -> SortingLine 2
+    DIO 3 (   ) -> IndexedLine 1
+    DIO 4 (i03) -> PunchingMachine 1 (I1-I4,O1-O4) + PunchingMachine 2 (I7-I10,O7-O10)
+    DIO 5 (i04) -> VacuumGripper 3 (I1-I11, O1-O8) + Conveyor 2 (I11-I13, O11-O12)
+    DIO 6 (i05) -> VacuumGripper 4 (I1-I10, O1-O8) + Conveyor 3 (I11-I13, O11-O12)
+    DIO 7 (i06) -> VacuumGripper 5 (I1-I10, O1-O8) + Conveyor 4 (I11-I13, O11-O12)
+    """
+
+    def __init__(self, configurationFile: str = ""):
         """
         Init method of this class, starts all threads and everything is ready for receiving commands via Sockets and executing them
         """
