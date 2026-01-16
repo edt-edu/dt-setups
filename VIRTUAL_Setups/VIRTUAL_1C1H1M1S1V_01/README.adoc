@@ -2,6 +2,44 @@ This folder contains a virtual setup  for a mini factory composed of a Converyor
 
 This allows testing the controller, SCADA Digital Twin tooling without access to the physical Fishertechnik machines.
 
+## Fast setup with Makefile
+You can use the Makefile provided in the `VIRTUAL_Setups` folder to quickly start all the services required for this virtual setup.
+
+This requires having `tmux` and `docker` installed on your machine.
+
+From the `VIRTUAL_Setups` folder, run:
+[source,shell]
+----
+make restart
+----
+
+It will start the following services in tmux sessions:
+- MQTT broker (mosquitto)
+- Simulated machine controller (python script)
+- SCADA frontend (React app)
+- SCADA backend (Spring Boot app)
+- Gateway service (Spring Boot app)
+    - Note: in development mode, the gateway service is started from source code, not from docker.
+- InfluxDB (time-series database for SCADA metrics)
+- Grafana (dashboard for SCADA metrics)
+
+To stop all services, run:
+[source,shell]
+----
+make down
+----
+
+To attach to a tmux session, run:
+[source,shell]
+----
+tmux attach -t <session-name>
+----
+
+To check the list of running tmux sessions, run:
+[source,shell]
+----
+tmux ls
+----
 
 ## Quick start
 
@@ -81,7 +119,7 @@ Go to 'REN_Setups/dt-support/gateway' and run:
 
 Alternatively, you can pull the docker image for the gateway service and run it.
 
-Go to 'VIRTUAL_Setups/dt-support/gateway' and run:
+Go to 'VIRTUAL_Setups/VIRTUAL_1C1H1M1S1V_01/config/server/gateway' and run:
 
 [source,shell]
 ----
