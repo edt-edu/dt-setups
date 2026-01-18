@@ -47,22 +47,22 @@ configuration:
   mqttKafkaRecordings: # MQTT to Kafka
     - name: "REN_1V_01_VGRSystemModel"
       mqttSourceTopic: "PLC/virtualmachines-plc-1/VacuumGripper/VacuumGripper01/#"
-      kafkaTargetTopic: "REN_1V_01_VGRSystemModel"  
+      kafkaTargetTopic: "events"  
     - name: "REN_1V_01_HBSystemModel"
       mqttSourceTopic: "PLC/virtualmachines-plc-1/VacuumGripper/HighBay01/#"
-      kafkaTargetTopic: "REN_1V_01_HBSystemModel"  
+      kafkaTargetTopic: "events"  
     - name: "REN_1V_01_SLSystemModel"
       mqttSourceTopic: "PLC/virtualmachines-plc-1/VacuumGripper/SortingLine01/#"
-      kafkaTargetTopic: "REN_1V_01_SLSystemModel"
+      kafkaTargetTopic: "events"
     - name: "REN_1V_01_MPSystemModel"
       mqttSourceTopic: "PLC/virtualmachines-plc-1/VacuumGripper/MultiProcessing01/#"
-      kafkaTargetTopic: "REN_1V_01_MPSystemModel"
+      kafkaTargetTopic: "events"
     - name: "REN_1V_01_CBSystemModel"
       mqttSourceTopic: "PLC/virtualmachines-plc-1/VacuumGripper/ConveyorBelt01/#"
-      kafkaTargetTopic: "REN_1V_01_CBSystemModel"
+      kafkaTargetTopic: "events"
     - name: "REN_1V_01_PMSystemModel"
       mqttSourceTopic: "PLC/virtualmachines-plc-1/VacuumGripper/PunchingMachine01/#"
-      kafkaTargetTopic: "REN_1V_01_PMSystemModel"
+      kafkaTargetTopic: "events"
 
   dtEventGroups:
   # define measures that should be forwarded to DT, use group to organize sources or when the processing is different

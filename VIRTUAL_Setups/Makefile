@@ -11,6 +11,7 @@ GATEWAY_PATH := ${PROJECT_ROOT}/REN_Setups/dt-support/gateway
 PLC_PATH := ${PROJECT_ROOT}/${PROJECT_VIRTUAL_CONFIG}/PLC1
 GRAFANA_PATH := ${PROJECT_ROOT}/${PROJECT_VIRTUAL_CONFIG}/server/gateway
 INFLUXDB_PATH := ${PROJECT_ROOT}/${PROJECT_VIRTUAL_CONFIG}/server/gateway
+CONDA_PATH := $(shell conda info --base)
 
 MISSIONS_CONFIG_PATH := ${PROJECT_ROOT}/${PROJECT_VIRTUAL_CONFIG}/server/factoryscada/services/scada-backend/config/missions-parallelized-configuration.yml
 BACKEND_CONFIG_PATH := ${PROJECT_ROOT}/${PROJECT_VIRTUAL_CONFIG}/server/factoryscada/services/scada-backend/config/configuration.yml
@@ -27,7 +28,7 @@ up: restart status
 	@echo ""
 	@echo "🚀 All services are running (fresh start)."
 
-restart: mqtt plc scada-frontend scada-backend gateway kafka
+restart: mqtt scada-frontend scada-backend plc gateway kafka
 
 down:
 	@echo "🛑 Stopping all services..."
@@ -57,7 +58,7 @@ plc:
 	-@tmux kill-session -t plc 2>/dev/null || \
 		echo "ℹ️  PLC session not running (nothing to stop)"
 	@tmux new-session -d -s plc \
-		"source $$HOME/miniconda3/etc/profile.d/conda.sh && \
+		"source ${CONDA_PATH}/etc/profile.d/conda.sh && \
 		 conda activate rppmcontroller && \
 		 cd ${PLC_PATH} && \
 		 python3 SimulatedMachines_Controller.py"
