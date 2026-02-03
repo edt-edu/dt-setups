@@ -2,13 +2,12 @@ import ctypes
 import logging
 
 import revpimodio2
+
 from rppmcontroller.RevPiPyMachineController import RevPiPyMachineController
 from rppmcontroller.machine.conveyorbelt.ConveyorBelt import ConveyorBelt
 from rppmcontroller.machine.highbay.HighBay import HighBay
 from rppmcontroller.machine.highbay.HighBayParameters import HighBayParameters
-from rppmcontroller.machine.indexedline.IndexedLine import IndexedLine
 from rppmcontroller.machine.multiprocessing.MultiProcessing import MultiProcessing
-from rppmcontroller.machine.punchingmachine.PunchingMachine import PunchingMachine
 from rppmcontroller.machine.sortingLine.SortingLine import SortingLine
 from rppmcontroller.machine.sortingLine.SortingLineParameters import SortingLineParameters
 from rppmcontroller.machine.vacuumgripper.VacuumGripper import VacuumGripper
@@ -41,10 +40,8 @@ class Island1Controller(RevPiPyMachineController):
 
         self.controllers = list()
 
-        vgrPwmConfig = {'stdSpeed' : 100, 'aprchSpeedVer' : 30, 'aprchSpeedHor' : 30, 'aprchSpeedRot' : 20, 'aprchTolerance' : 100}
-
-        self.addController(VacuumGripperController(VacuumGripper("I1VacuumGripper01", pwmParameters = vgrPwmConfig), self.rpi))
-        self.addController(VacuumGripperController2(VacuumGripper("I1VacuumGripper02", pwmParameters = vgrPwmConfig), self.rpi))
+        self.addController(VacuumGripperController(VacuumGripper("I1VacuumGripper01"), self.rpi))
+        self.addController(VacuumGripperController2(VacuumGripper("I1VacuumGripper02"), self.rpi))
         self.addController(ConveyorBeltController(ConveyorBelt("I1ConveyorBelt01"), self.rpi))
         self.addController(MultiProcessingController(MultiProcessing("I1MultiProcessing01"), self.rpi))
         sortingLineParameters = SortingLineParameters(mock_analog_sensor=True)
