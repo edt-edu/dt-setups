@@ -28,7 +28,7 @@ class RevPi_Controller(RevPiPyModIOMachineController):
         self.multiProcessingMachine = MultiProcessing("MultiProcessing01", mpsParameters)
         highBayParameters = HighBayParameters(vertical_safety_position=0, horizontal_safety_position=0)
         highBayParameters.add_vertical_offset(-70)
-        highBayParameters.conveyor_column -= 25
+        highBayParameters.conveyor_column -= 45
         highBayParameters.right_column -= 65
         highBayParameters.middle_column -= 45
         highBayParameters.left_column -= 80
