@@ -11,6 +11,7 @@ from rppmcontroller.machine.multiprocessing.MultiProcessing import MultiProcessi
 from rppmcontroller.machine.sortingLine.SortingLine import SortingLine
 from rppmcontroller.machine.sortingLine.SortingLineParameters import SortingLineParameters
 from rppmcontroller.machine.vacuumgripper.VacuumGripper import VacuumGripper
+from rppmcontroller.machine.vacuumgripper.VacuumGripperParameters import VacuumGripperParameters
 
 
 class MachineController:
@@ -40,7 +41,10 @@ class Island1Controller(RevPiPyMachineController):
 
         self.controllers = list()
 
-        self.addController(VacuumGripperController(VacuumGripper("I1VacuumGripper01"), self.rpi))
+        vgr1Parameters = VacuumGripperParameters(rotational_safety_position=900,
+                                                 vertical_safety_position=0,
+                                                 horizontal_safety_position=0)
+        self.addController(VacuumGripperController(VacuumGripper("I1VacuumGripper01", vgr1Parameters), self.rpi))
         self.addController(VacuumGripperController2(VacuumGripper("I1VacuumGripper02"), self.rpi))
         self.addController(ConveyorBeltController(ConveyorBelt("I1ConveyorBelt01"), self.rpi))
         self.addController(MultiProcessingController(MultiProcessing("I1MultiProcessing01"), self.rpi))

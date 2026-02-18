@@ -297,9 +297,9 @@ FactoryMissionsParallelized:
                             "passableType": "POSITIONPARAMETERTHREED",
                             "passable": {
                                 "meaning": "END",
-                                "vertical": 100,
-                                "horizontal": 0,
-                                "rot": 0
+                                "vertical": 1050,
+                                "horizontal": 1750,
+                                "rot": 2830
                             }
                         }
                     ]
@@ -544,7 +544,7 @@ FactoryMissionsParallelized:
         - type: rawMachineCommand
           id: "VGR1retractbis"
           description: >
-            [VGR1] Retract arm
+            [VGR1] Goto safe position
           placeholder: >
             {
               "topicName": "I1VacuumGripper01",
@@ -553,7 +553,7 @@ FactoryMissionsParallelized:
                   "jsonType": "COMMAND",
                   "type": "VACUUM",
                   "outputId": "AUTO_ID",
-                  "name": "RETRACT_ARM",
+                  "name": "MOVE_TO_SAFE_POSITION",
                   "parameters": []
               }
             }
