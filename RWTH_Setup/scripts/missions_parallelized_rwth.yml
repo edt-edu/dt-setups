@@ -100,7 +100,7 @@ FactoryMissionsParallelized:
                         {
                             "passableType": "AXISPRIORITIZED",
                             "passable": {
-                                "vertical": true,
+                                "vertical": false,
                                 "horizontal": false,
                                 "rot": true
                             }
