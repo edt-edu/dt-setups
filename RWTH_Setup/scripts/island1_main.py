@@ -40,10 +40,8 @@ class Island1Controller(RevPiPyMachineController):
 
         self.controllers = list()
 
-        vgrPwmConfig = {'stdSpeed' : 100, 'aprchSpeedVer' : 30, 'aprchSpeedHor' : 30, 'aprchSpeedRot' : 20, 'aprchTolerance' : 100}
-
-        self.addController(VacuumGripperController(VacuumGripper("I1VacuumGripper01", pwmParameters = vgrPwmConfig), self.rpi))
-        self.addController(VacuumGripperController2(VacuumGripper("I1VacuumGripper02", pwmParameters = vgrPwmConfig), self.rpi))
+        self.addController(VacuumGripperController(VacuumGripper("I1VacuumGripper01"), self.rpi))
+        self.addController(VacuumGripperController2(VacuumGripper("I1VacuumGripper02"), self.rpi))
         self.addController(ConveyorBeltController(ConveyorBelt("I1ConveyorBelt01"), self.rpi))
         self.addController(MultiProcessingController(MultiProcessing("I1MultiProcessing01"), self.rpi))
         sortingLineParameters = SortingLineParameters(mock_analog_sensor=True)

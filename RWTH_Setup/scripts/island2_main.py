@@ -52,11 +52,9 @@ class Island2Controller(RevPiPyMachineController):
 
         self.controllers = list()
 
-        vgrPwmConfig = {'stdSpeed' : 100, 'aprchSpeedVer' : 30, 'aprchSpeedHor' : 30, 'aprchSpeedRot' : 20, 'aprchTolerance' : 100}
-
-        self.addController(VacuumGripperController3(VacuumGripper("I2VacuumGripper03", pwmParameters = vgrPwmConfig), self.rpi))
-        self.addController(VacuumGripperController4(VacuumGripper("I2VacuumGripper04", pwmParameters = vgrPwmConfig), self.rpi))
-        self.addController(VacuumGripperController5(VacuumGripper("I2VacuumGripper05", pwmParameters = vgrPwmConfig), self.rpi))
+        self.addController(VacuumGripperController3(VacuumGripper("I2VacuumGripper03"), self.rpi))
+        self.addController(VacuumGripperController4(VacuumGripper("I2VacuumGripper04"), self.rpi))
+        self.addController(VacuumGripperController5(VacuumGripper("I2VacuumGripper05"), self.rpi))
 
         self.addController(ConveyorBeltController2(ConveyorBelt("I2ConveyorBelt02"), self.rpi))
         self.addController(ConveyorBeltController3(ConveyorBelt("I2ConveyorBelt03"), self.rpi))
