@@ -13,6 +13,25 @@ FactoryMissionsParallelized:
           description: >
             Start of the mission.
           outputs:
+            - MPSSetup
+
+        - type: rawMachineCommand
+          id: "MPSSetup"
+          description: >
+            Perform an MPS setup
+          placeholder: >
+            {
+                "topicName": "I1MultiProcessing01",
+                "timestamp": 1750259348009,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "MULTIPROCESSING",
+                    "outputId": "AUTO_ID",
+                    "name": "SETUP",
+                    "parameters": []
+                }
+            }
+          outputs:
             - Fork1
 
         - type: fork
