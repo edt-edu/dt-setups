@@ -2,13 +2,12 @@ import ctypes
 import logging
 
 import revpimodio2
+
 from rppmcontroller.RevPiPyMachineController import RevPiPyMachineController
 from rppmcontroller.machine.conveyorbelt.ConveyorBelt import ConveyorBelt
 from rppmcontroller.machine.highbay.HighBay import HighBay
 from rppmcontroller.machine.highbay.HighBayParameters import HighBayParameters
-from rppmcontroller.machine.indexedline.IndexedLine import IndexedLine
 from rppmcontroller.machine.multiprocessing.MultiProcessing import MultiProcessing
-from rppmcontroller.machine.punchingmachine.PunchingMachine import PunchingMachine
 from rppmcontroller.machine.sortingLine.SortingLine import SortingLine
 from rppmcontroller.machine.sortingLine.SortingLineParameters import SortingLineParameters
 from rppmcontroller.machine.vacuumgripper.VacuumGripper import VacuumGripper
@@ -155,7 +154,7 @@ class ConveyorBeltController(MachineController):
     def read(self):
         self.machine.conveyorSensFeed = self.rpi.io.I_1_i04.value
         self.machine.conveyorSensSwap = self.rpi.io.I_2_i04.value
-        self.machine.conveyorSensImpulse = self.rpi.io.I_3_i04.value
+        self.machine.conveyorSensImpulse = ctypes.c_int32(self.rpi.io.Counter_3_i04.value).value
 
     def write(self):
         self.rpi.io.O_1_i04.value = self.machine.conveyorActForward

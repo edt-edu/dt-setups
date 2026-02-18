@@ -208,7 +208,7 @@ class ConveyorBeltController2(MachineController):
     def read(self):
         self.machine.conveyorSensFeed = self.rpi.io.I_11_i04.value
         self.machine.conveyorSensSwap = self.rpi.io.I_12_i04.value
-        self.machine.conveyorSensImpulse = self.rpi.io.I_13_i04.value
+        self.machine.conveyorSensImpulse = ctypes.c_int32(self.rpi.io.Counter_13_i04.value).value
 
     def write(self):
         self.rpi.io.O_11_i04.value = self.machine.conveyorActForward
@@ -225,7 +225,7 @@ class ConveyorBeltController3(MachineController):
     def read(self):
         self.machine.conveyorSensFeed = self.rpi.io.I_11_i05.value
         self.machine.conveyorSensSwap = self.rpi.io.I_12_i05.value
-        self.machine.conveyorSensImpulse = self.rpi.io.I_13_i05.value
+        self.machine.conveyorSensImpulse = ctypes.c_int32(self.rpi.io.Counter_13_i05.value).value
 
     def write(self):
         self.rpi.io.O_11_i05.value = self.machine.conveyorActForward
@@ -242,7 +242,7 @@ class ConveyorBeltController4(MachineController):
     def read(self):
         self.machine.conveyorSensFeed = self.rpi.io.I_11_i06.value
         self.machine.conveyorSensSwap = self.rpi.io.I_12_i06.value
-        self.machine.conveyorSensImpulse = self.rpi.io.I_13_i06.value
+        self.machine.conveyorSensImpulse = ctypes.c_int32(self.rpi.io.Counter_13_i06.value).value
 
     def write(self):
         self.rpi.io.O_11_i06.value = self.machine.conveyorActForward
