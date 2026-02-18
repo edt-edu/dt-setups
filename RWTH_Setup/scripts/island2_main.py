@@ -60,7 +60,7 @@ class Island2Controller(RevPiPyMachineController):
         self.addController(ConveyorBeltController3(ConveyorBelt("I2ConveyorBelt03"), self.rpi))
         self.addController(ConveyorBeltController4(ConveyorBelt("I2ConveyorBelt04"), self.rpi))
 
-        sortingLineParameters = SortingLineParameters()
+        sortingLineParameters = SortingLineParameters(mock_analog_sensor=True)
         sortingLineParameters.red_ejector_delay -= 0.1
         sortingLineParameters.blue_ejector_delay -= 0.15
         self.addController(SortingLineController2(SortingLine("I2SortingLine02", sortingLineParameters), self.rpi))
