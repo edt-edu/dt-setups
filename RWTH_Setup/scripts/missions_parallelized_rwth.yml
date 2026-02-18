@@ -93,8 +93,8 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "START",
                                 "vertical": 300,
-                                "horizontal": 1000,
-                                "rot": 2520
+                                "horizontal": 1005,
+                                "rot": 2500
                             }
                         },
                         {
@@ -209,8 +209,8 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "START",
                                 "vertical": 400,
-                                "horizontal": 1000,
-                                "rot": 2520
+                                "horizontal": 1005,
+                                "rot": 2500
                             }
                         },
                         {
@@ -218,8 +218,8 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "END",
                                 "vertical": 1300,
-                                "horizontal": 1750,
-                                "rot": 1180
+                                "horizontal": 1850,
+                                "rot": 1130
                             }
                         }
                     ]
@@ -292,7 +292,6 @@ FactoryMissionsParallelized:
           id: "VGR2_CBtoSL"
           description: >
             [VGR2] Move from CB to SL
-          # FIXME determine correct position for SL input
           placeholder: >
             {
                 "topicName": "I1VacuumGripper02",
@@ -308,8 +307,8 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "START",
                                 "vertical": 1050,
-                                "horizontal": 1225,
-                                "rot": 1800
+                                "horizontal": 1150,
+                                "rot": 1770
                             }
                         },
                         {
@@ -442,9 +441,9 @@ FactoryMissionsParallelized:
                             "passableType": "POSITIONPARAMETERTHREED",
                             "passable": {
                                 "meaning": "START",
-                                "vertical": 1400,
-                                "horizontal": 1225,
-                                "rot": 2275
+                                "vertical": 1300,
+                                "horizontal": 1200,
+                                "rot": 2210
                             }
                         },
                         {
@@ -452,8 +451,8 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "END",
                                 "vertical": 1050,
-                                "horizontal": 1225,
-                                "rot": 1800
+                                "horizontal": 1150,
+                                "rot": 1770
                             }
                         }
                     ]
@@ -541,8 +540,8 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "START",
                                 "vertical": 1300,
-                                "horizontal": 1750,
-                                "rot": 1180
+                                "horizontal": 1850,
+                                "rot": 1130
                             }
                         },
                         {
@@ -550,8 +549,8 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "END",
                                 "vertical": 1000,
-                                "horizontal": 240,
-                                "rot": 270
+                                "horizontal": 235,
+                                "rot": 215
                             }
                         }
                     ]
@@ -616,9 +615,9 @@ FactoryMissionsParallelized:
                             "passableType": "POSITIONPARAMETERTHREED",
                             "passable": {
                                 "meaning": "START",
-                                "vertical": 1200,
+                                "vertical": 1150,
                                 "horizontal": 1350,
-                                "rot": 3000
+                                "rot": 2990
                             }
                         },
                         {
@@ -626,8 +625,8 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "END",
                                 "vertical": 400,
-                                "horizontal": 1000,
-                                "rot": 2520
+                                "horizontal": 1005,
+                                "rot": 2500
                             }
                         }
                     ]
