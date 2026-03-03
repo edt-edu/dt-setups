@@ -356,7 +356,7 @@ FactoryMissionsParallelized:
         - type: rawMachineCommand
           id: "VGR2toSLoutput"
           description: >
-            [VGR2] Move from SL to SL output
+            [VGR2] recalibrate
           placeholder: >
             {
                 "topicName": "I1VacuumGripper02",
@@ -365,26 +365,8 @@ FactoryMissionsParallelized:
                     "jsonType": "COMMAND",
                     "type": "VACUUM",
                     "outputId": "AUTO_ID",
-                    "name": "ORDERED_MOVE_TO",
-                    "parameters": [
-                        {
-                            "passableType": "POSITIONPARAMETERTHREED",
-                            "passable": {
-                                "meaning": "START",
-                                "vertical": 1400,
-                                "horizontal": 0,
-                                "rot": 2275
-                            }
-                        },
-                        {
-                            "passableType": "AXISPRIORITIZED",
-                            "passable": {
-                                "vertical": true,
-                                "horizontal": false,
-                                "rot": true
-                            }
-                        }
-                    ]
+                    "name": "setup",
+                    "parameters": []
                 }
             }
           outputs:
