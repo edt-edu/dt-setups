@@ -242,8 +242,9 @@ class HighBayController(MachineController):
         self.rpi.io.O_6_i05.value = self.machine.highbayActUp
         self.rpi.io.O_7_i05.value = self.machine.highbayActCantileverForward
         self.rpi.io.O_8_i05.value = self.machine.highbayActCantileverBackward
-        self.rpi.io.O_10_i05.value = self.machine.pwmHorizontal
-        self.rpi.io.O_11_i05.value = self.machine.pwmVertical
+        # PWM
+        self.rpi.io.PWM_10_i05.value = self.machine.pwmHorizontal
+        self.rpi.io.PWM_11_i05.value = self.machine.pwmVertical
 
     def reset(self):
         if self.machine.horizontal_reset_helper.must_reset():
