@@ -4,6 +4,7 @@ import logging
 import revpimodio2
 
 from rppmcontroller.RevPiPyMachineController import RevPiPyMachineController
+from rppmcontroller.machine.Position import Position
 from rppmcontroller.machine.conveyorbelt.ConveyorBelt import ConveyorBelt
 from rppmcontroller.machine.highbay.HighBay import HighBay
 from rppmcontroller.machine.highbay.HighBayParameters import HighBayParameters
@@ -41,11 +42,24 @@ class Island1Controller(RevPiPyMachineController):
 
         self.controllers = list()
 
-        vgr1Parameters = VacuumGripperParameters(rotational_safety_position=900,
-                                                 vertical_safety_position=0,
-                                                 horizontal_safety_position=0)
-        self.addController(VacuumGripperController(VacuumGripper("I1VacuumGripper01", vgr1Parameters), self.rpi))
-        self.addController(VacuumGripperController2(VacuumGripper("I1VacuumGripper02"), self.rpi))
+        vgr1_parameters = VacuumGripperParameters(
+            rotational_safety_position=900,
+            vertical_safety_position=0,
+            horizontal_safety_position=0,
+            named_positions={
+                "HBW": Position(rot=2500, vertical=400, horizontal=1005, meaning="any"),
+                "CB": Position(rot=1130, vertical=1300, horizontal=1850, meaning="any"),
+            })
+        vgr1_parameters.derive_over_positions()
+        self.addController(VacuumGripperController(VacuumGripper("I1VacuumGripper01", vgr1_parameters), self.rpi))
+        vgr2_parameters = VacuumGripperParameters(
+            hover_offset=500,
+            named_positions={
+                "CB": Position(rot=1770, vertical=1050, horizontal=1150, meaning="any"),
+                "SL_INPUT": Position(rot=2830, vertical=1050, horizontal=1750, meaning="any"),
+            })
+        vgr2_parameters.derive_over_positions()
+        self.addController(VacuumGripperController2(VacuumGripper("I1VacuumGripper02", vgr2_parameters), self.rpi))
         self.addController(ConveyorBeltController(ConveyorBelt("I1ConveyorBelt01"), self.rpi))
         self.addController(MultiProcessingController(MultiProcessing("I1MultiProcessing01"), self.rpi))
         sortingLineParameters = SortingLineParameters(mock_analog_sensor=True)

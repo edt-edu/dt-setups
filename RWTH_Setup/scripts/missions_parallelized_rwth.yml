@@ -1,7 +1,244 @@
 FactoryMissionsParallelized:
   name: "Factory missions parallelized"
   missions:
-    - name: "Island1-Sort-Process-and-Store"
+    - name: Island1-Fetch-Sort-Process-and-Store
+      description: >
+        Fetches a payload from the HBW 1:1 and passes it through the SL. It'll be ejected as red and then passed to the 
+        MPS. After processing it'll be stored back in the HBW at 1:1. 
+        This mission is optimized for parallel execution.
+      nodes:
+        - type: entryNode
+          id: start
+          description: Start of the mission
+          outputs:
+            - fork_mps_setup
+        - type: fork
+          id: fork_mps_setup
+          description: Performs the MPS setup parallel to the other processing
+          outputs:
+            - fork_vgr2_setup
+            - mps_setup
+        - type: fork
+          id: fork_vgr2_setup
+          description: Performs the VGR2 setup parallel to the other processing
+          outputs:
+            - fork_fetch
+            - vgr2_setup
+        - type: fork
+          id: fork_fetch
+          description: Fetches the payload while moving VGR1 into position
+          outputs:
+            - hbw_fetch
+            - vgr_over_hbw
+        - type: rawMachineCommand
+          id: hbw_fetch
+          description: Fetch a payload from 1:1
+          placeholder: >
+            {
+              "topicName": "I1HighBay01",
+              "timestamp": 0,
+              "message": {
+                "jsonType": "COMMAND",
+                "type": "WAREHOUSE",
+                "outputId": "AUTO_ID",
+                "name": "PICKUP_FROM",
+                "parameters": [
+                  {
+                    "passableType": "NUMBERNATURAL",
+                    "passable": {
+                      "number": 1
+                    }
+                  },
+                  {
+                    "passableType": "NUMBERNATURAL",
+                    "passable": {
+                      "number": 1
+                    }
+                  }
+                ]
+              }
+            }
+          outputs:
+            - join_fetch
+        - type: rawMachineCommand
+          id: vgr_over_hbw
+          description: Move VGR1 over the HBW
+          placeholder: >
+            {
+              "topicName": "I1VacuumGripper01",
+              "timestamp": 0,
+              "message": {
+                "jsonType": "COMMAND",
+                "type": "VACUUM",
+                "outputId": "AUTO_ID",
+                "name": "ORDERED_MOVE_TO",
+                "parameters": [
+                  {
+                    "passableType": "NAMEDPOSITION",
+                    "passable": {
+                      "name": "OVER_HBW"
+                    }
+                  },
+                  {
+                    "passableType": "AXISPRIORITIZED",
+                    "passable": {
+                      "vertical": false,
+                      "horizontal": false,
+                      "rot": true
+                    }
+                  }
+                ]
+              }
+            }
+          outputs:
+            - join_fetch
+        - type: join
+          id: join_fetch
+          description: Join HBW and VGR1 after fetching the payload
+          outputs:
+            - vgr1_move_from_hbw_to_cb
+        - type: rawMachineCommand
+          id: vgr1_move_from_hbw_to_cb
+          description: [VGR1] Move payload from HBW to CB
+          placeholder: >
+            {
+              "topicName": "I1VacuumGripper01",
+              "timestamp": 0,
+              "message": {
+                "jsonType": "COMMAND",
+                "type": "VACUUM",
+                "outputId": "AUTO_ID",
+                "name": "MOVE",
+                "parameters": [
+                  {
+                    "passableType": "NAMEDPOSITION",
+                    "passable": {
+                      "name": "HBW"
+                    }
+                  },
+                  {
+                    "passableType": "NAMEDPOSITION",
+                    "passable": {
+                      "name": "CB"
+                    }
+                  }
+                ]
+              }
+            }
+          outputs:
+            - cb_to_vgr2
+        - type: rawMachineCommand
+          id: cb_to_vgr2
+          description: [CB] Move payload in reach of VGR2
+          placeholder: >
+            {
+              "topicName": "I1ConveyorBelt01",
+              "timestamp": 0,
+              "message": {
+                "jsonType": "COMMAND",
+                "type": "CONVEYOR",
+                "outputId": "AUTO_ID",
+                "name": "MOVE_TO_SENSOR",
+                "parameters": [
+                  {
+                    "passableType": "DIRECTION",
+                    "passable": {
+                      "direction": "BACKWARD"
+                    }
+                  }
+                ]
+              }
+            }
+          outputs:
+            - join_vgr2_setup
+        - type: rawMachineCommand
+          id: vgr2_setup
+          description: [VGR2] Setup
+          placeholder: >
+            {
+              "topicName": "I1VacuumGripper02",
+              "timestamp": 0,
+              "message": {
+                "jsonType": "COMMAND",
+                "type": "VACUUM",
+                "outputId": "AUTO_ID",
+                "name": "SETUP",
+                "parameters": []
+              }
+            }
+          outputs:
+            - join_vgr2_setup
+        - type: join
+          id: join_vgr2_setup
+          description: Ensure VGR2 is setup before continuing
+          outputs:
+            - vgr2_move_from_cb_to_sl_input
+        - type: rawMachineCommand
+          id: vgr2_move_from_cb_to_sl_input
+          description: [VGR2] Move payload from CB to SL input
+          placeholder: >
+            {
+              "topicName": "I1VacuumGripper02",
+              "timestamp": 0,
+              "message": {
+                "jsonType": "COMMAND",
+                "type": "VACUUM",
+                "outputId": "AUTO_ID",
+                "name": "MOVE",
+                "parameters": [
+                  {
+                    "passableType": "NAMEDPOSITION",
+                    "passable": {
+                      "name": "CB"
+                    }
+                  },
+                  {
+                    "passableType": "NAMEDPOSITION",
+                    "passable": {
+                      "name": "SL_INPUT"
+                    }
+                  }
+                ]
+              }
+            }
+          outputs:
+            - fork_sort
+        - type: fork
+          id: fork_sort
+          description: Sort the payload while moving VGR2 into position
+          outputs:
+            - sl_sort
+            - vgr2_recalibration
+        - type: rawMachineCommand
+          id: sl_sort
+          description: [SL] Eject the payload at red
+          placeholder: >
+            {
+              "topicName": "I1SortingLine01",
+              "timestamp": 0,
+              "message": {
+                "jsonType": "COMMAND",
+                "type": "SORTING",
+                "outputId": "AUTO_ID",
+                "name": "EJECT",
+                "parameters": [
+                  {
+                    "passableType": "COLOR",
+                    "passable": {
+                      "color": "RED"
+                    }
+                  }
+                ]
+              }
+            }
+          outputs:
+            - join_sort
+        # TODO continue this with VGR2 recalibration
+
+
+
+
+    - name: "Island1-Sort_Process_Store_Mission"
       description: >
         A payload is fetched from HBW 1:1 and passed by VGR2 over the CB to VGR1 where it is placed on the SL input.
         The SL will sort the payload to red and it will be passed back over the CB to the MPS. 

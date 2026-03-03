@@ -1,0 +1,44 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+
+fork
+  fork
+    fork
+      :[HBW] fetch 1:1;
+    fork again
+      :[VGR1] over HBW;
+    end fork
+    :[VGR1] move from HBW to CB;
+    :[CB] to VGR2;
+  fork again
+    :[VGR2] setup;
+  end fork
+  :[VGR2] move from CB to SL in;
+  fork
+    :[SL] eject RED;
+  fork again
+    :[VGR2] setup (for precision);
+    :[VGR2] over SL out RED;
+  end fork
+
+  :[VGR2] move from SL out RED to CB;
+  :[CB] to VGR1;
+  :[VGR1] move from CB to MPS in;
+fork again
+  :[MPS] setup;
+end fork
+
+fork
+  :[MPS] process;
+fork again
+  :[VGR1] goto safety;
+end fork
+
+:[VGR1] move from MPS out to HBW;
+:[HBW] store to 1:1;
+
+stop
+
+@enduml
