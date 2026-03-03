@@ -92,8 +92,8 @@ FactoryMissionsParallelized:
                             "passableType": "POSITIONPARAMETERTHREED",
                             "passable": {
                                 "meaning": "START",
-                                "vertical": 300,
-                                "horizontal": 1005,
+                                "vertical": 100,
+                                "horizontal": 0,
                                 "rot": 2500
                             }
                         },
@@ -624,7 +624,7 @@ FactoryMissionsParallelized:
                             "passableType": "POSITIONPARAMETERTHREED",
                             "passable": {
                                 "meaning": "END",
-                                "vertical": 400,
+                                "vertical": 350,
                                 "horizontal": 1005,
                                 "rot": 2500
                             }
