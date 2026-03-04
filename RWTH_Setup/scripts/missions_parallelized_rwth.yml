@@ -233,10 +233,309 @@ FactoryMissionsParallelized:
             }
           outputs:
             - join_sort
-        # TODO continue this with VGR2 recalibration
-
-
-
+        - type: rawMachineCommand
+          id: vgr2_recalibration
+          description: [VGR2] Perform a setup for better precision
+          placeholder: >
+            {
+              "topicName": "I1VacuumGripper02",
+              "timestamp": 0,
+              "message": {
+                "jsonType": "COMMAND",
+                "type": "VACUUM",
+                "outputId": "AUTO_ID",
+                "name": "SETUP",
+                "parameters": []
+              }
+            }
+          outputs:
+            - vgr2_goto_over_sl_output_red
+        - type: rawMachineCommand
+          id: vgr2_goto_over_sl_output_red
+          description: [VGR2] Hover over the red SL output
+          placeholder: >
+            {
+              "topicName": "I1VacuumGripper02",
+              "timestamp": 0,
+              "message": {
+                "jsonType": "COMMAND",
+                "type": "VACUUM",
+                "outputId": "AUTO_ID",
+                "name": "GO_TO_POSITION",
+                "parameters": [
+                  {
+                    "passableType": "NAMEDPOSITION",
+                    "passable": {
+                      "name": "OVER_SL_OUTPUT_RED"
+                    }
+                  }
+                ]
+              }
+            }
+          outputs:
+            - join_sort
+        - type: join
+          id: join_sort
+          description: Wait until the sorting process is done and VGR2 is ready for pickup
+          outputs:
+            - vgr2_move_from_sl_out_red_to_cb
+        - type: rawMachineCommand
+          id: vgr2_move_from_sl_out_red_to_cb
+          description: [VGR2] Move payload from red SL output to CB
+          placeholder: >
+            {
+              "topicName": "I1VacuumGripper02",
+              "timestamp": 0,
+              "message": {
+                "jsonType": "COMMAND",
+                "type": "VACUUM",
+                "outputId": "AUTO_ID",
+                "name": "MOVE",
+                "parameters": [
+                  {
+                    "passableType": "NAMEDPOSITION",
+                    "passable": {
+                      "name": "SL_OUTPUT_RED"
+                    }
+                  },
+                  {
+                    "passableType": "NAMEDPOSITION",
+                    "passable": {
+                      "name": "CB"
+                    }
+                  }
+                ]
+              }
+            }
+          outputs:
+            - cb_to_vgr1
+        - type: rawMachineCommand
+          id: cb_to_vgr1
+          description: [CB] Move payload in reach of VGR1
+          placeholder: >
+            {
+              "topicName": "I1ConveyorBelt01",
+              "timestamp": 0,
+              "message": {
+                "jsonType": "COMMAND",
+                "type": "CONVEYOR",
+                "outputId": "AUTO_ID",
+                "name": "MOVE_TO_SENSOR",
+                "parameters": [
+                  {
+                    "passableType": "DIRECTION",
+                    "passable": {
+                      "direction": "FORWARD"
+                    }
+                  }
+                ]
+              }
+            }
+          outputs:
+            - join_mps_setup
+        - type: rawMachineCommand
+          id: mps_setup
+          description: [MPS] Setup
+          placeholder: >
+            {
+              "topicName": "I1MultiProcessing01",
+              "timestamp": 0,
+              "message": {
+                "jsonType": "COMMAND",
+                "type": "MULTIPROCESSING",
+                "outputId": "AUTO_ID",
+                "name": "SETUP",
+                "parameters": []
+              }
+            }
+          outputs:
+            - join_mps_setup
+        - type: join
+          id: join_mps_setup
+          description: Ensure MPS is setup before continuing
+          outputs:
+            - vgr1_move_from_cb_to_mps_input
+        - type: rawMachineCommand
+          id: vgr1_move_from_cb_to_mps_input
+          description: [VGR1] Move payload from CB to MPS input
+          placeholder: >
+            {
+              "topicName": "I1VacuumGripper01",
+              "timestamp": 0,
+              "message": {
+                "jsonType": "COMMAND",
+                "type": "VACUUM",
+                "outputId": "AUTO_ID",
+                "name": "MOVE",
+                "parameters": [
+                  {
+                    "passableType": "NAMEDPOSITION",
+                    "passable": {
+                      "name": "CB"
+                    }
+                  },
+                  {
+                    "passableType": "NAMEDPOSITION",
+                    "passable": {
+                      "name": "MPS_INPUT"
+                    }
+                  }
+                ]
+              }
+            }
+          outputs:
+            - fork_mps_process
+        - type: fork
+          id: fork_mps_process
+          description: Process the payload while moving VGR1 out of the way
+          outputs:
+            - mps_process
+            - vgr1_goto_safety
+        - type: rawMachineCommand
+          id: mps_process
+          description: [MPS] Process the payload
+          placeholder: >
+            {
+              "topicName": "I1MultiProcessing01",
+              "timestamp": 0,
+              "message": {
+                "jsonType": "COMMAND",
+                "type": "MULTIPROCESSING",
+                "outputId": "AUTO_ID",
+                "name": "PROCESS",
+                "parameters": [
+                  {
+                    "passableType": "NUMBERNATURAL",
+                    "passable": {
+                      "number": 2
+                    }
+                  },
+                  {
+                    "passableType": "NUMBERNATURAL",
+                    "passable": {
+                      "number": 2
+                    }
+                  },
+                  {
+                    "passableType": "MPSOUTPUT",
+                    "passable": {
+                      "output": "CONVEYOR"
+                    }
+                  }
+                ]
+              }
+            }
+          outputs:
+            - join_mps_process
+        - type: rawMachineCommand
+          id: vgr1_goto_safety
+          description: [VGR1] Goto the safety position
+          placeholder: >
+            {
+              "topicName": "I1VacuumGripper01",
+              "timestamp": 0,
+              "message": {
+                "jsonType": "COMMAND",
+                "type": "VACUUM",
+                "outputId": "AUTO_ID",
+                "name": "MOVE_TO_SAFE_POSITION",
+                "parameters": []
+              }
+            }
+          outputs:
+            - join_mps_process
+        - type: join
+          id: join_mps_process
+          description: Wait until the MPS process is done
+          outputs:
+            - fork_transfer_to_hbw
+        - type: fork
+          id: fork_transfer_to_hbw
+          description: Transfer the payload to HBW while moving the MPS arm out of the way
+          outputs:
+            - mps_goto_safety
+            - vgr1_move_from_mps_output_to_hbw
+        - type: rawMachineCommand
+          id: mps_goto_safety
+          description: [MPS] Goto the safety position (move the arm to the oven)
+          placeholder: >
+            {
+              "topicName": "I1MultiProcessing01",
+              "timestamp": 0,
+              "message": {
+                "jsonType": "COMMAND",
+                "type": "MULTIPROCESSING",
+                "outputId": "AUTO_ID",
+                "name": "MOVE_TO_SAFE_POSITION",
+                "parameters": []
+              }
+            }
+          outputs:
+            - join_transfer_to_hbw
+        - type: rawMachineCommand
+          id: vgr1_move_from_mps_output_to_hbw
+          description: [VGR1] Move payload from MPS output to HBW
+          placeholder: >
+            {
+              "topicName": "I1VacuumGripper01",
+              "timestamp": 0,
+              "message": {
+                "jsonType": "COMMAND",
+                "type": "VACUUM",
+                "outputId": "AUTO_ID",
+                "name": "MOVE",
+                "parameters": [
+                  {
+                    "passableType": "NAMEDPOSITION",
+                    "passable": {
+                      "name": "MPS_OUTPUT"
+                    }
+                  },
+                  {
+                    "passableType": "NAMEDPOSITION",
+                    "passable": {
+                      "name": "HBW"
+                    }
+                  }
+                ]
+              }
+            }
+          outputs:
+            - join_transfer_to_hbw
+        - type: join
+          id: join_transfer_to_hbw
+          description: Wait until the payload has been placed in the HBW input (a cup was already present)
+          outputs:
+            - hwb_store
+        - type: rawMachineCommand
+          id: hwb_store
+          description: [HBW] Store the payload at 1:1
+          placeholder: >
+            {
+              "topicName": "I1HighBay01",
+              "timestamp": 0,
+              "message": {
+                "jsonType": "COMMAND",
+                "type": "WAREHOUSE",
+                "outputId": "AUTO_ID",
+                "name": "STORE_TO",
+                "parameters": [
+                  {
+                    "passableType": "NUMBERNATURAL",
+                    "passable": {
+                      "number": 1
+                    }
+                  },
+                  {
+                    "passableType": "NUMBERNATURAL",
+                    "passable": {
+                      "number": 1
+                    }
+                  }
+                ]
+              }
+            }
+          outputs: []
 
     - name: "Island1-Sort_Process_Store_Mission"
       description: >

@@ -25,10 +25,11 @@ fork
 
   :[VGR2] move from SL out RED to CB;
   :[CB] to VGR1;
-  :[VGR1] move from CB to MPS in;
 fork again
   :[MPS] setup;
 end fork
+
+:[VGR1] move from CB to MPS in;
 
 fork
   :[MPS] process;
@@ -36,7 +37,12 @@ fork again
   :[VGR1] goto safety;
 end fork
 
-:[VGR1] move from MPS out to HBW;
+fork
+  :[MPS] goto safety;
+fork again
+  :[VGR1] move from MPS out to HBW;
+end fork
+
 :[HBW] store to 1:1;
 
 stop
