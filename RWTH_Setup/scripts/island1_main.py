@@ -48,10 +48,10 @@ class Island1Controller(RevPiPyMachineController):
             vertical_safety_position=0,
             horizontal_safety_position=0,
             named_positions={
-                "HBW": Position(rot=2500, vertical=400, horizontal=1005, meaning="any"),
-                "CB": Position(rot=1130, vertical=1300, horizontal=1850, meaning="any"),
-                "MPS_INPUT": Position(rot=215, vertical=1000, horizontal=235, meaning="any"),
-                "MPS_OUTPUT": Position(rot=2990, vertical=1150, horizontal=1350, meaning="any"),
+                "HBW": Position(rot=2490, vertical=200, horizontal=1010, meaning="any"),
+                "CB": Position(rot=1155, vertical=1050, horizontal=1810, meaning="any"),
+                "MPS_INPUT": Position(rot=245, vertical=1000, horizontal=235, meaning="any"),
+                "MPS_OUTPUT": Position(rot=2985, vertical=1150, horizontal=1345, meaning="any"),
             })
         vgr1_parameters.derive_over_positions()
         self.addController(VacuumGripperController(VacuumGripper("I1VacuumGripper01", vgr1_parameters), self.rpi))
@@ -59,9 +59,10 @@ class Island1Controller(RevPiPyMachineController):
             hover_offset=500,
             named_positions={
                 "CB": Position(rot=1770, vertical=1050, horizontal=1150, meaning="any"),
-                "SL_INPUT": Position(rot=2830, vertical=1050, horizontal=1750, meaning="any"),
-                # TODO add remaining SL output positions
-                "SL_OUTPUT_RED": Position(rot=2210, vertical=1300, horizontal=1200, meaning="any"),
+                "SL_INPUT": Position(rot=2860, vertical=900, horizontal=1750, meaning="any"),
+                "SL_OUTPUT_WHITE": Position(rot=2365, vertical=1400, horizontal=750, meaning="any"),
+                "SL_OUTPUT_RED": Position(rot=2250, vertical=1400, horizontal=1200, meaning="any"),
+                "SL_OUTPUT_BLUE": Position(rot=2155, vertical=1400, horizontal=1710, meaning="any"),
             })
         vgr2_parameters.derive_over_positions()
         self.addController(VacuumGripperController2(VacuumGripper("I1VacuumGripper02", vgr2_parameters), self.rpi))
