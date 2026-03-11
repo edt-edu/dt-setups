@@ -11,7 +11,11 @@ fork
       :[VGR1] over HBW;
     end fork
     :[VGR1] move from HBW to CB;
-    :[CB] to VGR2;
+    fork
+      :[CB] to VGR2;
+    fork again
+      :[VGR1] over CB;
+    end fork
   fork again
     :[VGR2] setup;
   end fork

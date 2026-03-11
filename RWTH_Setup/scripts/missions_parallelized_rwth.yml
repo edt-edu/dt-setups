@@ -126,7 +126,13 @@ FactoryMissionsParallelized:
               }
             }
           outputs:
+            - fork_cb
+        - type: fork
+          id: fork_cb
+          description: 'Move the payload while preparing VGR1 for pickup'
+          outputs:
             - cb_to_vgr2
+            - vgr1_over_cb
         - type: rawMachineCommand
           id: cb_to_vgr2
           description: '[CB] Move payload in reach of VGR2'
@@ -149,6 +155,35 @@ FactoryMissionsParallelized:
                 ]
               }
             }
+          outputs:
+            - join_cb
+        - type: rawMachineCommand
+          id: vgr1_over_cb
+          description: '[VGR1] Hover over the CB'
+          placeholder: >
+            {
+              "topicName": "I1VacuumGripper01",
+              "timestamp": 0,
+              "message": {
+                "jsonType": "COMMAND",
+                "type": "VACUUM",
+                "outputId": "AUTO_ID",
+                "name": "GO_TO_POSITION",
+                "parameters": [
+                  {
+                    "passableType": "NAMEDPOSITION",
+                    "passable": {
+                      "name": "OVER_CB"
+                    }
+                  }
+                ]
+              }
+            }
+          outputs:
+            - join_cb
+        - type: join
+          id: join_cb
+          description: 'Ensure that payload is at CB pickup point of VGR2 before continuing'
           outputs:
             - join_vgr2_setup
         - type: rawMachineCommand
