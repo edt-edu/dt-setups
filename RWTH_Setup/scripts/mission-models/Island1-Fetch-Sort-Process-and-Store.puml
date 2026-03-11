@@ -42,12 +42,16 @@ fork again
 end fork
 
 fork
-  :[MPS] goto safety;
+  :[MPS] arm to oven;
 fork again
   :[VGR1] move from MPS out to HBW;
 end fork
 
-:[HBW] store to 1:1;
+fork
+  :[HBW] store to 1:1;
+fork again
+  :[MPS] arm to tt;
+end fork
 
 stop
 

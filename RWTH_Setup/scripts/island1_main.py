@@ -66,7 +66,7 @@ class Island1Controller(RevPiPyMachineController):
         vgr2_parameters.derive_over_positions()
         self.addController(VacuumGripperController2(VacuumGripper("I1VacuumGripper02", vgr2_parameters), self.rpi))
         self.addController(ConveyorBeltController(ConveyorBelt("I1ConveyorBelt01"), self.rpi))
-        mps_parameters = MultiProcessingParameters(safety_at_oven=True)
+        mps_parameters = MultiProcessingParameters()
         self.addController(MultiProcessingController(MultiProcessing("I1MultiProcessing01", mps_parameters), self.rpi))
         sortingLineParameters = SortingLineParameters(mock_analog_sensor=True)
         sortingLineParameters.red_ejector_delay -= 0.2

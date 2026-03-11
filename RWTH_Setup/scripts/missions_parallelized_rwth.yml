@@ -495,11 +495,11 @@ FactoryMissionsParallelized:
           id: fork_transfer_to_hbw
           description: 'Transfer the payload to HBW while moving the MPS arm out of the way'
           outputs:
-            - mps_goto_safety
+            - mps_arm_to_oven
             - vgr1_move_from_mps_output_to_hbw
         - type: rawMachineCommand
-          id: mps_goto_safety
-          description: '[MPS] Goto the safety position (move the arm to the oven)'
+          id: mps_arm_to_oven
+          description: '[MPS] Move the arm to the oven'
           placeholder: >
             {
               "topicName": "I1MultiProcessing01",
@@ -548,9 +548,15 @@ FactoryMissionsParallelized:
           id: join_transfer_to_hbw
           description: 'Wait until the payload has been placed in the HBW input (a cup was already present)'
           outputs:
-            - hwb_store
+            - fork_store
+        - type: fork
+          id: fork_store
+          description: 'Store the payload while moving the MPS arm back to the turn table'
+          outputs:
+            - hbw_store
+            - mps_arm_to_tt
         - type: rawMachineCommand
-          id: hwb_store
+          id: hbw_store
           description: '[HBW] Store the payload at 1:1'
           placeholder: >
             {
@@ -577,6 +583,35 @@ FactoryMissionsParallelized:
                 ]
               }
             }
+          outputs:
+            - join_store
+        - type: rawMachineCommand
+          id: mps_arm_to_tt
+          description: '[MPS] Move the arm to the turntable'
+          placeholder: >
+            {
+              "topicName": "MultiProcessing01",
+              "timestamp": 1673975631.125,
+              "message": {
+                "jsonType": "COMMAND",
+                "type": "MULTIPROCESSING",
+                "outputId": 1,
+                "name": "ARM_MOVE",
+                "parameters": [
+                  {
+                    "passableType": "MPSARMPOSITION",
+                    "passable": {
+                      "destination": "TURNTABLE"
+                    }
+                  }
+                ]
+              }
+            }
+          outputs:
+            - join_store
+        - type: join
+          id: join_store
+          description: 'Wait until the payload has been stored'
           outputs: []
 
     - name: "Island1-Sort_Process_Store_Mission"
