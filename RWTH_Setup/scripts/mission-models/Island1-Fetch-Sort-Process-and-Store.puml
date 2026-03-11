@@ -17,7 +17,7 @@ fork
       :[VGR1] over CB;
     end fork
   fork again
-    :[VGR2] setup;
+    :[VGR2] over CB;
   end fork
   :[VGR2] move from CB to SL in;
   fork

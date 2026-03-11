@@ -23,7 +23,7 @@ FactoryMissionsParallelized:
           description: 'Performs the VGR2 setup parallel to the other processing'
           outputs:
             - fork_fetch
-            - vgr2_setup
+            - vgr2_over_cb
         - type: fork
           id: fork_fetch
           description: 'Fetches the payload while moving VGR1 into position'
@@ -187,8 +187,8 @@ FactoryMissionsParallelized:
           outputs:
             - join_vgr2_setup
         - type: rawMachineCommand
-          id: vgr2_setup
-          description: '[VGR2] Setup'
+          id: vgr2_over_cb
+          description: '[VGR2] Move VGR2 over the CB in anticipation of the payload'
           placeholder: >
             {
               "topicName": "I1VacuumGripper02",
@@ -197,8 +197,15 @@ FactoryMissionsParallelized:
                 "jsonType": "COMMAND",
                 "type": "VACUUM",
                 "outputId": "AUTO_ID",
-                "name": "SETUP",
-                "parameters": []
+                "name": "GO_TO_POSITION",
+                "parameters": [
+                  {
+                    "passableType": "NAMEDPOSITION",
+                    "passable": {
+                      "name": "OVER_CB"
+                    }
+                  }
+                ]
               }
             }
           outputs:
