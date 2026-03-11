@@ -6,9 +6,11 @@ import revpimodio2
 from rppmcontroller.RevPiPyMachineController import RevPiPyMachineController
 from rppmcontroller.machine.conveyorbelt.ConveyorBelt import ConveyorBelt
 from rppmcontroller.machine.highbay.HighBay import HighBay
+from rppmcontroller.machine.highbay.HighBayParameters import HighBayParameters
 from rppmcontroller.machine.indexedline.IndexedLine import IndexedLine
 from rppmcontroller.machine.punchingmachine.PunchingMachine import PunchingMachine
 from rppmcontroller.machine.sortingLine.SortingLine import SortingLine
+from rppmcontroller.machine.sortingLine.SortingLineParameters import SortingLineParameters
 from rppmcontroller.machine.vacuumgripper.VacuumGripper import VacuumGripper
 
 
@@ -50,19 +52,25 @@ class Island2Controller(RevPiPyMachineController):
 
         self.controllers = list()
 
-        vgrPwmConfig = {'stdSpeed' : 100, 'aprchSpeedVer' : 30, 'aprchSpeedHor' : 30, 'aprchSpeedRot' : 20, 'aprchTolerance' : 100}
-
-        self.addController(VacuumGripperController3(VacuumGripper("I2VacuumGripper03", pwmParameters = vgrPwmConfig), self.rpi))
-        self.addController(VacuumGripperController4(VacuumGripper("I2VacuumGripper04", pwmParameters = vgrPwmConfig), self.rpi))
-        self.addController(VacuumGripperController5(VacuumGripper("I2VacuumGripper05", pwmParameters = vgrPwmConfig), self.rpi))
+        self.addController(VacuumGripperController3(VacuumGripper("I2VacuumGripper03"), self.rpi))
+        self.addController(VacuumGripperController4(VacuumGripper("I2VacuumGripper04"), self.rpi))
+        self.addController(VacuumGripperController5(VacuumGripper("I2VacuumGripper05"), self.rpi))
 
         self.addController(ConveyorBeltController2(ConveyorBelt("I2ConveyorBelt02"), self.rpi))
         self.addController(ConveyorBeltController3(ConveyorBelt("I2ConveyorBelt03"), self.rpi))
         self.addController(ConveyorBeltController4(ConveyorBelt("I2ConveyorBelt04"), self.rpi))
-        
-        self.addController(SortingLineController2(SortingLine("I2SortingLine02", delay_offsets=(0, -0.1, -0.15)), self.rpi))
 
-        self.addController(HighBayController2(HighBay("I2HighBay02", column_offset=(-20, -30, -30, -60)), self.rpi))
+        sortingLineParameters = SortingLineParameters(mock_analog_sensor=True)
+        sortingLineParameters.red_ejector_delay -= 0.1
+        sortingLineParameters.blue_ejector_delay -= 0.15
+        self.addController(SortingLineController2(SortingLine("I2SortingLine02", sortingLineParameters), self.rpi))
+
+        highBayParameters = HighBayParameters()
+        highBayParameters.conveyor_column -= 20
+        highBayParameters.right_column -= 30
+        highBayParameters.middle_column -= 30
+        highBayParameters.left_column -= 60
+        self.addController(HighBayController2(HighBay("I2HighBay02", highBayParameters), self.rpi))
 
         self.addController(PunchingMachineController1(PunchingMachine("I2PunchingMachine01"), self.rpi))
         self.addController(PunchingMachineController2(PunchingMachine("I2PunchingMachine02"), self.rpi))
@@ -198,7 +206,7 @@ class ConveyorBeltController2(MachineController):
     def read(self):
         self.machine.conveyorSensFeed = self.rpi.io.I_11_i04.value
         self.machine.conveyorSensSwap = self.rpi.io.I_12_i04.value
-        self.machine.conveyorSensImpulse = self.rpi.io.I_13_i04.value
+        self.machine.conveyorSensImpulse = ctypes.c_int32(self.rpi.io.Counter_13_i04.value).value
 
     def write(self):
         self.rpi.io.O_11_i04.value = self.machine.conveyorActForward
@@ -215,7 +223,7 @@ class ConveyorBeltController3(MachineController):
     def read(self):
         self.machine.conveyorSensFeed = self.rpi.io.I_11_i05.value
         self.machine.conveyorSensSwap = self.rpi.io.I_12_i05.value
-        self.machine.conveyorSensImpulse = self.rpi.io.I_13_i05.value
+        self.machine.conveyorSensImpulse = ctypes.c_int32(self.rpi.io.Counter_13_i05.value).value
 
     def write(self):
         self.rpi.io.O_11_i05.value = self.machine.conveyorActForward
@@ -232,7 +240,7 @@ class ConveyorBeltController4(MachineController):
     def read(self):
         self.machine.conveyorSensFeed = self.rpi.io.I_11_i06.value
         self.machine.conveyorSensSwap = self.rpi.io.I_12_i06.value
-        self.machine.conveyorSensImpulse = self.rpi.io.I_13_i06.value
+        self.machine.conveyorSensImpulse = ctypes.c_int32(self.rpi.io.Counter_13_i06.value).value
 
     def write(self):
         self.rpi.io.O_11_i06.value = self.machine.conveyorActForward
@@ -289,6 +297,9 @@ class HighBayController2(MachineController):
         self.rpi.io.O_6_i08.value = self.machine.highbayActUp
         self.rpi.io.O_7_i08.value = self.machine.highbayActCantileverForward
         self.rpi.io.O_8_i08.value = self.machine.highbayActCantileverBackward
+        # PWM
+        self.rpi.io.PWM_10_i08.value = self.machine.pwmHorizontal
+        self.rpi.io.PWM_11_i08.value = self.machine.pwmVertical
 
     def reset(self):
         if self.machine.horizontal_reset_helper.must_reset():
