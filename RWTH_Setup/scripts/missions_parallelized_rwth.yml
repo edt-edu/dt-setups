@@ -508,8 +508,13 @@ FactoryMissionsParallelized:
                 "jsonType": "COMMAND",
                 "type": "MULTIPROCESSING",
                 "outputId": "AUTO_ID",
-                "name": "MOVE_TO_SAFE_POSITION",
-                "parameters": []
+                "name": "MOVE_ARM",
+                "parameters": [
+                  "passableType": "MPSARMPOSITION",
+                  "passable": {
+                    "destination": "OVEN"
+                  }
+                ]
               }
             }
           outputs:
