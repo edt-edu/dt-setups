@@ -1,0 +1,33 @@
+
+
+
+useful commands:
+
+```
+docker compose up
+```
+
+start influxdb and grafana but not the gateway (for local dev for example)
+
+```
+docker compose up --scale dt-support-gateway=0
+```
+
+```
+docker compose down
+```
+
+Remove volumes
+```
+docker compose down -v
+```
+```
+docker compose rm -v
+```
+
+
+
+**influxDB**
+connect to influxDB web interface : http://localhost:8086/
+user: admin
+pass: MyInitialAdminPassword

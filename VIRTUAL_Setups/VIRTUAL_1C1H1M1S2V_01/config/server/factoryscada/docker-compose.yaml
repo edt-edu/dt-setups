@@ -1,0 +1,21 @@
+
+services:
+    scada-backend:
+        image: registry.git.rwth-aachen.de/mbdo/mbdo-impl/factory-scada-backend:latest
+        container_name: scada-backend
+        ports:
+            - 9000:9000
+        volumes:
+            - ./services/scada-backend/config:/app/config
+        # extra_hosts: # <hostname>.local addresses are handled by avahi/zeroconf on the host but we need to manually set them in the container
+        #     - "RevPi103156.local:10.135.2.69"
+        #     - "RevPi103259.local:10.135.2.68"
+        #     - "RevPi103228.local:10.135.2.89"
+    scada-frontend:
+        image: registry.git.rwth-aachen.de/mbdo/mbdo-impl/factory-scada-frontend:latest
+        container_name: scada-frontend
+        ports:
+            - 9080:80
+        volumes:
+            - ./services/scada-frontend/config:/app/config
+        
