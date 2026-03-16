@@ -17,7 +17,7 @@ MISSIONS_CONFIG_PATH := ${PROJECT_ROOT}/${PROJECT_VIRTUAL_CONFIG}/server/factory
 BACKEND_CONFIG_PATH := ${PROJECT_ROOT}/${PROJECT_VIRTUAL_CONFIG}/server/factoryscada/services/scada-backend/config/configuration.yml
 GATEWAY_CONFIG_PATH := ${PROJECT_ROOT}/${PROJECT_VIRTUAL_CONFIG}/server/gateway/services/gateway/config/configuration.yml
 
-.PHONY: up down restart status attach \
+.PHONY: up down open-gnome-terminalrestart status attach \
         mqtt plc scada-frontend scada-backend gateway cep
 
 # ------------------------------------------------------------------------------
@@ -38,7 +38,26 @@ down:
 	-@tmux kill-session -t scada-backend
 	-@tmux kill-session -t gateway
 	-@tmux kill-session -t kafka
+	-@tmux kill-session -t influxdb
+	-@tmux kill-session -t grafana
 	@echo "✔ All tmux sessions stopped"
+
+open-gnome-terminal:
+	@echo "ℹ️ Opening a new GNOME Terminal windows with tabs for each service..."
+	@gnome-terminal -- bash -c "\
+		gnome-terminal --tab --title='mqtt' -- bash -c 'tmux attach -t mqtt; exec bash'; \
+		gnome-terminal --tab --title='plc' -- bash -c 'tmux attach -t plc; exec bash'; \
+		gnome-terminal --tab --title='scada-frontend' -- bash -c 'tmux attach -t scada-frontend; exec bash'; \
+		gnome-terminal --tab --title='scada-backend' -- bash -c 'tmux attach -t scada-backend; exec bash'; \
+		gnome-terminal --tab --title='gateway' -- bash -c 'tmux attach -t gateway; exec bash'; \
+		gnome-terminal --tab --title='kafka' -- bash -c 'tmux attach -t kafka; exec bash'; \
+		gnome-terminal --tab --title='influxdb' -- bash -c 'tmux attach -t influxdb; exec bash'; \
+		gnome-terminal --tab --title='grafana' -- bash -c 'tmux attach -t grafana; exec bash'; \
+	 	echo '✔ tabs opened for all services'; \
+		exec bash"
+	@echo "✔ GNOME Terminal opened for services..."
+	@echo "⚠️ Important, the services use tmux, closing the terminals do NOT kill the services, use `make down` to stop them"
+
 
 # ------------------------------------------------------------------------------
 # Services (always restarted)
