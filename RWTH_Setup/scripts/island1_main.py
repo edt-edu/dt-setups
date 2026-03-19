@@ -51,7 +51,7 @@ class Island1Controller(RevPiPyMachineController):
                 "HBW": Position(rot=2490, vertical=200, horizontal=1010, meaning="any"),
                 "CB": Position(rot=1155, vertical=1050, horizontal=1810, meaning="any"),
                 "MPS_INPUT": Position(rot=245, vertical=1000, horizontal=235, meaning="any"),
-                "MPS_OUTPUT": Position(rot=2985, vertical=1150, horizontal=1345, meaning="any"),
+                "MPS_OUTPUT": Position(rot=2980, vertical=1150, horizontal=1345, meaning="any"),
             })
         vgr1_parameters.derive_over_positions()
         self.addController(VacuumGripperController(VacuumGripper("I1VacuumGripper01", vgr1_parameters), self.rpi))
