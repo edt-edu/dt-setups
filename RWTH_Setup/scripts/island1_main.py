@@ -78,7 +78,7 @@ class Island1Controller(RevPiPyMachineController):
         highBayParameters.right_column -= 60
         highBayParameters.middle_column -= 90
         highBayParameters.left_column -= 130
-        highBayParameters.conveyor_row -= 30
+        highBayParameters.conveyor_row -= 100
         self.addController(HighBayController(HighBay("I1HighBay01", highBayParameters), self.rpi))
         # machines which are usually not connected to island 1
         # self.addController(PunchingMachineController(PunchingMachine("I1PunchingMachine01"), self.rpi))
