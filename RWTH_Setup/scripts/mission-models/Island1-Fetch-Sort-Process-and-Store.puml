@@ -8,6 +8,7 @@ fork
     fork
       :[HBW] fetch 1:1;
     fork again
+      :[VGR1] setup;
       :[VGR1] over HBW;
     end fork
     :[VGR1] move from HBW to CB;
@@ -17,6 +18,7 @@ fork
       :[VGR1] over CB;
     end fork
   fork again
+    :[VGR2] setup;
     :[VGR2] over CB;
   end fork
   :[VGR2] move from CB to SL in;

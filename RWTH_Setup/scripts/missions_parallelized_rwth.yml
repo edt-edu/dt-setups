@@ -23,13 +23,13 @@ FactoryMissionsParallelized:
           description: 'Performs the VGR2 setup parallel to the other processing'
           outputs:
             - fork_fetch
-            - vgr2_over_cb
+            - vgr2_setup
         - type: fork
           id: fork_fetch
           description: 'Fetches the payload while moving VGR1 into position'
           outputs:
             - hbw_fetch
-            - vgr_over_hbw
+            - vgr1_setup
         - type: rawMachineCommand
           id: hbw_fetch
           description: 'Fetch a payload from 1:1'
@@ -61,7 +61,24 @@ FactoryMissionsParallelized:
           outputs:
             - join_fetch
         - type: rawMachineCommand
-          id: vgr_over_hbw
+          id: vgr1_setup
+          description: '[VGR1] Setup for improved precision'
+          placeholder: >
+            {
+              "topicName": "I1VacuumGripper01",
+              "timestamp": 0,
+              "message": {
+                "jsonType": "COMMAND",
+                "type": "VACUUM",
+                "outputId": "AUTO_ID",
+                "name": "SETUP",
+                "parameters": []
+              }
+            }
+          outputs:
+            - vgr1_over_hbw
+        - type: rawMachineCommand
+          id: vgr1_over_hbw
           description: 'Move VGR1 over the HBW'
           placeholder: >
             {
@@ -186,6 +203,23 @@ FactoryMissionsParallelized:
           description: 'Ensure that payload is at CB pickup point of VGR2 before continuing'
           outputs:
             - join_vgr2_setup
+        - type: rawMachineCommand
+          id: vgr2_setup
+          description: "[VGR2] Setup for better precision"
+          placeholder: >
+            {
+              "topicName": "I1VacuumGripper02",
+              "timestamp": 0,
+              "message": {
+                "jsonType": "COMMAND",
+                "type": "VACUUM",
+                "outputId": "AUTO_ID",
+                "name": "SETUP",
+                "parameters": []
+              }
+            }
+          outputs:
+            - vgr2_over_cb
         - type: rawMachineCommand
           id: vgr2_over_cb
           description: '[VGR2] Move VGR2 over the CB in anticipation of the payload'
