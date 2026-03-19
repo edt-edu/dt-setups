@@ -61,7 +61,7 @@ class Island1Controller(RevPiPyMachineController):
                 "CB": Position(rot=1770, vertical=1050, horizontal=1150, meaning="any"),
                 "SL_INPUT": Position(rot=2860, vertical=900, horizontal=1750, meaning="any"),
                 "SL_OUTPUT_WHITE": Position(rot=2365, vertical=1400, horizontal=750, meaning="any"),
-                "SL_OUTPUT_RED": Position(rot=2245, vertical=1400, horizontal=1200, meaning="any"),
+                "SL_OUTPUT_RED": Position(rot=2240, vertical=1400, horizontal=1200, meaning="any"),
                 "SL_OUTPUT_BLUE": Position(rot=2155, vertical=1400, horizontal=1710, meaning="any"),
             })
         vgr2_parameters.derive_over_positions()
