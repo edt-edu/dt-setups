@@ -655,7 +655,7 @@ FactoryMissionsParallelized:
           description: 'Wait until the payload has been stored'
           outputs: []
 
-    - name: "Island1-Sort_Process_Store_Mission"
+    - name: "Island1-Sort_Process_Store_Mission-Rennes-like"
       description: >
         A payload is fetched from HBW 1:1 and passed by VGR2 over the CB to VGR1 where it is placed on the SL input.
         The SL will sort the payload to red and it will be passed back over the CB to the MPS. 
@@ -694,7 +694,7 @@ FactoryMissionsParallelized:
             HB retrieve and VGR1 to HBW
           outputs:
             - HBPickup_1
-            - VGR1CloseToHBW
+            - VGR1Setup
 
         - type: rawMachineCommand
           id: "HBPickup_1"
@@ -729,6 +729,24 @@ FactoryMissionsParallelized:
             - Join1
 
         - type: rawMachineCommand
+          id: "VGR1Setup"
+          description: >
+            [VGR1] Setup
+          placeholder: >
+            {
+                "topicName": "I1VacuumGripper01",
+                "timestamp": 1750259239375,
+                "message": {
+                    "jsonType": "COMMAND",
+                    "type": "VACUUM",
+                    "outputId": "AUTO_ID",
+                    "name": "SETUP",
+                    "parameters": []
+                }
+            }
+          outputs:
+            - VGR1CloseToHBW
+        - type: rawMachineCommand
           id: "VGR1CloseToHBW"
           description: >
             [VGR1] Move arm close to HBW retrieval location
@@ -743,22 +761,19 @@ FactoryMissionsParallelized:
                     "name": "ORDERED_MOVE_TO",
                     "parameters": [
                         {
-                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passableType": "NAMEDPOSITION",
                             "passable": {
-                                "meaning": "START",
-                                "vertical": 100,
-                                "horizontal": 0,
-                                "rot": 2500
+                                "name": "OVER_HBW"
                             }
                         },
-                        {
-                            "passableType": "AXISPRIORITIZED",
-                            "passable": {
-                                "vertical": false,
-                                "horizontal": false,
-                                "rot": true
-                            }
+                      {
+                        "passableType": "AXISPRIORITIZED",
+                        "passable": {
+                          "vertical": false,
+                          "horizontal": false,
+                          "rot": true
                         }
+                      }
                     ]
                 }
             }
@@ -859,21 +874,15 @@ FactoryMissionsParallelized:
                     "name": "MOVE",
                     "parameters": [
                         {
-                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passableType": "NAMEDPOSITION",
                             "passable": {
-                                "meaning": "START",
-                                "vertical": 400,
-                                "horizontal": 1005,
-                                "rot": 2500
+                                "name": "HBW"
                             }
                         },
                         {
-                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passableType": "NAMEDPOSITION",
                             "passable": {
-                                "meaning": "END",
-                                "vertical": 1300,
-                                "horizontal": 1850,
-                                "rot": 1130
+                                "name": "CB"
                             }
                         }
                     ]
@@ -957,21 +966,15 @@ FactoryMissionsParallelized:
                     "name": "MOVE",
                     "parameters": [
                         {
-                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passableType": "NAMEDPOSITION",
                             "passable": {
-                                "meaning": "START",
-                                "vertical": 1050,
-                                "horizontal": 1150,
-                                "rot": 1770
+                                "name": "CB"
                             }
                         },
                         {
-                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passableType": "NAMEDPOSITION",
                             "passable": {
-                                "meaning": "END",
-                                "vertical": 1050,
-                                "horizontal": 1750,
-                                "rot": 2830
+                                "name": "SL_INPUT"
                             }
                         }
                     ]
@@ -1074,21 +1077,15 @@ FactoryMissionsParallelized:
                     "name": "MOVE",
                     "parameters": [
                         {
-                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passableType": "NAMEDPOSITION",
                             "passable": {
-                                "meaning": "START",
-                                "vertical": 1300,
-                                "horizontal": 1200,
-                                "rot": 2210
+                                "name": "SL_OUTPUT_RED"
                             }
                         },
                         {
-                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passableType": "NAMEDPOSITION",
                             "passable": {
-                                "meaning": "END",
-                                "vertical": 1050,
-                                "horizontal": 1150,
-                                "rot": 1770
+                                "name": "CB"
                             }
                         }
                     ]
@@ -1172,21 +1169,15 @@ FactoryMissionsParallelized:
                     "name": "MOVE",
                     "parameters": [
                         {
-                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passableType": "NAMEDPOSITION",
                             "passable": {
-                                "meaning": "START",
-                                "vertical": 1300,
-                                "horizontal": 1850,
-                                "rot": 1130
+                                "name": "CB"
                             }
                         },
                         {
-                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passableType": "NAMEDPOSITION",
                             "passable": {
-                                "meaning": "END",
-                                "vertical": 1000,
-                                "horizontal": 235,
-                                "rot": 215
+                                "name": "MPS_INPUT"
                             }
                         }
                     ]
@@ -1248,21 +1239,15 @@ FactoryMissionsParallelized:
                     "name": "MOVE",
                     "parameters": [
                         {
-                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passableType": "NAMEDPOSITION",
                             "passable": {
-                                "meaning": "START",
-                                "vertical": 1150,
-                                "horizontal": 1350,
-                                "rot": 2990
+                                "name": "MPS_OUTPUT"
                             }
                         },
                         {
-                            "passableType": "POSITIONPARAMETERTHREED",
+                            "passableType": "NAMEDPOSITION",
                             "passable": {
-                                "meaning": "END",
-                                "vertical": 350,
-                                "horizontal": 1005,
-                                "rot": 2500
+                                "name": "HBW"
                             }
                         }
                     ]
