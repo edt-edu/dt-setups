@@ -7,6 +7,7 @@
       "x": 670,
       "y": 940,
       "degrees": 180,
+      "type": "MACHINE",
       "kind": "CB",
       "name": "ConveyorBelt1",
       "id": "cb1"
@@ -15,6 +16,7 @@
       "x": 410,
       "y": 100,
       "degrees": 0,
+      "type": "MACHINE",
       "kind": "HBW",
       "name": "HighBayWarehouse1",
       "id": "hbw1"
@@ -23,6 +25,7 @@
       "x": 100,
       "y": 1325,
       "degrees": 270,
+      "type": "MACHINE",
       "kind": "SLC",
       "name": "SortingLine1",
       "id": "slc1"
@@ -31,6 +34,7 @@
       "x": 410,
       "y": 445,
       "degrees": 90,
+      "type": "MACHINE",
       "kind": "MPO",
       "name": "MultiProcessingStation1",
       "id": "mps1"
@@ -39,7 +43,8 @@
       "x": 670,
       "y": 941,
       "degrees": 270,
-      "kind": "CB_MPS_SLI",
+      "type": "COMPONENT",
+      "kind": "S_SLI",
       "name": "CBSlider1",
       "id": "sli1"
     },
@@ -47,7 +52,8 @@
       "x": 413,
       "y": 879,
       "degrees": 90,
-      "kind": "CB_MPS_SLI",
+      "type": "COMPONENT",
+      "kind": "S_SLI",
       "name": "CBSlider2",
       "id": "sli2"
     },
@@ -55,7 +61,8 @@
       "x": 390,
       "y": 538,
       "degrees": 270,
-      "kind": "CB_MPS_SLI",
+      "type": "COMPONENT",
+      "kind": "S_SLI",
       "name": "MPSSlider",
       "id": "sli3"
     },
@@ -63,7 +70,8 @@
       "x": 203,
       "y": 899,
       "degrees": 0,
-      "kind": "SL_SLI",
+      "type": "COMPONENT",
+      "kind": "RH_SLI",
       "name": "SLSlider",
       "id": "sli4"
     },
@@ -71,6 +79,7 @@
       "x": 410,
       "y": 540,
       "degrees": 0,
+      "type": "MACHINE",
       "kind": "VGR",
       "name": "VacuumGripper2",
       "id": "vgr2"
@@ -79,6 +88,7 @@
       "x": 595,
       "y": 970,
       "degrees": 90,
+      "type": "MACHINE",
       "kind": "VGR",
       "name": "VacuumGripper1",
       "id": "vgr1"
