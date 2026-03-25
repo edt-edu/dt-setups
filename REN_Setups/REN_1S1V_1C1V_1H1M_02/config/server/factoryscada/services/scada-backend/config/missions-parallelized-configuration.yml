@@ -157,7 +157,7 @@ FactoryMissionsParallelized:
                     "jsonType": "COMMAND",
                     "type": "VACUUM",
                     "outputId": "AUTO_ID",
-                    "name": "ORDERED_MOVE_TO",
+                    "name": "ORDERED_GO_TO",
                     "parameters": [
                         {
                             "passableType": "POSITIONPARAMETERTHREED",
@@ -436,7 +436,7 @@ FactoryMissionsParallelized:
                     "jsonType": "COMMAND",
                     "type": "VACUUM",
                     "outputId": "AUTO_ID",
-                    "name": "ORDERED_MOVE_TO",
+                    "name": "ORDERED_GO_TO",
                     "parameters": [
                         {
                             "passableType": "POSITIONPARAMETERTHREED",
