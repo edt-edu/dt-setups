@@ -45,7 +45,7 @@
       "degrees": 270,
       "type": "COMPONENT",
       "kind": "S_SLI",
-      "name": "CBSlider1",
+      "name": "CBSlide1",
       "id": "sli1"
     },
     {
@@ -54,7 +54,7 @@
       "degrees": 90,
       "type": "COMPONENT",
       "kind": "S_SLI",
-      "name": "CBSlider2",
+      "name": "CBSlide2",
       "id": "sli2"
     },
     {
@@ -63,7 +63,7 @@
       "degrees": 270,
       "type": "COMPONENT",
       "kind": "S_SLI",
-      "name": "MPSSlider",
+      "name": "MPSSlide",
       "id": "sli3"
     },
     {
@@ -72,7 +72,7 @@
       "degrees": 0,
       "type": "COMPONENT",
       "kind": "RH_SLI",
-      "name": "SLSlider",
+      "name": "SLSlide",
       "id": "sli4"
     },
     {
