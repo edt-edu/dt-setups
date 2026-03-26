@@ -7,6 +7,7 @@
       "x": 730,
       "y": 1010,
       "degrees": 180,
+      "type": "MACHINE",
       "kind": "CB",
       "name": "ConveyorBelt1",
       "id": "cb1"
@@ -15,6 +16,7 @@
       "x": 460,
       "y": 150,
       "degrees": 0,
+      "type": "MACHINE",
       "kind": "HBW",
       "name": "HighBayWarehouse1",
       "id": "hbw1"
@@ -23,6 +25,7 @@
       "x": 150,
       "y": 1350,
       "degrees": 270,
+      "type": "MACHINE",
       "kind": "SLC",
       "name": "SortingLine1",
       "id": "slc1"
@@ -31,6 +34,7 @@
       "x": 460,
       "y": 470,
       "degrees": 90,
+      "type": "MACHINE",
       "kind": "MPO",
       "name": "MultiProcessingStation1",
       "id": "hbw1"
@@ -39,6 +43,7 @@
       "x": 750,
       "y": 810,
       "degrees": 180,
+      "type": "MACHINE",
       "kind": "VGR",
       "name": "VacuumGripper1",
       "id": "vgr1"
@@ -47,6 +52,7 @@
       "x": 660,
       "y": 1020,
       "degrees": 90,
+      "type": "MACHINE",
       "kind": "VGR",
       "name": "VacuumGripper2",
       "id": "vgr2"
