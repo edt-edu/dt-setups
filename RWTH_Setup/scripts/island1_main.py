@@ -50,6 +50,7 @@ class Island1Controller(RevPiPyMachineController):
             named_positions={
                 "HBW": Position(rot=2490, vertical=200, horizontal=1010, meaning="any"),
                 "CB": Position(rot=1155, vertical=1050, horizontal=1810, meaning="any"),
+                "ALT_CB": Position(rot=740, vertical=1050, horizontal=1400, meaning="any"),
                 "MPS_INPUT": Position(rot=245, vertical=1000, horizontal=235, meaning="any"),
                 "MPS_OUTPUT": Position(rot=2960, vertical=1000, horizontal=1305, meaning="any"),
             })
@@ -59,6 +60,7 @@ class Island1Controller(RevPiPyMachineController):
             hover_offset=500,
             named_positions={
                 "CB": Position(rot=1770, vertical=1050, horizontal=1150, meaning="any"),
+                "ALT_CB": Position(rot=1360, vertical=1050, horizontal=1900, meaning="any"),
                 "SL_INPUT": Position(rot=2860, vertical=900, horizontal=1750, meaning="any"),
                 "SL_OUTPUT_WHITE": Position(rot=2365, vertical=1400, horizontal=750, meaning="any"),
                 "SL_OUTPUT_RED": Position(rot=2240, vertical=1400, horizontal=1200, meaning="any"),
