@@ -53,7 +53,9 @@ class Island1Controller(RevPiPyMachineController):
                 "ALT_CB": Position(rot=740, vertical=1050, horizontal=1400, meaning="any"),
                 "MPS_INPUT": Position(rot=245, vertical=1000, horizontal=235, meaning="any"),
                 "MPS_OUTPUT": Position(rot=2960, vertical=1000, horizontal=1305, meaning="any"),
-            })
+            },
+            pwm_approach_tolerance=300
+        )
         vgr1_parameters.derive_over_positions()
         self.addController(VacuumGripperController(VacuumGripper("I1VacuumGripper01", vgr1_parameters), self.rpi))
         vgr2_parameters = VacuumGripperParameters(
@@ -65,7 +67,9 @@ class Island1Controller(RevPiPyMachineController):
                 "SL_OUTPUT_WHITE": Position(rot=2365, vertical=1400, horizontal=750, meaning="any"),
                 "SL_OUTPUT_RED": Position(rot=2240, vertical=1400, horizontal=1200, meaning="any"),
                 "SL_OUTPUT_BLUE": Position(rot=2155, vertical=1400, horizontal=1710, meaning="any"),
-            })
+            },
+            pwm_approach_tolerance=300
+        )
         vgr2_parameters.derive_over_positions()
         self.addController(VacuumGripperController2(VacuumGripper("I1VacuumGripper02", vgr2_parameters), self.rpi))
         self.addController(ConveyorBeltController(ConveyorBelt("I1ConveyorBelt01"), self.rpi))
