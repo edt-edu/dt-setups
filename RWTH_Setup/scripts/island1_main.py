@@ -3,7 +3,6 @@ import logging
 
 import revpimodio2
 
-from rppmcontroller import TRACE
 from rppmcontroller.RevPiPyMachineController import RevPiPyMachineController
 from rppmcontroller.machine.Position import Position
 from rppmcontroller.machine.conveyorbelt.ConveyorBelt import ConveyorBelt
@@ -333,7 +332,7 @@ class IndexedLineController(MachineController):
 
 if __name__ == "__main__":
     logging.basicConfig(format='%(asctime)s %(levelname)-5s: %(module)-30s,%(lineno)-3s: %(message)s',
-                        level=TRACE,
+                        level=logging.DEBUG,
                         datefmt='%Y-%m-%d %H:%M:%S')
     handler = logging.FileHandler("logfile.log")
     logFormatter = logging.Formatter("%(levelname)-5s: %(module)-30s,%(lineno)-3s: %(message)s")
