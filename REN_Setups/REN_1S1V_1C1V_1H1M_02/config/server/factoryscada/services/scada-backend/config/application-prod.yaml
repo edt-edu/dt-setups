@@ -1,0 +1,2 @@
+configuration:
+  mqttHost: "tcp://mbdo-server.local:1883"
