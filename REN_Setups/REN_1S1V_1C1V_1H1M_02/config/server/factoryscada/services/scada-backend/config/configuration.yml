@@ -11,10 +11,10 @@ configuration:
       notificationPort: 6011
       machines:
         - type: "sortingLine"
-          name: "SortingLine01"
+          name: "I1SortingLine01"
 
         - type: "vacuumGripper"
-          name: "VacuumGripper01"
+          name: "I1VacuumGripper01"
 
     - name: "plc-2"
       host: 'RevPi103259.local'
@@ -22,10 +22,10 @@ configuration:
       notificationPort: 6011
       machines:
         - type: "conveyorBelt"
-          name: "ConveyorBelt01"
+          name: "I1ConveyorBelt01"
 
         - type: "vacuumGripper"
-          name: "VacuumGripper02"
+          name: "I1VacuumGripper02"
 
     - name: "plc-3"
       host: 'RevPi103228.local'
@@ -33,7 +33,7 @@ configuration:
       notificationPort: 6011
       machines:
         - type: "multiProcessingStation"
-          name: "MultiProcessing01"
+          name: "I1MultiProcessing01"
 
         - type: "highBayWarehouse"
-          name: "HighBay01"   
+          name: "I1HighBay01"   
