@@ -1,13 +1,6 @@
 configuration:
   name: "configuration"
-  mqtt:
-    inbound:
-      host: tcp://mbdo-server.local:1883
-      topics: "#"
-    outbound:
-      host: tcp://mbdo-server.local:1883
-      root-topic: "FactorySCADABackend"
-      topic-include-hostname: True
+  mqttHost: "tcp://localhost:1883"
 
   controllers:
    - name: "plc-1"
