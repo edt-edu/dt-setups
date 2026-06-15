@@ -1,2 +1,10 @@
+
 configuration:
-  mqttHost: "tcp://mbdo-server.local:1883"
+  mqtt:
+    inbound:
+      host: tcp://mbdo-server.local:1883
+      topics: "#"
+    outbound:
+      host: tcp://mbdo-server.local:1883
+      root-topic: "FactorySCADABackend"
+      topic-include-hostname: True
