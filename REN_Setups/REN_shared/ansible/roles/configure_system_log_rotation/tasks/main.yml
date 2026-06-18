@@ -1,0 +1,25 @@
+# configure log rotation for system logs
+- name: Tune rsyslog rotation
+  ansible.builtin.template:
+    src: templates/logrotate_rsyslog.j2
+    dest: /etc/logrotate.d/rsyslog
+    owner: root
+    group: root
+    mode: 0644
+
+# force logrotate to run every hour instead of daily
+- name: if logrotate exists in cron.daily
+  ansible.builtin.stat:
+    path: /etc/cron.daily/logrotate
+  register: logrotate_daily
+
+- name: Move logrotate to cron.hourly
+  ansible.builtin.command:
+    cmd: mv /etc/cron.daily/logrotate /etc/cron.hourly/logrotate
+  when: logrotate_daily.stat.exists
+
+- name: remove old cron.daily
+  ansible.builtin.file:
+    path: /etc/cron.daily/logrotate
+    state: absent
+  when: logrotate_daily.stat.exists
