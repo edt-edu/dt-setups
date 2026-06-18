@@ -1,0 +1,14 @@
+---
+
+## example of use:
+# ansible-playbook  playbooks/configure_plcs_os.yml 
+# ansible-playbook  --limit=RevPi01 playbooks/configure_plcs_os.yml 
+# ansible-playbook  --limit=RevPi01,RevPi02 playbooks/configure_plcs_os.yml 
+
+- name: Configure PLCs OS
+  hosts: plcs
+  become: true
+
+  
+  roles:
+    - configure_system_log_rotation

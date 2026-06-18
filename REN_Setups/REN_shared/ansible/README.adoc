@@ -14,3 +14,15 @@ install mosquitto configuration files
 ```sh
 ansible-playbook playbooks/push_server_config.yml
 ```
+
+
+Configure PLCs OS
+```sh
+ansible-playbook playbooks/configure_plcs_os.yml
+```
+
+Configure PLCs OS for specific PLCs
+```sh
+ansible-playbook --limit=RevPi01 playbooks/configure_plcs_os.yml
+ansible-playbook --limit=RevPi01,RevPi02 playbooks/configure_plcs_os.yml
+``` 
