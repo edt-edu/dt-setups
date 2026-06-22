@@ -1,0 +1,403 @@
+# GatewayConfiguration
+
+configuration:
+  name: "GatewayConfiguration"
+  mqttSourceBrokerUrl: tcp://localhost:1883
+  mqttTargetBrokerUrl: tcp://localhost:1883
+  kafkaBrokerUrl: PLAINTEXT://localhost:9092
+
+  influxDBConfiguration:
+      url: "http://localhost:8086"
+      token: "MyInitialAdminToken0=="
+      org: "mbdo"
+      bucket: "factory"
+
+  mqttInfluxdbRecordings: # MQTT to influxdb TimeSeries
+  # define measures that should be collected in time series DB
+    - name: "Physical_Twin_VGR_01"
+      mqttSourceTopic: "PLC/virtualmachines-plc-1/VacuumGripper/VacuumGripper01/#"
+      dataProcess: extract-json-value # json containing a primitive value field (othewise use "raw" or "extract-json-value-json-timestamp")
+      timeProcess: extract-json-timestamp #  use time extracted from json timestamp field (otherwise use system time)    
+    - name: "Physical_Twin_VGR_02"
+      mqttSourceTopic: "PLC/virtualmachines-plc-1/VacuumGripper/VacuumGripper02/#"
+      dataProcess: extract-json-value # json containing a primitive value field (othewise use "raw" or "extract-json-value-json-timestamp")
+      timeProcess: extract-json-timestamp #  use time extracted from json timestamp field (otherwise use system time)    
+    - name: "Physical_Twin_HB_01"
+      mqttSourceTopic: "PLC/virtualmachines-plc-1/VacuumGripper/HighBay01/#"
+      dataProcess: extract-json-value
+      timeProcess: extract-json-timestamp
+    - name: "Physical_Twin_SL_01"
+      mqttSourceTopic: "PLC/virtualmachines-plc-1/VacuumGripper/SortingLine01/#"
+      dataProcess: extract-json-value
+      timeProcess: extract-json-timestamp
+    - name: "Physical_Twin_MP_01"
+      mqttSourceTopic: "PLC/virtualmachines-plc-1/VacuumGripper/MultiProcessing01/#"
+      dataProcess: extract-json-value
+      timeProcess: extract-json-timestamp
+    - name: "Physical_Twin_CB_01"
+      mqttSourceTopic: "PLC/virtualmachines-plc-1/VacuumGripper/ConveyorBelt01/#"
+      dataProcess: extract-json-value
+      timeProcess: extract-json-timestamp
+    - name: "Physical_Twin_PM_01"
+      mqttSourceTopic: "PLC/virtualmachines-plc-1/VacuumGripper/PunchingMachine01/#"
+      dataProcess: extract-json-value
+      timeProcess: extract-json-timestamp
+
+    # - name: "Digital_Twin_VGR1"
+    #   mqttSourceTopic: "gateway/VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_01/#"
+    #   dataProcess: extract-json-value # json containing a primitive value field (othewise use "raw")
+    #   timeProcess: extract-json-timestamp  #  use time extracted from json timestamp field (otherwise use system time)
+  
+  mqttKafkaRecordings: # MQTT to Kafka
+    - name: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_01"
+      mqttSourceTopic: "PLC/virtualmachines-plc-1/VacuumGripper/VacuumGripper01/#"
+      kafkaTargetTopic: "events"  
+    - name: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_02"
+      mqttSourceTopic: "PLC/virtualmachines-plc-1/VacuumGripper/VacuumGripper02/#"
+      kafkaTargetTopic: "events"  
+    - name: "VIRTUAL_1C1H1M1S2V_01/HBSystemModel"
+      mqttSourceTopic: "PLC/virtualmachines-plc-1/VacuumGripper/HighBay01/#"
+      kafkaTargetTopic: "events"  
+    - name: "VIRTUAL_1C1H1M1S2V_01/SLSystemModel"
+      mqttSourceTopic: "PLC/virtualmachines-plc-1/VacuumGripper/SortingLine01/#"
+      kafkaTargetTopic: "events"
+    - name: "VIRTUAL_1C1H1M1S2V_01/MPSystemModel"
+      mqttSourceTopic: "PLC/virtualmachines-plc-1/VacuumGripper/MultiProcessing01/#"
+      kafkaTargetTopic: "events"
+    - name: "VIRTUAL_1C1H1M1S2V_01/CBSystemModel"
+      mqttSourceTopic: "PLC/virtualmachines-plc-1/VacuumGripper/ConveyorBelt01/#"
+      kafkaTargetTopic: "events"
+    - name: "VIRTUAL_1C1H1M1S2V_01/PMSystemModel"
+      mqttSourceTopic: "PLC/virtualmachines-plc-1/VacuumGripper/PunchingMachine01/#"
+      kafkaTargetTopic: "events"
+
+  dtEventGroups:
+  # define measures that should be forwarded to DT, use group to organize sources or when the processing is different
+    
+    # VacuumGripper 01:
+    - name: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_01/input"
+      dataTransformation: clone # copy the data
+      mqttSourcePrefix: "PLC/virtualmachines-plc-1/VacuumGripper/VacuumGripper01/measurements/input/"
+      mqttTargetPrefix: "gateway/"
+      dtEvents:
+        # map name of the data in the DT model and in the PT measure, mqttTargetTopic must match an element in the DT model 
+        - mqttSourceTopic: "vacuumSensVerticalEncoderCounter"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_01/vacuumSensVerticalEncoderCounter"          
+        - mqttSourceTopic: "vacuumSensRotEncoderCounter"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_01/vacuumSensRotEncoderCounter"
+        - mqttSourceTopic: "vacuumSensArmEncoderCounter"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_01/vacuumSensArmEncoderCounter"
+        - mqttSourceTopic: "vacuumSensVerticalEndUp"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_01/vacuumSensVerticalEndUp"
+        - mqttSourceTopic: "vacuumSensRotEnd"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_01/vacuumSensRotEnd"
+        - mqttSourceTopic: "vacuumSensArmEndIn"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_01/vacuumSensArmEndIn"
+    - name: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_01/output"
+      dataTransformation: clone # copy the data
+      mqttSourcePrefix: "PLC/virtualmachines-plc-1/VacuumGripper/VacuumGripper01/measurements/output/"
+      mqttTargetPrefix: "gateway/"
+      dtEvents:
+        - mqttSourceTopic: "vacuumActVerticalUp"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_01/vacuumActVerticalUp"          
+        - mqttSourceTopic: "vacuumActVerticalDown"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_01/vacuumActVerticalDown"
+        - mqttSourceTopic: "vacuumActRotRight"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_01/vacuumActRotRight"
+        - mqttSourceTopic: "vacuumActRotLeft"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_01/vacuumActRotLeft"
+        - mqttSourceTopic: "vacuumActArmOut"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_01/vacuumActArmOut"
+        - mqttSourceTopic: "vacuumActArmIn"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_01/vacuumActArmIn"
+        - mqttSourceTopic: "vacuumActCompressorOn"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_01/vacuumActCompressorOn"
+        - mqttSourceTopic: "vacuumActValve"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_01/vacuumActValve"
+    - name: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_01/internal"
+      dataTransformation: clone # copy the data
+      mqttSourcePrefix: "PLC/virtualmachines-plc-1/VacuumGripper/VacuumGripper01/measurements/internal/"
+      mqttTargetPrefix: "gateway/"
+      dtEvents:
+        - mqttSourceTopic: "isExecuting"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_01/isExecuting"      
+
+    # VacuumGripper 02:
+    - name: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_02/input"
+      dataTransformation: clone # copy the data
+      mqttSourcePrefix: "PLC/virtualmachines-plc-1/VacuumGripper/VacuumGripper02/measurements/input/"
+      mqttTargetPrefix: "gateway/"
+      dtEvents:
+        # map name of the data in the DT model and in the PT measure, mqttTargetTopic must match an element in the DT model 
+        - mqttSourceTopic: "vacuumSensVerticalEncoderCounter"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_02/vacuumSensVerticalEncoderCounter"          
+        - mqttSourceTopic: "vacuumSensRotEncoderCounter"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_02/vacuumSensRotEncoderCounter"
+        - mqttSourceTopic: "vacuumSensArmEncoderCounter"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_02/vacuumSensArmEncoderCounter"
+        - mqttSourceTopic: "vacuumSensVerticalEndUp"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_02/vacuumSensVerticalEndUp"
+        - mqttSourceTopic: "vacuumSensRotEnd"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_02/vacuumSensRotEnd"
+        - mqttSourceTopic: "vacuumSensArmEndIn"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_02/vacuumSensArmEndIn"
+    - name: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_02/output"
+      dataTransformation: clone # copy the data
+      mqttSourcePrefix: "PLC/virtualmachines-plc-1/VacuumGripper/VacuumGripper02/measurements/output/"
+      mqttTargetPrefix: "gateway/"
+      dtEvents:
+        - mqttSourceTopic: "vacuumActVerticalUp"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_02/vacuumActVerticalUp"          
+        - mqttSourceTopic: "vacuumActVerticalDown"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_02/vacuumActVerticalDown"
+        - mqttSourceTopic: "vacuumActRotRight"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_02/vacuumActRotRight"
+        - mqttSourceTopic: "vacuumActRotLeft"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_02/vacuumActRotLeft"
+        - mqttSourceTopic: "vacuumActArmOut"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_02/vacuumActArmOut"
+        - mqttSourceTopic: "vacuumActArmIn"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_02/vacuumActArmIn"
+        - mqttSourceTopic: "vacuumActCompressorOn"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_02/vacuumActCompressorOn"
+        - mqttSourceTopic: "vacuumActValve"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_02/vacuumActValve"
+    - name: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_02/internal"
+      dataTransformation: clone # copy the data
+      mqttSourcePrefix: "PLC/virtualmachines-plc-1/VacuumGripper/VacuumGripper02/measurements/internal/"
+      mqttTargetPrefix: "gateway/"
+      dtEvents:
+        - mqttSourceTopic: "isExecuting"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_02/isExecuting"      
+
+    # HighBay:
+    - name: "VIRTUAL_1C1H1M1S2V_01/HBSystemModel/input"
+      dataTransformation: clone # copy the data
+      mqttSourcePrefix: "PLC/virtualmachines-plc-1/HighBay/HighBay01/measurements/input/"
+      mqttTargetPrefix: "gateway/"
+      dtEvents:
+        # map name of the data in the DT model and in the PT measure, mqttTargetTopic must match an element in the DT model 
+        - mqttSourceTopic: "highbaySensCantileverBack"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/HBSystemModel/highbaySensCantileverBack"
+        - mqttSourceTopic: "highbaySensCantileverFront"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/HBSystemModel/highbaySensCantileverFront"
+        - mqttSourceTopic: "highbaySensHorizontal"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/HBSystemModel/highbaySensHorizontal"
+        - mqttSourceTopic: "highbaySensHorizontalEncoderCounter"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/HBSystemModel/highbaySensHorizontalEncoderCounter"
+        - mqttSourceTopic: "highbaySensInside"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/HBSystemModel/highbaySensInside"
+        - mqttSourceTopic: "highbaySensOutside"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/HBSystemModel/highbaySensOutside"
+        - mqttSourceTopic: "highbaySensVertical"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/HBSystemModel/highbaySensVertical"
+        - mqttSourceTopic: "highbaySensVerticalEncoderCounter"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/HBSystemModel/highbaySensVerticalEncoderCounter"
+    - name: "VIRTUAL_1C1H1M1S2V_01/HBSystemModel/output"
+      dataTransformation: clone # copy the data
+      mqttSourcePrefix: "PLC/virtualmachines-plc-1/HighBay/HighBay01/measurements/output"
+      mqttTargetPrefix: "gateway/"
+      dtEvents:
+        - mqttSourceTopic: "highbayActCantileverBackward"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/HBSystemModel/highbayActCantileverBackward"
+        - mqttSourceTopic: "highbayActCantileverForward"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/HBSystemModel/highbayActCantileverForward"
+        - mqttSourceTopic: "highbayActConveyorBackward"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/HBSystemModel/highbayActConveyorBackward"
+        - mqttSourceTopic: "highbayActConveyorForward"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/HBSystemModel/highbayActConveyorForward"
+        - mqttSourceTopic: "highbayActHorizontalToRack"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/HBSystemModel/highbayActHorizontalToRack"
+        - mqttSourceTopic: "highbayActHorizontalToConveyor"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/HBSystemModel/highbayActHorizontalToConveyor"
+        - mqttSourceTopic: "highbayActDown"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/HBSystemModel/highbayActDown"
+        - mqttSourceTopic: "highbayActUp"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/HBSystemModel/highbayActUp"
+        - mqttSourceTopic: "pwmVertical"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/HBSystemModel/pwmVertical"
+        - mqttSourceTopic: "pwmHorizontal"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/HBSystemModel/pwmHorizontal"
+    - name: "VIRTUAL_1C1H1M1S2V_01/HBSystemModel/internal"
+      dataTransformation: clone # copy the data
+      mqttSourcePrefix: "PLC/virtualmachines-plc-1/HighBay/HighBay01/measurements/internal/"
+      mqttTargetPrefix: "gateway/"
+      dtEvents:
+        - mqttSourceTopic: "isExecuting"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/HBSystemModel/isExecuting"        
+
+    # SortingLine:
+    - name: "VIRTUAL_1C1H1M1S2V_01/SLSystemModel/input"
+      dataTransformation: clone # copy the data
+      mqttSourcePrefix: "PLC/virtualmachines-plc-1/SortingLine/SortingLine01/measurements/input/"
+      mqttTargetPrefix: "gateway/"
+      dtEvents:
+        # map name of the data in the DT model and in the PT measure, mqttTargetTopic must match an element in the DT model 
+        - mqttSourceTopic: "sortingLineSensInputLightBarrier"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/SLSystemModel/sortingLineSensInputLightBarrier"
+        - mqttSourceTopic: "sortingLineSensMiddleLightBarrier"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/SLSystemModel/sortingLineSensMiddleLightBarrier"
+        - mqttSourceTopic: "sortingLineSensWhiteLightBarrier"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/SLSystemModel/sortingLineSensWhiteLightBarrier"
+        - mqttSourceTopic: "sortingLineSensBlueLightBarrier"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/SLSystemModel/sortingLineSensBlueLightBarrier"
+        - mqttSourceTopic: "sortingLineSensRedLightBarrier"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/SLSystemModel/sortingLineSensRedLightBarrier"
+        - mqttSourceTopic: "sortingLineSensImpulseCounterRaw"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/SLSystemModel/sortingLineSensImpulseCounterRaw"
+    - name: "VIRTUAL_1C1H1M1S2V_01/SLSystemModel/internal"
+      dataTransformation: clone # copy the data
+      mqttSourcePrefix: "PLC/virtualmachines-plc-1/SortingLine/SortingLine01/measurements/internal/"
+      mqttTargetPrefix: "gateway/"
+      dtEvents:
+        - mqttSourceTopic: "isExecuting"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/SLSystemModel/isExecuting"
+        - mqttSourceTopic: "colorToEject"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/SLSystemModel/colorToEject"
+    - name: "VIRTUAL_1C1H1M1S2V_01/SLSystemModel/output"
+      dataTransformation: clone # copy the data
+      mqttSourcePrefix: "PLC/virtualmachines-plc-1/SortingLine/SortingLine01/measurements/output/"
+      mqttTargetPrefix: "gateway/"
+      dtEvents:
+        - mqttSourceTopic: "sortingLineActMotorConveyor"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/SLSystemModel/sortingLineActMotorConveyor"
+        - mqttSourceTopic: "sortingLineActCompressorOn"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/SLSystemModel/sortingLineActCompressorOn"
+        - mqttSourceTopic: "sortingLineActWhiteEjector"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/SLSystemModel/sortingLineActWhiteEjector"
+        - mqttSourceTopic: "sortingLineActRedEjector"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/SLSystemModel/sortingLineActRedEjector"
+        - mqttSourceTopic: "sortingLineActBlueEjector"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/SLSystemModel/sortingLineActBlueEjector"
+    
+    # MultiProcessing:
+    - name: "VIRTUAL_1C1H1M1S2V_01/MPSystemModel/input"
+      dataTransformation: clone # copy the data
+      mqttSourcePrefix: "PLC/virtualmachines-plc-1/MultiProcessing/MultiProcessing01/measurements/input/"
+      mqttTargetPrefix: "gateway/"
+      dtEvents:
+        # map name of the data in the DT model and in the PT measure, mqttTargetTopic must match an element in the DT model 
+        - mqttSourceTopic: "multiProcessingSensTurntablePosVacuum"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/MPSystemModel/multiProcessingSensTurntablePosVacuum"
+        - mqttSourceTopic: "multiProcessingSensTurntablePosBelt"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/MPSystemModel/multiProcessingSensTurntablePosBelt"
+        - mqttSourceTopic: "multiProcessingSensTurntablePosSaw"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/MPSystemModel/multiProcessingSensTurntablePosSaw"
+        - mqttSourceTopic: "multiProcessingSensEndConveyor"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/MPSystemModel/multiProcessingSensEndConveyor"
+        - mqttSourceTopic: "multiProcessingSensOven"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/MPSystemModel/multiProcessingSensOven"
+        - mqttSourceTopic: "multiProcessingSensVacuumGripperAtTurntable"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/MPSystemModel/multiProcessingSensVacuumGripperAtTurntable"
+        - mqttSourceTopic: "multiProcessingSensVacuumGripperAtOven"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/MPSystemModel/multiProcessingSensVacuumGripperAtOven"
+        - mqttSourceTopic: "multiProcessingSensOvenFeederIn"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/MPSystemModel/multiProcessingSensOvenFeederIn"
+        - mqttSourceTopic: "multiProcessingSensOvenFeederOut"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/MPSystemModel/multiProcessingSensOvenFeederOut"
+    - name: "VIRTUAL_1C1H1M1S2V_01/MPSystemModel/internal"
+      dataTransformation: clone # copy the data
+      mqttSourcePrefix: "PLC/virtualmachines-plc-1/MultiProcessing/MultiProcessing01/measurements/internal/"
+      mqttTargetPrefix: "gateway/"
+      dtEvents:
+        - mqttSourceTopic: "isExecuting"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/MPSystemModel/isExecuting"
+    - name: "VIRTUAL_1C1H1M1S2V_01/MPSystemModel/output"
+      dataTransformation: clone # copy the data
+      mqttSourcePrefix: "PLC/virtualmachines-plc-1/MultiProcessing/MultiProcessing01/measurements/output/"
+      mqttTargetPrefix: "gateway/"
+      dtEvents:
+        - mqttSourceTopic: "multiProcessingActRotClockwise"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/MPSystemModel/multiProcessingActRotClockwise"
+        - mqttSourceTopic: "multiProcessingActRotCounterclockwise"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/MPSystemModel/multiProcessingActRotCounterclockwise"
+        - mqttSourceTopic: "multiProcessingActConveyorForward"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/MPSystemModel/multiProcessingActConveyorForward"
+        - mqttSourceTopic: "multiProcessingActSaw"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/MPSystemModel/multiProcessingActSaw"
+        - mqttSourceTopic: "multiProcessingActOvenInward"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/MPSystemModel/multiProcessingActOvenInward"
+        - mqttSourceTopic: "multiProcessingActOvenOutward"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/MPSystemModel/multiProcessingActOvenOutward"
+        - mqttSourceTopic: "multiProcessingActGripperToOven"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/MPSystemModel/multiProcessingActGripperToOven"
+        - mqttSourceTopic: "multiProcessingActGripperToTurntable"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/MPSystemModel/multiProcessingActGripperToTurntable"
+        - mqttSourceTopic: "multiProcessingOvenLight"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/MPSystemModel/multiProcessingOvenLight"
+        - mqttSourceTopic: "multiProcessingCompressor"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/MPSystemModel/multiProcessingCompressor"
+        - mqttSourceTopic: "multiProcessingValveVacuum"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/MPSystemModel/multiProcessingValveVacuum"
+        - mqttSourceTopic: "multiProcessingActLowerValve"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/MPSystemModel/multiProcessingActLowerValve"
+        - mqttSourceTopic: "multiProcessingValveOvenDoor"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/MPSystemModel/multiProcessingValveOvenDoor"
+        - mqttSourceTopic: "multiProcessingValveFeeder"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/MPSystemModel/multiProcessingValveFeeder"
+    
+    # ConveyorBelt:
+    - name: "VIRTUAL_1C1H1M1S2V_01/CBSystemModel/input"
+      dataTransformation: clone # copy the data
+      mqttSourcePrefix: "PLC/virtualmachines-plc-1/ConveyorBelt/ConveyorBelt01/measurements/input/"
+      mqttTargetPrefix: "gateway/"
+      dtEvents:
+        # map name of the data in the DT model and in the PT measure, mqttTargetTopic must match an element in the DT model 
+        - mqttSourceTopic: "conveyorSensFeed"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/CBSystemModel/conveyorSensFeed"
+        - mqttSourceTopic: "conveyorSensSwap"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/CBSystemModel/conveyorSensSwap"
+        - mqttSourceTopic: "conveyorSensImpulse"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/CBSystemModel/conveyorSensImpulse"
+    - name: "VIRTUAL_1C1H1M1S2V_01/CBSystemModel/internal"
+      dataTransformation: clone # copy the data
+      mqttSourcePrefix: "PLC/virtualmachines-plc-1/ConveyorBelt/ConveyorBelt01/measurements/internal/"
+      mqttTargetPrefix: "gateway/"
+      dtEvents:
+        - mqttSourceTopic: "isExecuting"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/CBSystemModel/isExecuting"
+    - name: "VIRTUAL_1C1H1M1S2V_01/CBSystemModel/output"
+      dataTransformation: clone # copy the data
+      mqttSourcePrefix: "PLC/virtualmachines-plc-1/ConveyorBelt/ConveyorBelt01/measurements/output/"
+      mqttTargetPrefix: "gateway/"
+      dtEvents:
+        - mqttSourceTopic: "conveyorActForward"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/CBSystemModel/conveyorActForward"
+        - mqttSourceTopic: "conveyorActBackward"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/CBSystemModel/conveyorActBackward"
+
+    # PunchingMachine:
+    - name: "VIRTUAL_1C1H1M1S2V_01/PMSystemModel/input"
+      dataTransformation: clone # copy the data
+      mqttSourcePrefix: "PLC/virtualmachines-plc-1/PunchingMachine/PunchingMachine01/measurements/input/"
+      mqttTargetPrefix: "gateway/"
+      dtEvents:
+        # map name of the data in the DT model and in the PT measure, mqttTargetTopic must match an element in the DT model 
+        - mqttSourceTopic: "punchingMachineSensGoods"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/PMSystemModel/punchingMachineSensGoods"
+        - mqttSourceTopic: "punchingMachineSensMachine"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/PMSystemModel/punchingMachineSensMachine"
+        - mqttSourceTopic: "punchingMachineSensUp"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/PMSystemModel/punchingMachineSensUp"
+        - mqttSourceTopic: "punchingMachineSensDown"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/PMSystemModel/punchingMachineSensDown"
+    - name: "VIRTUAL_1C1H1M1S2V_01/PMSystemModel/internal"
+      dataTransformation: clone # copy the data
+      mqttSourcePrefix: "PLC/virtualmachines-plc-1/PunchingMachine/PunchingMachine01/measurements/internal/"
+      mqttTargetPrefix: "gateway/"
+      dtEvents:
+        - mqttSourceTopic: "isExecuting"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/PMSystemModel/isExecuting"
+    - name: "VIRTUAL_1C1H1M1S2V_01/PMSystemModel/output"
+      dataTransformation: clone # copy the data
+      mqttSourcePrefix: "PLC/virtualmachines-plc-1/PunchingMachine/PunchingMachine01/measurements/output/"
+      mqttTargetPrefix: "gateway/"
+      dtEvents:
+        - mqttSourceTopic: "punchingMachineActConveyorForward"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/PMSystemModel/punchingMachineActConveyorForward"
+        - mqttSourceTopic: "punchingMachineActConveyorBackward"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/PMSystemModel/punchingMachineActConveyorBackward"
+        - mqttSourceTopic: "punchingMachineActUp"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/PMSystemModel/punchingMachineActUp"
+        - mqttSourceTopic: "punchingMachineActDown"
+          mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/PMSystemModel/punchingMachineActDown"

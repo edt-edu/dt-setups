@@ -58,6 +58,7 @@ configuration:
          name: "I3MultiProcessing02"
 
   machineNameMappings:
+    # mappings for DynamicMission/Demo
     - logicalName: "DynamicMission/Demo/SL"
       machineName: "I1SortingLine01"
     - logicalName: "DynamicMission/Demo/VGR2"
@@ -67,4 +68,15 @@ configuration:
     - logicalName: "DynamicMission/Demo/VGR1"
       machineName: "I1VacuumGripper01"
     - logicalName: "DynamicMission/Demo/MPS"
+      machineName: "I1MultiProcessing01"
+    # mappings for REN_MISSION_01
+    - logicalName: "REN_MISSION_01/SL01"
+      machineName: "I1SortingLine01"
+    - logicalName: "REN_MISSION_01/VGR02"
+      machineName: "I1VacuumGripper01"
+    - logicalName: "REN_MISSION_01/CB01"
+      machineName: "I1ConveyorBelt01"
+    - logicalName: "REN_MISSION_01/VGR01"
+      machineName: "I1VacuumGripper02"
+    - logicalName: "REN_MISSION_01/MPS01"
       machineName: "I1MultiProcessing01"
