@@ -49,3 +49,15 @@ configuration:
       machineName: "I1VacuumGripper02"
     - logicalName: "DynamicMission/Demo/MPS"
       machineName: "I1MultiProcessing01"
+    ###
+
+    - logicalName: "REN_MISSION_01/SL01"
+      machineName: "I1SortingLine01"
+    - logicalName: "REN_MISSION_01/VGR02"
+      machineName: "I1VacuumGripper02"
+    - logicalName: "REN_MISSION_01/CB01"
+      machineName: "I1ConveyorBelt01"
+    - logicalName: "REN_MISSION_01/VGR01"
+      machineName: "I1VacuumGripper01"
+    - logicalName: "REN_MISSION_01/MPS01"
+      machineName: "I1MultiProcessing01"
