@@ -1,0 +1,37 @@
+
+# Configuration for VacuumGripperController
+---
+plc:
+  id: "virtualmachines-plc-1"
+connection:
+  # if host is commented, will default to "<hostname>.local"
+  host: "localhost"
+  command_port: 6001
+  notification_port: 6011
+  # connectionListening: "controller" or "orchestrator"
+  connectionListening: "controller"
+
+controller:
+  mainLoopDelay: 0.1
+
+mqtt:
+  server: "localhost"
+  port: 1883
+  keepalive: 60
+
+# Machine instances simulated by this PLC controller.
+# To add a new VGR, append a new id in the VacuumGripper ids list.
+machines:
+  - type: ConveyorBelt
+    id: ConveyorBelt01
+  - type: VacuumGripper
+    ids:
+      - VacuumGripper01
+      - VacuumGripper02
+  - type: MultiProcessing
+    id: MultiProcessing01
+  - type: SortingLine
+    id: SortingLine01
+  - type: HighBay
+    id: HighBay01
+
