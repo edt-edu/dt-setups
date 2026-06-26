@@ -17,12 +17,12 @@
 /var/log/mail.log
 /var/log/daemon.log
 /var/log/kern.log {
-    size 50M
+    size 20M
     rotate 4
     missingok
     notifempty
     compress
-    delaycompress
+    #delaycompress
     sharedscripts
     postrotate
         /usr/lib/rsyslog/rsyslog-rotate
