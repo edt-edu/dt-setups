@@ -379,7 +379,7 @@ FactoryMissionsParallelized:
                                 "meaning": "START",
                                 "vertical": 1200,
                                 "horizontal": 1460,
-                                "rot": 1900
+                                "rot": 1880
                             }
                         },
                         {
@@ -387,8 +387,8 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "END",
                                 "vertical": 1050,
-                                "horizontal": 1720,
-                                "rot": 2940
+                                "horizontal": 1710,
+                                "rot": 2900
                             }
                         }
                     ]
