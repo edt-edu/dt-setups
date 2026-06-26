@@ -30,11 +30,11 @@ class RevPi_Controller(RevPiPyModIOMachineController):
             horizontal_safety_position=0, 
             vertical_safety_position=0,
             named_positions={
-                "CB": Position(rot=1880, vertical=1200, horizontal=1460, meaning="any"),
+                "CB": Position(rot=1870, vertical=1200, horizontal=1460, meaning="any"),
                 "ALT_CB": Position(rot=1360, vertical=1050, horizontal=1900, meaning="any"),
-                "SL_INPUT": Position(rot=2900, vertical=1050, horizontal=1710, meaning="any"),
+                "SL_INPUT": Position(rot=2900, vertical=1050, horizontal=1670, meaning="any"),
                 "SL_OUTPUT_WHITE": Position(rot=2400, vertical=1400, horizontal=500, meaning="any"),
-                "SL_OUTPUT_RED": Position(rot=2270, vertical=1400, horizontal=900, meaning="any"),
+                "SL_OUTPUT_RED": Position(rot=2270, vertical=1400, horizontal=970, meaning="any"),
                 "SL_OUTPUT_BLUE": Position(rot=2135, vertical=1400, horizontal=1500, meaning="any"),
             }
         )

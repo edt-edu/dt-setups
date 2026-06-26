@@ -110,40 +110,40 @@ FactoryMissionsParallelized:
           description: >
             HB retrieve and VGR2 to HBW
           outputs:
-            - HBPickup_1
+            # - HBPickup_1
             - VGR2CloseToHBW
 
-        - type: rawMachineCommand
-          id: "HBPickup_1"
-          description: >
-            [HBW1] Pickup the box at 1:1 and place it on retrieval location
-          placeholder: >
-            {
-              "topicName": "I1HighBay01",
-              "timestamp": 1750259441566,
-              "message": {
-                  "jsonType": "COMMAND",
-                  "type": "WAREHOUSE",
-                  "outputId": "AUTO_ID",
-                  "name": "PICKUP_FROM",
-                  "parameters": [
-                      {
-                          "passableType": "NUMBERNATURAL",
-                          "passable": {
-                              "number": 1
-                          }
-                      },
-                      {
-                          "passableType": "NUMBERNATURAL",
-                          "passable": {
-                              "number": 1
-                          }
-                      }
-                  ]
-              }
-            }
-          outputs:
-            - Join1
+        # - type: rawMachineCommand
+        #   id: "HBPickup_1"
+        #   description: >
+        #     [HBW1] Pickup the box at 1:1 and place it on retrieval location
+        #   placeholder: >
+        #     {
+        #       "topicName": "I1HighBay01",
+        #       "timestamp": 1750259441566,
+        #       "message": {
+        #           "jsonType": "COMMAND",
+        #           "type": "WAREHOUSE",
+        #           "outputId": "AUTO_ID",
+        #           "name": "PICKUP_FROM",
+        #           "parameters": [
+        #               {
+        #                   "passableType": "NUMBERNATURAL",
+        #                   "passable": {
+        #                       "number": 1
+        #                   }
+        #               },
+        #               {
+        #                   "passableType": "NUMBERNATURAL",
+        #                   "passable": {
+        #                       "number": 1
+        #                   }
+        #               }
+        #           ]
+        #       }
+        #     }
+        #   outputs:
+        #     - Join1
 
         - type: rawMachineCommand
           id: "VGR2CloseToHBW"
@@ -194,72 +194,72 @@ FactoryMissionsParallelized:
           description: >
             HB process and payload process
           outputs:
-            - HBStoreTo_1
+            # - HBStoreTo_1
             - VGR2toCB
         
-        - type: rawMachineCommand
-          id: "HBStoreTo_1"
-          description: >
-            [HBW1] Store empty box from retrieval location to place 1;1
-          placeholder: >
-            {
-              "topicName": "I1HighBay01",
-              "timestamp": 1750259441566,
-              "message": {
-                  "jsonType": "COMMAND",
-                  "type": "WAREHOUSE",
-                  "outputId": "AUTO_ID",
-                  "name": "STORE_TO",
-                  "parameters": [
-                      {
-                          "passableType": "NUMBERNATURAL",
-                          "passable": {
-                              "number": 1
-                          }
-                      },
-                      {
-                          "passableType": "NUMBERNATURAL",
-                          "passable": {
-                              "number": 1
-                          }
-                      }
-                  ]
-              }
-            }
-          outputs:
-            - HBPickup_2
+        # - type: rawMachineCommand
+        #   id: "HBStoreTo_1"
+        #   description: >
+        #     [HBW1] Store empty box from retrieval location to place 1;1
+        #   placeholder: >
+        #     {
+        #       "topicName": "I1HighBay01",
+        #       "timestamp": 1750259441566,
+        #       "message": {
+        #           "jsonType": "COMMAND",
+        #           "type": "WAREHOUSE",
+        #           "outputId": "AUTO_ID",
+        #           "name": "STORE_TO",
+        #           "parameters": [
+        #               {
+        #                   "passableType": "NUMBERNATURAL",
+        #                   "passable": {
+        #                       "number": 1
+        #                   }
+        #               },
+        #               {
+        #                   "passableType": "NUMBERNATURAL",
+        #                   "passable": {
+        #                       "number": 1
+        #                   }
+        #               }
+        #           ]
+        #       }
+        #     }
+        #   outputs:
+        #     - HBPickup_2
         
-        - type: rawMachineCommand
-          id: "HBPickup_2"
-          description: >
-            [HBW1] Pickup the empty box at 1:1 and place it on retrieval location
-          placeholder: >
-            {
-                "topicName": "I1HighBay01",
-                "timestamp": 1750259441566,
-                "message": {
-                    "jsonType": "COMMAND",
-                    "type": "WAREHOUSE",
-                    "outputId": "AUTO_ID",
-                    "name": "PICKUP_FROM",
-                    "parameters": [
-                        {
-                            "passableType": "NUMBERNATURAL",
-                            "passable": {
-                                "number": 1
-                            }
-                        },
-                        {
-                            "passableType": "NUMBERNATURAL",
-                            "passable": {
-                                "number": 1
-                            }
-                        }
-                    ]
-                }
-              }
-          outputs:
-            - Join5
+        # - type: rawMachineCommand
+        #   id: "HBPickup_2"
+        #   description: >
+        #     [HBW1] Pickup the empty box at 1:1 and place it on retrieval location
+        #   placeholder: >
+        #     {
+        #         "topicName": "I1HighBay01",
+        #         "timestamp": 1750259441566,
+        #         "message": {
+        #             "jsonType": "COMMAND",
+        #             "type": "WAREHOUSE",
+        #             "outputId": "AUTO_ID",
+        #             "name": "PICKUP_FROM",
+        #             "parameters": [
+        #                 {
+        #                     "passableType": "NUMBERNATURAL",
+        #                     "passable": {
+        #                         "number": 1
+        #                     }
+        #                 },
+        #                 {
+        #                     "passableType": "NUMBERNATURAL",
+        #                     "passable": {
+        #                         "number": 1
+        #                     }
+        #                 }
+        #             ]
+        #         }
+        #       }
+        #   outputs:
+        #     - Join5
         
         - type: rawMachineCommand
           id: "VGR2toCB"
@@ -281,7 +281,7 @@ FactoryMissionsParallelized:
                                 "meaning": "START",
                                 "vertical": 210,
                                 "horizontal": 740,
-                                "rot": 1050
+                                "rot": 1010
                             }
                         },
                         {
@@ -379,7 +379,7 @@ FactoryMissionsParallelized:
                                 "meaning": "START",
                                 "vertical": 1200,
                                 "horizontal": 1460,
-                                "rot": 1880
+                                "rot": 1870
                             }
                         },
                         {
@@ -387,7 +387,7 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "END",
                                 "vertical": 1050,
-                                "horizontal": 1710,
+                                "horizontal": 1670,
                                 "rot": 2900
                             }
                         }
@@ -427,7 +427,7 @@ FactoryMissionsParallelized:
         - type: rawMachineCommand
           id: "VGR1toSLoutput"
           description: >
-            [VGR1] Move from SL to SL output
+            [VGR1] Goto SL input to SL Red output
           placeholder: >
             {
                 "topicName": "I1VacuumGripper01",
@@ -497,7 +497,7 @@ FactoryMissionsParallelized:
         - type: rawMachineCommand
           id: "VGR1toCB"
           description: >
-            [VGR1] Move from SL to CB
+            [VGR1] Move from SL Red to CB
           placeholder: >
             {
                 "topicName": "I1VacuumGripper01",
@@ -514,16 +514,16 @@ FactoryMissionsParallelized:
                                 "meaning": "START",
                                 "vertical": 1410,
                                 "horizontal": 970,
-                                "rot": 2300
+                                "rot": 2270
                             }
                         },
                         {
                             "passableType": "POSITIONPARAMETERTHREED",
                             "passable": {
                                 "meaning": "END",
-                                "vertical": 1200,
+                                "vertical": 1050,
                                 "horizontal": 1460,
-                                "rot": 1890
+                                "rot": 1870
                             }
                         }
                     ]
@@ -595,7 +595,7 @@ FactoryMissionsParallelized:
         - type: rawMachineCommand
           id: "VGR2toMPS"
           description: >
-            [VGR2] Move from CB to MPS
+            [VGR2] Move from CB right to MPS
           placeholder: >
             {
                 "topicName": "I1VacuumGripper02",
@@ -611,8 +611,8 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "START",
                                 "vertical": 1100,
-                                "horizontal": 1220,
-                                "rot": 2695
+                                "horizontal": 1230,
+                                "rot": 2650
                             }
                         },
                         {
@@ -620,8 +620,8 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "END",
                                 "vertical": 910,
-                                "horizontal": 1970,
-                                "rot": 2090
+                                "horizontal": 1890,
+                                "rot": 2050
                             }
                         }
                     ]
@@ -686,9 +686,9 @@ FactoryMissionsParallelized:
                             "passableType": "POSITIONPARAMETERTHREED",
                             "passable": {
                                 "meaning": "START",
-                                "vertical": 1100,
+                                "vertical": 1000,
                                 "horizontal": 1720,
-                                "rot": 1525
+                                "rot": 1480
                             }
                         },
                         {
@@ -696,8 +696,8 @@ FactoryMissionsParallelized:
                             "passable": {
                                 "meaning": "END",
                                 "vertical": 210,
-                                "horizontal": 740,
-                                "rot": 1050
+                                "horizontal": 730,
+                                "rot": 1010
                             }
                         }
                     ]
@@ -719,7 +719,7 @@ FactoryMissionsParallelized:
             VGR2 setup and HBW store
           outputs:
             - VGR2setup
-            - HBWstorebis
+            # - HBWstorebis
         
         - type: rawMachineCommand
           id: "VGR2setup"
@@ -740,37 +740,37 @@ FactoryMissionsParallelized:
           outputs:
             - Join6
         
-        - type: rawMachineCommand
-          id: "HBWstorebis"
-          description: >
-            [HBW] Store payload to place 1;1
-          placeholder: >
-            {
-              "topicName": "I1HighBay01",
-              "timestamp": 1750259441566,
-              "message": {
-                  "jsonType": "COMMAND",
-                  "type": "WAREHOUSE",
-                  "outputId": "AUTO_ID",
-                  "name": "STORE_TO",
-                  "parameters": [
-                      {
-                          "passableType": "NUMBERNATURAL",
-                          "passable": {
-                              "number": 1
-                          }
-                      },
-                      {
-                          "passableType": "NUMBERNATURAL",
-                          "passable": {
-                              "number": 1
-                          }
-                      }
-                  ]
-              }
-            }
-          outputs:
-            - Join6
+        # - type: rawMachineCommand
+        #   id: "HBWstorebis"
+        #   description: >
+        #     [HBW] Store payload to place 1;1
+        #   placeholder: >
+        #     {
+        #       "topicName": "I1HighBay01",
+        #       "timestamp": 1750259441566,
+        #       "message": {
+        #           "jsonType": "COMMAND",
+        #           "type": "WAREHOUSE",
+        #           "outputId": "AUTO_ID",
+        #           "name": "STORE_TO",
+        #           "parameters": [
+        #               {
+        #                   "passableType": "NUMBERNATURAL",
+        #                   "passable": {
+        #                       "number": 1
+        #                   }
+        #               },
+        #               {
+        #                   "passableType": "NUMBERNATURAL",
+        #                   "passable": {
+        #                       "number": 1
+        #                   }
+        #               }
+        #           ]
+        #       }
+        #     }
+        #   outputs:
+        #     - Join6
 
         - type: join
           id: "Join6"

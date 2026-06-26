@@ -30,11 +30,11 @@ class RevPi_Controller(RevPiPyModIOMachineController):
             horizontal_safety_position=0, 
             vertical_safety_position=0,
             named_positions={
-                "HBW": Position(rot=2490, vertical=200, horizontal=1010, meaning="any"),
+                "HBW": Position(rot=1010, vertical=200, horizontal=740, meaning="any"),
                 "CB": Position(rot=1155, vertical=1050, horizontal=1810, meaning="any"),
-                "ALT_CB": Position(rot=740, vertical=1050, horizontal=1400, meaning="any"),
-                "MPS_INPUT": Position(rot=245, vertical=1000, horizontal=235, meaning="any"),
-                "MPS_OUTPUT": Position(rot=2960, vertical=1000, horizontal=1305, meaning="any"),
+                "ALT_CB": Position(rot=2660, vertical=1050, horizontal=1230, meaning="any"),
+                "MPS_INPUT": Position(rot=2050, vertical=1000, horizontal=1890, meaning="any"),
+                "MPS_OUTPUT": Position(rot=1480, vertical=1000, horizontal=1720, meaning="any"),
             })
         self.vacuumGripperMachine = VacuumGripper("I1VacuumGripper02", vacuumGripperParameters)
         self.conveyorBeltMachine = ConveyorBelt("I1ConveyorBelt01")
