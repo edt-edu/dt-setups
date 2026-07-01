@@ -29,16 +29,16 @@ case "$ISLAND_NUMBER" in
     ;;
 esac
 
-if [[ "$2" == "-d" ]]; then
-  echo "Installing dependencies for island $ISLAND_NUMBER..."
-  ./util/install_dependencies.sh $TARGET_IP || exit 1
-fi
-
 echo "Uploading controller for island $ISLAND_NUMBER..."
 
 rsync -r ../../rppmcontroller/ "pi@$TARGET_IP:/home/pi/rppmcontroller"
 rsync -r "./island${ISLAND_NUMBER}_main.py" "pi@$TARGET_IP:/home/pi/rppmcontroller/rppmcontroller/example/"
 rsync -r "./island${ISLAND_NUMBER}_config.yml" "pi@$TARGET_IP:/home/pi/rppmcontroller/rppmcontroller/example/"
+
+if [[ "$2" == "-d" ]]; then
+  echo "Installing dependencies for island $ISLAND_NUMBER..."
+  ./util/install_dependencies.sh $TARGET_IP || exit 1
+fi
 
 echo "Starting controller for island $ISLAND_NUMBER..."
 
