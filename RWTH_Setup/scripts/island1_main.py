@@ -4,6 +4,7 @@ import logging
 import revpimodio2
 
 from rppmcontroller.RevPiPyMachineController import RevPiPyMachineController
+from rppmcontroller.machine.MachineParameters import AxisMonitorParameters
 from rppmcontroller.machine.Position import Position
 from rppmcontroller.machine.conveyorbelt.ConveyorBelt import ConveyorBelt
 from rppmcontroller.machine.highbay.HighBay import HighBay
@@ -43,6 +44,7 @@ class Island1Controller(RevPiPyMachineController):
 
         self.controllers = list()
 
+        vgr1_axis_monitor_parameters = AxisMonitorParameters(log_to_csv=True)
         vgr1_parameters = VacuumGripperParameters(
             rotational_safety_position=900,
             vertical_safety_position=0,
@@ -54,7 +56,10 @@ class Island1Controller(RevPiPyMachineController):
                 "MPS_INPUT": Position(rot=245, vertical=1000, horizontal=235, meaning="any"),
                 "MPS_OUTPUT": Position(rot=2960, vertical=1000, horizontal=1305, meaning="any"),
             },
-            pwm_approach_tolerance=200
+            pwm_approach_tolerance=200,
+            horizontal_axis_monitor_parameters=vgr1_axis_monitor_parameters,
+            vertical_axis_monitor_parameters=vgr1_axis_monitor_parameters,
+            rotational_axis_monitor_parameters=vgr1_axis_monitor_parameters,
         )
         vgr1_parameters.derive_over_positions()
         self.addController(VacuumGripperController(VacuumGripper("I1VacuumGripper01", vgr1_parameters), self.rpi))
