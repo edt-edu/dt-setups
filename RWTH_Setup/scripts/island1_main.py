@@ -35,7 +35,7 @@ class MachineController:
 class Island1Controller(RevPiPyMachineController):
     def __init__(self, configurationFile: str = ""):
         """
-        Init method of this class, starts all threads and everything is ready for receiving commands via Sockets and executing them
+        Init method of this class; starts all threads, and everything is ready for receiving commands via Sockets and executing them
         """
 
         super().__init__(configurationFile)
