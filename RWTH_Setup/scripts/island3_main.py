@@ -82,6 +82,9 @@ class MultiProcessingController(MachineController):
         self.rpi.io.O_12_i03.value = self.machine.multiProcessingActLowerValve
         self.rpi.io.O_13_i03.value = self.machine.multiProcessingValveOvenDoor
         self.rpi.io.O_14_i03.value = self.machine.multiProcessingValveFeeder
+        # PWM
+        self.rpi.io.PWM_13_i04.value = self.machine.pwmTurntable
+        self.rpi.io.PWM_14_i04.value = self.machine.pwmHorizontal
 
     def reset(self) -> None:
         pass
