@@ -14,18 +14,18 @@ image::./img/dio-connectors.png[role="related thumb right", 240]
 |===
 | DIO pin number |DIO var name | FT pin number   |FT Name   | FT Description    
 //----------------------
-|Output 1  |O_1   | 17 | Q1(M1) | motor conveyor belt forward 
-|Output 2  |O_2   | 18 | Q2(M1) | motor conveyor belt backward
-|Output 3  |O_3   | 19 | Q3(M2) | motor horizontal towards rack 
-|Output 4  |O_4   | 20 | Q4(M2) | motor horizontal towards conveyor belt 
-|Output 5  |O_5   | 21 | Q5(M3) | motor vertical axis downward
-|Output 6  |O_6   | 22 | Q6(M3) | motor vertical axis upward
-|Output 7  |O_7   | 23 | Q7(M4) | motor cantilever forward
-|Output 8  |O_8   | 24 | Q8(M4) | motor cantilever backward  
-|Output 9  |O_9   | | | 
-|Output 10 |O_10  | | |  
-|Output 11 |O_11  | | | 
-|Output 12 |O_12  | | |  
+|Output 1  |O_1   | 17 | Q1  (M1) | motor conveyor belt forward 
+|Output 2  |O_2   | 18 | Q2  (M1) | motor conveyor belt backward
+|Output 3  |O_3   | 19 | Q3  (M2) | motor horizontal towards rack 
+|Output 4  |O_4   | 20 | Q4  (M2) | motor horizontal towards conveyor belt 
+|Output 5  |O_5   | 21 | Q5  (M3) | motor vertical axis downward
+|Output 6  |O_6   | 22 | Q6  (M3) | motor vertical axis upward
+|Output 7  |O_7   | 23 | Q7  (M4) | motor cantilever forward
+|Output 8  |O_8   | 24 | Q8  (M4) | motor cantilever backward  
+|Output 9  |O_9   | 25 | PWM (M1) | motor conveyor belt PWM
+|Output 10 |O_10  | 26 | PWM (M2) | motor horizontal PWM 
+|Output 11 |O_11  | 27 | PWM (M3) | motor vertical PWM 
+|Output 12 |O_12  | 28 | PWM (M4) | motor cantilever PWM  
 |Output 13 |O_13  | | | 
 |Output 14 |O_14  | | |
 |Input 1   |I_1   | 5  | I1 | reference switch horizontal axis 
