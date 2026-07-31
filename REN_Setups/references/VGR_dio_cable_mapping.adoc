@@ -55,7 +55,7 @@ Other pins on the FT side
 | 4 | 0V     | power supply (-) sensors   | DIO X2 connector or direct connection
 | 8 |        |    | N/A
 | 15..16 |      |    | N/A
-| 25..32 |      |    | N/A
+| 28..32 |      |    | N/A
 | 33 |   GND |  GND  | direct connection
 | 34 |   GND |  GND  | direct connection
 

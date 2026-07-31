@@ -47,12 +47,13 @@ Other pins on the FT side
 |===
 |FT pin number   |FT Name   | FT Description | Comment    
 //----------------------
-| 1 | 24V DC | power supply (+) actuators | DIO X2 connector or direct connection
-| 2 | 24V DC | power supply (+) sensors   | DIO X2 connector or direct connection
-| 3 | 0V     | power supply (-) actuators | DIO X2 connector or direct connection
-| 4 | 0V     | power supply (-) sensors   | DIO X2 connector or direct connection
-| 14..16 |      |    | N/A
-| 31..32 |      |    | N/A
+| 1 | 24V DC    | power supply (+) actuators | DIO X2 connector or direct connection
+| 2 | 24V DC    | power supply (+) sensors   | DIO X2 connector or direct connection
+| 3 | 0V        | power supply (-) actuators | DIO X2 connector or direct connection
+| 4 | 0V        | power supply (-) sensors   | DIO X2 connector or direct connection
+| 14..16 |      |                            | N/A
+| 31 | PWM (M1) | PWM motor turntable        | Not connected due to missing free output in the DIO
+| 32 | PWM (M5) | PWM motor vacuum           | Not connected due to missing free output in the DIO
 | 33 |   GND |  GND  | direct connection
 | 34 |   GND |  GND  | direct connection
 
