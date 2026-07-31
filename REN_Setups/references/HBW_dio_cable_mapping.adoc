@@ -55,7 +55,7 @@ Other pins on the FT side
 | 2 | 24V DC | power supply (+) sensors   | DIO X2 connector or direct connection
 | 3 | 0V     | power supply (-) actuators | DIO X2 connector or direct connection
 | 4 | 0V     | power supply (-) sensors   | DIO X2 connector or direct connection
-| 25..32 |      |    | N/A
+| 29..32 |      |    | N/A
 | 33 |   GND |  GND  | direct connection
 | 34 |   GND |  GND  | direct connection
 
