@@ -4,6 +4,7 @@ from logging.handlers import RotatingFileHandler
 
 from rppmcontroller.machine.vacuumgripper.VacuumGripper import VacuumGripper
 from rppmcontroller.machine.sortingLine.SortingLine import SortingLine
+from rppmcontroller.machine.Position import Position
 from rppmcontroller.RevPiPyModIOMachineController import RevPiPyModIOMachineController
 from rppmcontroller.machine.vacuumgripper.VacuumGripperParameters import VacuumGripperParameters
 from rppmcontroller.protocol.MQTTFunctions import MQTTFunctions
@@ -24,7 +25,19 @@ class RevPi_Controller(RevPiPyModIOMachineController):
 
         #dict, which keys are the machines, than there is a tuple holding the function currently executed ([0]) and the id it was sent with ([1])
         self.currentlyExecuting = {}
-        vacuumGripperParameters = VacuumGripperParameters(rotational_safety_position=875, horizontal_safety_position=0, vertical_safety_position=0)
+        vacuumGripperParameters = VacuumGripperParameters(
+            rotational_safety_position=875, 
+            horizontal_safety_position=0, 
+            vertical_safety_position=0,
+            named_positions={
+                "CB": Position(rot=1870, vertical=1200, horizontal=1460, meaning="any"),
+                "ALT_CB": Position(rot=1360, vertical=1050, horizontal=1900, meaning="any"),
+                "SL_INPUT": Position(rot=2900, vertical=1050, horizontal=1670, meaning="any"),
+                "SL_OUTPUT_WHITE": Position(rot=2400, vertical=1400, horizontal=500, meaning="any"),
+                "SL_OUTPUT_RED": Position(rot=2270, vertical=1400, horizontal=970, meaning="any"),
+                "SL_OUTPUT_BLUE": Position(rot=2135, vertical=1400, horizontal=1500, meaning="any"),
+            }
+        )
         self.vacuumGripperMachine = VacuumGripper("I1VacuumGripper01", vacuumGripperParameters)
         self.sortingLineMachine = SortingLine("I1SortingLine01")
         self.machines = [self.vacuumGripperMachine,self.sortingLineMachine]

@@ -4,6 +4,7 @@ from logging.handlers import RotatingFileHandler
 
 from rppmcontroller.machine.vacuumgripper.VacuumGripper import VacuumGripper
 from rppmcontroller.machine.conveyorbelt.ConveyorBelt import ConveyorBelt
+from rppmcontroller.machine.Position import Position
 from rppmcontroller.RevPiPyModIOMachineController import RevPiPyModIOMachineController
 from rppmcontroller.machine.vacuumgripper.VacuumGripperParameters import VacuumGripperParameters
 from rppmcontroller.protocol.MQTTFunctions import MQTTFunctions
@@ -24,7 +25,17 @@ class RevPi_Controller(RevPiPyModIOMachineController):
         
         #dict, which keys are the machines, than there is a tuple holding the function currently executed ([0]) and the id it was sent with ([1])
         self.currentlyExecuting = {}
-        vacuumGripperParameters = VacuumGripperParameters(rotational_safety_position=1700, horizontal_safety_position=0, vertical_safety_position=0)
+        vacuumGripperParameters = VacuumGripperParameters(
+            rotational_safety_position=1700, 
+            horizontal_safety_position=0, 
+            vertical_safety_position=0,
+            named_positions={
+                "HBW": Position(rot=1010, vertical=200, horizontal=740, meaning="any"),
+                "CB": Position(rot=1155, vertical=1050, horizontal=1810, meaning="any"),
+                "ALT_CB": Position(rot=2660, vertical=1050, horizontal=1230, meaning="any"),
+                "MPS_INPUT": Position(rot=2050, vertical=1000, horizontal=1890, meaning="any"),
+                "MPS_OUTPUT": Position(rot=1480, vertical=1000, horizontal=1720, meaning="any"),
+            })
         self.vacuumGripperMachine = VacuumGripper("I1VacuumGripper02", vacuumGripperParameters)
         self.conveyorBeltMachine = ConveyorBelt("I1ConveyorBelt01")
         self.machines = [self.vacuumGripperMachine,self.conveyorBeltMachine]
