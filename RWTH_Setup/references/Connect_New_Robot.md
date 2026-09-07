@@ -1,6 +1,7 @@
-# Instruction for Hardware Setup of new Robot
+# Instruction for connecting a new Robot
 
-This instruction describes the steps to connect a new Fischertechnik Robot to the RevPi DIOs.
+This instruction describes the steps to connect a new Fischertechnik Robot to the RevPi DIOs and how to configure the 
+Input/Output Ports in Pictory.
 
 ## 1. Prepare RevPi DIO
 
@@ -37,21 +38,25 @@ of the small nudge and the red edge of the ribbon cable.
 
 <img src="Cable_with_34_Pin_Extension_Connector.jpg" width="400" height="500">
 
-## 5. Pictonary
+## 5. PiCtory
 
 The RevPi DIO must be configured depending on the type of machine it is supposed to control.
 
-Visit http://192.168.178.201:41080/index.html and log in.
+Visit http://192.168.178.201 and log in.
 
-<img src="PiCtory_login.jpg" width="500" height="500">
+<img src="PiCtory_login.jpg" width="500" height="400">
 
-Start PiCtory using the green button.
+Turn on the administrative access.
 
-<img src="PiCtory_after_login.jpg" width="700" height="500">
+<img src="PiCtory_Administrative_Access.jpg" width="500" height="300">
+
+Start PiCtory using the "Open" button.
+
+<img src="Start_Pictory.jpg" width="1000" height="250">
 
 Select the DIO you want to configure.
 
-<img src="PiCtory_select_DIO.jpg" width="1000" height="400">
+<img src="PiCtory_select_DIO.jpg" width="1000" height="300">
 
 Every input and output needs a unique name. Note that the names have to be unique for all DIOs connected to one RevPi Core.
 
