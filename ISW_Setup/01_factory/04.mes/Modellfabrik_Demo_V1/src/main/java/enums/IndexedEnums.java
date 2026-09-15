@@ -1,0 +1,10 @@
+package enums;
+
+public enum IndexedEnums
+{
+    ACTION_MILL,
+    ACTION_DRILL,
+    ACTION_TRANSFER_FEED_TO_MILL,
+    ACTION_TRANSFER_MILL_TO_DRILL,
+    ACTION_TRANSFER_DRILL_TO_END
+}

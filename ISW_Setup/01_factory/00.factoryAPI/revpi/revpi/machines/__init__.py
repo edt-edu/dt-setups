@@ -10,6 +10,7 @@ from .indexedLine import IndexedLine
 from .warehouse import Warehouse
 from .conveyorbelt import Conveyorbelt
 from .punching_machine import PunchingMachine
+from .freezer import Freezer
 
 
 __all__ = [
@@ -56,6 +57,8 @@ def get_machine_from_description(name: str,
         return IndexedLine(config, ports, machine_logger, lock)
     elif type == 'punching_machine':
         return PunchingMachine(config, ports, machine_logger, lock)
+    elif type == 'freezer':
+        return Freezer(config, ports, machine_logger, lock)
     else:
         raise UnknownMachineType(f"Unknown type '{type}' for machine '{name}', can not create machine")
 

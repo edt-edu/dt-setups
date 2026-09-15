@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MyYoghurt</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <script src="/javaScript/cart.js" async></script>
+  </head>
+  <body>
+    <!-- Unified Hero Header -->
+    <header class="main-header hero">
+      <div class="hero-overlay">
+        <h1 class="Titelzeile Titelzeile-groß">MyYoghurt</h1>
+        <h2>Fresh. Fruity. Delicious.</h2>
+        <p>Design your perfect yoghurt!</p>
+      </div>
+    </header>
+
+     <section>
+        <div class="configuration">
+            <details open>
+                <summary><b>Flavor</b></summary>
+                    <div class="selectable">
+                        <input type="radio" class="Geschmack" name="Geschmack" value="Schoko">Chocolate
+                        <br>
+                        <input type="radio" class="Geschmack" name="Geschmack" value="Vanille">Vanilla
+                        <br>
+                        <input type="radio" class="Geschmack" name="Geschmack" value="Erdbeere">Strawberry
+                        <br>
+                        <input type="radio" class="Geschmack" name="Geschmack" value="Banane">Banana
+                        <br>
+                        <input type="radio" class="Geschmack" name="Geschmack" value="Johannisbeere">Currant
+                        <br>
+                        <input type="radio" class="Geschmack" name="Geschmack" value="Blaubeere">Blueberry
+                        <br>
+                        <input type="radio" class="Geschmack" name="Geschmack" value="Maracuja">Passion fruit
+                        <br>
+                        <input type="radio" class="Geschmack" name="Geschmack" value="Pfirsich">Peach
+                        <br>
+                        <input type="radio" class="Geschmack" name="Geschmack" value="Kirsche">Cherry
+                        <br>
+                    </div>
+            </details>
+            <details open>
+                <summary><b>Topping (+0,50€)</b></summary>
+                <div class="selectable">
+                    <input type="checkbox" class="Topping" name="Topping" value="Streusel">Crumble
+                    <br>
+                    <input type="checkbox" class="Topping" name="Topping" value="Nüsse">Hazelnuts
+                    <br>
+                    <input type="checkbox" class="Topping" name="Topping" value="Kokos">Coconut
+                    <br>
+                    <input type="checkbox" class="Topping" name="Topping" value="Karamell">Caramel
+                    <br>
+                    <input type="checkbox" class="Topping" name="Topping" value="Schokoraspel">Chocolate shavings
+                    <br>
+                    <input type="checkbox" class="Topping" name="Topping" value="Cornflakes">Cornflakes
+                    <br>
+                    <input type="checkbox" class="Topping" name="Topping" value="Beeren">Berry-Mix
+                    <br>
+                </div>
+            </details>
+            <details open>
+                <summary><b>Frozen (+0,50€)</b></summary>
+                <div class="selectable">
+                    <input type="radio" class="Frozen" name="Frozen" value="Ja">Yes
+                    <br>
+                    <input type="radio" class="Frozen" name="Frozen" value="Nein">No
+                </div>
+            </details>
+            <button class="btn btn-random">Random Yoghurt</button>
+            <br>
+            <button class="btn btn-checkout">Add to cart</button>
+        </div>
+    </section>
+    <hr>
+    <h1 class="cart-main-header">Cart</h1>
+    <section class="container content-section">
+        <div class="cart-row">
+            <span class="cart-geschmack cart-header cart-column">Flavor</span>
+            <span class="cart-topping cart-header cart-column">TOPPINGS</span>
+            <span class="cart-frozen cart-header cart-column">FROZEN</span>
+            <span class="cart-preis cart-header cart-column">PRICE</span>
+            <span class="cart-anzahl cart-header cart-column">NUMBER</span>
+        </div>
+        <div class="cart-items">
+            
+        </div>
+        <div class="cart-summe">
+            <strong class="cart-summe-titel">Total</strong>
+            <span class="cart-summe-preis">0,00€</span>
+        </div>
+        <button class="btn btn-purchase" role="button">Order</button>
+    </section>
+
+    </body>
+</html>
+
+

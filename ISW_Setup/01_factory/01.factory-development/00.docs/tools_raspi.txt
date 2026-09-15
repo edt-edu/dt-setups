@@ -1,0 +1,3 @@
+putty - Remotedesktopverbindung
+winscp - Dateitransfer über Netzwerk
+win32diskimager - Erstellen von SD-Kartenimages

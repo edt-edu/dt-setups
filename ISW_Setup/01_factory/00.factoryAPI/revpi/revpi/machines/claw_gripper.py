@@ -142,6 +142,23 @@ class ClawGripper(BaseMachine):
             self._claw.handle_control(cmd, forward="close", backward="open")
         except KeyError:
             pass
+        try:
+            cmd = control["claw_gripper"]
+            if cmd.startswith("stop"):
+                self._arm.stop_moving()
+                self._vertical.stop_moving()
+                self._rotor.stop_moving()
+                self._claw.stop_moving()
+            elif cmd.startswith("reset"):
+                self._rotor._reset(timeout=0)
+                self._arm.reset()
+                self._vertical._reset(timeout=0)
+                self._claw.reset()
+            else:
+                self._logger.warning("Unknown claw_gripper command %s", cmd)
+
+        except KeyError:
+            pass
 
     def state_changed(self):
         return (self._state_changed

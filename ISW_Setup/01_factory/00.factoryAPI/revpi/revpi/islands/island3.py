@@ -1,7 +1,4 @@
 """Machine description for island3"""
-# TODO Verify ports
-# TODO Limits
-# TODO punching machine
 
 vacuumGripper31 = {
     'type': 'vacuum_gripper',

@@ -81,6 +81,9 @@ elif args.island == 'island3':
 elif args.island == 'island4':
     _logger.info("Selected configuration for island4")
     machine_descriptions = importlib.import_module(".islands.island4", package='revpi').machines
+elif args.island == 'island3extension':
+    _logger.info("Selected configuration for island3extension")
+    machine_descriptions = importlib.import_module(".islands.island3extension", package='revpi').machines
 else:
     machine_descriptions = []
 

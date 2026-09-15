@@ -142,8 +142,8 @@ vacuumGripper25 = {
     },
 }
 
-multiProcessing26 = {
-    'type': 'multi_processing',
+freezer26 = {
+    'type': 'freezer',
     'ports': {
         "senseTurntablePosVacuum": "dio4_I_1",
         "senseTurntablePosConveyor": "dio4_I_2",
@@ -179,5 +179,5 @@ machines = {
     "2-3-conveyor": conveyor23,
     "2-4-conveyor": conveyor24,
     "2-5-vacuumGripper": vacuumGripper25,
-    "2-6-multiProcessing": multiProcessing26,
+    "2-6-freezer": freezer26,
 }

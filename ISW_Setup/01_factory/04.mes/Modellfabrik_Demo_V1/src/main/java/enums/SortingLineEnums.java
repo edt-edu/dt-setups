@@ -1,0 +1,10 @@
+package enums;
+
+public enum SortingLineEnums
+{
+    ACTION_MOVE_TO_EJECTORS,
+    ACTION_RESOLVE_FAILURE,
+    ACTION_SORT_COLOR_WHITE,
+    ACTION_SORT_COLOR_RED,
+    ACTION_SORT_COLOR_BLUE
+}

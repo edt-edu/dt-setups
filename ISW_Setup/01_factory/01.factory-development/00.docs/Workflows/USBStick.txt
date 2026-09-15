@@ -1,0 +1,9 @@
+lsblk
+mkdir usb_device
+sudo mount /dev/sda1 ~/usb_device			#change sda1 if necessary to result of lsblk
+
+=> Inhalt des USB-Sticks im Verzeichnis home/pi/usb_device sichtbar
+
+sudo unmount ~/usb_device
+
+=> sicheres beenden der USB-Einbindung

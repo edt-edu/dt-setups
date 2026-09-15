@@ -51,8 +51,10 @@ class PunchingMachine(BaseMachine):
 
         self._conveyorState = State.STOPPED
         self._puncherState = State.STOPPED
+
         self._conveyorReason = Reason.CMD
         self._puncherReason = Reason.CMD
+
         self._conveyor_state_changed = True
         self._puncher_state_changed = True
 
@@ -65,6 +67,9 @@ class PunchingMachine(BaseMachine):
         self._actInput = ports['actInput']
         self._actPunchUp = ports['actPunchUp']
         self._actPunchDown = ports['actPunchDown']
+
+        # Reset
+        self._actPunchUp()
 
     @property
     def is_running(self):
@@ -133,7 +138,7 @@ class PunchingMachine(BaseMachine):
             self._conveyor_state_changed = True
             self._conveyorState = State.STOPPED
             self._conveyorReason = Reason.SENSOR_REACHED
-            self.stop_conveyor()
+            self._thread = None
 
     def _move_input(self):
         if self._is_moving_punching:
@@ -190,7 +195,7 @@ class PunchingMachine(BaseMachine):
                 self._puncher_state_changed = True
                 self._puncherState = State.STOPPED
                 self._puncherReason = Reason.SENSOR_REACHED
-                self._stop_punching()
+                self._thread = None
         else:
             self._logger.info("Puncher is already in the top position")
 
@@ -207,7 +212,7 @@ class PunchingMachine(BaseMachine):
                 self._puncher_state_changed = True
                 self._puncherState = State.STOPPED
                 self._puncherReason = Reason.SENSOR_REACHED
-                self.stop_puncher()
+                self._thread = None
         else:
             self._logger.info("Puncher is already in the bottom position")
 
@@ -219,7 +224,7 @@ class PunchingMachine(BaseMachine):
 
     def handle_control(self, control: dict):
         try:
-            cmd = control["motor"]
+            cmd = control["conveyor"]
             self._conveyor_state_changed = True
             if cmd.startswith("punch"):
                 self._thread = Thread(target=self.move_punching, daemon=True)
@@ -253,6 +258,20 @@ class PunchingMachine(BaseMachine):
                 return
         except KeyError:
             pass
+        try:
+            cmd = control["punching_machine"]
+            self._puncher_state_changed = True
+            if cmd.startswith("stop"):
+                self.stop_conveyor()
+                self.stop_puncher()
+            elif cmd.startswith("reset"):
+                self._actPunchUp
+                self.stop_conveyor
+            else:
+                self._logger.warning("Unknown punching_machine instruction")
+                return
+        except KeyError:
+            pass
 
     def _stop_all(self):
         self._actInput.value = False
@@ -270,8 +289,8 @@ class PunchingMachine(BaseMachine):
                 thread.join()
 
     def destroy(self):
-        thread = self._thread
-        self._stop_all()
+        if self.is_running:
+            self._stop_all()
 
     def state_changed(self):
         return (self._conveyor_state_changed
@@ -295,5 +314,6 @@ class PunchingMachine(BaseMachine):
 
         self._conveyor_state_changed = False
         self._puncher_state_changed = False
+
         return status
 

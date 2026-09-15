@@ -194,6 +194,24 @@ class VacuumGripper(BaseMachine):
                 self._valve.value = False
         except KeyError:
             pass
+        try:
+            cmd = control["vacuum_gripper"]
+            if cmd.startswith("stop"):
+                self._arm.stop_moving()
+                self._vertical.stop_moving()
+                self._rotor.stop_moving()
+                self.stop_compressor()
+                self.valve_release()
+            elif cmd.startswith("reset"):
+                self._arm.move_backward()
+                self._vertical.move_backward()
+                self._rotor.move_backward()
+                self.stop_compressor()
+                self.valve_release()
+            else:
+                self._logger.warning("Unknown vacuum_gripper command %s", cmd)
+        except KeyError:
+            pass
 
     def cleanup(self):
         with self.lock:
