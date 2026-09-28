@@ -99,7 +99,7 @@ sudo docker compose up
 - start front end
 
 ```sh
-cd ../../factoryscada/frontend
+cd ../../../cps-fischertechnik/factoryscada/frontend
 ```
 
 ```sh
@@ -109,12 +109,12 @@ npm run start
 - start backend (using REN_1S1V_1C1V_1H1M_02 both mission and plc configurations files)
 
 ```sh
-cd ../../factoryscada/backend
+cd ../../../cps-fischertechnik/factoryscada/backend
 ```
 
 
 ```sh
-./gradlew bootrun --args='--missions.parallelized.configuration.path=../../REN_Setups/REN_1S1V_1C1V_1H1M_02/config/server/factoryscada/services/scada-backend/config/missions-parallelized-configuration.yml --configuration.path=../../REN_Setups/REN_1S1V_1C1V_1H1M_02/config/server/factoryscada/services/scada-backend/config/configuration.yml --spring.profiles.active=prod --spring.config.additional-location=file:../../REN_Setups/REN_1S1V_1C1V_1H1M_02/config/server/factoryscada/services/scada-backend/config/'
+./gradlew bootrun --args='--missions.parallelized.configuration.path=../../../dt-setups/REN_Setups/REN_1S1V_1C1V_1H1M_02/config/server/factoryscada/services/scada-backend/config/missions-parallelized-configuration.yml --configuration.path=../../../dt-setups/REN_Setups/REN_1S1V_1C1V_1H1M_02/config/server/factoryscada/services/scada-backend/config/configuration.yml --spring.profiles.active=prod --spring.config.additional-location=file:../../../dt-setups/REN_Setups/REN_1S1V_1C1V_1H1M_02/config/server/factoryscada/services/scada-backend/config/'
 ```
 
 #### useful commands:
