@@ -1,7 +1,7 @@
 
 - name: Push rppmcontroller library folder
   ansible.builtin.synchronize:
-    src: ../../../../rppmcontroller/
+    src: ../../../../../cps-fischertechnik/rppmcontroller/
     dest: /home/pi/rppmcontroller
     use_ssh_args: yes # required to enable jump ansible_host
     rsync_opts:

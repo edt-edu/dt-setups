@@ -11,7 +11,7 @@
     include_vars: ../vars.yml
   - name: Push rppmcontroller directory contents
     synchronize:
-      src: ../../../../rppmcontroller/
+      src: ../../../../../cps-fischertechnik/rppmcontroller/
       dest: /home/pi/rppmcontroller
       rsync_opts:
         - "--exclude=rppmcontroller.egg-info"
