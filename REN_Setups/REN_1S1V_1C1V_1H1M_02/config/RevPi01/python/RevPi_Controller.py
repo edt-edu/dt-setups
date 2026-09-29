@@ -2,6 +2,7 @@ import ctypes
 import logging
 from logging.handlers import RotatingFileHandler
 
+from rppmcontroller.machine.MachineParameters import AxisMonitorParameters
 from rppmcontroller.machine.vacuumgripper.VacuumGripper import VacuumGripper
 from rppmcontroller.machine.sortingLine.SortingLine import SortingLine
 from rppmcontroller.machine.Position import Position
@@ -25,6 +26,7 @@ class RevPi_Controller(RevPiPyModIOMachineController):
 
         #dict, which keys are the machines, than there is a tuple holding the function currently executed ([0]) and the id it was sent with ([1])
         self.currentlyExecuting = {}
+        vgr1_axis_monitor_parameters = AxisMonitorParameters(log_to_csv=True)
         vacuumGripperParameters = VacuumGripperParameters(
             rotational_safety_position=875, 
             horizontal_safety_position=0, 
@@ -36,7 +38,11 @@ class RevPi_Controller(RevPiPyModIOMachineController):
                 "SL_OUTPUT_WHITE": Position(rot=2400, vertical=1400, horizontal=500, meaning="any"),
                 "SL_OUTPUT_RED": Position(rot=2270, vertical=1400, horizontal=970, meaning="any"),
                 "SL_OUTPUT_BLUE": Position(rot=2135, vertical=1400, horizontal=1500, meaning="any"),
-            }
+            },
+            pwm_approach_tolerance=200,
+            horizontal_axis_monitor_parameters=vgr1_axis_monitor_parameters,
+            vertical_axis_monitor_parameters=vgr1_axis_monitor_parameters,
+            rotational_axis_monitor_parameters=vgr1_axis_monitor_parameters,
         )
         self.vacuumGripperMachine = VacuumGripper("I1VacuumGripper01", vacuumGripperParameters)
         self.sortingLineMachine = SortingLine("I1SortingLine01")
