@@ -13,6 +13,8 @@ This repository focuses on the **assembly and configuration of complete experime
 
 The repository includes setups developed and operated by several project partners, as well as fully virtual configurations that can be used without access to the corresponding physical infrastructure.
 
+See the [software and hardware allocation](docs/Software-Hardware-allocation.md) for an overview of which software runs on the RevPi PLCs, control PC, DT PC, and Arduino.
+
 ## Project structure
 
 ### `ISW_Setup/`
