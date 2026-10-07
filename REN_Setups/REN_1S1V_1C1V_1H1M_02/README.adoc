@@ -44,7 +44,9 @@ ansible-playbook playbooks/push_server_config.yml
 ```
 
 
-TIP: using `ansible-playbook playbooks/push_plcs_config.yml -l RevPi03` will limit the action to a single PLC
+TIP: using `ansible-playbook playbooks/push_plcs_config.yml -l RevPi03` will limit the action to a single PLC.
+
+TIP: add `-i ../../REN_shared/ansible/inventories/proxyjump-hosts.yml` to run the ansible command when not directly connected to the mbdo network.
 
 #### start revpi PLCs
 
