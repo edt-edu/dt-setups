@@ -1,4 +1,4 @@
-# GatewayConfiguration for REN_1S1V_1C1V_1H1M_02 (gateway container on mbdo-server)
+# GatewayConfiguration for REN_1S1V_1C1V_1H1M_02 (gateway run locally with ./gradlew bootRun, see Flexible-replanning/MANUAL_LAUNCH.md)
 #
 # PLC topics:     PLC/<RevPi0x>/<Type>/<I1MachineId>/measurements/<input|output|internal>/<attribute>
 # Twin topics:    gateway/REN_1S1V_1C1V_1H1M_02/<MachineModel>/<attribute>
@@ -8,11 +8,11 @@
 
 configuration:
   name: "GatewayConfiguration"
-  mqttSourceBrokerUrl: tcp://host.docker.internal:1883
-  mqttTargetBrokerUrl: tcp://host.docker.internal:1883
+  mqttSourceBrokerUrl: tcp://mbdo-server.local:1883
+  mqttTargetBrokerUrl: tcp://mbdo-server.local:1883
 
   influxDBConfiguration:
-      url: "http://influxdb2:8086"
+      url: "http://localhost:8086"
       token: "MyInitialAdminToken0=="
       org: "mbdo"
       bucket: "factory"

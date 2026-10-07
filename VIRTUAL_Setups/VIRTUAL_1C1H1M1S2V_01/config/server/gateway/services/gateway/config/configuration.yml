@@ -4,7 +4,7 @@ configuration:
   name: "GatewayConfiguration"
   mqttSourceBrokerUrl: tcp://localhost:1883
   mqttTargetBrokerUrl: tcp://localhost:1883
-  kafkaBrokerUrl: PLAINTEXT://localhost:9092
+  # kafkaBrokerUrl: PLAINTEXT://localhost:9092
 
   influxDBConfiguration:
       url: "http://localhost:8086"
@@ -23,23 +23,23 @@ configuration:
       dataProcess: extract-json-value # json containing a primitive value field (othewise use "raw" or "extract-json-value-json-timestamp")
       timeProcess: extract-json-timestamp #  use time extracted from json timestamp field (otherwise use system time)    
     - name: "Physical_Twin_HB_01"
-      mqttSourceTopic: "PLC/virtualmachines-plc-1/VacuumGripper/HighBay01/#"
+      mqttSourceTopic: "PLC/virtualmachines-plc-1/HighBay/HighBay01/#"
       dataProcess: extract-json-value
       timeProcess: extract-json-timestamp
     - name: "Physical_Twin_SL_01"
-      mqttSourceTopic: "PLC/virtualmachines-plc-1/VacuumGripper/SortingLine01/#"
+      mqttSourceTopic: "PLC/virtualmachines-plc-1/SortingLine/SortingLine01/#"
       dataProcess: extract-json-value
       timeProcess: extract-json-timestamp
     - name: "Physical_Twin_MP_01"
-      mqttSourceTopic: "PLC/virtualmachines-plc-1/VacuumGripper/MultiProcessing01/#"
+      mqttSourceTopic: "PLC/virtualmachines-plc-1/MultiProcessing/MultiProcessing01/#"
       dataProcess: extract-json-value
       timeProcess: extract-json-timestamp
     - name: "Physical_Twin_CB_01"
-      mqttSourceTopic: "PLC/virtualmachines-plc-1/VacuumGripper/ConveyorBelt01/#"
+      mqttSourceTopic: "PLC/virtualmachines-plc-1/ConveyorBelt/ConveyorBelt01/#"
       dataProcess: extract-json-value
       timeProcess: extract-json-timestamp
     - name: "Physical_Twin_PM_01"
-      mqttSourceTopic: "PLC/virtualmachines-plc-1/VacuumGripper/PunchingMachine01/#"
+      mqttSourceTopic: "PLC/virtualmachines-plc-1/PunchingMachine/PunchingMachine01/#"
       dataProcess: extract-json-value
       timeProcess: extract-json-timestamp
 
@@ -48,28 +48,31 @@ configuration:
     #   dataProcess: extract-json-value # json containing a primitive value field (othewise use "raw")
     #   timeProcess: extract-json-timestamp  #  use time extracted from json timestamp field (otherwise use system time)
   
-  mqttKafkaRecordings: # MQTT to Kafka
-    - name: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_01"
-      mqttSourceTopic: "PLC/virtualmachines-plc-1/VacuumGripper/VacuumGripper01/#"
-      kafkaTargetTopic: "events"  
-    - name: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_02"
-      mqttSourceTopic: "PLC/virtualmachines-plc-1/VacuumGripper/VacuumGripper02/#"
-      kafkaTargetTopic: "events"  
-    - name: "VIRTUAL_1C1H1M1S2V_01/HBSystemModel"
-      mqttSourceTopic: "PLC/virtualmachines-plc-1/VacuumGripper/HighBay01/#"
-      kafkaTargetTopic: "events"  
-    - name: "VIRTUAL_1C1H1M1S2V_01/SLSystemModel"
-      mqttSourceTopic: "PLC/virtualmachines-plc-1/VacuumGripper/SortingLine01/#"
-      kafkaTargetTopic: "events"
-    - name: "VIRTUAL_1C1H1M1S2V_01/MPSystemModel"
-      mqttSourceTopic: "PLC/virtualmachines-plc-1/VacuumGripper/MultiProcessing01/#"
-      kafkaTargetTopic: "events"
-    - name: "VIRTUAL_1C1H1M1S2V_01/CBSystemModel"
-      mqttSourceTopic: "PLC/virtualmachines-plc-1/VacuumGripper/ConveyorBelt01/#"
-      kafkaTargetTopic: "events"
-    - name: "VIRTUAL_1C1H1M1S2V_01/PMSystemModel"
-      mqttSourceTopic: "PLC/virtualmachines-plc-1/VacuumGripper/PunchingMachine01/#"
-      kafkaTargetTopic: "events"
+  # Kafka disabled (kafkaBrokerUrl commented out above): the list must stay present, even empty, or the gateway's
+  # message handler fails on it for every MQTT message.
+  mqttKafkaRecordings: []
+  # mqttKafkaRecordings: # MQTT to Kafka
+  #   - name: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_01"
+  #     mqttSourceTopic: "PLC/virtualmachines-plc-1/VacuumGripper/VacuumGripper01/#"
+  #     kafkaTargetTopic: "events"  
+  #   - name: "VIRTUAL_1C1H1M1S2V_01/VGRSystemModel_02"
+  #     mqttSourceTopic: "PLC/virtualmachines-plc-1/VacuumGripper/VacuumGripper02/#"
+  #     kafkaTargetTopic: "events"  
+  #   - name: "VIRTUAL_1C1H1M1S2V_01/HBSystemModel"
+  #     mqttSourceTopic: "PLC/virtualmachines-plc-1/HighBay/HighBay01/#"
+  #     kafkaTargetTopic: "events"  
+  #   - name: "VIRTUAL_1C1H1M1S2V_01/SLSystemModel"
+  #     mqttSourceTopic: "PLC/virtualmachines-plc-1/SortingLine/SortingLine01/#"
+  #     kafkaTargetTopic: "events"
+  #   - name: "VIRTUAL_1C1H1M1S2V_01/MPSystemModel"
+  #     mqttSourceTopic: "PLC/virtualmachines-plc-1/MultiProcessing/MultiProcessing01/#"
+  #     kafkaTargetTopic: "events"
+  #   - name: "VIRTUAL_1C1H1M1S2V_01/CBSystemModel"
+  #     mqttSourceTopic: "PLC/virtualmachines-plc-1/ConveyorBelt/ConveyorBelt01/#"
+  #     kafkaTargetTopic: "events"
+  #   - name: "VIRTUAL_1C1H1M1S2V_01/PMSystemModel"
+  #     mqttSourceTopic: "PLC/virtualmachines-plc-1/PunchingMachine/PunchingMachine01/#"
+  #     kafkaTargetTopic: "events"
 
   dtEventGroups:
   # define measures that should be forwarded to DT, use group to organize sources or when the processing is different
@@ -195,7 +198,7 @@ configuration:
           mqttTargetTopic: "VIRTUAL_1C1H1M1S2V_01/HBSystemModel/highbaySensVerticalEncoderCounter"
     - name: "VIRTUAL_1C1H1M1S2V_01/HBSystemModel/output"
       dataTransformation: clone # copy the data
-      mqttSourcePrefix: "PLC/virtualmachines-plc-1/HighBay/HighBay01/measurements/output"
+      mqttSourcePrefix: "PLC/virtualmachines-plc-1/HighBay/HighBay01/measurements/output/"
       mqttTargetPrefix: "gateway/"
       dtEvents:
         - mqttSourceTopic: "highbayActCantileverBackward"

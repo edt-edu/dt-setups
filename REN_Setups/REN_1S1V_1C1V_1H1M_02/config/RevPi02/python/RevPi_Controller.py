@@ -29,14 +29,14 @@ class RevPi_Controller(RevPiPyModIOMachineController):
         self.currentlyExecuting = {}
         vgr1_axis_monitor_parameters = AxisMonitorParameters(log_to_csv=True)
         vacuumGripperParameters = VacuumGripperParameters(
-            rotational_safety_position=1700, 
-            horizontal_safety_position=0, 
+            rotational_safety_position=1900,
+            horizontal_safety_position=0,
             vertical_safety_position=0,
             named_positions={
                 "HBW": Position(rot=1010, vertical=200, horizontal=740, meaning="any"),
                 "CB": Position(rot=1155, vertical=1050, horizontal=1810, meaning="any"),
                 "ALT_CB": Position(rot=2660, vertical=1050, horizontal=1230, meaning="any"),
-                "MPS_INPUT": Position(rot=2050, vertical=1000, horizontal=1890, meaning="any"),
+                "MPS_INPUT": Position(rot=2050, vertical=850, horizontal=1890, meaning="any"),
                 "MPS_OUTPUT": Position(rot=1480, vertical=1000, horizontal=1720, meaning="any"),
             },
             pwm_approach_tolerance=200,

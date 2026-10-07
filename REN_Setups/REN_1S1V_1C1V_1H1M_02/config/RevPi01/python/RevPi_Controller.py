@@ -28,8 +28,8 @@ class RevPi_Controller(RevPiPyModIOMachineController):
         self.currentlyExecuting = {}
         vgr1_axis_monitor_parameters = AxisMonitorParameters(log_to_csv=True)
         vacuumGripperParameters = VacuumGripperParameters(
-            rotational_safety_position=875, 
-            horizontal_safety_position=0, 
+            rotational_safety_position=1900,
+            horizontal_safety_position=0,
             vertical_safety_position=0,
             named_positions={
                 "CB": Position(rot=1870, vertical=1200, horizontal=1460, meaning="any"),
@@ -37,7 +37,7 @@ class RevPi_Controller(RevPiPyModIOMachineController):
                 "SL_INPUT": Position(rot=2900, vertical=1050, horizontal=1670, meaning="any"),
                 "SL_OUTPUT_WHITE": Position(rot=2400, vertical=1400, horizontal=500, meaning="any"),
                 "SL_OUTPUT_RED": Position(rot=2270, vertical=1400, horizontal=970, meaning="any"),
-                "SL_OUTPUT_BLUE": Position(rot=2135, vertical=1400, horizontal=1500, meaning="any"),
+                "SL_OUTPUT_BLUE": Position(rot=2165, vertical=1400, horizontal=1500, meaning="any"),
             },
             pwm_approach_tolerance=200,
             horizontal_axis_monitor_parameters=vgr1_axis_monitor_parameters,

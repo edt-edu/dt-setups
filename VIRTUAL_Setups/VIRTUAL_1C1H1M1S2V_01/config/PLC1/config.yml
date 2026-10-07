@@ -35,3 +35,26 @@ machines:
   - type: HighBay
     id: HighBay01
 
+
+# Calibration of the simulated VacuumGrippers, keyed by machine id: named positions (encoder counts) the SCADA
+# missions refer to by name ("NAMEDPOSITION" command parameters), and the safety position used by
+# move_to_safe_position. Same names and values as the REN_1S1V_1C1V_1H1M_02 setup (RevPi01 = VGR1, RevPi02 = VGR2),
+# so the missions run unchanged on both setups.
+vacuumGrippers:
+  VacuumGripper01:
+    safetyPosition: {rot: 1900, vertical: 0, horizontal: 0}
+    namedPositions:
+      CB:              {rot: 1870, vertical: 1200, horizontal: 1460}  # conveyor belt feed
+      ALT_CB:          {rot: 1360, vertical: 1050, horizontal: 1900}
+      SL_INPUT:        {rot: 2900, vertical: 1050, horizontal: 1670}
+      SL_OUTPUT_WHITE: {rot: 2400, vertical: 1400, horizontal: 500}
+      SL_OUTPUT_RED:   {rot: 2270, vertical: 1400, horizontal: 970}
+      SL_OUTPUT_BLUE:  {rot: 2165, vertical: 1400, horizontal: 1500}
+  VacuumGripper02:
+    safetyPosition: {rot: 1900, vertical: 0, horizontal: 0}
+    namedPositions:
+      HBW:        {rot: 1010, vertical: 200,  horizontal: 740}
+      CB:         {rot: 1155, vertical: 1050, horizontal: 1810}
+      ALT_CB:     {rot: 2660, vertical: 1050, horizontal: 1230}  # conveyor belt swap
+      MPS_INPUT:  {rot: 2050, vertical: 850,  horizontal: 1890}
+      MPS_OUTPUT: {rot: 1480, vertical: 1000, horizontal: 1720}
