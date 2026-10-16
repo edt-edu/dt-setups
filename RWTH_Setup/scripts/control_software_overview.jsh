@@ -42,13 +42,31 @@ Map<JTextArea, Integer> lastFoundIndexes = new HashMap<>();
 // Stores the last search term for each JTextArea to handle "next" searches
 Map<JTextArea, String> lastSearchTerms = new HashMap<>();
 
-// --- New Enum for Process Configuration ---
+// Run from RWTH_Setup/scripts with CPS_FISCHERTECHNIK_DIR set.
+class SetupPaths {
+    static File scriptsDirectory() {
+        return new File(".").getAbsoluteFile();
+    }
+
+    static File cpsRepository() {
+        return new File(System.getenv("CPS_FISCHERTECHNIK_DIR")).getAbsoluteFile();
+    }
+
+    static String backendArguments() {
+        String configuration = new File(scriptsDirectory(), "factoryscada_rwth.yml").getPath();
+        String missions = new File(scriptsDirectory(), "missions_parallelized_rwth.yml").getPath();
+        return "--args=\"--configuration.path=" + configuration
+            + "\" \"--missions.parallelized.configuration.path=" + missions
+            + "\" \"--spring.config.additional-location=file:" + configuration + "\"";
+    }
+}
+
 enum ProcessConfig {
-    ISLAND_1_CONTROLLER("Island 1 Controller", new String[]{"./start_controller.sh", "1"}, null),
-    ISLAND_2_CONTROLLER("Island 2 Controller", new String[]{"./start_controller.sh", "2"}, null),
-    ISLAND_3_CONTROLLER("Island 3 Controller", new String[]{"./start_controller.sh", "3"}, null),
-    FACTORY_SCADA_BACKEND("Factory Scada Backend", new String[]{"./gradlew", "bootRun", "--args=--configuration.path=/home/se-rechnerpool2/fischertechnik/mbdo-impl/RWTH_Setup/scripts/factoryscada_rwth.yml --missions.parallelized.configuration.path=/home/se-rechnerpool2/fischertechnik/mbdo-impl/RWTH_Setup/scripts/missions_parallelized_rwth.yml --spring.config.additional-location=file:/home/se-rechnerpool2/fischertechnik/mbdo-impl/RWTH_Setup/scripts/factoryscada_rwth.yml"}, "/home/se-rechnerpool2/fischertechnik/mbdo-impl/factoryscada/backend"),
-    FACTORY_SCADA_FRONTEND("Factory Scada Frontend", new String[]{"npm", "run", "start"}, "/home/se-rechnerpool2/fischertechnik/mbdo-impl/factoryscada/frontend");
+    ISLAND_1_CONTROLLER("Island 1 Controller", new String[]{"./start_controller.sh", "1"}, SetupPaths.scriptsDirectory().getPath()),
+    ISLAND_2_CONTROLLER("Island 2 Controller", new String[]{"./start_controller.sh", "2"}, SetupPaths.scriptsDirectory().getPath()),
+    ISLAND_3_CONTROLLER("Island 3 Controller", new String[]{"./start_controller.sh", "3"}, SetupPaths.scriptsDirectory().getPath()),
+    FACTORY_SCADA_BACKEND("Factory Scada Backend", new String[]{"./gradlew", "bootRun", SetupPaths.backendArguments()}, new File(SetupPaths.cpsRepository(), "factoryscada/backend").getPath()),
+    FACTORY_SCADA_FRONTEND("Factory Scada Frontend", new String[]{"npm", "run", "start"}, new File(SetupPaths.cpsRepository(), "factoryscada/frontend").getPath());
 
     private final String processName;
     private final String[] command;
@@ -124,12 +142,7 @@ void startProcess(String processName, String[] command, String workingDirectory,
     try {
         var processBuilder = new ProcessBuilder(command); // Use the passed command array
         if (workingDirectory != null && !workingDirectory.isEmpty()) {
-            File cwd = new File(workingDirectory);
-            if (cwd.exists() && cwd.isDirectory()) {
-                processBuilder.directory(cwd);
-            } else {
-                SwingUtilities.invokeLater(() -> outputArea.append("Warning: Working directory " + workingDirectory + " does not exist or is not a directory for " + processName + ".\n"));
-            }
+            processBuilder.directory(new File(workingDirectory));
         }
         processBuilder.redirectErrorStream(true);
         Process process = processBuilder.start();

@@ -4,7 +4,9 @@
 # Upload and start the controller for the specified island
 # -d: Install required dependencies beforehand
 
-ISLAND_NUMBER=$1
+set -e
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+ISLAND_NUMBER=${1:-}
 
 # check island number
 case "$ISLAND_NUMBER" in
@@ -29,15 +31,22 @@ case "$ISLAND_NUMBER" in
     ;;
 esac
 
+: "${CPS_FISCHERTECHNIK_DIR:?Set CPS_FISCHERTECHNIK_DIR to the cps-fischertechnik checkout}"
+CONTROLLER_DIR="$CPS_FISCHERTECHNIK_DIR/rppmcontroller"
+if [[ ! -f "$CONTROLLER_DIR/requirements.txt" ]]; then
+  echo "Controller checkout not found: $CONTROLLER_DIR" >&2
+  exit 1
+fi
+
 echo "Uploading controller for island $ISLAND_NUMBER..."
 
-rsync -r ../../rppmcontroller/ "pi@$TARGET_IP:/home/pi/rppmcontroller"
-rsync -r "./island${ISLAND_NUMBER}_main.py" "pi@$TARGET_IP:/home/pi/rppmcontroller/rppmcontroller/example/"
-rsync -r "./island${ISLAND_NUMBER}_config.yml" "pi@$TARGET_IP:/home/pi/rppmcontroller/rppmcontroller/example/"
+rsync -r "$CONTROLLER_DIR/" "pi@$TARGET_IP:/home/pi/rppmcontroller"
+rsync -r "$SCRIPT_DIR/island${ISLAND_NUMBER}_main.py" "pi@$TARGET_IP:/home/pi/rppmcontroller/rppmcontroller/example/"
+rsync -r "$SCRIPT_DIR/island${ISLAND_NUMBER}_config.yml" "pi@$TARGET_IP:/home/pi/rppmcontroller/rppmcontroller/example/"
 
-if [[ "$2" == "-d" ]]; then
+if [[ "${2:-}" == "-d" ]]; then
   echo "Installing dependencies for island $ISLAND_NUMBER..."
-  ./util/install_dependencies.sh $TARGET_IP || exit 1
+  "$SCRIPT_DIR/util/install_dependencies.sh" "$TARGET_IP" || exit 1
 fi
 
 echo "Starting controller for island $ISLAND_NUMBER..."
