@@ -32,12 +32,12 @@ class RevPi_Controller(RevPiPyModIOMachineController):
             horizontal_safety_position=0,
             vertical_safety_position=0,
             named_positions={
-                "CB": Position(rot=1870, vertical=1200, horizontal=1460, meaning="any"),
-                "ALT_CB": Position(rot=1360, vertical=1050, horizontal=1900, meaning="any"),
+                "CB": Position(rot=1850, vertical=1100, horizontal=1460, meaning="any"),
+                "ALT_CB": Position(rot=1500, vertical=1100, horizontal=1850, meaning="any"),
                 "SL_INPUT": Position(rot=2900, vertical=1050, horizontal=1670, meaning="any"),
                 "SL_OUTPUT_WHITE": Position(rot=2400, vertical=1400, horizontal=500, meaning="any"),
                 "SL_OUTPUT_RED": Position(rot=2270, vertical=1400, horizontal=970, meaning="any"),
-                "SL_OUTPUT_BLUE": Position(rot=2165, vertical=1400, horizontal=1500, meaning="any"),
+                "SL_OUTPUT_BLUE": Position(rot=2180, vertical=1400, horizontal=1500, meaning="any"),
             },
             pwm_approach_tolerance=200,
             horizontal_axis_monitor_parameters=vgr1_axis_monitor_parameters,
@@ -124,7 +124,7 @@ class RevPi_Controller(RevPiPyModIOMachineController):
 
 if __name__ == "__main__":
     logging.basicConfig(format='%(asctime)s %(levelname)-5s: %(module)-30s,%(lineno)-3s: %(message)s', 
-                        level=logging.DEBUG,
+                        level=logging.INFO,
                         datefmt='%Y-%m-%d %H:%M:%S')
     # maxBytes: 15MB (5 * 1024 * 1024)
     # backupCount: Keep the last 5 log files
