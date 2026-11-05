@@ -2,7 +2,6 @@ import ctypes
 import logging
 
 import revpimodio2
-
 from rppmcontroller.RevPiPyMachineController import RevPiPyMachineController
 from rppmcontroller.machine.MachineParameters import AxisMonitorParameters
 from rppmcontroller.machine.Position import Position
@@ -62,7 +61,8 @@ class Island1Controller(RevPiPyMachineController):
             rotational_axis_monitor_parameters=vgr1_axis_monitor_parameters,
         )
         vgr1_parameters.derive_over_positions()
-        self.addController(VacuumGripperController(VacuumGripper("I1VacuumGripper01", vgr1_parameters), self.rpi))
+        self.addController(
+            VacuumGripperController(VacuumGripper("I1VacuumGripper01", self.mainLoopDelay, vgr1_parameters), self.rpi))
         vgr2_parameters = VacuumGripperParameters(
             hover_offset=500,
             named_positions={
@@ -76,7 +76,8 @@ class Island1Controller(RevPiPyMachineController):
             pwm_approach_tolerance=200
         )
         vgr2_parameters.derive_over_positions()
-        self.addController(VacuumGripperController2(VacuumGripper("I1VacuumGripper02", vgr2_parameters), self.rpi))
+        self.addController(
+            VacuumGripperController2(VacuumGripper("I1VacuumGripper02", self.mainLoopDelay, vgr2_parameters), self.rpi))
         self.addController(ConveyorBeltController(ConveyorBelt("I1ConveyorBelt01"), self.rpi))
         mps_parameters = MultiProcessingParameters()
         self.addController(MultiProcessingController(MultiProcessing("I1MultiProcessing01", mps_parameters), self.rpi))
