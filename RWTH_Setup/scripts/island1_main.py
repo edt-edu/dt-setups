@@ -60,7 +60,7 @@ class Island1Controller(RevPiPyMachineController):
             vertical_axis_monitor_parameters=vgr1_axis_monitor_parameters,
             rotational_axis_monitor_parameters=vgr1_axis_monitor_parameters,
         )
-        vgr1_parameters.rotational_axis_parameters.pid_parameters = PIDParameters(self.mainLoopDelay)
+        vgr1_parameters.rotational_axis_parameters.control_parameters = PIDParameters(self.mainLoopDelay)
         vgr1_parameters.derive_over_positions()
         self.addController(
             VacuumGripperController(VacuumGripper("I1VacuumGripper01", vgr1_parameters), self.rpi))
