@@ -55,13 +55,10 @@ class Island1Controller(RevPiPyMachineController):
                 "MPS_INPUT": Position(rot=245, vertical=1000, horizontal=235, meaning="any"),
                 "MPS_OUTPUT": Position(rot=2960, vertical=1000, horizontal=1305, meaning="any"),
             },
-            pwm_approach_tolerance=200,
             horizontal_axis_monitor_parameters=vgr1_axis_monitor_parameters,
             vertical_axis_monitor_parameters=vgr1_axis_monitor_parameters,
             rotational_axis_monitor_parameters=vgr1_axis_monitor_parameters,
         )
-        vgr1_parameters.horizontal_axis_parameters.control_parameters = PIDParameters(self.mainLoopDelay)
-        vgr1_parameters.vertical_axis_parameters.control_parameters = PIDParameters(self.mainLoopDelay)
         vgr1_parameters.rotational_axis_parameters.control_parameters = PIDParameters(self.mainLoopDelay)
         vgr1_parameters.derive_over_positions()
         self.addController(
@@ -75,11 +72,8 @@ class Island1Controller(RevPiPyMachineController):
                 "SL_OUTPUT_WHITE": Position(rot=2365, vertical=1400, horizontal=750, meaning="any"),
                 "SL_OUTPUT_RED": Position(rot=2240, vertical=1400, horizontal=1200, meaning="any"),
                 "SL_OUTPUT_BLUE": Position(rot=2155, vertical=1400, horizontal=1710, meaning="any"),
-            },
-            pwm_approach_tolerance=200
+            }
         )
-        vgr2_parameters.horizontal_axis_parameters.control_parameters = PIDParameters(self.mainLoopDelay)
-        vgr2_parameters.vertical_axis_parameters.control_parameters = PIDParameters(self.mainLoopDelay)
         vgr2_parameters.rotational_axis_parameters.control_parameters = PIDParameters(self.mainLoopDelay)
         vgr2_parameters.derive_over_positions()
         self.addController(
