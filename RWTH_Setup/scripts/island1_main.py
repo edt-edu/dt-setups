@@ -2,9 +2,8 @@ import ctypes
 import logging
 
 import revpimodio2
-
 from rppmcontroller.RevPiPyMachineController import RevPiPyMachineController
-from rppmcontroller.machine.MachineParameters import AxisMonitorParameters
+from rppmcontroller.machine.MachineParameters import AxisMonitorParameters, PIDParameters
 from rppmcontroller.machine.Position import Position
 from rppmcontroller.machine.conveyorbelt.ConveyorBelt import ConveyorBelt
 from rppmcontroller.machine.highbay.HighBay import HighBay
@@ -56,13 +55,14 @@ class Island1Controller(RevPiPyMachineController):
                 "MPS_INPUT": Position(rot=245, vertical=1000, horizontal=235, meaning="any"),
                 "MPS_OUTPUT": Position(rot=2960, vertical=1000, horizontal=1305, meaning="any"),
             },
-            pwm_approach_tolerance=200,
             horizontal_axis_monitor_parameters=vgr1_axis_monitor_parameters,
             vertical_axis_monitor_parameters=vgr1_axis_monitor_parameters,
             rotational_axis_monitor_parameters=vgr1_axis_monitor_parameters,
         )
+        vgr1_parameters.rotational_axis_parameters.control_parameters = PIDParameters(self.mainLoopDelay)
         vgr1_parameters.derive_over_positions()
-        self.addController(VacuumGripperController(VacuumGripper("I1VacuumGripper01", vgr1_parameters), self.rpi))
+        self.addController(
+            VacuumGripperController(VacuumGripper("I1VacuumGripper01", vgr1_parameters), self.rpi))
         vgr2_parameters = VacuumGripperParameters(
             hover_offset=500,
             named_positions={
@@ -72,11 +72,12 @@ class Island1Controller(RevPiPyMachineController):
                 "SL_OUTPUT_WHITE": Position(rot=2365, vertical=1400, horizontal=750, meaning="any"),
                 "SL_OUTPUT_RED": Position(rot=2240, vertical=1400, horizontal=1200, meaning="any"),
                 "SL_OUTPUT_BLUE": Position(rot=2155, vertical=1400, horizontal=1710, meaning="any"),
-            },
-            pwm_approach_tolerance=200
+            }
         )
+        vgr2_parameters.rotational_axis_parameters.control_parameters = PIDParameters(self.mainLoopDelay)
         vgr2_parameters.derive_over_positions()
-        self.addController(VacuumGripperController2(VacuumGripper("I1VacuumGripper02", vgr2_parameters), self.rpi))
+        self.addController(
+            VacuumGripperController2(VacuumGripper("I1VacuumGripper02", vgr2_parameters), self.rpi))
         self.addController(ConveyorBeltController(ConveyorBelt("I1ConveyorBelt01"), self.rpi))
         mps_parameters = MultiProcessingParameters()
         self.addController(MultiProcessingController(MultiProcessing("I1MultiProcessing01", mps_parameters), self.rpi))
