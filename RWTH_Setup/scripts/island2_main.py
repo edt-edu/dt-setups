@@ -2,8 +2,8 @@ import ctypes
 import logging
 
 import revpimodio2
-
 from rppmcontroller.RevPiPyMachineController import RevPiPyMachineController
+from rppmcontroller.machine.MachineParameters import PIDParameters
 from rppmcontroller.machine.conveyorbelt.ConveyorBelt import ConveyorBelt
 from rppmcontroller.machine.highbay.HighBay import HighBay
 from rppmcontroller.machine.highbay.HighBayParameters import HighBayParameters
@@ -12,6 +12,7 @@ from rppmcontroller.machine.punchingmachine.PunchingMachine import PunchingMachi
 from rppmcontroller.machine.sortingLine.SortingLine import SortingLine
 from rppmcontroller.machine.sortingLine.SortingLineParameters import SortingLineParameters
 from rppmcontroller.machine.vacuumgripper.VacuumGripper import VacuumGripper
+from rppmcontroller.machine.vacuumgripper.VacuumGripperParameters import VacuumGripperParameters
 
 
 class MachineController:
@@ -52,6 +53,10 @@ class Island2Controller(RevPiPyMachineController):
 
         self.controllers = list()
 
+        vgr_parameters = VacuumGripperParameters()
+        vgr_parameters.horizontal_axis_parameters.control_parameters = PIDParameters(self.mainLoopDelay)
+        vgr_parameters.vertical_axis_parameters.control_parameters = PIDParameters(self.mainLoopDelay)
+        vgr_parameters.rotational_axis_parameters.control_parameters = PIDParameters(self.mainLoopDelay)
         self.addController(VacuumGripperController3(VacuumGripper("I2VacuumGripper03"), self.rpi))
         self.addController(VacuumGripperController4(VacuumGripper("I2VacuumGripper04"), self.rpi))
         self.addController(VacuumGripperController5(VacuumGripper("I2VacuumGripper05"), self.rpi))
