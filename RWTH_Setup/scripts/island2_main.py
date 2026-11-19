@@ -55,9 +55,9 @@ class Island2Controller(RevPiPyMachineController):
 
         vgr_parameters = VacuumGripperParameters()
         vgr_parameters.rotational_axis_parameters.control_parameters = PIDParameters(self.mainLoopDelay)
-        self.addController(VacuumGripperController3(VacuumGripper("I2VacuumGripper03"), self.rpi))
-        self.addController(VacuumGripperController4(VacuumGripper("I2VacuumGripper04"), self.rpi))
-        self.addController(VacuumGripperController5(VacuumGripper("I2VacuumGripper05"), self.rpi))
+        self.addController(VacuumGripperController3(VacuumGripper("I2VacuumGripper03", vgr_parameters), self.rpi))
+        self.addController(VacuumGripperController4(VacuumGripper("I2VacuumGripper04", vgr_parameters), self.rpi))
+        self.addController(VacuumGripperController5(VacuumGripper("I2VacuumGripper05", vgr_parameters), self.rpi))
 
         self.addController(ConveyorBeltController2(ConveyorBelt("I2ConveyorBelt02"), self.rpi))
         self.addController(ConveyorBeltController3(ConveyorBelt("I2ConveyorBelt03"), self.rpi))
