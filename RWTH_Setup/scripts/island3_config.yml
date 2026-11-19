@@ -12,7 +12,7 @@ connection:
   connectionListening: "controller"
 
 controller:
-  mainLoopDelay: 0.001
+  mainLoopDelay: 0.05
 
 mqtt:
   server: "192.168.178.200"
